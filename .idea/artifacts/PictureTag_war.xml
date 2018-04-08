@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="PictureTag:war">
+    <output-path>$PROJECT_DIR$/PictureTag/target</output-path>
+    <root id="archive" name="PictureTag.war">
+      <element id="artifact" artifact-name="PictureTag:war exploded" />
+    </root>
+  </artifact>
+</component>
