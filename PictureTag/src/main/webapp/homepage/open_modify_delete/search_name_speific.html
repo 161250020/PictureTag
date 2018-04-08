@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<script  src = "../jquery-3.3.1.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        canvas{border:1px solid green;}
+    </style>
+</head>
+
+<body>
+<p id="demo"></p>
+<table align="left" border="0" cellpadding="0" cellspacing="0" width="700">
+    <hr>
+    <tr>
+        <td>
+            <input type="search" id="search" >
+            <button id="searchbyname">搜索</button>
+            <canvas id="canvas" width="500" height="500"></canvas>
+            <br>
+            <button id="next" onclick="act_next()">下一张</button>
+        </td>
+        <td>
+            <table align="left" boder="0" cellspacing="0" cellpadding="0" width="50">
+                <p>标注：</p>
+                <p>图片类别：</p>
+                <p>
+                    <select id=sel width="50" length="50">
+                        <option value="自然景观" selected="selected">自然景观    </option>
+                        <option value="现代景观">现代景观    </option>
+                        <option value="人物剪影">人物剪影    </option>
+                        <option value="旷野生灵">旷野生灵    </option>
+                        <option value="惬意生活">惬意生活    </option>
+                        <option value="风格主义">风格主义    </option>
+                    </select>
+                </p>
+                <p>
+                    <button id="bt_modify" onclick="act_modify()">修改</button>
+                    <button id="bt_delete" onclick="act_delete()">删除</button>
+                </p>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<table id="test1" align="bottom" boder="0" cellspacing="0" cellpadding="0" width="100" height="550">
+    <tr>
+        <td>
+            主要景物:<input type="text" name="主要景物"readonly > <br><br>季节:<input type="text" name="季节"><br><br>区域:<input type="text" name="区域"> <br><br>
+            主色调:<input type="text" name="主色调"><br><br>备注:<input type="text" name="季节">
+        </td>
+    </tr>
+</table >
+
+<script type="text/javascript">
+    //从后端传入数据到data当中
+    function act_next(){
+        /*var resp;
+        var xmlhttp=new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState==4 && xmlhttp.status==200){
+                resp=xmlhttp.responseText;
+                document.getElementById("demo").innerHTML=resp;
+            }
+        }
+        xmlhttp.open("get","Servlet",true);
+        xmlhttp.send();*/
+
+       //*
+       $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "action":"receiveTag",
+                "name":""//这里测试的时候是使用的url，应该再添加一下图片的id，属性要添加在最后一个，这样效率高一点
+            },
+            success: function(data) {
+                alert(data);
+                print(data.toString());
+                alert("加载成功！");
+            },
+            error: function () {
+                alert("加载失败！");
+                //alert(JSON.stringify(XMLHttpRequest));
+            }
+        });//*/
+
+      /* $.get("/Servlet",{id:"123",action:"receiveTag"},function(data,state){
+           alert(data);
+           if(state=='ok'){
+               alert("返回数据成功！");
+           }else{
+               alert("返回数据失败！");
+           }
+       })*/
+    }
+
+
+
+</script>
+
+</body>
+</html>

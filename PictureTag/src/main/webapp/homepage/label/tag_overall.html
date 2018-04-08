@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="../jquery-3.3.1.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        canvas{border:1px solid green;}
+    </style>
+</head>
+
+<body>
+<p><h4>请选择图片进行整体标注：</h4></p>
+
+<table align="left" border="0" cellpadding="0" cellspacing="0" width="700">
+    <hr>
+    <tr>
+        <td>
+            <canvas id="canvas" width="500" height="500"></canvas>
+            <br>
+            <button onclick="restuya()">重新标注</button>
+            <button onclick="savePicture()" id="save">保存</button>
+            <button onclick="backPage()">上一张</button>
+            <button onclick="nextpage()">下一张</button>
+        </td>
+        <td>
+            <table align="left" boder="0" cellspacing="0" cellpadding="0" width="50">
+                <p>标注：</p>
+                <p>图片类别：</p>
+                <p>
+                    <select id=sel width="50" length="50" onchange="select_func(this.options[this.options.selectedIndex].value)">
+                        <option value="自然景观" selected="selected">自然景观    </option>
+                        <option value="现代景观">现代景观    </option>
+                        <option value="人物剪影">人物剪影    </option>
+                        <option value="旷野生灵">旷野生灵    </option>
+                        <option value="惬意生活">惬意生活    </option>
+                        <option value="风格主义">风格主义    </option>
+                    </select>
+                </p>
+            </table>
+        </td>
+    </tr>
+</table>
+<table id="test1" align="bottom" boder="0" cellspacing="0" cellpadding="0" width="100" height="550">
+    <tr>
+        <td>
+            主要景物:<input type="text" name="主要景物" id="nature1"> <br><br>季节:<input type="text" name="季节"id="nature2"><br><br>区域:<input type="text" name="区域"id="nature3"> <br><br>
+            主色调:<input type="text" name="主色调"id="nature4"><br><br>备注:<input type="text" name="季节"id="nature5">
+        </td>
+    </tr>
+</table >
+
+<script>
+    function select_func(s){
+        var a=s.toString();//获取下拉选项的文本值
+
+        //document.getElementById("demo").innerHTML=s;
+
+        if(a=="现代景观"){
+
+            test1.innerHTML="主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type=\"text\" name=\"主色调\"id='modern3'><br><br>备注:<input type=\"text\" name=\"备注\"id='modern4'>"
+
+        }
+        else if(a=="人物剪影"){
+
+            test1.innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'>";
+
+        }
+        else if(a=="旷野生灵"){
+
+            test1.innerHTML="物种:<input type='text'name='物种'id='wild1'><br><br>行为:<input type='text'name='行为'id='wild2'><br><br>背景:<input type='text'name='背景'id='wild3'><br><br>备注:<input type='text'name='备注'id='wild4'>";
+
+        }
+        else if(a=="惬意生活"){
+
+            test1.innerHTML="动物:<input type='text'name='动物'id='life1'><br><br>人:<input type='text'name='人'id='life2'><br><br>景物:<input type='text'name='景物'id='life3'><br><br>行为:<input type='text'name='行为'id='life4'><br><br>背景:<input type='text'name='背景'id='life5'><br><br>备注:<input type='text'name='备注'id='life6'>";
+
+        }
+        else if(a=="风格主义"){
+
+            test1.innerHTML="个性色彩:<input type='text'name='个性色彩'id='style1'><br><br>主色调:<input type='text'name='主色调'id='style2'><br><br>主题:<input type='text'name='主题'id='style3'><br><br>备注:<input type='text'name='备注'id='style4'>";
+
+        }
+        else if(a=="自然景观"){
+
+            test1.innerHTML="主要景物:<input type='text' name='主要景物' id='nature1'> <br><br>季节:<input type='text' name='季节'id='nature2'><br><br>区域:<input type='text' name='区域'id='nature3'> <br><br>主色调:<input type='text' name='主色调'id='nature4'><br><br>备注:<input type='text' name='季节'id='nature5'>";
+
+        }
+    }
+</script>
+
+<div id="res"></div>
+
+<script type="text/javascript">
+   // 获取 canvas 对象
+    var canvas = document.getElementById('canvas');
+    // 获取绘图环境
+    var ctx = canvas.getContext('2d');
+    var last = null;
+    var file = document.getElementById('file');
+
+    // 文件对象
+    var filedata = null;
+    var a=0;
+    var src = new Array();
+   src.push('img/000000000016.jpg');
+   src.push('img/000000000161.jpg');
+   src.push('img/000000001257.jpg');
+   src.push('img/000000001730.jpg');
+   src.push('img/000000002981.jpg');
+   src.push('img/000000003083.jpg');
+   src.push('img/000000003805.jpg');
+   src.push('img/000000003946.jpg');
+   src.push('img/000000005976.jpg');
+   src.push('img/000000007173.jpg');
+   src.push('img/000000007454.jpg');
+   src.push('img/000000007647.jpg');
+   src.push('img/000000007881.jpg');
+   src.push('img/000000008269.jpg');
+   src.push('img/000000010364.jpg');
+   src.push('img/000000010592.jpg');
+   src.push('img/000000010771.jpg');
+   src.push('img/000000010911.jpg');
+   src.push('img/000000011693.jpg');
+   src.push('img/000000012659.jpg');
+   src.push('img/000000012807.jpg');
+   src.push('img/000000013069.jpg');
+   src.push('img/000000013245.jpg');
+   src.push('img/000000013870.jpg');
+   src.push('img/000000015088.jpg');
+   src.push('img/000000015348.jpg');
+   src.push('img/000000015740.jpg');
+
+    var img=new Image();
+    img.src=src[a];
+    img.onload = function() {
+        ctx.drawImage(img, 0, 0,500,500);
+    }
+    function nextpage(){
+        a++;
+        img.src=src[a];
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0,500,500);
+        }
+    }
+    function backPage(){
+        if(a!=0) {
+            a--;
+            img.src = src[a];
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, 500, 500);
+            }
+        }
+    }
+
+    //保存图片
+    function savePicture(){
+        //保存图片
+        var saveImage = canvas.toDataURL('image/jpg');
+
+        // json
+        var selectPoint=document.getElementById("sel");
+        var option=selectPoint.options;
+
+        var obj;
+        if(option.selectedIndex==0){
+            obj={
+                "images":[
+                    {
+                        "sentids":[
+                            0
+                        ],
+                        "imgid":0,
+                        "Sentences":[
+                            {
+                                "tokens":[
+                                    document.getElementById("nature1").value.toString(),
+                                    document.getElementById("nature2").value.toString(),
+                                    document.getElementById("nature3").value.toString(),
+                                    document.getElementById("nature4").value.toString(),
+                                    document.getElementById("nature5").value.toString()
+                                ],
+                                "raw":document.getElementById("nature1").value.toString()+document.getElementById("nature2").value.toString()+document.getElementById("nature3").value.toString()+document.getElementById("nature4").value.toString()+document.getElementById("nature5").value.toString(),
+                                "imgid":0,
+                                "sentid":0
+                            }
+                        ],
+                        "spilt":"train",
+                        "filename":saveImage
+                    }
+                ]
+            }
+
+        }
+        else if(option.selectedIndex==1){
+            obj={
+                "images":[
+                    {
+                        "sentids":[
+                            0
+                        ],
+                        "imgid":0,
+                        "Sentences":[
+                            {
+                                "tokens":[
+                                    document.getElementById("modern1").value.toString(),
+                                    document.getElementById("modern2").value.toString(),
+                                    document.getElementById("modern3").value.toString(),
+                                    document.getElementById("modern4").value.toString()
+                                ],
+                                "raw":document.getElementById("modern1").value.toString()+document.getElementById("modern2").value.toString()+document.getElementById("modern3").value.toString()+document.getElementById("modern4").toString(),
+                                "imgid":0,
+                                "sentid":0
+                            }
+                        ],
+                        "spilt":"train",
+                        "filename":saveImage
+                    }
+                ]
+            }
+        }
+        else if(option.selectedIndex==2){
+            obj={
+                "images":[
+                    {
+                        "sentids":[
+                            0
+                        ],
+                        "imgid":0,
+                        "Sentences":[
+                            {
+                                "tokens":[
+                                    document.getElementById("people1").value.toString(),
+                                    document.getElementById("people2").value.toString(),
+                                    document.getElementById("people3").value.toString(),
+                                    document.getElementById("people4").value.toString(),
+                                    document.getElementById("people5").value.toString(),
+                                    document.getElementById("people6").value.toString(),
+                                    document.getElementById("people7").value.toString()
+                                ],
+                                "raw":document.getElementById("people1").value.toString()+document.getElementById("people2").value.toString()+document.getElementById("people3").value.toString()+document.getElementById("people4").value.toString()+document.getElementById("people5").value.toString()+document.getElementById("people6").value.toString()+document.getElementById("people7").value.toString(),
+                                "imgid":0,
+                                "sentid":0
+                            }
+                        ],
+                        "spilt":"train",
+                        "filename":saveImage
+                    }
+                ]
+            }
+        }
+        else if(option.selectedIndex==3){
+            obj={
+                "images":[
+                    {
+                        "sentids":[
+                            0
+                        ],
+                        "imgid":0,
+                        "Sentences":[
+                            {
+                                "tokens":[
+                                    document.getElementById("wild1").value.toString(),
+                                    document.getElementById("wild2").value.toString(),
+                                    document.getElementById("wild3").value.toString(),
+                                    document.getElementById("wild4").value.toString()
+
+                                ],
+                                "raw":document.getElementById("wild1").value.toString()+document.getElementById("wild2").value.toString()+document.getElementById("wild3").value.toString()+document.getElementById("wild4").value.toString(),
+                                "imgid":0,
+                                "sentid":0
+                            }
+                        ],
+                        "spilt":"train",
+                        "filename":saveImage
+                    }
+                ]
+            }
+        }
+        else if(option.selectedIndex==4) {
+            obj = {
+                "images": [
+                    {
+                        "sentids": [
+                            0
+                        ],
+                        "imgid": 0,
+                        "Sentences": [
+                            {
+                                "tokens": [
+                                    document.getElementById("life1").value.toString(),
+                                    document.getElementById("life2").value.toString(),
+                                    document.getElementById("life3").value.toString(),
+                                    document.getElementById("life4").value.toString(),
+                                    document.getElementById("life5").value.toString(),
+                                    document.getElementById("life6").value.toString()
+                                ],
+                                "raw": document.getElementById("life1").value.toString() + document.getElementById("life2").value.toString() + document.getElementById("life3").value.toString()+ document.getElementById("life4").value.toString() + document.getElementById("life5").value.toString()+ document.getElementById("life6").value.toString(),
+                                "imgid": 0,
+                                "sentid": 0
+                            }
+                        ],
+                        "spilt": "train",
+                        "filename": saveImage
+                    }
+                ]
+            }
+        }
+        else if(option.selectedIndex==5){
+            obj={
+                "images":[
+                    {
+                        "sentids":[
+                            0
+                        ],
+                        "imgid":0,
+                        "Sentences":[
+                            {
+                                "tokens":[
+                                    document.getElementById("style1").value.toString(),
+                                    document.getElementById("style2").value.toString(),
+                                    document.getElementById("style3").value.toString(),
+                                    document.getElementById("style4").value.toString(),
+                                    document.getElementById("style5").value.toString()
+                                ],
+                                "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                                "imgid":0,
+                                "sentid":0
+                            }
+                        ],
+                        "spilt":"train",
+                        "filename":saveImage
+                    }
+                ]
+            }
+        }
+
+        var changeobj = JSON.stringify(obj);
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            //cache: false,
+            //async: false,
+            data: {
+                "name": changeobj,
+                "action": "writeTag"
+            },
+            success: function (data) {
+                alert("保存成功！");
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

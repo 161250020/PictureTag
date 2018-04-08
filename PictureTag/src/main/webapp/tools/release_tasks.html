@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>release tasks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+    <!--背景图-->
+    <style type="text/css">
+        body{
+            /*background-image: url("../background.jpg");*/
+            background-image: url("../back.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: inherit;
+            background-size: cover;
+        }
+    </style>
+
+    <!--画布-->
+    <style type="text/css">
+        canvas{border:0px;}
+    </style>
+</head>
+<body>
+<!--发布任务界面-->
+<ul class="small-block-grid-5">
+    <li id="demo" style="width: 25%;"></li>
+    <!--发布任务-->
+    <li style="background: white;border-radius: 50px;width: 50%">
+        <h1 align="center"><small>发布任务</small></h1>
+        <!--从后端可以获得任务的ID-->
+        <h5 id="get_taskId"><small>任务ID：</small></h5>
+
+        <!--自己从本地选择文件-->
+        <input id="choose_files" type="file" class="button info" multiple>
+
+        <!--需求-->
+        <div style="padding: 20px;">
+            <h3><small>需求：</small></h3>
+            <blockquote>
+                <ol>
+                    <li>
+                        标注类型：
+                        <select id="typeOfTag" width="50" length="50" onchange="type_of_tag(this.options[this.options.selectedIndex].value)">
+                            <option>-请选择-</option>
+                            <option value="整体标注">整体标注</option>
+                            <option value="边框标注">边框标注</option>
+                            <option value="区域标注">区域标注</option>
+                        </select>
+                    </li>
+                    <li>
+                        任务日期：
+                        <blockquote>
+                            开始日期：<input type="date" id="data1" width="25">
+                            结束日期：<input type="date" id="data2" width="25" onchange="analyse()">
+                        </blockquote>
+                    </li>
+                    <li>
+                        其他需求：<textarea id="other_needs" rows="4" placeholder="其他需求："></textarea>
+                    </li>
+                </ol>
+            </blockquote>
+        </div>
+        <!--积分奖励，任务发布者支付-->
+        积分奖励：<input id="integral" type="text" placeholder="积分奖励：">
+
+        <!--按钮：确认发布-->
+        <h1 align="center"><button id="release" type="button" class="button" onclick="release()">确认发布</button></h1>
+    </li>
+    <li style="width: 25%"></li>
+</ul>
+
+<script>
+    //这个script里面的内容要单独存储，否则会对其余的响应产生影响，使得他们无法正常使用
+    $(document).ready(function(){
+        $(document).foundation();
+    })
+</script>
+
+<script>
+    //从后端获得任务的ID，显示在界面上面
+    var ID="0001";
+    document.getElementById("get_taskId").innerHTML="任务ID："+ID;
+
+    //将选择的图片们保存成url形式
+    var arr;
+    function savePicsAsUrl(){
+        arr=new Array();
+        var pics=document.getElementById("choose_files").files;
+        var len=pics.length;
+        for(var i=0;i<len;i++){
+            var pic=pics[i];
+            if(pic){
+                var reader=new FileReader();
+                reader.onload=function (event) {
+                    var txt=event.target.result;
+                    arr.push(txt);
+
+
+
+
+                    //?或许此处有问题，图片存储arr出了reader.onload就无法识别了
+                    //alert(arr[i]);
+                    //document.getElementById("demo").innerHTML='<img src="'+arr[2]+'">';
+                }
+                reader.readAsDataURL(pic);
+            }
+        }
+    }
+    function contentLoaded(){
+        document.getElementById("choose_files").addEventListener("change",savePicsAsUrl,false);
+    }
+    window.addEventListener("DOMContentLoaded",contentLoaded,false);
+
+    //返回的标注类型
+    //工人等级+标注类型
+    var tag;//存放返回的标注类型
+    function type_of_tag(type){
+        tag=type.toString();
+        //document.getElementById("demo").innerHTML=tag;
+    }
+
+    //日期
+    //返回day1和day2，格式为yyyyMMdd
+    function analyse(){
+        var day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
+        var day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
+        if(day1>day2){
+            alert("Wrong time!");
+        }
+    }
+
+    //其余返回值（其他需求+积分奖励）
+    function release(){
+        var other_needs=document.getElementById("other_needs").value.toString();
+        var input_integral=document.getElementById("integral").value.toString();
+
+        //返回所有的数值，包括前面的id，需求，这两个数据
+
+
+
+
+
+
+
+
+        //跳转到个人主页
+        window.open("../homepage/homepage.html","_self");
+    }
+
+</script>
+</body>
+</html>

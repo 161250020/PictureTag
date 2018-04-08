@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+    <!--淡入切换选项卡-->
+    <style>
+        .tabs-content>.content.active{
+            -webkit-animation:fadeEffect 1s;
+            animation: fadeEffect 1s;
+        }
+
+        @-webkit-keyframes fadeEffect {
+            from{opacity:0;}/*opacity:不透明的，不传导的*/
+            to{opacity:1;}
+        }
+
+        @keyframes fadeEffect{
+            from{opacity:0;}
+            to{opacity:1;}
+        }
+    </style>
+
+</head>
+<body style="padding: 20px">
+<span class="label" style="width: 100%"><h4 align="center" style="color: white">个人主页</h4><h5 id="usernameAndIntegral" align="right" style="color: white">用户名：xxx；积分：xxx；</h5></span>
+<ul class="tabs" data-tab>
+    <li class="tab-title active" style="width: 33%"><a href="#self_information">主页</a></li>
+    <li class="tab-title" style="width: 33%"><a href="#released_tasks">发布的任务</a></li>
+    <li class="tab-title" style="width: 34%"><a href="#received_tasks">领取的任务</a></li>
+</ul>
+<br>
+
+<!--对选项卡的反应-->
+<div class="tabs-content">
+    <div class="content active" id="self_information">
+        主页
+    </div>
+    <div class="content" id="released_tasks">
+        发布的任务
+    </div>
+    <div class="content" id="received_tasks">
+        领取的任务
+    </div>
+</div>
+
+<!--初始化 Foundation JS-->
+<script>
+    $(document).ready(function(){
+        $(document).foundation();
+    })
+</script>
+
+</body>
+</html>
