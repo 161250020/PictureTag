@@ -3,8 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
 </head>
-<body>
+<style type="text/css">
+    body {
+        margin: 0;
+        background-image: url(u=2003488071,325628006&fm=27&gp=0.jpg);
+        background-repeat:no-repeat;
+        background-position:0% 0%;
+        background-size:cover;
 
+    }
+</style>
+<body>
+<style>
+    div
+    {
+        border:2px solid #a1a1a1;
+        padding:10px 40px;
+        background: white;
+        width:800px;
+        height: 700px;
+        border-radius:25px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+<div>
+    <div id="myModal" class="reveal-modal small"   data-reveal>
+        <h2>特殊需求</h2>
+        <p>1.将人脸标注出来</p>
+        <p>2.具体描述人的动作</p>
+        <p>3.描述天气情况</p>
+        <p>4.动物可不必标注</p>
+        <a class="close-reveal-modal">&times;</a>
+    </div>
+    <h2 align="center">领取任务</h2>
+    <table id="receive_mission" width="700px">
+        <tr><th>任务列表</th></tr>
+        <tr>
+            <th>任务id</th>
+            <th>标注类型</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>需求</th>
+            <th>确认</th>
+        </tr>
+        <tr>
+            <td>01</td>
+            <td>边框标注</td>
+            <td>2018.04.01</td>
+            <td>2018.12.31</td>
+            <td><button type="button" class="button radius tiny" data-reveal-id="myModal" style="background-color: gray">需求</button></td>
+            <td><input type="checkbox" id="mission_confirm"></td>
+        </tr>
+    </table>
+
+</div>
+<script>
+    $(document).ready(function() {
+        $(document).foundation();
+    })
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+    window.alert(id);
+</script>
 </body>
+
 </html>

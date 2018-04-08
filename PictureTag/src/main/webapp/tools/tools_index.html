@@ -3,8 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
 </head>
 <body>
+<style type="text/css">
+    body {
+        margin: 0;
+        background-image: url(u=2003488071,325628006&fm=27&gp=0.jpg);
+        background-repeat:no-repeat;
+        background-position:0% 0%;
+        background-size:cover;
 
+    }
+</style>
+
+<nav class="top-bar" data-topbar>
+    <section class="top-bar-section">
+        <ul class="left">
+            <li ><a href="#" style="text-decoration:none;font-size:14px">个人信息</a></li>
+
+        </ul>
+        <ul class="right">
+            <li><a href="#" style="text-decoration:none;font-size:14px">个人中心</a></li>
+        </ul>
+    </section>
+</nav>
+<br>
+<p></p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div align="center">
+    <button type="button" class="button round" style="background: ivory ;color: black;width:400px;height:400px" onclick="jump1()" ><h2>成为众包发起者</h2><br><br>发布任务</button>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <button type="button" class="button round" style="background: ivory ;color: black;width:400px;height:400px" onclick="jump2()" ><h2>成为众包工人</h2><br><br>领取任务</button>
+</div>
+<script>
+    $(document).ready(function() {
+        $(document).foundation();
+    })
+    function jump1(){
+
+    }
+    function jump2(){
+        window.location.href="mission.html";
+        location.href="mission.html?"+"txt="+encodeURI("用户名");
+
+
+    }
+</script>
 </body>
 </html>
