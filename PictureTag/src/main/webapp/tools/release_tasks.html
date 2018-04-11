@@ -62,6 +62,13 @@
                         </blockquote>
                     </li>
                     <li>
+                        工人等级要求：
+                        <blockquote>
+                            <input id="lowestInput" type="text" placeholder="最低等级">
+                            <input id="highestInput" type="text" placeholder="最高等级">
+                        </blockquote>
+                    </li>
+                    <li>
                         其他需求：<textarea id="other_needs" rows="4" placeholder="其他需求："></textarea>
                     </li>
                 </ol>
@@ -141,7 +148,7 @@
         var other_needs=document.getElementById("other_needs").value.toString();
         var input_integral=document.getElementById("integral").value.toString();
 
-        //返回所有的数值，包括前面的id，需求，这两个数据
+        //返回所有的数值，包括前面的id，工人等级，需求，这两个数据
 
 
 
@@ -150,6 +157,7 @@
 
 
 
+        alert("任务发布成功！");
         //跳转到个人主页
         window.open("../homepage/homepage.html","_self");
     }

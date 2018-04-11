@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>标注内容</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+<body>
+<h4 align="center">查看任务</h4>
+<br>
+<br>
+<h6 id="id1">任务ID：</h6>
+<h6 id="worker">标注人：</h6>
+<br>
+
+<!--麦哲伦导航-->
+<div data-magellan-expedition="fixed">
+    <dl class="sub-nav">
+        <dd data-magellan-arrival="list"><a href="#list"><em><span style="font-weight: bold"> 图片列表</span></em></a></dd>
+        <dd data-magellan-arrival="diaplay"><a href="#display"><em><span style="font-weight: bold">标注查看</span></em></a></dd>
+    </dl>
+</div>
+
+<!--任务列表,图片id有链接，可以点击后下面的内容显示就跳转到了-->
+<h6 data-magellan-destination="list">图片列表（点击有链接）：</h6>
+<a name="list"></a>
+<div id="list"></div>
+<br>
+<br>
+
+<!--具体任务内容显示-->
+<h6 data-magellan-destination="display">标注查看：</h6>
+<a name="display"></a>
+<div class="row">
+    <div id="display" class="small-6 columns" style="height: 600px;"></div>
+    <div id="labels" class="small-6 columns" style="height: 600px;"></div>
+</div>
+
+<!--删除，上一张，下一张-->
+<button type="button" class="button" onclick="dele()">删除</button>
+<button type="button" class="button" onclick="previous()">上一张</button>
+<button type="button" class="button" onclick="next()">下一张</button>
+
+<!--初始化 foundation js-->
+<script>
+    $(document).ready(function(){
+        $(document).foundation();
+    })
+</script>
+
+<script type="text/javascript">
+    //利用parm1保存网页间传递的参数
+    var url=location.href;
+    var tmp1=url.split("?")[1];
+    var tmp2=tmp1.split("=")[1];
+    var parm1=tmp2;
+    //document.getElementById("id1").innerText="任务ID： "+parm1;//之后使用这个，下面的那个是简化版本
+    document.getElementById("id1").innerText="任务ID： 1";
+    document.getElementById("worker").innerText="标注人： 001";//从后端根据id获得标注人的帐号
+
+    //根据方法，获得所有图片id,所有图片url，单个图片标注类别，单个图片标注具体信息
+    var arr0=new Array();
+    var arr1=new Array();
+    var arr2=new Array();
+    var arr3=new Array();
+    arr1.push(new Image("label/img/000000000016.jpg"));
+    arr1.push(new Image("label/img/000000000161.jpg"));
+    arr1.push(new Image("label/img/000000001257.jpg"));
+    for(var i=0;i<3;i++){//test
+        arr0.push(i-1);
+        arr2.push(i);
+        arr3.push(i+1);
+    }
+
+    //画出图像+初始化标注内容//从前端获得的任务的ID赋值给下方第一个变量
+    var deleteInID=-1;//存放将要被删除的标注的图片的任务的id
+    var deleteID=0;//存放将要被删除的标注的图片的id的index
+    document.getElementById("display").innerHTML='<img src="'+arr1[0]+'"';
+    //document.getElementById("display").innerHTML="hello";//test
+
+    //list
+    var str="<table><thread><tr><th>图片ID</th></tr></thread><tbody>";
+    for(var i=0;i<arr0.length;i++){
+        str=str+"<tr><td><a href='#' onclick='display("+i+")'>"+arr0[i]+"</a></td></tr>";
+    }
+    str=str+"</tbody></table>"
+    document.getElementById("list").innerHTML=str;
+
+    //display+标注内容
+    function display(index){//传递的是Index，根据index在arrx当中找到对应的内容
+        //alert(index);
+        /*if(index==0){//test
+            document.getElementById("display").innerHTML="hello2";
+        }*/
+        document.getElementById("display").innerHTML='<img src="'+arr1[index]+'"';
+        deleteindex=index;//删除第index+1个
+
+        //此处更新arr2,arr3，根据index
+
+
+
+
+
+        var labelContent="<table>";
+        for(var i=0;i<arr2.length;i++){
+            labelContent=labelContent+"<tr><td>"+arr2[i]+"</td><td>"+arr3[i]+"</td>";
+        }
+        labelContent=labelContent+"</table>"
+        document.getElementById("labels").innerHTML=labelContent;
+    }
+
+    //展示下一张，并且安排对应的变化
+    function next(){
+        if(deleteID+1>=arr0.length){
+            alert("没有下一张了。")
+        }
+        else{
+            deleteID++;
+            display(deleteID);
+        }
+    }
+    //展示上一张，并且安排对应的变化
+    function previous(){
+        if(deleteID-1<0){
+            alert("没有上一张了");
+        }
+        else{
+            deleteID--;
+            display(deleteID);
+        }
+    }
+
+    //删除按钮
+    function dele(){
+        //传递任务的id以及图片的id的index给后端，调用删除的方法
+        alert(deleteInID);
+        alert(deleteID);
+
+
+
+
+
+
+
+
+    }
+</script>
+</body>
+</html>

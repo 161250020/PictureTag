@@ -26,13 +26,13 @@
             to{opacity:1;}
         }
     </style>
-
 </head>
-<body style="padding: 20px">
+
+<body style="height:1500px;padding: 20px">
 <span class="label" style="width: 100%"><h4 align="center" style="color: white">个人主页</h4><h5 id="usernameAndIntegral" align="right" style="color: white">用户名：xxx；积分：xxx；</h5></span>
 <ul class="tabs" data-tab>
-    <li class="tab-title active" style="width: 33%"><a href="#self_information">主页</a></li>
-    <li class="tab-title" style="width: 33%"><a href="#released_tasks">发布的任务</a></li>
+    <li class="tab-title active" style="width: 33%" onclick="get1()"><a href="#self_information">主页</a></li>
+    <li class="tab-title" style="width: 33%" onclick="get2()"><a href="#released_tasks">发布的任务</a></li>
     <li class="tab-title" style="width: 34%"><a href="#received_tasks">领取的任务</a></li>
 </ul>
 <br>
@@ -40,11 +40,57 @@
 <!--对选项卡的反应-->
 <div class="tabs-content">
     <div class="content active" id="self_information">
-        主页
+        <h3 style="alignment: center"><em>欢迎来到个人主页 !</em></h3>
     </div>
+
     <div class="content" id="released_tasks">
-        发布的任务
     </div>
+    <div id="search" hidden>
+        <!--全部任务-->
+        <h6 style="font-weight: bold">全部发布的任务：</h6>
+        <table>
+            <thread>
+                <tr>
+                    <th>任务ID</th>
+                    <th>基本信息</th>
+                    <th>参与者</th>
+                    <th>完成进度</th>
+                </tr>
+            </thread>
+            <tbody id="table_body1">
+            </tbody>
+        </table>
+        <!--已完成任务-->
+        <h6 style="font-weight: bold">已完成的任务（点击链接可看到详细内容和删除）：</h6>
+        <table>
+            <thread>
+                <tr>
+                    <th>任务ID</th>
+                    <th>基本信息</th>
+                    <th>参与者</th>
+                    <th>完成进度</th>
+                </tr>
+            </thread>
+            <tbody id="table_body2">
+            </tbody>
+        </table>
+        <!--未完成任务-->
+        <h6 style="font-weight: bold">未完成的任务：</h6>
+        <table>
+            <thread>
+                <tr>
+                    <th>任务ID</th>
+                    <th>基本信息</th>
+                    <th>参与者</th>
+                    <th>完成进度</th>
+                </tr>
+            </thread>
+            <tbody id="table_body3">
+            </tbody>
+        </table>
+        <!--任务搜索-->
+    </div>
+
     <div class="content" id="received_tasks">
         领取的任务
     </div>
@@ -57,5 +103,133 @@
     })
 </script>
 
+<script type="text/javascript">
+    //获得积分奖励，群体排名，等级
+    function get1() {
+        var reward_get="100";
+        var rank_get="001";
+        var level_get="一级";
+        document.getElementById("self_information").innerHTML="        <!--奖励，群体排名，等级-->\n" +
+            "        <div data-magellan-expedition=\"fixed\">\n" +
+            "            <dl class=\"sub-nav\">\n" +
+            "                <dd data-magellan-arrvial=\"reward\"><a href=\"#reward\">积分奖励</a></dd>\n" +
+            "                <dd data-magellan-arrvial=\"rank\"><a href=\"#rank\">群体排名</a></dd>\n" +
+            "                <dd data-magellan-arrival=\"level\"><a href=\"#level\">等级</a></dd>\n" +
+            "            </dl>\n" +
+            "        </div>\n" +
+            "        <!--积分奖励-->\n" +
+            "        <a  name=\"reward\"></a>\n" +
+            "        <div style=\"height:200px;background-color: #1abc9c;color: white;\">\n" +
+            "            <h3 data-magellan-destination=\"reward\"></h3>\n" +
+            "            <br>\n" +
+            "            <br>\n" +
+            "            <h3 style=\"color: white\">积分奖励：</h3>\n" +
+            "            <!--获得积分奖励-->\n" +
+            "            <h3 id=\"reward_place\" style=\"color: white\"></h3>\n" +
+            "        </div>\n" +
+            "        <!--群体排名-->\n" +
+            "        <a name=\"rank\"></a>\n" +
+            "        <div style=\"height:200px;background-color: white;color: black;\">\n" +
+            "            <h3 data-magellan-destination=\"rank\"></h3>\n" +
+            "            <br>\n" +
+            "            <br>\n" +
+            "            <h3>群体排名：</h3>\n" +
+            "            <!--获得群体排名-->\n" +
+            "            <h3 id=\"rank_place\"></h3>\n" +
+            "        </div>\n" +
+            "        <!--等级-->\n" +
+            "        <a name=\"level\"></a>\n" +
+            "        <div style=\"height:200px;background-color: #1abc9c;color: white;\">\n" +
+            "            <h3 data-magellan-destination=\"level\"></h3>\n" +
+            "            <br>\n" +
+            "            <br>\n" +
+            "            <h3 style=\"color: white\">等级：</h3>\n" +
+            "            <!--获得等级-->\n" +
+            "            <h3 id=\"level_place\" style=\"color: white\"></h3>\n" +
+            "        </div>\n"
+        document.getElementById("reward_place").innerHTML=reward_get;
+        document.getElementById("rank_place").innerHTML=rank_get;
+        document.getElementById("level_place").innerHTML=level_get;
+    }
+
+    //发布的任务，查看、修改、删除
+    function get2(){
+        //数据的获得
+        //获得所有的任务:1-10
+        var arr1=new Array();//此处换成从后端获得的方法：ID
+        var arr12=new Array();//此处换成从后端获得的方法：基本信息
+        var arr13=new Array();//此处换成从后端获得的方法：参与者
+        var arr14=new Array();//此处换成从后端获得的方法：完成情况
+        for(var i=1;i<=10;i++){//此处可删除
+            arr1.push(i);
+            arr12.push(i);
+            arr13.push(i);
+            arr14.push(i);
+        }
+        //获得已完成的任务:1-5
+        var arr2=new Array();//此处换成从后端获得的方法：ID
+        var arr22=new Array();//此处换成从后端获得的方法：基本信息
+        var arr23=new Array();//此处换成从后端获得的方法：参与者
+        var arr24=new Array();//此处换成从后端获得的方法：完成情况
+        for(var i=1;i<=10;i++){//此处可删除
+            arr2.push(i);
+            arr22.push(i);
+            arr23.push(i);
+            arr24.push(i);
+        }
+        //获得未完成的任务:6-10
+        var arr3=new Array();//此处换成从后端获得的方法：ID
+        var arr32=new Array();//此处换成从后端获得的方法：基本信息
+        var arr33=new Array();//此处换成从后端获得的方法：参与者
+        var arr34=new Array();//此处换成从后端获得的方法：完成情况
+        for(var i=1;i<=10;i++){//此处可删除
+            arr3.push(i);
+            arr32.push(i);
+            arr33.push(i);
+            arr34.push(i);
+        }
+
+
+
+
+
+
+        //任务搜索
+        var arr4=new Array();//此处换成从后端获得的方法，搜索的方法为模糊查询
+        var arr44=new Array();//此处换成从后端获得的方法，搜索的方法为模糊查询
+        for(var i=2;i<=3;i++){//此处可删除
+            arr4.push(i);
+            arr44.push(i);
+        }
+
+        //将div（id="search"）中列表显示---三个列表
+        var str1="";
+        for(var i=0;i<arr1.length;i++){
+            str1=str1+"<tr><td>"+arr1[i]+"</td><td>"+arr12[i]+"</td><td>"+arr13[i]+"</td><td>"+arr14[i]+"</td></tr>\n";
+        }
+        document.getElementById("table_body1").innerHTML=str1;
+        var str2="";
+        for(var i=0;i<arr2.length;i++){
+            str2=str2+"<tr><td><a href='contentOfLabel.html?a="+arr2[i]+"' onclick='response("+arr2[i]+")'>"+arr2[i]+"</a></td><td>"+arr22[i]+"</td><td>"+arr23[i]+"</td><td>"+arr24[i]+"</td></tr>\n";
+        }
+        document.getElementById("table_body2").innerHTML=str2;
+        var str3="";
+        for(var i=0;i<arr3.length;i++){
+            str3=str3+"<tr><td>"+arr3[i]+"</td><td>"+arr32[i]+"</td><td>"+arr33[i]+"</td><td>"+arr34[i]+"</td></tr>\n";
+        }
+        document.getElementById("table_body3").innerHTML=str3;
+
+
+        //现隐藏(hidden)，后显示
+        document.getElementById("released_tasks").innerHTML=document.getElementById("search").innerHTML;
+    }
+
+    function response(str) { window.location.assign("contentOfLabel.html?a="+str); }
+
+</script>
+
+
+<script type="text/javascript">
+</script>
 </body>
 </html>
