@@ -7,16 +7,16 @@ public class Task {          //个体任务
     String id;
     String name;
     double socre;//完成task将获得的分数
-    double progress;//0-1的数值，标志完成进度
+    int progress;//已经完成图片的数量
     boolean flag;//判断task是否已经被接受
-    ArrayList<image> images;
+    ArrayList<String> imageIds;
     ArrayList<String> requests;
 
 
     public Task(){}
 
-    public Task(String id,String name,double socre,double progress,boolean flag){
-        images = new ArrayList<image>();
+    public Task(String id,String name,double socre,int progress,boolean flag){
+        imageIds = new ArrayList<String>();
         requests = new ArrayList<String>();
         this.id = id;
         this.name = name;
@@ -24,6 +24,14 @@ public class Task {          //个体任务
         this.progress = progress;
         this.flag = flag;
     }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
+    public ArrayList<String> getImageIds() { return imageIds; }
+
+    public void setImageIds(ArrayList<String> imageIds) { this.imageIds = imageIds; }
 
     public String getId() {
         return id;
@@ -53,24 +61,12 @@ public class Task {          //个体任务
         return progress;
     }
 
-    public void setProgress(double progress) {
-        this.progress = progress;
-    }
-
     public boolean isFlag() {
         return flag;
     }
 
     public void setFlag(boolean flag) {
         this.flag = flag;
-    }
-
-    public ArrayList<image> getImages() {
-        return images;
-    }
-
-    public void setImages(ArrayList<image> images) {
-        this.images = images;
     }
 
     public ArrayList<String> getRequests() {

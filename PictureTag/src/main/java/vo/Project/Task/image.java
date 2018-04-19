@@ -9,6 +9,8 @@ public class image {
      String url;
      String filename;
      String split;
+     boolean flag;//标志图片是否已经被标记
+
      public image(){}    //空方法很重要
      public image(List<Integer> sentids, String imgid, List<Sentence> Sentences, String url, String split, String filename){
          this.sentids=sentids;

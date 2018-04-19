@@ -1,6 +1,7 @@
 package servlet;
 
 import serviceimpl.tagIO;
+import stub.userstub;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,23 +32,27 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userData = request.getParameter("gData");
             this.modifyUser(request,response,userData);
         }
-        else if("getUserData".equals(action)){
+        else if("receiveUserInfo".equals(action)){
             String userId = request.getParameter("gData");
-            this.getUserInfo(request,response,userId);
+            this.receiveUserInfo(request,response,userId);
+        }
+        else if("receiveUserDegree".equals(action)){
+            String userId = request.getParameter("gData");
+            this.receiveUserDegree(request,response,userId);
         }
         else if("writeTag".equals(action)){
-            String reqStr = request.getParameter("name");
-            this.writeTag(request,response,reqStr);
+            String picId = request.getParameter("gData");
+            this.writeTag(request,response,picId);
         }
         else if("receiveTag".equals(action)){
-            String reqStr = request.getParameter("name");
-            this.receiveTag(request,response,reqStr);
+            String picId = request.getParameter("gData");
+            this.receiveTag(request,response,picId);
         }
         else if("modifyTag".equals(action)){
             this.modifyTag(request,response);
         }
-        else if("getProjectInfo".equals(action)){
-            this.getProjectInfo(request,response);
+        else if("receiveProjectInfo".equals(action)){
+            this.receiveProjectInfo(request,response);
         }
         else if("newProject".equals(action)){
             String projectData = request.getParameter("gData");
@@ -57,13 +62,13 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String projectData = request.getParameter("gData");
             this.modifyProject(request,response,projectData);
         }
-        else if("getProjects".equals(action)){
+        else if("receiveProjects".equals(action)){
             String userId = request.getParameter("gData");
-            this.getProjects(request,response,userId);
+            this.receiveProjects(request,response,userId);
         }
-        else if("getTask".equals(action)){
+        else if("receiveTask".equals(action)){
             String taskId = request.getParameter("gData");
-            this.getTaskContent(request,response,taskId);
+            this.receiveTaskContent(request,response,taskId);
         }
         else if("deleteTask".equals(action)){
             String taskId = request.getParameter("gData");
@@ -75,13 +80,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * 新建用户
+     * 注册用户
      * @param request
      * @param response
      * @param userData
      */
     private void newUser(HttpServletRequest request,HttpServletResponse response,String userData){
-
+        userstub userstub = new userstub();
+        //userstub.register();
     }
 
     /**
@@ -100,7 +106,27 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param response
      * @param userId
      */
-    private void getUserInfo(HttpServletRequest request,HttpServletResponse response,String userId){
+    private void receiveUserInfo(HttpServletRequest request,HttpServletResponse response,String userId){
+
+    }
+
+    /**优先
+     * 根据用户id获得用户的：积分奖励，群体排名，等级
+     * @param request
+     * @param response
+     * @param userId
+     */
+    private void receiveUserDegree(HttpServletRequest request,HttpServletResponse response,String userId){
+
+    }
+
+    /**
+     * 根据用户id获得所有任务(任务id+基本信息+参与者+完成进度)，已完成任的任务(任务id+基本信息+参与者+完成进度)，未完成任务(任务id+基本信息+参与者+完成进度)
+     * @param request
+     * @param response
+     * @param userId
+     */
+    private  void receiveUserTask(HttpServletRequest request,HttpServletResponse response,String userId){
 
     }
 
@@ -157,7 +183,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param request
      * @param response
      */
-    private void getProjectInfo(HttpServletRequest request,HttpServletResponse response){
+    private void receiveProjectInfo(HttpServletRequest request,HttpServletResponse response){
 
     }
 
@@ -186,7 +212,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param response
      * @param userId
      */
-    private  void getProjects(HttpServletRequest request,HttpServletResponse response,String userId){
+    private  void receiveProjects(HttpServletRequest request,HttpServletResponse response,String userId){
 
     }
 
@@ -200,7 +226,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param response
      * @param taskId
      */
-    private void getTaskContent(HttpServletRequest request,HttpServletResponse response,String taskId){
+    private void receiveTaskContent(HttpServletRequest request,HttpServletResponse response,String taskId){
 
     }
 
