@@ -12,13 +12,14 @@ public class image {
      boolean flag;//标志图片是否已经被标记
 
      public image(){}    //空方法很重要
-     public image(List<Integer> sentids, String imgid, List<Sentence> Sentences, String url, String split, String filename){
+     public image(List<Integer> sentids, String imgid, List<Sentence> Sentences, String url, String split, String filename,String flag){
          this.sentids=sentids;
          this.imgid=imgid;
          this.Sentences=Sentences;
          this.url=url;
          this.split=split;                      //训练集(train)or测试集(test)
          this.filename=filename;
+         this.flag=false;
      }
      public void setSentids(List<Integer> sentids){
          this.sentids=sentids;
@@ -62,5 +63,7 @@ public class image {
     public String toString() {
         return "imageService [sentids=" + sentids + ", imgid=" + imgid + ",Sentences="+Sentences+",split="+split+",filename="+filename+"]";
     }
-
+    public void modifyFlag(){
+         this.flag=true;
+    }
 }
