@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<p><h4>请选择图片进行边框标注：</h4></p>
+<p><h4>请选择图片进行边框标注：</h4> <p>
 
 <table align="left" border="0" cellpadding="0" cellspacing="0" width="700">
     <hr>
@@ -18,10 +18,13 @@
         <td>
             <canvas id="canvas" width="500" height="500"></canvas>
             <br>
+            <button onclick="start_rec()">开始标记</button>
+            <button onclick="remove_rec()">删除标记</button>
             <button onclick="restuya()">重新标注</button>
             <button onclick="savePicture()" id="save">保存</button>
             <button onclick="backPage()" >上一张</button>
             <button onclick="nextpage()">下一张</button>
+            <button onclick="submit()">提交</button>
         </td>
         <td>
             <table align="left" boder="0" cellspacing="0" cellpadding="0" width="50">
@@ -103,6 +106,7 @@
     var last = null;
     var xx=0,yy=0;
     var file = document.getElementById('file');
+    var cleanflag=0;
 
     // 文件对象
     var filedata = null;
@@ -136,12 +140,20 @@
     src.push('img/000000015348.jpg');
     src.push('img/000000015740.jpg');
 
+    var recloc=new Array();
     var img=new Image();
     img.src=src[a];
     img.onload = function() {
         ctx.drawImage(img, 0, 0,500,500);
     }
 
+    function remove_rec(){
+        cleanflag=1;
+
+    }
+    function start_rec(){
+        cleanflag=0;
+    }
     function nextpage(){
         a++;
         img.src=src[a];
@@ -149,6 +161,7 @@
             ctx.drawImage(img, 0, 0,500,500);
         }
     }
+
 
     function backPage(){
         if(a!=0) {
@@ -161,13 +174,29 @@
     }
 
     // 鼠标按下
-    canvas.onmousedown = function(e){
+    canvas.onmousedown = function(e) {
         // 在鼠标按下后触发鼠标移动事件
-        e=window.event||e;
-        xx=e.offsetX;
-        yy=e.offsetY;
+        e = window.event || e;
+        xx = e.offsetX;
+        yy = e.offsetY;
         canvas.onmousemove = move;
-
+        if (cleanflag == 1) {
+            for (var i = 0; i < recloc.length; i = i + 4) {
+                ctx.rect(recloc[i], recloc[i + 1], recloc[i + 2], recloc[i + 3]);
+                if(ctx.isPointInPath(xx,yy)){
+                    // removeByValue(recloc, recloc[i]);
+                    // removeByValue(recloc, recloc[i+1]);
+                    // removeByValue(recloc, recloc[i+2]);
+                    // removeByValue(recloc, recloc[i+3]);
+                    recloc[i]=0;
+                    recloc[i+1]=0;
+                    recloc[i+2]=0;
+                    recloc[i+3]=0;
+                    cleanflag=0;
+                    break;
+                }
+            }
+        }
     }
 
     // 鼠标抬起取消鼠标移动的事件
@@ -175,9 +204,15 @@
         e=window.event||e;
         canvas.onmousemove = null;
         last = null;
-        ctx.strokeRect(xx,yy,e.offsetX-xx,e.offsetY-yy);
-    }
+        recloc.push(xx, yy, e.offsetX - xx, e.offsetY - yy);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, 500, 500);
+        for (var i = 0; i < recloc.length; i = i + 4)
+            ctx.strokeRect(recloc[i], recloc[i + 1], recloc[i + 2], recloc[i + 3]);
 
+
+    }
+    //ctx.strokeRect(xx,yy,e.offsetX-xx,e.offsetY-yy);
     // 鼠标移出画布时 移动事件也要取消。
     canvas.onmouseout = function(){
         canvas.onmousemove = null;
@@ -197,7 +232,14 @@
         last = [e.offsetX,e.offsetY];
 
     }
-
+    function removeByValue(arr, val) {
+        for(var i=0; i<arr.length; i++) {
+            if(arr[i] == val) {
+                arr.splice(i, 1);
+                break;
+            }
+        }
+    }
     // 当文件域内容发生改变时触发函数
     // file.onchange = function(e){
     //     filedata = e.target.files[0];
@@ -209,6 +251,8 @@
     function restuya(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.drawImage(img, 0, 0,500,500);
+        recloc.splice(0,recloc.length);
+
     }
 
     function savePicture(){
