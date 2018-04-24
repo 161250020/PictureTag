@@ -52,7 +52,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             this.modifyTag(request,response);
         }
         else if("receiveProjectInfo".equals(action)){
-            this.receiveProjectInfo(request,response);
+            String projectId = request.getParameter("gData");
+            this.receiveProjectInfo(request,response,projectId);
         }
         else if("newProject".equals(action)){
             String projectData = request.getParameter("gData");
@@ -183,7 +184,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param request
      * @param response
      */
-    private void receiveProjectInfo(HttpServletRequest request,HttpServletResponse response){
+    private void receiveProjectInfo(HttpServletRequest request,HttpServletResponse response,String projectId){
 
     }
 

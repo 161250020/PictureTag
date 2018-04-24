@@ -9,8 +9,8 @@ public class Task {          //个体任务
     double socre;//完成task将获得的分数
     int progress;//已经完成图片的数量
     boolean flag;//判断task是否已经被接受
-    ArrayList<String> imageIds;   //图片
-    ArrayList<String> requests;   //请求
+    ArrayList<String> imageIds;
+    ArrayList<String> requests;
 
 
     public Task(){}
@@ -22,7 +22,7 @@ public class Task {          //个体任务
         this.name = name;
         this.socre = socre;
         this.progress = progress;
-        this.flag = false;        //一开始任务是未被接受的,默认值是false
+        this.flag = flag;
     }
 
     public void setProgress(int progress) {
@@ -75,20 +75,5 @@ public class Task {          //个体任务
 
     public void setRequests(ArrayList<String> requests) {
         this.requests = requests;
-    }
-
-    //具体方法
-    public void updateTask(Task newTask){
-        //打开存储任务的文件夹,找到对应id的task,替换成新的
-
-    }
-    public void modifyflag(){
-        this.flag=true;
-    }
-    public double getDgree(){
-        double result=0.0;
-        int total=imageIds.size();
-        result=(1.0)*progress/total;
-        return result;
     }
 }
