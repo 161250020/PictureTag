@@ -3,6 +3,7 @@ package util;
 import java.io.*;
 import java.util.ArrayList;
 
+
 public class FileReadandWrite {
     public static ArrayList<String> ReadFile(String path){
         ArrayList<String> content=new ArrayList<String>();
@@ -24,8 +25,12 @@ public class FileReadandWrite {
         try{
             File file=new File(path);
             FileWriter writer=new FileWriter(file,true);
-            writer.write(content);
+            BufferedWriter bw = new BufferedWriter(writer);
+            bw.newLine();
+            bw.write(content);
+            bw.close();
             writer.close();
+            System.out.println("hello");    //测试
         }catch(IOException E){
             E.printStackTrace();
         }

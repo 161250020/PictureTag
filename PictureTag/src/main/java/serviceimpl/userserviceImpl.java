@@ -1,18 +1,26 @@
 package serviceimpl;
 
+import com.google.gson.Gson;
 import service.user;
 import util.FileReadandWrite;
 import util.RevertJsonObject;
 import vo.UserInfo;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class userserviceImpl {
+            final String path="PictureTag/src/main/user.txt";
             public void start() {      //一开始有一个用户
-                FileReadandWrite.WriteFile("PictureTag_Phase_Ⅰ/PictureTag/src/main/resources/TagFile/user.txt", "admin admin");
+                UserInfo user=new UserInfo("admin","admin",null,0,null,null,0,0.0);
+                Gson gson=new Gson();
+                String gsonstring=gson.toJson(user);
+                FileReadandWrite.WriteFile("PictureTag/src/main/user.txt", gsonstring);         //初始化用户
+                UserInfo u = gson.fromJson(gsonstring,UserInfo.class);
+                System.out.println(u.getLevel());
             }
             public ArrayList<UserInfo> getall(){
-                ArrayList<String> content=FileReadandWrite.ReadFile("PictureTag_Phase_Ⅰ/PictureTag/src/main/resources/TagFile/user.txt");
+                ArrayList<String> content=FileReadandWrite.ReadFile("PictureTag/src/main/user.txt");         //获得所有的用户
                 ArrayList<UserInfo> lis=new ArrayList<UserInfo>();
                 for(int i=0;i<content.size();i++){
                     RevertJsonObject.getBean(content.get(i),UserInfo.class);
@@ -32,7 +40,7 @@ public class userserviceImpl {
                      else{
                           flag=true;
                           UserInfo user=new UserInfo(username,password);
-                          FileReadandWrite.WriteFile("PictureTag_Phase_Ⅰ/PictureTag/src/main/resources/TagFile/user.txt",RevertJsonObject.toJsonObject(user));
+                          FileReadandWrite.WriteFile("PictureTag/src/main/user.txt",RevertJsonObject.toJsonObject(user));
                      }
                      return  flag;
              }
@@ -50,7 +58,8 @@ public class userserviceImpl {
                               }
                          }
                          for(String str:renew){
-                               //这里有点疑问,到底该如何覆盖之前得,有清空这个方法吗
+                               //删除文件
+                               File f=new File(path);
                          }
                      }
                      return   flag;

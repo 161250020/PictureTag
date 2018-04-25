@@ -4,7 +4,7 @@ import service.imageService;
 
 import java.util.ArrayList;
 
-public class imageservicestub implements imageService {           //新版本缺少路径,不知道是什么意思
+public class imageservicestub implements service.imageService {           //新版本缺少路径,不知道是什么意思
     public boolean writeTag(String jsonData){
         return true;
     }
@@ -13,7 +13,6 @@ public class imageservicestub implements imageService {           //新版本缺
         return new ArrayList<String>();
     }
 
-    public boolean modifyTag(String jsonData){
-        return true;
+    public void modifyTag(String jsonData){
     }
 }
