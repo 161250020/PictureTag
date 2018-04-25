@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+
 public class Servlet extends javax.servlet.http.HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -23,6 +24,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         if("newUser".equals(action)){
             String userData = request.getParameter("gData");
             this.newUser(request,response,userData);
+        }
+        else if("login".equals(action)){
+            String userData = request.getParameter("gData");
+            this.login(request,response,userData);
         }
         else if("deleteUser".equals(action)){
             String userId = request.getParameter("gData");
@@ -89,6 +94,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void newUser(HttpServletRequest request,HttpServletResponse response,String userData){
         userstub userstub = new userstub();
         //userstub.register();
+    }
+
+    private void login(HttpServletRequest request,HttpServletResponse response,String userData){
+            
     }
 
     /**
@@ -208,6 +217,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     /**优先
+     * 王灿灿
      * 获得user下所有projects的info，包含projects的id列表和该project所有的taskId
      * @param request
      * @param response
@@ -222,6 +232,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     /**优先
+     * 王灿灿
      * 根据任务(Task)id获得：标注人，图片列表(图片的ids)，图片的url，每张图片的标注内容
      * @param request
      * @param response
@@ -231,7 +242,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    /**已完成
+
+    /**王灿灿
      * 传递任务(Task)的id给后台，可以删除该任务
      * @param request
      * @param response
