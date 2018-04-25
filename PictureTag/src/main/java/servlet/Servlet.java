@@ -98,12 +98,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     private boolean login(HttpServletRequest request,HttpServletResponse response,String userData){
-        boolean flag=false;
+        boolean data=false;
         String username=request.getParameter("name");
         String password=request.getParameter("password");
         userserviceImpl impl=new userserviceImpl();
-        flag=impl.login(username,password);
-        return flag;
+        data=impl.login(username,password);
+        return data;
     }
 
     /**

@@ -27,8 +27,8 @@ public class FileReadandWrite {
             File file=new File(path);
             FileWriter writer=new FileWriter(file,true);
             BufferedWriter bw = new BufferedWriter(writer);
-            bw.newLine();
             bw.write(content);
+            bw.newLine();
             bw.close();
             writer.close();
             System.out.println("hello");    //测试
