@@ -1,5 +1,11 @@
-
-<!DOCTYPE html>
+<%--
+  Created by IntelliJ IDEA.
+  User: asus
+  Date: 2018/4/25
+  Time: 15:02
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +19,7 @@
     <!--背景图-->
     <style type="text/css">
         body{
-            background-image: url("../background.jpg");
+            background-image: url("background.jpg");
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: inherit;
@@ -54,7 +60,7 @@
         <br><br><br><br>
         <h2 align="center">New user？Create an account</h2>
         <br><br><br><br>
-        <a href="register.html" class="button" role="button" style="left: 34%;">Register</a>
+        <a href="logInAndRegister/register.html" class="button" role="button" style="left: 34%;">Register</a>
         <br><br><br><br>
     </li>
     <!--登录-->
@@ -96,7 +102,7 @@
         //exist用来判断该用户是否存在
         var exist=0;
         if(exist==1){
-            window.open("../tools/tools_index.html",'_self');
+            window.open("tools/tools_index.html",'_self');
         }
         else{
             document.getElementById("input_username").value="";

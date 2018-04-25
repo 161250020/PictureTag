@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+    <!--背景图-->
+    <style type="text/css">
+        body{
+            background-image: url("background.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: inherit;
+            background-size: cover;
+        }
+    </style>
+
+    <!--登录面板-->
+    <style>
+        body{
+            padding:20px;
+        }
+        .pane1{
+            background-color: white;
+            position: relative;
+            float: right;
+            padding: 0;
+            border: none;
+            width: 40%;
+            height: 80%;
+        }
+        div.container {
+            text-align: left;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+<body>
+<!--登录面板-->
+<ul class="small-block-grid-4">
+    <br><br><br><br><br><br><br><br>
+    <li></li>
+    <li></li>
+    <!--注册-->
+    <li style="float: right; background-color: white; border-radius: 50px">
+        <br><br><br><br>
+        <h2 align="center">New user？Create an account</h2>
+        <br><br><br><br>
+        <a href="logInAndRegister/register.html" class="button" role="button" style="left: 34%;">Register</a>
+        <br><br><br><br>
+    </li>
+    <!--登录-->
+    <li style="float: right; background-color: white; border-radius: 50px">
+        <br><br><br><br>
+        <h2 align="center">Existing user?Sign in</h2>
+        <br><br><br><br><br><br>
+        <button style="left: 36%" type="button" class="button" data-reveal-id="login">Login</button>
+        <br><br><br><br>
+        <!--模态框，登录-->
+        <div id="login" class="reveal-modal" data-reveal>
+            <h2>Sign in:</h2>
+            <br>
+            <input id="input_username" type="text" placeholder="Username">
+            <br>
+            <input id="input_password" type="password" placeholder="Password">
+            <br>
+            <!--登录按钮，若用户存在，转到功能界面；若不存在，写提示信息-->
+            <div id="tip"></div>
+            <button id="bt_sign_in" type="button" class="button" onclick="signIn()">Sign in</button>
+
+            <a class="close-reveal-modal">&times;</a>
+        </div>
+    </li>
+</ul>
+
+<script>
+    $(document).ready(function(){
+        $(document).foundation();
+    })
+
+    //登录
+    function signIn(){
+        //从服务器端返回判断是否存在这个用户的结果
+
+
+
+
+        //exist用来判断该用户是否存在
+        var exist=0;
+        if(exist==1){
+            window.open("tools/tools_index.html",'_self');
+        }
+        else{
+            document.getElementById("input_username").value="";
+            document.getElementById("input_password").value="";
+            document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
+        }
+    }
+</script>
+</body>
+</html>
