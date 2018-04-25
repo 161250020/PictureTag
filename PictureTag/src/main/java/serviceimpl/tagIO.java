@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
 import service.imageService;
 import util.*;
 import vo.Project.Task.image;
@@ -86,8 +87,54 @@ public class tagIO implements imageService {
         return out;
     }
 
-    public boolean modifyTag(String jsonData) {
-        return false;
+    public void modifyTag(String jsonData) {
+
+        ArrayList<String> reWrite = new ArrayList<>();
+        String fileName = "";
+        Gson gson = new Gson();
+
+        image im = gson.fromJson(jsonData,image.class);
+        File fRead = new File(fileName);
+        File fWrite = new File(fileName);
+        try {
+            FileReader fr = new FileReader(fRead);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while (null != (temp = br.readLine())){
+                image iTemp =gson.fromJson(temp,image.class);
+                if(im.getId().equals(iTemp.getId())){
+                    reWrite.add(gson.toJson(im));
+                }
+                else{
+                    reWrite.add(temp);
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        fRead.delete();
+
+        if(!fWrite.exists()){
+            try {
+                fWrite.createNewFile();
+                FileWriter fw = new FileWriter(fWrite);
+                BufferedWriter bw = new BufferedWriter(fw);
+                for (int i = 0; i < reWrite.size(); i++) {
+                    bw.write(reWrite.get(i));
+                    bw.newLine();
+                }
+                bw.close();
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 

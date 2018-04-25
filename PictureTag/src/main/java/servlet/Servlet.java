@@ -111,7 +111,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    /**优先
+    /**优先已完成
      * 根据用户id获得用户的：积分奖励，群体排名，等级
      * @param request
      * @param response
@@ -231,7 +231,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    /**
+    /**已完成
      * 传递任务(Task)的id给后台，可以删除该任务
      * @param request
      * @param response

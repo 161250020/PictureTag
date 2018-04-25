@@ -21,6 +21,11 @@ public class dataAnalyze {
 
     }
 
+    /**
+     * 等待讨论确定！
+     * @param userId
+     * @return
+     */
     public ArrayList<String> receiveUserTask(String userId){
 
         Gson gson = new Gson();
@@ -33,6 +38,68 @@ public class dataAnalyze {
 
 
         return null;
+    }
+
+    /**
+     * 根据taskId返回对应的图片列表，但是tagIO类里的receive
+     * @param taskId
+     * @return
+     */
+    public Task receiveTaskContent(String taskId){
+
+        tagIO t = new tagIO();
+        ArrayList<String> images = new ArrayList<>();
+
+        return null;
+    }
+
+    /**
+     * 对文件的重新读写实现删除
+     * @param taskId
+     */
+    public void deleteTask(String taskId){
+
+        ArrayList<String> reWrite = new ArrayList<>();
+        Gson gson = new Gson();
+
+        File fRead = new File(taskId);
+        File fWrite = new File(taskId);
+        try {
+            FileReader fr = new FileReader(fRead);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while (null != (temp = br.readLine())) {
+                Task task = gson.fromJson(temp, Task.class);//反序列化
+                if(!task.getId().equals(taskId)){
+                    reWrite.add(temp);
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        fRead.delete();
+
+        if(!fWrite.exists()){
+            try {
+                fWrite.createNewFile();
+                FileWriter fw = new FileWriter(fWrite);
+                BufferedWriter bw = new BufferedWriter(fw);
+                for (int i = 0; i < reWrite.size() ; i++) {
+                    bw.write(reWrite.get(i));
+                    bw.newLine();
+                }
+                bw.close();
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private ArrayList<String> checkUserInfo(String userId){
@@ -51,6 +118,8 @@ public class dataAnalyze {
                     out.add(temp);
                 }
             }
+            br.close();
+            fr.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -59,10 +128,10 @@ public class dataAnalyze {
         return out;
     }
 
-    private  ArrayList<String> checkTask(String project){
+    private  ArrayList<String> checkTask(String projectId){
 
         ArrayList<String> out = new ArrayList<>();
-        int length = project.length();
+        int length = projectId.length();
         File task = new File(taskFileName);
         Gson gson = new Gson();
 
@@ -72,10 +141,12 @@ public class dataAnalyze {
             String temp = "";
             while (null != (temp = br.readLine())) {
                 Task t = gson.fromJson(temp,Task.class);
-                if(t.getId().substring(0,length-1).equals(project)){
+                if(t.getId().substring(0,length-1).equals(projectId)){
                     out.add(temp);
                 }
             }
+            br.close();
+            fr.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

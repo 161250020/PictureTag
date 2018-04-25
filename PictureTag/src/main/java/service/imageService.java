@@ -8,6 +8,6 @@ public interface imageService {
 
     public ArrayList<String> receiveTag(String s);
 
-    public boolean modifyTag(String jsonData);
+    public void modifyTag(String jsonData);
 
 }
