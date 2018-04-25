@@ -16,6 +16,7 @@ public class FileReadandWrite {
                 content.add(str);
             }
             bufferedReader.close();
+            System.out.println("Read");
         }catch(IOException e){
             e.printStackTrace();
         }

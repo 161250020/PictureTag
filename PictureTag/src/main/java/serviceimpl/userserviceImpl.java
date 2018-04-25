@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class userserviceImpl {
             final String path="PictureTag/src/main/user.txt";
+            static int count=0;
             public void start() {      //一开始有一个用户
                 UserInfo user=new UserInfo("admin","admin",null,0,null,null,0,0.0);
                 Gson gson=new Gson();
@@ -28,7 +29,26 @@ public class userserviceImpl {
                 return lis;
             }
              public boolean login(String username,String password){
+                if(count==0)
+                    start();
+                else
+                    count++;
                       boolean flag=false;
+                      ArrayList<String> content=FileReadandWrite.ReadFile(path);
+                      ArrayList<UserInfo> user=new ArrayList<UserInfo>();
+                      for(int i=0;i<content.size();i++){
+                          Gson gson=new Gson();
+                          user.add(gson.fromJson(content.get(i),UserInfo.class));
+                      }
+                      System.out.println(user.get(0).getUsername());
+                      for(int i=0;i<user.size();i++){
+                          if(username.equals(user.get(i).getUsername())){
+                              if(password.equals(user.get(i).getPassword())){
+                                  flag=true;
+                              }
+                                   break;             //去掉break会报空指针
+                          }
+                      }
 
                       return flag;
              }

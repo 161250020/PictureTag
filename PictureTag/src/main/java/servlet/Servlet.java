@@ -1,6 +1,7 @@
 package servlet;
 
 import serviceimpl.tagIO;
+import serviceimpl.userserviceImpl;
 import stub.userstub;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,8 +97,13 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         //userstub.register();
     }
 
-    private void login(HttpServletRequest request,HttpServletResponse response,String userData){
-            
+    private boolean login(HttpServletRequest request,HttpServletResponse response,String userData){
+        boolean flag=false;
+        String username=request.getParameter("name");
+        String password=request.getParameter("password");
+        userserviceImpl impl=new userserviceImpl();
+        flag=impl.login(username,password);
+        return flag;
     }
 
     /**
