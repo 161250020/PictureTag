@@ -117,7 +117,7 @@ public class userserviceImpl {
              }
              public boolean update(String username,String password){
                      boolean flag=false;
-                     if(!checksame(username)) {
+                     if(checksame(username)) {
                          flag=true;
                          delete(username);
                          System.out.println("cc");
