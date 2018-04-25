@@ -13,7 +13,7 @@
 <style type="text/css">
     body {
         margin: 0;
-        background-image: url(u=2003488071,325628006&fm=27&gp=0.jpg);
+        background-image: url(../background.jpg);
         background-repeat:no-repeat;
         background-position:0% 0%;
         background-size:cover;
@@ -47,15 +47,18 @@
 <script>
     $(document).ready(function() {
         $(document).foundation();
+        var loc = location.href;
+        var n1 = loc.length;//地址的总长度
+        var n2 = loc.indexOf("=");//取得=号的位置
+        var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     })
     function jump1(){
-
+        window.location.href="release_tasks.html";
+        location.href="release_tasks.html?"+"txt="+encodeURI(id);
     }
     function jump2(){
-        window.location.href="mission.html";
-        location.href="mission.html?"+"txt="+encodeURI("用户名");
-
-
+        window.location.href="receive_tasks.html";
+        location.href="receive_tasks.html?"+"txt="+encodeURI(id);
     }
 </script>
 </body>

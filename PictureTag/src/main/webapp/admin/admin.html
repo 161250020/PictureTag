@@ -11,17 +11,59 @@
     </style>
 
 </head>
+<style type="text/css">
+    body {
+        margin: 0;
+        background-image: url(../back.png);
+        background-repeat:no-repeat;
+        background-position:0% 0%;
+        background-size:cover;
+
+    }
+</style>
 <body>
-<div height="400" width="600" style="margin:50px">
-    <canvas id="chart">您的浏览器不支持HTML5 canvas</canvas>
-    <div>
-        <canvas id="data_total" width="185" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
-        <canvas id="data_fin" width="200" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
-        <canvas id="data_wai" width="200" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
+<style type="text/css">
+    big_div{
+        border:2px solid #a1a1a1;
+        padding:10px 40px;
+        background: white;
+        width:800px;
+        height: 700px;
+        border-radius:25px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+<div id=big_div style=" border:2px solid #a1a1a1;
+        padding:10px 40px;
+        background: white;
+        width:800px;
+        height: 700px;
+        border-radius:25px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;">
+    <h3>系统用户数:<input type="text" name="usernumber"  size="12" style="border:0px;border-bottom:#000000 1px solid;"></h3>
+    <br>
+    开始日期：<input type="date" id="data1" width="28">
+    结束日期：<input type="date" id="data2" width="28" onchange="analyse()">
+    <input type="button" id="make_circle" onclick="goChart()" value="确认">
+    <div height="400" width="500" style="margin:50px">
+        <canvas id="chart">您的浏览器不支持HTML5 canvas</canvas>
+        <div>
+            <canvas id="data_total" width="185" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
+            <canvas id="data_fin" width="200" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
+            <canvas id="data_wai" width="200" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
+        </div>
     </div>
 </div>
-
-
 
 <script type="text/javascript">
     function goChart(dataArr){
@@ -225,7 +267,13 @@
 
     }
 
-
+    function analyse(){
+        var day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
+        var day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
+        if(day1>day2){
+            alert("Wrong time!");
+        }
+    }
 
 
 
@@ -241,13 +289,6 @@
 </script>
 
 <script>
-
-
-
-
-
-
-
     //获得数据
     var total=750;
     var finished=50;

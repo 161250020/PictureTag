@@ -12,7 +12,7 @@
 <style type="text/css">
     body {
         margin: 0;
-        background-image: url(u=2003488071,325628006&fm=27&gp=0.jpg);
+        background-image: url(../back.png);
         background-repeat:no-repeat;
         background-position:0% 0%;
         background-size:cover;
@@ -66,7 +66,7 @@
             <td><input type="checkbox" id="mission_confirm"></td>
         </tr>
     </table>
-
+    <button type="button" style="background-color: gray" class="button radius tiny">确认</button>
 </div>
 <script>
     $(document).ready(function() {
@@ -76,7 +76,21 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-    window.alert(id);
+</script>
+<script>
+    $.ajax({
+        url: "/Servlet",
+        type: "POST",
+        data: {
+            "name": id,
+            "action": ""
+        },
+        success: function (data) {
+            alert("领取成功")
+        },
+        error: function () {
+        }
+    });
 </script>
 </body>
 
