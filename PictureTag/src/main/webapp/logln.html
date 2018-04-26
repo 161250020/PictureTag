@@ -87,7 +87,26 @@
 
     //登录
     function signIn(){
+        alert("st");
         //从服务器端返回判断是否存在这个用户的结果
+        var str="abc_hello";
+        var changeobj=JSON.stringify(str);
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "gData":changeobj,
+                "action":"newUser"
+            },
+            success: function(data) {
+                alert("调用成功！");
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+
+
 
 
 
