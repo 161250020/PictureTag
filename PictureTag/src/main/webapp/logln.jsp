@@ -113,7 +113,7 @@
             type : "POST",
             data :{
                 "gData":changeobj,
-                "action":"newUser"
+                "action":"login"
             },
             success: function(data) {
                 //exist用来判断该用户是否存在
@@ -126,7 +126,8 @@
 
                 //针对两种不同的返回值的反应
                 if(exist==1){
-                    window.open("tools/tools_index.html",'_self');
+                    window.location.href="tools/tools_index.html";
+                    location.href="tools/tools_index.html?"+"txt="+encodeURI(document.getElementById("input_username").value.toString());
                 }
                 else{
                     //清空后提示
@@ -142,21 +143,6 @@
 
         });
 
-
-
-
-
-
-        //exist用来判断该用户是否存在
-        var exist=0;
-        if(exist==1){
-            window.open("tools/tools_index.html",'_self');
-        }
-        else{
-            document.getElementById("input_username").value="";
-            document.getElementById("input_password").value="";
-            document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
-        }
     }
 </script>
 </body>
