@@ -94,9 +94,13 @@
 
     //登录
     function signIn(){
-        alert("st");
+
         //从服务器端返回判断是否存在这个用户的结果
-        var str="abc_hello";
+
+        var str={
+            "username":document.getElementById("input_username").value.toString(),
+            "password":document.getElementById("input_password").value.toString()
+        };
         var changeobj=JSON.stringify(str);
         $.ajax({
             url : "/Servlet",
