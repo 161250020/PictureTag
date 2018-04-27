@@ -14,5 +14,6 @@ public class Main {
         //impl.delete("gygy");
         //impl.delete("7777");
         impl.update("gygy","19991125");
+        System.out.println(impl.getUser("gygy").getLevel());
     }
 }

@@ -9,7 +9,7 @@ import vo.UserInfo;
 import java.io.File;
 import java.util.ArrayList;
 
-public class userserviceImpl {
+public class userserviceImpl implements user{
             final String path="PictureTag/src/main/user.txt";
             public void start() {      //一开始有一个用户
                 UserInfo user=new UserInfo("admin","admin",null,0,null,null,0,0.0);
@@ -126,7 +126,14 @@ public class userserviceImpl {
                      }
                      return flag;
              }
-             public UserInfo getUser(){
-                     return new UserInfo("admin","admin");
+             public UserInfo getUser(String username){
+                     ArrayList<UserInfo> user=getall();
+                     UserInfo result=new UserInfo();
+                     for(int i=0;i<user.size();i++){
+                           if(user.get(i)!=null&&user.get(i).getUsername().equals(username)){
+                                 result=user.get(i);
+                           }
+                     }
+                     return result;
              }
 }

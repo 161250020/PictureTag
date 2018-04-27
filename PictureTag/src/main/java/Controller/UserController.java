@@ -16,5 +16,5 @@ public class UserController implements user {
            return impl.delete(username);
        }
        public boolean update(String username,String password){return impl.update(username,password);}
-       public UserInfo getUser(){return impl.getUser();}
+       public UserInfo getUser(String username){return impl.getUser(username);}
 }

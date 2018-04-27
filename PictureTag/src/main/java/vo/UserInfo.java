@@ -11,6 +11,16 @@ public class UserInfo {
  public ArrayList<String> launchpro;        //对应的发布项目
  public int TaskNumber;
  public double score;
+ public UserInfo(){
+     this.username=null;
+     this.password=null;
+     this.name=null;
+     this.level=0;
+     this.receivepro=null;
+     this.launchpro=null;
+     this.TaskNumber=0;
+     this.score=0.0;
+ }
  public UserInfo(String username,String password){
      this.username=username;
      this.password=password;

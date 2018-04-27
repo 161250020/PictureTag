@@ -1,8 +1,10 @@
 package servlet;
 
+import com.google.gson.Gson;
 import serviceimpl.tagIO;
 import serviceimpl.userserviceImpl;
 import stub.userstub;
+import vo.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -93,17 +95,39 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param userData
      */
     private void newUser(HttpServletRequest request,HttpServletResponse response,String userData){
-        userstub userstub = new userstub();
-        //userstub.register();
-    }
-
-    private boolean login(HttpServletRequest request,HttpServletResponse response,String userData){
-        boolean data=false;
+        boolean result=false;
         String username=request.getParameter("name");
         String password=request.getParameter("password");
         userserviceImpl impl=new userserviceImpl();
-        data=impl.login(username,password);
-        return data;
+        result=impl.register(username,password);                 //userdata到底是什么
+        try {
+            PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
+            String data = "false";
+            if (result) {
+                data = "true";
+            }
+            out.write(data);
+        }catch(IOException io){
+            io.printStackTrace();
+        }
+    }
+
+    private void login(HttpServletRequest request,HttpServletResponse response,String userData){     //这里会不会有问题
+        boolean result=false;
+        String username=request.getParameter("name");
+        String password=request.getParameter("password");
+        userserviceImpl impl=new userserviceImpl();
+        result=impl.login(username,password);
+        try {
+            PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
+            String data = "false";
+            if (result) {
+                data = "true";
+            }
+            out.write(data);
+        }catch(IOException io){
+            io.printStackTrace();
+        }
     }
 
     /**
@@ -123,7 +147,17 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param userId
      */
     private void receiveUserInfo(HttpServletRequest request,HttpServletResponse response,String userId){
-
+        UserInfo user=new UserInfo();
+        userserviceImpl impl=new userserviceImpl();
+        user=impl.getUser(userId);
+        try {
+            PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
+            Gson gson=new Gson();
+            String result=gson.toJson(user);
+            out.write(result);
+        }catch(IOException io){
+            io.printStackTrace();
+        }
     }
 
     /**优先已完成
@@ -153,7 +187,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param userId
      */
     private void deleteUser(HttpServletRequest request,HttpServletResponse response,String userId){
-
+        boolean result=false;
+        userserviceImpl impl=new userserviceImpl();
+        result=impl.delete(userId);
+        try {
+            PrintWriter out = response.getWriter();         //写入字符,不知道界面的键值是什么
+            String data = "false";
+            if (result) {
+                data = "true";
+            }
+            out.write(data);
+        }catch(IOException io){
+            io.printStackTrace();
+        }
     }
 
     /**
