@@ -12,6 +12,8 @@ public class dataAnalyze {
 
     String userFileName="";
     String taskFileName="";
+
+
     /**
      * 根据用户id获得用户的：积分奖励，群体排名，等级
      * @param userId

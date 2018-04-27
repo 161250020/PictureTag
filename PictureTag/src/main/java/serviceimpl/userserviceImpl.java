@@ -7,10 +7,13 @@ import util.RevertJsonObject;
 import vo.UserInfo;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class userserviceImpl implements user{
-            final String path="PictureTag/src/main/user.txt";
+            //final String path="PictureTag/src/main/user.txt";
+            //URL pathURL = Thread.currentThread().getContextClassLoader().getResource("");
+            String path = userserviceImpl.class.getClassLoader().getResource("/").getPath()+"user.txt";
             public void start() {      //一开始有一个用户
                 UserInfo user=new UserInfo("admin","admin",null,0,null,null,0,0.0);
                 Gson gson=new Gson();
@@ -20,7 +23,7 @@ public class userserviceImpl implements user{
                 System.out.println(u.getLevel());
             }
             public ArrayList<UserInfo> getall(){
-                ArrayList<String> content=FileReadandWrite.ReadFile("PictureTag/src/main/user.txt");         //获得所有的用户
+                ArrayList<String> content=FileReadandWrite.ReadFile(path);         //获得所有的用户
                 ArrayList<UserInfo> lis=new ArrayList<UserInfo>();
                 for(int i=0;i<content.size();i++){
                     Gson gson=new Gson();
@@ -32,6 +35,7 @@ public class userserviceImpl implements user{
                 if(!checkInit()) {
                     start();
                 }
+                      System.out.println("login");
                       boolean flag=false;
                       ArrayList<String> content=FileReadandWrite.ReadFile(path);
                       ArrayList<UserInfo> user=new ArrayList<UserInfo>();
@@ -48,7 +52,7 @@ public class userserviceImpl implements user{
                                    break;             //去掉break会报空指针
                           }
                       }
-
+                      System.out.println(flag);
                       return flag;
              }
              public boolean register(String username,String password){
