@@ -9,6 +9,9 @@ public class FileReadandWrite {
         ArrayList<String> content=new ArrayList<String>();
         try {
             File file = new File(path);
+            if(!file.exists()){
+                file.createNewFile();
+            }
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader=new BufferedReader(reader);
             String str="";
@@ -25,6 +28,9 @@ public class FileReadandWrite {
     public static void WriteFile(String path,String content){
         try{
             File file=new File(path);
+            if(!file.exists()){
+                file.createNewFile();
+            }
             FileWriter writer=new FileWriter(file,true);
             BufferedWriter bw = new BufferedWriter(writer);
             bw.write(content);

@@ -114,10 +114,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     private void login(HttpServletRequest request,HttpServletResponse response,String userData){     //这里会不会有问题
         boolean result=false;
-        String username=request.getParameter("name");
-        String password=request.getParameter("password");
+        Gson gson=new Gson();
+        UserInfo user=gson.fromJson(userData,UserInfo.class);
         userserviceImpl impl=new userserviceImpl();
-        result=impl.login(username,password);
+        result=impl.login(user.getUsername(),user.getPassword());
         try {
             PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
             String data = "false";
