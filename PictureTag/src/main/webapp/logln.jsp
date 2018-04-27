@@ -99,7 +99,13 @@
 
         var str={
             "username":document.getElementById("input_username").value.toString(),
-            "password":document.getElementById("input_password").value.toString()
+            "password":document.getElementById("input_password").value.toString(),
+            "name":null,
+            "level":0,
+            "receivepro":[],
+            "launchpro":[],
+            "TaskNumber":0,
+            "score":0.0
         };
         var changeobj=JSON.stringify(str);
         $.ajax({
@@ -110,11 +116,30 @@
                 "action":"newUser"
             },
             success: function(data) {
+                //exist用来判断该用户是否存在
+                var exist=0;
+
+                //如果返回的值是true
+                if(data){
+                    exist=1;
+                }
+
+                //针对两种不同的返回值的反应
+                if(exist==1){
+                    window.open("tools/tools_index.html",'_self');
+                }
+                else{
+                    //清空后提示
+                    document.getElementById("input_username").value="";
+                    document.getElementById("input_password").value="";
+                    document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
+                }
                 alert("调用成功！");
             },
             error: function () {
                 alert("Wrong!");
             }
+
         });
 
 
