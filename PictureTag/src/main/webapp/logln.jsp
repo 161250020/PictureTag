@@ -140,7 +140,6 @@
                     document.getElementById("input_password").value="";
                     document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
                 }
-                alert("调用成功！");
             },
             error: function () {
                 alert("Wrong!");

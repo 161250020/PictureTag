@@ -33,7 +33,7 @@
 <ul class="tabs" data-tab>
     <li class="tab-title active" style="width: 33%" onclick="get1()"><a href="#self_information">主页</a></li>
     <li class="tab-title" style="width: 33%" onclick="get2()"><a href="#released_tasks">发布的任务</a></li>
-    <li class="tab-title" style="width: 34%"><a href="#received_tasks">领取的任务</a></li>
+    <li class="tab-title" style="width: 34%" onclick="get3()"><a href="#received_tasks">领取的任务</a></li>
 </ul>
 <br>
 
@@ -123,7 +123,7 @@
         },
         success: function (data) {
             info=JSON.parse(data);
-            document.getElementById("usernameAndIntegral").innerHTML="用户名："+info.id+";积分："+info.score+";";
+            document.getElementById("usernameAndIntegral").innerHTML="用户名："+id+";积分："+info.score+";";
         },
         error: function () {
         }
@@ -199,7 +199,15 @@
                 },
                 success: function (data) {
                     task=JSON.parse(data);
-                    document.getElementById("usernameAndIntegral").innerHTML="用户名："+info.id+";积分："+info.score+";";
+
+
+
+
+
+
+
+
+
                 },
                 error: function () {
                 }
@@ -280,6 +288,32 @@
 
     function response(str) { window.location.assign("contentOfLabel.html?a="+str); }
 
+    //get3
+    function get3(){
+        var table=document.getElementById("mission_receive");
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                "name": id,
+                "action": "getProjectInfo"
+            },
+            success: function (data) {
+                for (var i = 0; i < data.taskIds.size(); i++) {
+                    var oneRow = table.insertRow();//插入一行
+                    var cell1 = oneRow.insertCell();//单单插入一行是不管用的，需要插入单元格
+                    var cell2 = oneRow.insertCell();
+                    var cell3 = oneRow.insertCell();
+                    cell1.innerHTML("");
+                    cell2.innerHTML("");
+                    cell3.innerHTML("")
+                }
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+    }
 
 </script>
 </body>

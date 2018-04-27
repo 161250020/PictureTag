@@ -38,6 +38,7 @@
         bottom: 0;
     }
 </style>
+
 <div id=big_div style=" border:2px solid #a1a1a1;
         padding:10px 40px;
         background: white;
@@ -50,7 +51,7 @@
         left: 0;
         right: 0;
         bottom: 0;">
-    <h3>系统用户数:<input type="text" name="usernumber"  size="12" style="border:0px;border-bottom:#000000 1px solid;"></h3>
+    <h3>系统用户数:<input id="in" type="text" name="usernumber"  size="12" style="border:0px;border-bottom:#000000 1px solid;"></h3>
     <br>
     开始日期：<input type="date" id="data1" width="28">
     结束日期：<input type="date" id="data2" width="28" onchange="analyse()">
@@ -64,6 +65,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端返回系统用户数的方法
+            "action":""
+
+
+
+
+
+
+        },
+        success: function(data) {
+            document.getElementById("in").value=data.toString();
+        },
+        error: function () {
+            alert("Wrong!");
+        }
+
+    });
+</script>
 
 <script type="text/javascript">
     function goChart(dataArr){
@@ -273,18 +298,46 @@
         if(day1>day2){
             alert("Wrong time!");
         }
+        else{
+            //获得数据
+            var chartData;
+            //传递给后端两个时间
+            var obj={
+                "date1":day1,
+                "date2":day2
+            }
+            var obj_json=JSON.stringify(obj);
+            $.ajax({
+                url : "/Servlet",
+                type : "POST",
+                data :{
+                    "gData":obj_json,
+                    //调用后端返回两个任务数的方法
+                    "action":""
+
+
+
+
+
+
+                },
+                success: function(data) {
+                    //修改为获得的已完成的任务数+未完成的任务数
+
+
+
+
+                    chartData = [[50,"#2dc6c8","已完成任务数"], [700,"#d7797f","未完成任务数"]];
+                },
+                error: function () {
+                    alert("Wrong!");
+                }
+
+            });
+
+            goChart(chartData);
+        }
     }
-
-
-
-
-
-
-
-    //获得数据
-    var chartData = [[50,"#2dc6c8","已完成任务数"], [700,"#d7797f","未完成任务数"]];
-
-    goChart(chartData);
 
 </script>
 

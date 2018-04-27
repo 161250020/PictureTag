@@ -91,9 +91,33 @@
 </script>
 
 <script>
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容//userid
+
     //从后端获得任务的ID，显示在界面上面
-    var ID="0001";
-    document.getElementById("get_taskId").innerHTML="任务ID："+ID;
+    var ID="";
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取任务id的方法
+            "action":""
+
+
+
+
+
+        },
+        success: function(data) {
+            ID=data.toString();
+            document.getElementById("get_taskId").innerHTML="任务ID："+ID;
+        },
+        error: function () {
+            alert("Wrong!");
+        }
+    });
 
     //将选择的图片们保存成url形式
     var arr;
@@ -107,6 +131,38 @@
                 var reader=new FileReader();
                 reader.onload=function (event) {
                     var txt=event.target.result;
+
+
+                    //传递后端：任务id+url；获得图片的id
+                    var obj={
+                        "task_id":
+                    }
+                    $.ajax({
+                        url : "/Servlet",
+                        type : "POST",
+                        data :{
+                            "gData":changeobj,
+                            "action":"login"
+
+
+
+
+
+
+                        },
+                        success: function(data) {
+
+                        },
+                        error: function () {
+                            alert("Wrong!");
+                        }
+
+                    });
+
+
+
+
+
                     arr.push(txt);
 
 
@@ -120,6 +176,7 @@
             }
         }
     }
+
     function contentLoaded(){
         document.getElementById("choose_files").addEventListener("change",savePicsAsUrl,false);
     }
@@ -135,9 +192,11 @@
 
     //日期
     //返回day1和day2，格式为yyyyMMdd
+    var day1;
+    var day2;
     function analyse(){
-        var day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
-        var day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
+        day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
+        day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
         if(day1>day2){
             alert("Wrong time!");
         }
@@ -145,11 +204,20 @@
 
     //其余返回值（其他需求+积分奖励）
     function release(){
+        var low=document.getElementById("lowestInput").value.toString();
+        var high=document.getElementById("highestInput").value.toString();
         var other_needs=document.getElementById("other_needs").value.toString();
         var input_integral=document.getElementById("integral").value.toString();
 
         //返回所有的数值，包括前面的id，工人等级，需求，这两个数据
+        //创建json
+        var obj={
+            "id":ID,
+            "score":input_integral,
+            "progress":0,
+            "flag":"flase",
 
+        }
 
 
 
