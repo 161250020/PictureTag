@@ -81,6 +81,22 @@ public class dataAnalyze {
 
     }
 
+    public void deleteProject(String projectId){
+
+        /*这里要调用一下修改user.txt的方法*/
+
+        /*这里要调用一下修改project文件内容的方法*/
+
+        /*这里要调用删除task的方法*/
+
+    }
+
+    public void deleteTask(String taskId){
+
+
+
+    }
+
     /**
      * 等待讨论确定！
      * @param userId
@@ -141,11 +157,12 @@ public class dataAnalyze {
      * 对文件的重新读写实现删除
      * @param taskId
      */
-    public void deleteTask(String taskId){
+    public void deleteTasks(String taskId){
 
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
-
+        String[] ss = taskId.split("^_^");
+        String projectId = ss[0]+"^_^"+ss[1];
         File fRead = new File(taskId);
         File fWrite = new File(taskId);
         try {
