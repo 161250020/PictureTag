@@ -13,7 +13,7 @@
 <style type="text/css">
     body {
         margin: 0;
-        background-image: url(background.jpg);
+        background-image: url(u=2003488071,325628006&fm=27&gp=0.jpg);
         background-repeat:no-repeat;
         background-position:0% 0%;
         background-size:cover;
@@ -26,15 +26,15 @@
         <fieldset>
             <legend>Register</legend>
             <label>Name
-                <input type="text" placeholder="First Name" id="FirstName">
+                <input type="text" placeholder="First Name">
             </label>
             <label>Password
-                <input type="text" placeholder="Enter password" id="PassWord">
+                <input type="text" placeholder="Enter password">
             </label>
             <label>Confirm Password
                 <input type="text" placeholder="Confirm password">
             </label>
-            <button type="button" class="button round" onclick="Confirm()">Confirmation of registration</button>
+            <button type="button" class="button round">Confirmation of registration</button>
         </fieldset>
     </form>
     <a class="close-reveal-modal">&times;</a>
@@ -67,32 +67,6 @@
     $(document).ready(function() {
         $(document).foundation();
     })
-</script>
-<script>
-    function Confirm(){
-        var date=new Date();
-        var username=document.getElementById("FirstName");
-        var password=document.getElementById("PassWord");
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            data: {
-                "name":username.getValue,
-                "password":password.getValue,
-                "date":date.getDate(),
-                "action": ""
-            },
-            success: function (data) {
-                if(data){
-                    window.location.href="homepage.html";
-                    location.href="homepage.html?"+"txt="+encodeURI(username.getValue());
-                }
-            },
-            error: function () {
-                alert("Wrong!");
-            }
-        });
-    }
 
 </script>
 </body>

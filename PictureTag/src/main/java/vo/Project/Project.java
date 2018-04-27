@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Project {          //众包发起项目的信息,包含id,名称,需求和任务的id
 
-    String id;
+    String id;//形如格式为userName+"^_^"+"00001"
     String name;
     int progress;//已经完成task的数量
     ArrayList<String> requests;

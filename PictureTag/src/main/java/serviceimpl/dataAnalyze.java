@@ -1,6 +1,7 @@
 package serviceimpl;
 
 import com.google.gson.Gson;
+import vo.Project.Project;
 import vo.Project.Task.Task;
 import vo.UserInfo;
 
@@ -18,6 +19,65 @@ public class dataAnalyze {
     public ArrayList<String> receiveUserDegree(String userId) {
 
         return checkUserInfo(userId);
+
+    }
+
+    /**
+     * 根据projectId获得projectInfo
+     * @param projectId
+     * @return
+     */
+    public String receiveProjectInfo(String projectId){
+
+        Gson gson = new Gson();
+        String[] strings = projectId.split("^_^");
+        String userId = strings[0];
+        File f = new File(userId);
+        String out = "";
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while(null != (temp = br.readLine())){
+                Project p = gson.fromJson(temp,Project.class);
+                if(p.getId().equals(projectId)){
+                    out = temp;
+                    break;
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out;
+    }
+
+    /**
+     * 需要调用userserviceImpl的update方法，并没有被完全实现
+     * @param projectData
+     */
+    public void newProject(String projectData){
+
+        userserviceImpl userserv = new userserviceImpl();
+        Gson gson = new Gson();
+        Project p = gson.fromJson(projectData,Project.class);
+        String userId = p.getId().split("^_^")[0];
+
+        /*userserv.update();*/
+
+        File projectFile = new File(userId);
+        try {
+            FileWriter fw = new FileWriter(projectFile,true);
+            fw.write(System.getProperty("line.separator"));
+            fw.write(projectData);
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -52,6 +112,30 @@ public class dataAnalyze {
 
         return null;
     }
+
+    /**
+     *
+     * @param taskJson
+     */
+    public void newTask(String taskJson){
+
+        Gson gson = new Gson();
+        Task t = gson.fromJson(taskJson,Task.class);
+        String filename = t.getId();
+        String[] strings = filename.split("^_^");
+        File p = new File(strings[0]+"^_^"+strings[1]);
+
+        File f = new File(filename);
+        //创建名为taskId的文件用于存储图片
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     /**
      * 对文件的重新读写实现删除
@@ -154,5 +238,7 @@ public class dataAnalyze {
         }
         return out;
         }
+
+
 
 }

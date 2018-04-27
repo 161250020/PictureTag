@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Task {          //个体任务
 
-    String id;
+    String id;//形如格式为projectId+"^_^"+"00001"
     String name;
     double socre;//完成task将获得的分数
     int progress;//已经完成图片的数量
