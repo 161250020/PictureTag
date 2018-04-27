@@ -28,7 +28,7 @@
 
         </ul>
         <ul class="right">
-            <li><a href="#" style="text-decoration:none;font-size:14px">个人中心</a></li>
+            <li><a href="#" style="text-decoration:none;font-size:14px"id="person" onclick="jump3()">个人中心</a></li>
         </ul>
     </section>
 </nav>
@@ -45,20 +45,26 @@
     <button type="button" class="button round" style="background: ivory ;color: black;width:400px;height:400px" onclick="jump2()" ><h2>成为众包工人</h2><br><br>领取任务</button>
 </div>
 <script>
+    var id;
     $(document).ready(function() {
         $(document).foundation();
         var loc = location.href;
         var n1 = loc.length;//地址的总长度
         var n2 = loc.indexOf("=");//取得=号的位置
-        var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+        id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+        alert(id);
     })
     function jump1(){
         window.location.href="release_tasks.html";
-        location.href="release_tasks.html?"+"txt="+encodeURI(id);
+        location.href="release_tasks.html?"+"txt="+encodeURI(id);;
     }
     function jump2(){
         window.location.href="receive_tasks.html";
         location.href="receive_tasks.html?"+"txt="+encodeURI(id);
+    }
+    function jump3() {
+        window.location.href="../homepage/homepage.html";
+        location.href="../homepage/homepage.html?"+"txt="+encodeURI(id);
     }
 </script>
 </body>

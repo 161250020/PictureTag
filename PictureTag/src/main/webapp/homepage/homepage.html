@@ -103,12 +103,41 @@
     })
 </script>
 
-<script type="text/javascript">
+<script >
+    var info
+    alert("显示");
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+    var str={
+        "username":id
+    };
+    var changeobj=JSON.stringify(str);
+    $.ajax({
+        url: "/Servlet",
+        type: "POST",
+        data: {
+            "gData": changeobj,
+            "action": "receiveUserInfo"
+        },
+        success: function (data) {
+            info=JSON.parse(data);
+            document.getElementById("usernameAndIntegral").innerHTML="用户名："+info.id+";积分："+info.score+";";
+        },
+        error: function () {
+        }
+    });
+
+
+
+
+
     //获得积分奖励，群体排名，等级
     function get1() {
-        var reward_get="100";
-        var rank_get="001";
-        var level_get="一级";
+        var reward_get=info.score.toString();
+        var rank_get="排名";
+        var level_get=info.level.toString();
         document.getElementById("self_information").innerHTML="        <!--奖励，群体排名，等级-->\n" +
             "        <div data-magellan-expedition=\"fixed\">\n" +
             "            <dl class=\"sub-nav\">\n" +
@@ -154,6 +183,31 @@
 
     //发布的任务，查看、修改、删除
     function get2(){
+        var task;
+        var launchproid=info.launchpro;
+        for(var i=0;i<launchproid.length;i++){
+            var str={
+                "username":launchproid[i]
+            };
+            var changeobj=JSON.stringify(str);
+            $.ajax({
+                url: "/Servlet",
+                type: "POST",
+                data: {
+                    "gData": changeobj,
+                    "action": "receiveProjectInfo"
+                },
+                success: function (data) {
+                    task=JSON.parse(data);
+                    document.getElementById("usernameAndIntegral").innerHTML="用户名："+info.id+";积分："+info.score+";";
+                },
+                error: function () {
+                }
+            });
+        }
+
+
+
         //数据的获得
         //获得所有的任务:1-10
         var arr1=new Array();//此处换成从后端获得的方法：ID
@@ -226,10 +280,7 @@
 
     function response(str) { window.location.assign("contentOfLabel.html?a="+str); }
 
-</script>
 
-
-<script type="text/javascript">
 </script>
 </body>
 </html>

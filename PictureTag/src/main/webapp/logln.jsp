@@ -115,6 +115,11 @@
                 "gData":changeobj,
                 "action":"login"
             },
+
+
+
+
+
             success: function(data) {
                 //exist用来判断该用户是否存在
                 var exist=0;
