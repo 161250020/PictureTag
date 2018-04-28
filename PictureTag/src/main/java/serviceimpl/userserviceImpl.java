@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class userserviceImpl implements user{
             //final String path="PictureTag/src/main/user.txt";
             //URL pathURL = Thread.currentThread().getContextClassLoader().getResource("");
-            String path = userserviceImpl.class.getClassLoader().getResource("/").getPath()+"user.txt";
+            final String path = "user.txt";
             public void start() {      //一开始有一个用户
                 UserInfo user=new UserInfo("admin","admin",null,0,null,null,0,0.0);
                 Gson gson=new Gson();
@@ -66,7 +66,7 @@ public class userserviceImpl implements user{
                           UserInfo user=new UserInfo(username,password,null,0,null,null,0,0.0);
                           Gson gson=new Gson();
                           String content=gson.toJson(user);
-                          FileReadandWrite.WriteFile("PictureTag/src/main/user.txt",content);
+                          FileReadandWrite.WriteFile(path,content);
                      }
                      return  flag;
              }
