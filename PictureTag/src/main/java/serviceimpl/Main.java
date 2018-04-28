@@ -9,6 +9,7 @@ public class Main {
             System.out.println("ok");
         }
         impl.register("gygy","199761");
+       impl.register("wlx","123456");
         //impl.register("admin","111");
         //impl.register("gygy","199761");
         //impl.delete("gygy");

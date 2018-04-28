@@ -68,6 +68,7 @@ public class userserviceImpl implements user{
                           String content=gson.toJson(user);
                           FileReadandWrite.WriteFile(path,content);
                      }
+                     System.out.println(flag);
                      return  flag;
              }
              public boolean delete(String username){
