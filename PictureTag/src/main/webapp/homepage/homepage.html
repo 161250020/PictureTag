@@ -92,7 +92,13 @@
     </div>
 
     <div class="content" id="received_tasks">
-        领取的任务
+        <table id="mission_receive" width="1600px">
+            <tr>
+                <td>id</td>
+                <td>积分</td>
+                <td>状态</td>
+            </tr>
+        </table>
     </div>
 </div>
 
@@ -105,7 +111,6 @@
 
 <script >
     var info
-    alert("显示");
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
@@ -128,6 +133,7 @@
         error: function () {
         }
     });
+
 
 
 
@@ -185,6 +191,25 @@
     function get2(){
         var task;
         var launchproid=info.launchpro;
+        //数据的获得
+        //获得所有的任务:1-10
+        var arr1=new Array();//此处换成从后端获得的方法：ID
+        var arr12=new Array();//此处换成从后端获得的方法：基本信息
+        var arr13=new Array();//此处换成从后端获得的方法：参与者
+        var arr14=new Array();//此处换成从后端获得的方法：完成情况
+
+        //获得已完成的任务:1-5
+        var arr2=new Array();//此处换成从后端获得的方法：ID
+        var arr22=new Array();//此处换成从后端获得的方法：基本信息
+        var arr23=new Array();//此处换成从后端获得的方法：参与者
+        var arr24=new Array();//此处换成从后端获得的方法：完成情况
+
+        //获得未完成的任务:6-10
+        var arr3=new Array();//此处换成从后端获得的方法：ID
+        var arr32=new Array();//此处换成从后端获得的方法：基本信息
+        var arr33=new Array();//此处换成从后端获得的方法：参与者
+        var arr34=new Array();//此处换成从后端获得的方法：完成情况
+
         for(var i=0;i<launchproid.length;i++){
             var str={
                 "username":launchproid[i]
@@ -199,15 +224,37 @@
                 },
                 success: function (data) {
                     task=JSON.parse(data);
-
-
-
-
-
-
-
-
-
+                    for(var i=0;i<task.length;i++) {
+                        var task_small = task[i];
+                        arr1.push(task_small.id.toString());
+                        var request1 = "";
+                        for (var j = 0; j < task_small.request.length; j++) {
+                            request1 = request1 + task_small.request[i].toString();
+                        }
+                        arr12.push(request1);
+                        arr13.push(task_small.id.toString());
+                        arr14.push(task_small.id.toString());
+                        if (task_small.flag.toString() == 'true') {
+                            arr2.push(task_small.id.toString());
+                            var request2 = "";
+                            for (var j = 0; j < task_small.request.length; j++) {
+                                request2 = request2 + task_small.request[i].toString();
+                            }
+                            arr22.push(request2);
+                            arr23.push(task_small.id.toString());
+                            arr24.push(task_small.id.toString());
+                        }
+                        else {
+                            arr3.push(task_small.id.toString());
+                            var request3 = "";
+                            for (var j = 0; j < task_small.request.length; j++) {
+                                request3 = request3 + task_small.request[i].toString();
+                            }
+                            arr32.push(request3);
+                            arr33.push(task_small.id.toString());
+                            arr34.push(task_small.id.toString());
+                        }
+                    }
                 },
                 error: function () {
                 }
@@ -216,53 +263,16 @@
 
 
 
-        //数据的获得
-        //获得所有的任务:1-10
-        var arr1=new Array();//此处换成从后端获得的方法：ID
-        var arr12=new Array();//此处换成从后端获得的方法：基本信息
-        var arr13=new Array();//此处换成从后端获得的方法：参与者
-        var arr14=new Array();//此处换成从后端获得的方法：完成情况
-        for(var i=1;i<=10;i++){//此处可删除
-            arr1.push(i);
-            arr12.push(i);
-            arr13.push(i);
-            arr14.push(i);
-        }
-        //获得已完成的任务:1-5
-        var arr2=new Array();//此处换成从后端获得的方法：ID
-        var arr22=new Array();//此处换成从后端获得的方法：基本信息
-        var arr23=new Array();//此处换成从后端获得的方法：参与者
-        var arr24=new Array();//此处换成从后端获得的方法：完成情况
-        for(var i=1;i<=10;i++){//此处可删除
-            arr2.push(i);
-            arr22.push(i);
-            arr23.push(i);
-            arr24.push(i);
-        }
-        //获得未完成的任务:6-10
-        var arr3=new Array();//此处换成从后端获得的方法：ID
-        var arr32=new Array();//此处换成从后端获得的方法：基本信息
-        var arr33=new Array();//此处换成从后端获得的方法：参与者
-        var arr34=new Array();//此处换成从后端获得的方法：完成情况
-        for(var i=1;i<=10;i++){//此处可删除
-            arr3.push(i);
-            arr32.push(i);
-            arr33.push(i);
-            arr34.push(i);
-        }
 
 
 
-
-
-
-        //任务搜索
-        var arr4=new Array();//此处换成从后端获得的方法，搜索的方法为模糊查询
-        var arr44=new Array();//此处换成从后端获得的方法，搜索的方法为模糊查询
-        for(var i=2;i<=3;i++){//此处可删除
-            arr4.push(i);
-            arr44.push(i);
-        }
+        // //任务搜索
+        // var arr4=new Array();//此处换成从后端获得的方法，搜索的方法为模糊查询
+        // var arr44=new Array();//此处换成从后端获得的方法，搜索的方法为模糊查询
+        // for(var i=2;i<=3;i++){//此处可删除
+        //     arr4.push(i);
+        //     arr44.push(i);
+        // }
 
         //将div（id="search"）中列表显示---三个列表
         var str1="";
@@ -282,37 +292,80 @@
         document.getElementById("table_body3").innerHTML=str3;
 
 
-        //现隐藏(hidden)，后显示
+        //先隐藏(hidden)，后显示
         document.getElementById("released_tasks").innerHTML=document.getElementById("search").innerHTML;
     }
 
     function response(str) { window.location.assign("contentOfLabel.html?a="+str); }
-
+    var arr_task;
+    var arr_taskID;
     //get3
     function get3(){
         var table=document.getElementById("mission_receive");
+        var obj={
+            "username":id
+        }
+        var obj_JSON=JSON.stringify(obj);
         $.ajax({
             url: "/Servlet",
             type: "POST",
             data: {
-                "name": id,
-                "action": "getProjectInfo"
+                "gData":obj_JSON,
+                //根据用户id获取领取的taskid
+                "action": "receiveUserTask"
             },
             success: function (data) {
-                for (var i = 0; i < data.taskIds.size(); i++) {
+                arr_taskID=JSON.parse(data);
+            },
+            error: function () {
+            }
+        });
+        for(var i=0;i<arr_taskID.length;i++) {
+            var task_ID=arr_taskID[i];
+            var task_id={
+                "taskID":task_ID
+            };
+            var task_id_json=JSON.stringify(task_id);
+            $.ajax({
+                url: "/Servlet",
+                type: "POST",
+                data: {
+                    "gData": task_id_json,
+                    //根据taskid获取task信息
+                    "action": "receiveTaskContent"
+                },
+                success: function (data) {
+                    arr_task = JSON.parse(data);
                     var oneRow = table.insertRow();//插入一行
                     var cell1 = oneRow.insertCell();//单单插入一行是不管用的，需要插入单元格
                     var cell2 = oneRow.insertCell();
                     var cell3 = oneRow.insertCell();
-                    cell1.innerHTML("");
-                    cell2.innerHTML("");
-                    cell3.innerHTML("")
+                    cell1.innerHTML="<a href=\"#\"onclick=\"jump(arr_task.id.toString(),arr_task.request[0].toString())\">"+arr_task.id.toString()+"</a>";
+                    cell2.innerHTML=arr_task.score.toString();
+                    if(arr_task.flag.toString()=="true")
+                    cell3.innerHTML="已完成";
+                    else{
+                        cell3.innerHTML="未完成";
+                    }
+                },
+                error: function () {
                 }
-            },
-            error: function () {
-                alert("Wrong!");
+            });
+        }
+        function jump(taskid,type){
+            if(type=="整体标注"){
+                window.location.href="/label/tag_overall.html";
+                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid);
             }
-        });
+            else if(type=="边框标注"){
+                window.location.href="/label/tag_frame.html";
+                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid);
+            }
+            else if(type=="区域标注"){
+                window.location.href="/label/tag_area.html";
+                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid);
+            }
+        }
     }
 
 </script>

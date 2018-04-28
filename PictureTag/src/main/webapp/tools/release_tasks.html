@@ -135,14 +135,18 @@
 
                     //传递后端：任务id+url；获得图片的id
                     var obj={
-                        "task_id":
+                        "task_id":ID,
+                        "image_url":txt
+
                     }
+                    var obj_json=JSON.stringify(obj);
                     $.ajax({
                         url : "/Servlet",
                         type : "POST",
                         data :{
-                            "gData":changeobj,
-                            "action":"login"
+                            "gData":obj_json,
+                            //获得imageID
+                            "action":""
 
 
 
@@ -151,6 +155,7 @@
 
                         },
                         success: function(data) {
+                            arr.push(data.toString());
 
                         },
                         error: function () {
@@ -158,13 +163,6 @@
                         }
 
                     });
-
-
-
-
-
-                    arr.push(txt);
-
 
 
 
@@ -208,6 +206,14 @@
         var high=document.getElementById("highestInput").value.toString();
         var other_needs=document.getElementById("other_needs").value.toString();
         var input_integral=document.getElementById("integral").value.toString();
+        var requests=new Array();
+        request.push(tag.toString());
+        request.push(day1.toString());
+        request.push(day2.toString());
+        request.push(low.toString());
+        request.push(high.toString());
+        request.push(other_needs.toString());
+        request.push(input_integral.toString());
 
         //返回所有的数值，包括前面的id，工人等级，需求，这两个数据
         //创建json
@@ -215,19 +221,41 @@
             "id":ID,
             "score":input_integral,
             "progress":0,
-            "flag":"flase",
-
+            "flag":"false",
+            "imageIds":arr,
+            "requests":requests
         }
+        var obj_JSON=JSON.stringify(obj);
+
+
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "gData":obj_JSON,
+                //发布task
+                "action":""
 
 
 
 
 
 
-
-        alert("任务发布成功！");
-        //跳转到个人主页
-        window.open("../homepage/homepage.html","_self");
+            },
+            success: function(data) {
+                if(data=="true"){
+                    alert("任务发布成功！");
+                    //跳转到个人主页
+                    window.open("../homepage/homepage.html","_self");
+                }
+                else{
+                    alert("发布任务失败!");
+                }
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
     }
 
 </script>
