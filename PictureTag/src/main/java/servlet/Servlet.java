@@ -240,12 +240,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void receiveTag(HttpServletRequest request,HttpServletResponse response,String s) throws IOException {
         String reqStr = s;
         tagIO t = new tagIO();
-        ArrayList<String> images = t.receiveTag(reqStr);
+        String image = t.receiveTag(reqStr);
         try {
             PrintWriter out = response.getWriter();
-            for (int i = 0; i < images.size(); i++) {
-                out.write(images.get(i));
-            }
+            out.write(image);
             out.close();
         } catch (IOException e) {
             e.printStackTrace();

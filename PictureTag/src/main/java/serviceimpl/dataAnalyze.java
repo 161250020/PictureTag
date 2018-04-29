@@ -198,7 +198,8 @@ public class dataAnalyze {
         Task t = gson.fromJson(taskJson,Task.class);
         String filename = t.getId();
         String[] strings = filename.split("^_^");
-        File f = new File(strings[0]);
+        String fileName = dataAnalyze.class.getResource("/").getFile()+File.separator+strings[0]+".txt";
+        File f = new File(fileName);
         if(!f.exists()){
             try {
                 f.createNewFile();
