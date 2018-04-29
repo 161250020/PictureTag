@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class dataAnalyze {
 
-    String userFileName="";
     String taskFileName="";
 
 
@@ -25,6 +24,7 @@ public class dataAnalyze {
     }
 
     /**
+     * 暂时不用
      * 根据projectId获得projectInfo
      * @param projectId
      * @return
@@ -58,6 +58,7 @@ public class dataAnalyze {
     }
 
     /**
+     * 暂时不用
      * 需要调用userserviceImpl的update方法，并没有被完全实现
      * @param projectData
      */
@@ -83,6 +84,10 @@ public class dataAnalyze {
 
     }
 
+    /**
+     * 暂时不用
+     * @param projectId
+     */
     public void deleteProject(String projectId){
 
         /*这里要调用一下修改user.txt的方法*/
@@ -93,14 +98,8 @@ public class dataAnalyze {
 
     }
 
-    public void deleteTask(String taskId){
-
-
-
-    }
-
     /**
-     * 等待讨论确定！
+     * 这个方法被舍弃了！
      * @param userId
      * @return
      */
@@ -119,7 +118,7 @@ public class dataAnalyze {
     }
 
     /**
-     * 根据taskId返回对应的图片列表，但是tagIO类里的receive
+     *
      * @param taskId
      * @return
      */
@@ -133,9 +132,9 @@ public class dataAnalyze {
 
     /**
      *
-     * @param taskJson
+     * @param
      */
-    public void newTask(String taskJson){
+    /*public void newTask(String taskJson){
 
         Gson gson = new Gson();
         Task t = gson.fromJson(taskJson,Task.class);
@@ -153,13 +152,215 @@ public class dataAnalyze {
             }
         }
     }
+*/
 
 
     /**
-     * 对文件的重新读写实现删除
-     * @param taskId
+     * 获得下一个taskId的方法
+     * @param userId
+     * @return
      */
-    public void deleteTasks(String taskId){
+    public String getTaskId(String userId){
+        Gson gson = new Gson();
+        File f = new File(userId);
+        FileReader fr = null;
+        String out = "";
+        try {
+            fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while(null != (temp = br.readLine())){
+            }
+            Task t = gson.fromJson(temp,Task.class);
+            String preTaskId = t.getId().split("^_^")[1];
+            int count = 0;
+            for (int i = 0; i < preTaskId.length(); i++) {
+                char c = preTaskId.charAt(i);
+                if(c == '0'){
+                    count++;
+                }
+            }
+            String nowId = preTaskId.substring(count);
+            String id = String.valueOf(Integer.getInteger(nowId) + 1);
+            out = "";
+            for (int i = 0; i < 5-id.length(); i++) {
+                out = "0" + out;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    public void newTask(String taskJson){
+        Gson gson = new Gson();
+        Task t = gson.fromJson(taskJson,Task.class);
+        String filename = t.getId();
+        String[] strings = filename.split("^_^");
+        File f = new File(strings[0]);
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileWriter fw = new FileWriter(f,true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(taskJson);
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifyTask(String taskData){
+        ArrayList<String> reWrite = new ArrayList<>();
+        Gson gson = new Gson();
+        Task t = gson.fromJson(taskData,Task.class);
+        if(!t.isFlag()) {//未被接受
+            String taskId = t.getId();
+            String[] ss = taskId.split("^_^");
+            String userId = ss[0];
+            File fRead = new File(userId);
+            File fWrite = new File(userId);
+            try {
+                FileReader fr = new FileReader(fRead);
+                BufferedReader br = new BufferedReader(fr);
+                String temp = "";
+                while (null != (temp = br.readLine())) {
+                    Task task = gson.fromJson(temp, Task.class);//反序列化
+                    if (!task.getId().equals(taskId)) {
+                        reWrite.add(temp);
+                    } else {
+                        reWrite.add(taskData);
+                    }
+                }
+                br.close();
+                fr.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            fRead.delete();
+
+            if (!fWrite.exists()) {
+                try {
+                    fWrite.createNewFile();
+                    FileWriter fw = new FileWriter(fWrite);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    for (int i = 0; i < reWrite.size(); i++) {
+                        bw.write(reWrite.get(i));
+                        bw.newLine();
+                    }
+                    bw.close();
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 通过taskId查找task
+     * @param taskId
+     * @return
+     */
+    public String findTask(String taskId){
+        Gson gson = new Gson();
+        String filename = taskId;
+        String[] strings = filename.split("^_^");
+        File f = new File(strings[0]);
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while(null != (temp = br.readLine())){
+                Task t = gson.fromJson(temp,Task.class);
+                if(t.getId().equals(taskId)){
+                    return temp;
+                }
+            }
+            return null;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteTask(String taskId){
+
+            ArrayList<String> reWrite = new ArrayList<>();
+            Gson gson = new Gson();
+            String[] ss = taskId.split("^_^");
+            String userId = ss[0];
+            boolean b = false;
+            File fRead = new File(userId);
+            File fWrite = new File(userId);
+            try {
+                FileReader fr = new FileReader(fRead);
+                BufferedReader br = new BufferedReader(fr);
+                String temp = "";
+                while (null != (temp = br.readLine())) {
+                    Task task = gson.fromJson(temp, Task.class);//反序列化
+                    if(!task.getId().equals(taskId)){
+                        reWrite.add(temp);
+                    }
+                    else{
+                        if(task.isFlag()){
+                            b = false;
+                            break;
+                        }
+                    }
+                }
+                br.close();
+                fr.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            fRead.delete();
+
+            if(!fWrite.exists()){
+                try {
+                    fWrite.createNewFile();
+                    FileWriter fw = new FileWriter(fWrite);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    for (int i = 0; i < reWrite.size() ; i++) {
+                        bw.write(reWrite.get(i));
+                        bw.newLine();
+                    }
+                    bw.close();
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+    }
+    /**
+     * 对文件的重新读写实现删除
+     */
+/*    public void deleteTasks(String taskId){
 
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
@@ -202,13 +403,12 @@ public class dataAnalyze {
                 e.printStackTrace();
             }
         }
-
-    }
+    }*/
 
     private ArrayList<String> checkUserInfo(String userId){
         ArrayList<String> out = new ArrayList<>();
-
-        File user = new File(userFileName);
+        String userFile = Project.class.getResource("/").getFile()+File.separator+"user.txt";
+        File user = new File(userFile);
         Gson gson = new Gson();
 
         try {
