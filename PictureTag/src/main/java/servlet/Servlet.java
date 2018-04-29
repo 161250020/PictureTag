@@ -1,6 +1,8 @@
 package servlet;
 
 import com.google.gson.Gson;
+import com.sun.deploy.net.HttpResponse;
+import serviceimpl.dataAnalyze;
 import serviceimpl.tagIO;
 import serviceimpl.userserviceImpl;
 import stub.userstub;
@@ -57,9 +59,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             this.receiveTag(request,response,picId);
         }
         else if("modifyTag".equals(action)){
-            this.modifyTag(request,response);
+            String imgData = request.getParameter("gData");
+            this.modifyTag(request,response,imgData);
         }
-        else if("receiveProjectInfo".equals(action)){
+ /*       else if("receiveProjectInfo".equals(action)){
             String projectId = request.getParameter("gData");
             this.receiveProjectInfo(request,response,projectId);
         }
@@ -74,14 +77,26 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveProjects".equals(action)){
             String userId = request.getParameter("gData");
             this.receiveProjects(request,response,userId);
+        }*/
+        else if("newTask".equals(action)){
+            String taskData = request.getParameter("gData");
+            this.newTask(request,response,taskData);
         }
-        else if("receiveTask".equals(action)){
+        else if("modifyTask".equals(action)){
+            String taskData = request.getParameter("gData");
+            this.modifyTask(request,response,taskData);
+        }
+        else if("receiveTaskContent".equals(action)){
             String taskId = request.getParameter("gData");
             this.receiveTaskContent(request,response,taskId);
         }
         else if("deleteTask".equals(action)){
             String taskId = request.getParameter("gData");
             this.deleteTask(request,response,taskId);
+        }
+        else if("commitTask".equals(action)){
+            String taskId = request.getParameter("gData");
+            this.commitTask(request,response,taskId);
         }
         else{
             System.out.println("no function like this");
@@ -107,6 +122,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
                 data = "true";
             }
             out.write(data);
+            out.close();
         }catch(IOException io){
             io.printStackTrace();
         }
@@ -125,6 +141,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
                 data = "true";
             }
             out.write(data);
+            out.close();
         }catch(IOException io){
             io.printStackTrace();
         }
@@ -155,6 +172,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             Gson gson=new Gson();
             String result=gson.toJson(user);
             out.write(result);
+            out.close();
         }catch(IOException io){
             io.printStackTrace();
         }
@@ -167,6 +185,15 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param userId
      */
     private void receiveUserDegree(HttpServletRequest request,HttpServletResponse response,String userId){
+        dataAnalyze d = new dataAnalyze();
+        String out = d.receiveUserDegree(userId);
+        try {
+            PrintWriter pw = response.getWriter();
+            pw.write(out);
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -197,6 +224,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
                 data = "true";
             }
             out.write(data);
+            out.close();
         }catch(IOException io){
             io.printStackTrace();
         }
@@ -236,12 +264,13 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param request
      * @param response
      */
-    private void modifyTag(HttpServletRequest request,HttpServletResponse response){
-
+    private void modifyTag(HttpServletRequest request,HttpServletResponse response,String imgData){
+        tagIO t = new tagIO();
+        t.modifyTag(imgData);
     }
 
     /**
-     *
+     *暂无
      * @param request
      * @param response
      */
@@ -249,7 +278,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    /**优先
+    /**
+     * 暂无
      * 新增project，输入为project对象的完整信息
      * @param request
      * @param response
@@ -259,6 +289,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
+     * 暂无
      * 修改project，输入为project对象的完整信息
      * @param request
      * @param response
@@ -268,7 +299,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    /**优先
+    /**
+     * 暂无
      * 王灿灿
      * 获得user下所有projects的info，包含projects的id列表和该project所有的taskId
      * @param request
@@ -279,8 +311,24 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
+    /**
+     * 暂无
+     * @param request
+     * @param response
+     * @param projectId
+     */
     private  void deleteProject(HttpServletRequest request,HttpServletResponse response,String projectId){
 
+    }
+
+    private void newTask(HttpServletRequest request,HttpServletResponse response,String taskData){
+        dataAnalyze d = new dataAnalyze();
+        d.newTask(taskData);
+    }
+
+    private void modifyTask(HttpServletRequest request,HttpServletResponse response,String taskData){
+        dataAnalyze d = new dataAnalyze();
+        d.modifyTask(taskData);
     }
 
     /**优先
@@ -291,7 +339,15 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param taskId
      */
     private void receiveTaskContent(HttpServletRequest request,HttpServletResponse response,String taskId){
-
+        dataAnalyze d = new dataAnalyze();
+        String taskInfo = d.receiveTaskInfo(taskId);
+        try {
+            PrintWriter pw = response.getWriter();
+            pw.write(taskInfo);
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -302,7 +358,13 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param taskId
      */
     private void deleteTask(HttpServletRequest request,HttpServletResponse response,String taskId){
+        dataAnalyze d = new dataAnalyze();
+        d.deleteTask(taskId);
+    }
 
+    private void commitTask(HttpServletRequest request, HttpServletResponse response,String taskId){
+        dataAnalyze d = new dataAnalyze();
+        d.commitTask(taskId);
     }
 
 }

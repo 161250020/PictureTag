@@ -17,7 +17,7 @@ public class dataAnalyze {
      * 根据用户id获得用户的：积分奖励，群体排名，等级
      * @param userId
      */
-    public ArrayList<String> receiveUserDegree(String userId) {
+    public String receiveUserDegree(String userId) {
 
         return checkUserInfo(userId);
 
@@ -26,13 +26,13 @@ public class dataAnalyze {
     /**
      * 暂时不用
      * 根据projectId获得projectInfo
-     * @param projectId
+     * @param TaskId
      * @return
      */
-    public String receiveProjectInfo(String projectId){
+    public String receiveTaskInfo(String TaskId){
 
         Gson gson = new Gson();
-        String[] strings = projectId.split("^_^");
+        String[] strings = TaskId.split("^_^");
         String userId = strings[0];
         File f = new File(userId);
         String out = "";
@@ -41,8 +41,8 @@ public class dataAnalyze {
             BufferedReader br = new BufferedReader(fr);
             String temp = "";
             while(null != (temp = br.readLine())){
-                Project p = gson.fromJson(temp,Project.class);
-                if(p.getId().equals(projectId)){
+                Task p = gson.fromJson(temp,Task.class);
+                if(p.getId().equals(TaskId)){
                     out = temp;
                     break;
                 }
@@ -107,10 +107,10 @@ public class dataAnalyze {
 
         Gson gson = new Gson();
 
-        ArrayList<String> userInfos = checkUserInfo(userId);
+        /*ArrayList<String> userInfos = checkUserInfo(userId);
         UserInfo userInfo = gson.fromJson(userInfos.get(0),UserInfo.class);
         ArrayList<String> receivepro = userInfo.getReceivepro();
-        ArrayList<String> launchpro = userInfo.getLaunchpro();
+        ArrayList<String> launchpro = userInfo.getLaunchpro();*/
 
 
 
@@ -119,13 +119,11 @@ public class dataAnalyze {
 
     /**
      *
-     * @param taskId
+     * @param  projectId
      * @return
      */
-    public Task receiveTaskContent(String taskId){
+    public String receiveProjectInfo(String projectId){
 
-        tagIO t = new tagIO();
-        ArrayList<String> images = new ArrayList<>();
 
         return null;
     }
@@ -217,6 +215,55 @@ public class dataAnalyze {
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发布task
+     * @param taskId
+     */
+    public void commitTask(String taskId){
+        ArrayList<String> reWrite = new ArrayList<>();
+        Gson gson = new Gson();
+        String[] ss = taskId.split("^_^");
+        String userId = ss[0];
+        File fRead = new File(userId);
+        File fWrite = new File(userId);
+        try {
+            FileReader fr = new FileReader(fRead);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while (null != (temp = br.readLine())) {
+                Task task = gson.fromJson(temp, Task.class);//反序列化
+                if (!task.getId().equals(taskId)) {
+                    reWrite.add(temp);
+                } else {
+                    task.setFlag1(true);
+                    reWrite.add(gson.toJson(task));
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            fRead.delete();
+        if (!fWrite.exists()) {
+            try {
+                fWrite.createNewFile();
+                FileWriter fw = new FileWriter(fWrite);
+                BufferedWriter bw = new BufferedWriter(fw);
+                for (int i = 0; i < reWrite.size(); i++) {
+                    bw.write(reWrite.get(i));
+                    bw.newLine();
+                }
+                bw.close();
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -405,8 +452,8 @@ public class dataAnalyze {
         }
     }*/
 
-    private ArrayList<String> checkUserInfo(String userId){
-        ArrayList<String> out = new ArrayList<>();
+    private String checkUserInfo(String userId){
+        String out = "";
         String userFile = Project.class.getResource("/").getFile()+File.separator+"user.txt";
         File user = new File(userFile);
         Gson gson = new Gson();
@@ -418,7 +465,7 @@ public class dataAnalyze {
             while (null != (temp = br.readLine())) {
                 UserInfo u = gson.fromJson(temp, UserInfo.class);//反序列化
                 if(u.getName().equals(userId)){
-                    out.add(temp);
+                    out = temp;
                 }
             }
             br.close();
