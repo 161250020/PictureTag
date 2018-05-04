@@ -154,7 +154,22 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param userData
      */
     private void modifyUser(HttpServletRequest request,HttpServletResponse response,String userData){
-
+        boolean result=false;
+        Gson gson=new Gson();
+        UserInfo user=gson.fromJson(userData,UserInfo.class);
+        userserviceImpl impl=new userserviceImpl();
+        result=impl.update(user);
+        try {
+            PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
+            String data = "false";
+            if (result) {
+                data = "true";
+            }
+            out.write(data);
+            out.close();
+        }catch(IOException io){
+            io.printStackTrace();
+        }
     }
 
     /**

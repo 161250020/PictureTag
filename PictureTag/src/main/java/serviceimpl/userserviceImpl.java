@@ -72,6 +72,19 @@ public class userserviceImpl implements user{
                      System.out.println(flag);
                      return  flag;
              }
+             public boolean register(UserInfo userInfo){
+                     boolean flag=true;
+                     if(checksame(userInfo.getUsername())){
+                         flag=false;
+                     }
+                     else{
+                         flag=true;
+                         Gson gson=new Gson();
+                         String content=gson.toJson(userInfo);
+                         FileReadandWrite.WriteFile(path,content);
+                     }
+                     return flag;
+             }
              public boolean delete(String username){
                      boolean flag=true;
                      if(!checksame(username)){
@@ -121,7 +134,7 @@ public class userserviceImpl implements user{
                      }
                      return flag;
              }
-             public boolean update(String username,String password){
+              public boolean update(String username,String password){
                      boolean flag=false;
                      if(checksame(username)) {
                          flag=true;
@@ -129,6 +142,15 @@ public class userserviceImpl implements user{
                          System.out.println("cc");
                          register(username,password);
                          System.out.println("kk");
+                     }
+                     return flag;
+             }
+             public boolean update(UserInfo userInfo){
+                     boolean flag=false;
+                     if(checksame(userInfo.getUsername())){
+                         flag=true;
+                         delete(userInfo.getUsername());
+                         register(userInfo);
                      }
                      return flag;
              }
