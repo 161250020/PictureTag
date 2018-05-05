@@ -98,6 +98,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String taskId = request.getParameter("gData");
             this.commitTask(request,response,taskId);
         }
+        else if("receiveTaskId".equals(action)){
+            String userId = request.getParameter("gData");
+            this.receiveTaskId(request,response,userId);
+        }
         else{
             System.out.println("no function like this");
         }
@@ -378,6 +382,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void commitTask(HttpServletRequest request, HttpServletResponse response,String taskId){
         dataAnalyze d = new dataAnalyze();
         d.commitTask(taskId);
+    }
+
+    private void receiveTaskId(HttpServletRequest request, HttpServletResponse response,String userId){
+        dataAnalyze d = new dataAnalyze();
+        String taskId = d.getTaskId(userId);
+        try {
+            PrintWriter p = response.getWriter();
+            p.write(taskId);
+            p.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
