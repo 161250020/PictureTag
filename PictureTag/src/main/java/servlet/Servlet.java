@@ -1,11 +1,10 @@
 package servlet;
 
 import com.google.gson.Gson;
-import com.sun.deploy.net.HttpResponse;
+import serviceimpl.AnalyzeUser;
 import serviceimpl.dataAnalyze;
 import serviceimpl.tagIO;
 import serviceimpl.userserviceImpl;
-import stub.userstub;
 import vo.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -101,6 +100,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveTaskId".equals(action)){
             String userId = request.getParameter("gData");
             this.receiveTaskId(request,response,userId);
+        }
+        else if("analyzeUser".equals(action)){
+             String user=request.getParameter("gData");
+             this.analyzeUser(request,response,user);
         }
         else{
             System.out.println("no function like this");
@@ -395,6 +398,23 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
 
+    }
+    private void analyzeUser(HttpServletRequest request,HttpServletResponse response,String user){
+        AnalyzeUser analyze=new AnalyzeUser();
+        ArrayList<UserInfo> list=analyze.calTurn();
+        try{
+            PrintWriter p=response.getWriter();
+            for(int i=0;i<list.size();i++){
+                if(list.get(i)!=null){
+                    Gson gson=new Gson();
+                    String gsonString=gson.toJson(list.get(i));
+                    p.write(gsonString);
+                    }
+            }
+                    p.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
 }

@@ -3,11 +3,9 @@ package serviceimpl;
 import com.google.gson.Gson;
 import service.user;
 import util.FileReadandWrite;
-import util.RevertJsonObject;
 import vo.UserInfo;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class userserviceImpl implements user{
@@ -32,7 +30,7 @@ public class userserviceImpl implements user{
                 }
                 return lis;
             }
-             public boolean login(String username,String password){
+    public boolean login(String username, String password){
                 if(!checkInit()) {
                     start();
                 }
