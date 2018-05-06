@@ -78,13 +78,14 @@
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
 </script>
 <script>
+    var table=document.getElementById("receive_mission");
     $.ajax({
         url: "/Servlet",
         type: "POST",
         data: {
             //获得所有任务的方法
             "name": id,
-            "action": ""
+            "action": "reve"
 
 
 
@@ -92,8 +93,13 @@
 
         },
         success: function (data) {
-
-            alert("领取成功")
+            arr_task = JSON.parse(data);
+            var oneRow = table.insertRow();//插入一行
+            var cell1 = oneRow.insertCell();//单单插入一行是不管用的，需要插入单元格
+            var cell2 = oneRow.insertCell();
+            var cell3 = oneRow.insertCell();
+            cell1.innerHTML="<a href=\"#\"onclick=\"jump(arr_task.id.toString(),arr_task.request[0].toString())\">"+arr_task.id.toString()+"</a>";
+            cell2.innerHTML=arr_task.score.toString();
         },
         error: function () {
         }

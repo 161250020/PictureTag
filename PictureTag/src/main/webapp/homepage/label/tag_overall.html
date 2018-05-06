@@ -103,33 +103,24 @@
     var filedata = null;
     var a=0;
     var src = new Array();
-   src.push('img/000000000016.jpg');
-   src.push('img/000000000161.jpg');
-   src.push('img/000000001257.jpg');
-   src.push('img/000000001730.jpg');
-   src.push('img/000000002981.jpg');
-   src.push('img/000000003083.jpg');
-   src.push('img/000000003805.jpg');
-   src.push('img/000000003946.jpg');
-   src.push('img/000000005976.jpg');
-   src.push('img/000000007173.jpg');
-   src.push('img/000000007454.jpg');
-   src.push('img/000000007647.jpg');
-   src.push('img/000000007881.jpg');
-   src.push('img/000000008269.jpg');
-   src.push('img/000000010364.jpg');
-   src.push('img/000000010592.jpg');
-   src.push('img/000000010771.jpg');
-   src.push('img/000000010911.jpg');
-   src.push('img/000000011693.jpg');
-   src.push('img/000000012659.jpg');
-   src.push('img/000000012807.jpg');
-   src.push('img/000000013069.jpg');
-   src.push('img/000000013245.jpg');
-   src.push('img/000000013870.jpg');
-   src.push('img/000000015088.jpg');
-   src.push('img/000000015348.jpg');
-   src.push('img/000000015740.jpg');
+   var loc = location.href;
+   var n1 = loc.length;//地址的总长度
+   var n2 = loc.indexOf("=");//取得=号的位置
+   var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+   $.ajax({
+       url : "/Servlet",
+       type : "POST",
+       data :{
+           "gData":id,
+           "action":"receiveTaskContent"
+       },
+       success: function(data) {
+           var pic=JSON.parse(data);
+           var arr=pic;
+       },
+       error: function () {
+       }
+   });
 
     var img=new Image();
     img.src=src[a];
@@ -342,7 +333,7 @@
             //cache: false,
             //async: false,
             data: {
-                "name": changeobj,
+                "gData": changeobj,
                 "action": "writeTag"
             },
             success: function (data) {
