@@ -103,7 +103,8 @@
         type : "POST",
         data :{
             //调用后端获取任务id的方法
-            "action":""
+            "action":"receiveTaskId",
+            "gData":id
 
 
 
@@ -113,6 +114,7 @@
         success: function(data) {
             ID=data.toString();
             document.getElementById("get_taskId").innerHTML="任务ID："+ID;
+            alert(data);
         },
         error: function () {
             alert("Wrong!");
