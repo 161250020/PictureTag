@@ -409,7 +409,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
         tagIO t = new tagIO();
         System.out.println(taskId);
-        String imgId = t.receiveTaskId(taskId);
+        String imgId = t.receiveImgId(taskId);
         try {
             PrintWriter pw = response.getWriter();
             pw.write(imgId);
