@@ -162,9 +162,11 @@ public class dataAnalyze {
         String file = Project.class.getResource("/").getFile()+File.separator;
         Gson gson = new Gson();
         File f = new File(file+userId+".txt");
+        File imgF = new File(file+userId+"Imgs.txt");
         if(!f.exists()){
             try {
                 f.createNewFile();
+                imgF.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }

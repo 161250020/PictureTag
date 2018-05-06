@@ -15,12 +15,12 @@ public class tagIO implements imageService {
 
     }
 
-    public String receiveTaskId(String TaskId){
+    public String receiveImgId(String TaskId){
         String out = "";
         String filePath = tagIO.class.getResource("/").getFile()+File.separator;
         Gson gson = new Gson();
-        String imgsId = TaskId.split("^_^")[0];
-        File f = new File(filePath+imgsId+".txt");
+        String userId = TaskId.split("^_^")[0];
+        File f = new File(filePath+userId+"Imgs.txt");
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -47,9 +47,12 @@ public class tagIO implements imageService {
         else{
             out = Integer.toString(count);
             for (int i = 0; i < 5-out.length(); i++) {
-                out += "0";
+                out = "0" + out;
             }
         }
+
+        out = TaskId + "^_^" + out;
+
         return out;
     }
 
@@ -58,7 +61,8 @@ public class tagIO implements imageService {
         //System.out.println(tagPath);
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
-        String filePath = tagIO.class.getResource("/").getFile()+File.separator+i.getId()+".txt";
+        String[] strings =i.getId().split("^_^");
+        String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"Imgs.txt";
         File file = new File(filePath);
         System.out.println(file.getAbsolutePath());
       /*  try {
@@ -89,7 +93,8 @@ public class tagIO implements imageService {
     public String receiveTag(String imageId){
         //this.filePath = filePath;
         Gson gson = new Gson();
-        String filePath = tagIO.class.getResource("/").getFile()+File.separator+imageId+".txt";
+        String[] strings =imageId.split("^_^");
+        String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"Imgs.txt";
         String out = "";
         //按行读取文件内容
         File file = new File(filePath);
@@ -120,7 +125,7 @@ public class tagIO implements imageService {
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         ArrayList<String> reWrite = new ArrayList<>();
-        String filePath = tagIO.class.getResource("/").getFile()+File.separator+i.getId()+".txt";
+        String filePath = tagIO.class.getResource("/").getFile()+File.separator+i.getId().split("^_^")[0]+"Imgs.txt";
 
         image im = gson.fromJson(jsonData,image.class);
         File fRead = new File(filePath);
