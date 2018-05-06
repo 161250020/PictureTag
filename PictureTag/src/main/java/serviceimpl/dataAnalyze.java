@@ -389,6 +389,13 @@ public class dataAnalyze {
         ArrayList<String> out = new ArrayList<>();
         String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
         File f = new File(p+"committedTask.txt");
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try {
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
