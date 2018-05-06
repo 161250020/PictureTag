@@ -161,28 +161,42 @@ public class dataAnalyze {
     public String getTaskId(String userId){
         Gson gson = new Gson();
         File f = new File(userId);
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         FileReader fr = null;
         String out = "";
         try {
             fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
             String temp = "";
+            String temp1 = "";
             while(null != (temp = br.readLine())){
+                temp1 = temp;
             }
-            Task t = gson.fromJson(temp,Task.class);
-            String preTaskId = t.getId().split("^_^")[1];
-            int count = 0;
-            for (int i = 0; i < preTaskId.length(); i++) {
-                char c = preTaskId.charAt(i);
-                if(c == '0'){
-                    count++;
+            if(!temp1.equals("")) {
+                Task t = gson.fromJson(temp1, Task.class);
+                String preTaskId = t.getId().split("^_^")[1];
+                int count = 0;
+                for (int i = 0; i < preTaskId.length(); i++) {
+                    char c = preTaskId.charAt(i);
+                    if (c == '0') {
+                        count++;
+                    }
+                }
+                String nowId = preTaskId.substring(count);
+                String id = String.valueOf(Integer.getInteger(nowId) + 1);
+                out = "";
+                for (int i = 0; i < 5 - id.length(); i++) {
+                    out = "0" + out;
                 }
             }
-            String nowId = preTaskId.substring(count);
-            String id = String.valueOf(Integer.getInteger(nowId) + 1);
-            out = "";
-            for (int i = 0; i < 5-id.length(); i++) {
-                out = "0" + out;
+            else{
+                return userId+"^_^"+"00001";
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
