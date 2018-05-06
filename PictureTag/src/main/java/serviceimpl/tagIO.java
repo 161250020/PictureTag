@@ -15,6 +15,44 @@ public class tagIO implements imageService {
 
     }
 
+    public String receiveTaskId(String TaskId){
+        String out = "";
+        String filePath = tagIO.class.getResource("/").getFile()+File.separator;
+        Gson gson = new Gson();
+        String imgsId = TaskId.split("^_^")[0];
+        File f = new File(filePath+imgsId+".txt");
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        int count = 1;
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while (null != (temp = br.readLine())){
+                count++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(count>=99999){
+            return "00000";
+        }
+        else{
+            out = Integer.toString(count);
+            for (int i = 0; i < 5-out.length(); i++) {
+                out += "0";
+            }
+        }
+        return out;
+    }
+
     public boolean writeTag(String jsonData){
         //this.filePath = filePath;
         //System.out.println(tagPath);

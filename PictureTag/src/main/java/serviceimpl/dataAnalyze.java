@@ -159,8 +159,9 @@ public class dataAnalyze {
      * @return
      */
     public String getTaskId(String userId){
+        String file = Project.class.getResource("/").getFile()+File.separator;
         Gson gson = new Gson();
-        File f = new File(userId);
+        File f = new File(file+userId+".txt");
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -238,12 +239,21 @@ public class dataAnalyze {
      * @param taskId
      */
     public void commitTask(String taskId){
+        String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
+        File committedFile = new File(p+"committedTask.txt");
+        if(!committedFile.exists()){
+            try {
+                committedFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
         String[] ss = taskId.split("^_^");
         String userId = ss[0];
-        File fRead = new File(userId);
-        File fWrite = new File(userId);
+        File fRead = new File(p+userId+".txt");
+        File fWrite = new File(p+userId+".txt");
         try {
             FileReader fr = new FileReader(fRead);
             BufferedReader br = new BufferedReader(fr);
@@ -255,6 +265,12 @@ public class dataAnalyze {
                 } else {
                     task.setFlag1(true);
                     reWrite.add(gson.toJson(task));
+                    FileWriter fw = new FileWriter(committedFile,true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(task.getId());
+                    bw.newLine();
+                    bw.close();
+                    fw.close();
                 }
             }
             br.close();
@@ -283,6 +299,7 @@ public class dataAnalyze {
     }
 
     public void modifyTask(String taskData){
+        String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
         Task t = gson.fromJson(taskData,Task.class);
@@ -290,8 +307,8 @@ public class dataAnalyze {
             String taskId = t.getId();
             String[] ss = taskId.split("^_^");
             String userId = ss[0];
-            File fRead = new File(userId);
-            File fWrite = new File(userId);
+            File fRead = new File(p+userId+".txt");
+            File fWrite = new File(p+userId+".txt");
             try {
                 FileReader fr = new FileReader(fRead);
                 BufferedReader br = new BufferedReader(fr);
@@ -368,15 +385,34 @@ public class dataAnalyze {
         return null;
     }
 
-    public void deleteTask(String taskId){
+    public ArrayList<String> receiveCommittedTaskIds(){
+        ArrayList<String> out = new ArrayList<>();
+        String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
+        File f = new File(p+"committedTask.txt");
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while (null != (temp = br.readLine())){
+                out.add(temp);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out;
+    }
 
+    public void deleteTask(String taskId){
+            String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
             ArrayList<String> reWrite = new ArrayList<>();
             Gson gson = new Gson();
             String[] ss = taskId.split("^_^");
             String userId = ss[0];
             boolean b = false;
-            File fRead = new File(userId);
-            File fWrite = new File(userId);
+            File fRead = new File(p+userId+".txt");
+            File fWrite = new File(p+userId+".txt");
             try {
                 FileReader fr = new FileReader(fRead);
                 BufferedReader br = new BufferedReader(fr);
@@ -519,7 +555,6 @@ public class dataAnalyze {
         }
         return out;
         }
-
 
 
 }

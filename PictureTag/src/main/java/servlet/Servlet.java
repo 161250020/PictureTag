@@ -101,9 +101,16 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveTaskId(request,response,userId);
         }
+        else if("receiveImgId".equals(action)){
+            String taskId = request.getParameter("gData");
+            this.receiveImgId(request,response,taskId);
+        }
         else if("analyzeUser".equals(action)){
              String user=request.getParameter("gData");
              this.analyzeUser(request,response,user);
+        }
+        else if("receiveCommittedTaskIds".equals(action)){
+            this.receiveCommittedTaskIds(request,response);
         }
         else{
             System.out.println("no function like this");
@@ -397,8 +404,21 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
+        tagIO t = new tagIO();
+        System.out.println(taskId);
+        String imgId = t.receiveTaskId(taskId);
+        try {
+            PrintWriter pw = response.getWriter();
+            pw.write(imgId);
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void analyzeUser(HttpServletRequest request,HttpServletResponse response,String user){
         AnalyzeUser analyze=new AnalyzeUser();
         ArrayList<UserInfo> list=analyze.calTurn();
@@ -413,6 +433,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             }
                     p.close();
         }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void receiveCommittedTaskIds(HttpServletRequest request,HttpServletResponse response){
+        dataAnalyze d = new dataAnalyze();
+        ArrayList<String> ids = d.receiveCommittedTaskIds();
+        try {
+            PrintWriter pw = response.getWriter();
+            for (int i = 0; i < ids.size(); i++) {
+                pw.write(ids.get(i));
+            }
+            pw.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
