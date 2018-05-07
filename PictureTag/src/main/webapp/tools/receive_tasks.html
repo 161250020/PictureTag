@@ -43,10 +43,6 @@
         <table id="request_mission">
             <tr>
                 <td>
-                    <p>1.将人脸标注出来</p>
-                    <p>2.具体描述人的动作</p>
-                    <p>3.描述天气情况</p>
-                    <p>4.动物可不必标注</p>
                 </td>
             </tr>
 
@@ -64,14 +60,6 @@
             <th>结束时间</th>
             <th>需求</th>
             <th>确认</th>
-        </tr>
-        <tr>
-            <td>01</td>
-            <td>边框标注</td>
-            <td>2018.04.01</td>
-            <td>2018.12.31</td>
-            <td><button type="button" class="button radius tiny" data-reveal-id="myModal" style="background-color: gray">需求</button></td>
-            <td><input type="checkbox"></td>
         </tr>
     </table>
     <button type="button" onclick="receive()"> 确认</button>
@@ -136,7 +124,7 @@
         for(var i=2;i<ta.rows.length;i++){
             alert("456");
             if(ta.rows[i].cells[5].checked==true){
-                var Taskid=ta.rows[i].cells[0].value.toString();
+                var Taskid=ta.rows[i].cells[0].;
                 alert(Taskid);
                 $.ajax({
                     url: "/Servlet",
