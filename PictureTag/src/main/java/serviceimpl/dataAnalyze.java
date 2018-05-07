@@ -183,6 +183,7 @@ public class dataAnalyze {
             if(!temp1.equals("")) {
                 Task t = gson.fromJson(temp1, Task.class);
                 String preTaskId = t.getId().split("&")[1];
+                //System.out.println(preTaskId);
                 int count = 0;
                 for (int i = 0; i < preTaskId.length(); i++) {
                     char c = preTaskId.charAt(i);
@@ -191,11 +192,16 @@ public class dataAnalyze {
                     }
                 }
                 String nowId = preTaskId.substring(count);
-                String id = String.valueOf(Integer.getInteger(nowId) + 1);
-                out = "";
+                //System.out.println(nowId);
+                int number = Integer.parseInt(String.valueOf(nowId));
+                String id = String.valueOf(number + 1);
+                //System.out.println(id);
+                out = id;
                 for (int i = 0; i < 5 - id.length(); i++) {
                     out = "0" + out;
                 }
+                //System.out.println(out);
+                return userId+sp+out;
             }
             else{
                 return userId+sp+"00001";

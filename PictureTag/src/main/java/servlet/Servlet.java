@@ -524,6 +524,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     private void acceptTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
         dataAnalyze d = new dataAnalyze();
+        boolean b = d.acceptTask(taskId,userId);
+        try {
+            PrintWriter pw = response.getWriter();
+            if(b){
+                pw.write("true");
+            }
+            else{
+                pw.write("false");
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
