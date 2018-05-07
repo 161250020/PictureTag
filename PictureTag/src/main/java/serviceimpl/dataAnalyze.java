@@ -232,16 +232,17 @@ public class dataAnalyze {
             ArrayList<String> reTask = temp.getReceivepro();
             reTask.add(taskId);
             u.update(temp);
+
+            //改变taskUserInfo的task文件内的对应信息和committedTask里文件内的对应信息
+            String taskUserFilePath = dataAnalyze.class.getResource("/").getFile()+File.separator+taskUserId+".txt";
+            String taskData = findTask(taskId,taskUserFilePath);
+            Task t = g.fromJson(taskData,Task.class);
+            t.setFlag(true);
+            modifyTask(g.toJson(temp),taskUserFilePath);
+            modifyTask(g.toJson(temp),committedTaskFile);
+
             b = true;
         }
-
-        //改变taskUserInfo的task文件内的对应信息和committedTask里文件内的对应信息
-        String taskUserFilePath = dataAnalyze.class.getResource("/").getFile()+File.separator+taskUserId+".txt";
-        String taskData = findTask(taskId,taskUserFilePath);
-        Task temp = g.fromJson(taskData,Task.class);
-        temp.setFlag(true);
-        modifyTask(g.toJson(temp),taskUserFilePath);
-        modifyTask(g.toJson(temp),committedTaskFile);
 
         return b;
     }
@@ -253,7 +254,7 @@ public class dataAnalyze {
     public void newTask(String taskJson){
         Gson gson = new Gson();
         Task t = gson.fromJson(taskJson,Task.class);
-        t.setFlag1(false);
+        t.setFlag1(true);
         t.setFlag(false);
         String filename = t.getId();
         String[] strings = filename.split(sp);
@@ -305,6 +306,7 @@ public class dataAnalyze {
         //这里调用一下checkUserLevel的方法，返回修改后的userLevel
         user.setLevel(u.updateLevel(user.getScore()));
         u.update(user);
+        System.out.println(gson.toJson(u.getUser(userId)));
     }
 
 
@@ -320,7 +322,7 @@ public class dataAnalyze {
 
     }
 
-    /**
+     /**
      * 发布task
      * @param taskId
      */
