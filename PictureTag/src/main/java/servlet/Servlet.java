@@ -122,6 +122,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveCommittedTaskIds".equals(action)){
             this.receiveCommittedTaskIds(request,response);
         }
+        else if("receiveSingleRanking".equals(action)){
+            String usename=request.getParameter("gData");
+            this.receiveSingleRanking(request,response,usename);
+        }
         else{
             System.out.println("no function like this");
             String imgData = request.getParameter("gData");
@@ -285,6 +289,16 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             PrintWriter out=response.getWriter();
             String result=""+count;
             out.write(result);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void receiveSingleRanking(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser analyze=new AnalyzeUser();
+        int ranking=analyze.getSelf_Turn(username);
+        try{
+            PrintWriter out=response.getWriter();
+            out.write(ranking);
         }catch(IOException e){
             e.printStackTrace();
         }
