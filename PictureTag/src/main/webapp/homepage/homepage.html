@@ -110,10 +110,8 @@
 </script>
 
 <script >
-    alert("123");
     var info
     var loc = location.href;
-    alert(loc);
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
@@ -144,19 +142,24 @@
 
     //获得积分奖励，群体排名，等级
     function get1() {
+        alert("123");
         var reward_get=info.score.toString();
         var rank_get;
         var level_get=info.level.toString();
+        var str={
+            "username":id
+        };
+        var changeobj=JSON.stringify(str);
         $.ajax({
             url: "/Servlet",
             type: "POST",
             data: {
-                "gData": id,
+                "gData": changeobj,
                 "action": "receiveSingleRanking"
             },
             success: function (data) {
                 alert(data);
-                rank_get=data.toString();
+                document.getElementById("rank_place").innerHTML=data;
             },
             error: function () {
                 alert("wrong");
@@ -201,7 +204,7 @@
             "            <h3 id=\"level_place\" style=\"color: white\"></h3>\n" +
             "        </div>\n"
         document.getElementById("reward_place").innerHTML=reward_get;
-        document.getElementById("rank_place").innerHTML=rank_get;
+
         document.getElementById("level_place").innerHTML=level_get;
     }
 
