@@ -131,9 +131,13 @@
 
     function receive(){
         var ta=document.getElementById("receive_mission");
-        for(var i=0;i<ta.rows.length;i++){
-            if(ta.rows[i].cells[5].checked=true){
-                var Taskid=ta.rows[i].cells[0];
+        alert("123");
+        alert(ta.rows.length);
+        for(var i=2;i<ta.rows.length;i++){
+            alert("456");
+            if(ta.rows[i].cells[5].checked==true){
+                var Taskid=ta.rows[i].cells[0].value.toString();
+                alert(Taskid);
                 $.ajax({
                     url: "/Servlet",
                     type: "POST",
