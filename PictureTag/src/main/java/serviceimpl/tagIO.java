@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import service.imageService;
+import vo.Project.Task.Task;
 import vo.Project.Task.image;
 
 public class tagIO implements imageService {
     String sp = "&";
+    String committedTaskFile = dataAnalyze.class.getResource("/").getFile()+File.separator+"committedTask.txt";
     //String filePath = "C://TomCat//apache-tomcat-8.5.29//apache-tomcat-8.5.29//webapps//TagFile//tag.txt";
     //URL tagPath = Thread.currentThread().getContextClassLoader().getResource("");
     //String filePath = "C:\\TomCat\\apache-tomcat-8.5.29\\apache-tomcat-8.5.29\\webapps\\PictureTag\\TagFile\\tagFile.txt";
@@ -99,7 +101,7 @@ public class tagIO implements imageService {
         //this.filePath = filePath;
         Gson gson = new Gson();
         String[] strings =imageId.split(sp);
-        String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"Imgs.txt";
+        String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"&"+strings[1]+"&Imgs.txt";
         String out = "";
         //按行读取文件内容
         File file = new File(filePath);
@@ -126,11 +128,13 @@ public class tagIO implements imageService {
     }
 
     public void modifyTag(String jsonData) {
-
+        dataAnalyze d = new dataAnalyze();
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
+        String[] ss = i.getId().split(sp);
+        String taskId = ss[0]+"&"+ss[1];
         ArrayList<String> reWrite = new ArrayList<>();
-        String filePath = tagIO.class.getResource("/").getFile()+File.separator+i.getId().split("^_^")[0]+"Imgs.txt";
+        String filePath = tagIO.class.getResource("/").getFile()+File.separator+taskId+"&Imgs.txt";
 
         image im = gson.fromJson(jsonData,image.class);
         im.setFlag(true);
@@ -179,5 +183,14 @@ public class tagIO implements imageService {
                 e.printStackTrace();
             }
         }
+
+        //修改task的值
+        String taskUserFilePath = dataAnalyze.class.getResource("/").getFile()+File.separator+taskId+".txt";
+        String taskData = d.findTask(taskId,taskUserFilePath);
+        Task t = gson.fromJson(taskData,Task.class);
+        t.setFlag(true);
+        d.modifyTask(gson.toJson(t),taskUserFilePath);
+        d.modifyTask(gson.toJson(t),committedTaskFile);
+
     }
 }

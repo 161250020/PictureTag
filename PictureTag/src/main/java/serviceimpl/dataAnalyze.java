@@ -25,15 +25,15 @@ public class dataAnalyze {
     }
 
     /**
-     * 暂时不用
-     * 根据projectId获得projectInfo
-     * @param TaskId
+     *
+     * 根据taskId获得taskInfo
+     * @param taskId
      * @return
      */
-    public String receiveTaskInfo(String TaskId){
+    public String receiveTaskInfo(String taskId){
 
         Gson gson = new Gson();
-        String[] strings = TaskId.split(sp);
+        String[] strings = taskId.split(sp);
         String userId = strings[0];
         File f = new File(userId);
         String out = "";
@@ -43,7 +43,7 @@ public class dataAnalyze {
             String temp = "";
             while(null != (temp = br.readLine())){
                 Task p = gson.fromJson(temp,Task.class);
-                if(p.getId().equals(TaskId)){
+                if(p.getId().equals(taskId)){
                     out = temp;
                     break;
                 }
@@ -238,8 +238,8 @@ public class dataAnalyze {
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
             t.setFlag(true);
-            modifyTask(g.toJson(temp),taskUserFilePath);
-            modifyTask(g.toJson(temp),committedTaskFile);
+            modifyTask(g.toJson(t),taskUserFilePath);
+            modifyTask(g.toJson(t),committedTaskFile);
 
             b = true;
         }
@@ -312,21 +312,52 @@ public class dataAnalyze {
 
 
     /**
+     * 是否完成要交予谁来判断？
      * 该方法要判断task是否完成，如果完成就将committedTask中的内容删掉，
      * @param taskId
      */
-    public void completeTask(String taskId){
+    public boolean completeTask(String taskId,String userId){
+        boolean b = false;
+        Gson g = new Gson();
         String[] ss = taskId.split(sp);
+        String taskUserId = ss[0];
+        String taskUserFilePath = dataAnalyze.class.getResource("/").getFile()+File.separator+taskUserId+".txt";
+        String taskData = findTask(taskId,taskUserFilePath);
+        Task t = g.fromJson(taskData,Task.class);
 
+        userserviceImpl u = new userserviceImpl();
+        UserInfo userInfo = u.getUser(userId);
+        ArrayList<String> receivePro = userInfo.getReceivepro();
+        //判断用户是否接受过该任务
+        boolean flag = false;
+        for (int i = 0; i < receivePro.size(); i++) {
+            if(taskId.equals(receivePro.get(i))){
+                flag = true;
+            }
+        }
+        if(!flag){
+            System.out.println("用户没有接受该任务！");
+            return false;
+        }
+        //用户接受过任务并完成标注，修改user信息，删除committed中的信息
+        if(t.getProgress()==t.getImageIds().size()) {
+            int n = userInfo.getTaskNumber();
+            double s =userInfo.getScore();
+            userInfo.setTaskNumber(n + 1);
+            userInfo.setScore(s+t.getSocre());
+            userInfo.setLevel(u.updateLevel(userInfo.getScore()));
+            u.update(userInfo);
 
-
+            deleteTask(taskId,committedTaskFile);
+        }
+        return b;
     }
 
      /**
      * 发布task
      * @param taskId
      */
-    public void commitTask(String taskId){
+   /* public void commitTask(String taskId){
         String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
         File committedFile = new File(p+"committedTask.txt");
         if(!committedFile.exists()){
@@ -384,7 +415,7 @@ public class dataAnalyze {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     /**
      * 修改task的信息

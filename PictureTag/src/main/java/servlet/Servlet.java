@@ -11,6 +11,7 @@ import vo.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -87,6 +88,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("userId");
             this.acceptTask(request,response,taskId,userId);
         }
+        else if("completeTask".equals(action)){
+            String taskId = request.getParameter("taskId");
+            String userId = request.getParameter("userId");
+            this.completeTask(request,response,taskId,userId);
+        }
         else if("newTask".equals(action)){
             String taskData = request.getParameter("gData");
             this.newTask(request,response,taskData);
@@ -103,18 +109,18 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String taskId = request.getParameter("gData");
             this.deleteTask(request,response,taskId);
         }
-        else if("commitTask".equals(action)){
+/*        else if("commitTask".equals(action)){
             String taskId = request.getParameter("gData");
             this.commitTask(request,response,taskId);
-        }
+        }*/
         else if("receiveTaskId".equals(action)){
             String userId = request.getParameter("gData");
             this.receiveTaskId(request,response,userId);
         }
-        else if("receiveImgId".equals(action)){
+/*        else if("receiveImgId".equals(action)){
             String taskId = request.getParameter("gData");
             this.receiveImgId(request,response,taskId);
-        }
+        }*/
         else if("analyzeUser".equals(action)){
             String user=request.getParameter("gData");
             this.analyzeUser(request,response,user);
@@ -426,8 +432,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     private void modifyTask(HttpServletRequest request,HttpServletResponse response,String taskData){
+        Gson g = new Gson();
+        String taskId  = g.fromJson(taskData,Task.class).getId();
         dataAnalyze d = new dataAnalyze();
-        String filePath = "";
+        String[] ss = taskId.split("&");
+        String filePath = dataAnalyze.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
         boolean b = d.modifyTask(taskData,filePath);
         try {
             PrintWriter p = response.getWriter();
@@ -472,14 +481,15 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      */
     private void deleteTask(HttpServletRequest request,HttpServletResponse response,String taskId){
         dataAnalyze d = new dataAnalyze();
-        String filePath ="";
+        String[] ss = taskId.split("&");
+        String filePath = dataAnalyze.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
         d.deleteTask(taskId,filePath);
     }
 
-    private void commitTask(HttpServletRequest request, HttpServletResponse response,String taskId){
+/*    private void commitTask(HttpServletRequest request, HttpServletResponse response,String taskId){
         dataAnalyze d = new dataAnalyze();
         d.commitTask(taskId);
-    }
+    }*/
 
     private void receiveTaskId(HttpServletRequest request, HttpServletResponse response,String userId){
         dataAnalyze d = new dataAnalyze();
@@ -494,7 +504,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
+/*    private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
         tagIO t = new tagIO();
         String imgId = t.receiveImgId(taskId);
         try {
@@ -504,7 +514,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void analyzeUser(HttpServletRequest request,HttpServletResponse response,String user){
         AnalyzeUser analyze=new AnalyzeUser();
@@ -555,6 +565,23 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
 
+    }
+
+    private void completeTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
+        dataAnalyze d = new dataAnalyze();
+        boolean b = d.completeTask(taskId, userId);
+        try {
+            PrintWriter pw = response.getWriter();
+            if(b){
+                pw.write("true");
+            }
+            else{
+                pw.write("false");
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
