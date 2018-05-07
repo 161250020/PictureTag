@@ -130,6 +130,7 @@
         },
         success: function (data) {
             info=JSON.parse(data);
+            alert(info.username);
             document.getElementById("usernameAndIntegral").innerHTML="用户名："+id+";积分："+info.score+";";
         },
         error: function () {
@@ -192,7 +193,9 @@
     //发布的任务，查看、修改、删除
     function get2(){
         var task;
+        alert("调用");
         var launchproid=info.launchpro;
+        alert(launchproid);
         //数据的获得
         //获得所有的任务:1-10
         var arr1=new Array();//此处换成从后端获得的方法：ID
@@ -214,7 +217,7 @@
 
         for(var i=0;i<launchproid.length;i++){
             var str={
-                "username":launchproid[i]
+                "taskId":launchproid[i]
             };
             var changeobj=JSON.stringify(str);
             $.ajax({
@@ -222,12 +225,11 @@
                 type: "POST",
                 data: {
                     "gData": changeobj,
-                    "action": "receiveProjectInfo"
+                    "action": "receiveTaskContent"
                 },
                 success: function (data) {
                     task=JSON.parse(data);
-                    for(var i=0;i<task.length;i++) {
-                        var task_small = task[i];
+                        var task_small = task;
                         arr1.push(task_small.id.toString());
                         var request1 = "";
                         for (var j = 0; j < task_small.request.length; j++) {
@@ -256,7 +258,7 @@
                             arr33.push(task_small.id.toString());
                             arr34.push(task_small.id.toString());
                         }
-                    }
+
                 },
                 error: function () {
                 }
