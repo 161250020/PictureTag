@@ -14,7 +14,7 @@ public class userserviceImpl implements user{
             //final String path = "user.txt";
             final String path=UserInfo.class.getResource("/").getFile()+File.separator+"user.txt";
             public void start() {      //一开始有一个用户
-                UserInfo user=new UserInfo("admin","admin",null,0,null,null,0,0.0);
+                UserInfo user=new UserInfo("admin","admin","",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0);
                 Gson gson=new Gson();
                 String gsonstring=gson.toJson(user);
                 FileReadandWrite.WriteFile(path, gsonstring);         //初始化用户
@@ -62,7 +62,7 @@ public class userserviceImpl implements user{
                      }
                      else{
                           flag=true;
-                          UserInfo user=new UserInfo(username,password,null,0,null,null,0,0.0);
+                          UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0);
                           Gson gson=new Gson();
                           String content=gson.toJson(user);
                           FileReadandWrite.WriteFile(path,content);

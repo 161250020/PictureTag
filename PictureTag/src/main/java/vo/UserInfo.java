@@ -12,18 +12,24 @@ public class UserInfo {
  public int TaskNumber;
  public double score;
  public UserInfo(){
-     this.username=null;
-     this.password=null;
-     this.name=null;
+     this.username="";
+     this.password="";
+     this.name="";
      this.level=0;
-     this.receivepro=null;
-     this.launchpro=null;
+     this.receivepro=new ArrayList<String>();
+     this.launchpro=new ArrayList<String>();
      this.TaskNumber=0;
      this.score=0.0;
  }
  public UserInfo(String username,String password){
      this.username=username;
      this.password=password;
+     this.name="";
+     this.level=0;
+     this.receivepro=new ArrayList<String>();
+     this.launchpro=new ArrayList<String>();
+     this.TaskNumber=0;
+     this.score=0.0;
  }
  public UserInfo(String username,String password,String name,int level,ArrayList<String> receivepro,ArrayList<String> launchpro,int TaskNumber,double score){
      this.username=username;
