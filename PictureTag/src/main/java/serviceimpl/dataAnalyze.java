@@ -238,12 +238,16 @@ public class dataAnalyze {
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
             t.setFlag(true);
-            modifyTask(g.toJson(t),taskUserFilePath);
+            System.out.println(g.toJson(t));
+            System.out.println(taskUserFilePath);
             modifyTask(g.toJson(t),committedTaskFile);
+            modifyTask(g.toJson(t),taskUserFilePath);
 
             b = true;
         }
-
+        else{
+            System.out.println("ids are same");
+        }
         return b;
     }
 
@@ -428,6 +432,7 @@ public class dataAnalyze {
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
         Task t = gson.fromJson(taskData,Task.class);
+        System.out.println(gson.toJson(t));
         String taskId = t.getId();
         //String[] ss = taskId.split(sp);
         //String userId = ss[0];
@@ -443,6 +448,7 @@ public class dataAnalyze {
                     reWrite.add(temp);
                 } else {
                     reWrite.add(taskData);
+                    //System.out.println(taskData);
                 }
             }
             br.close();
@@ -458,17 +464,22 @@ public class dataAnalyze {
         if (!fWrite.exists()) {
             try {
                 fWrite.createNewFile();
-                FileWriter fw = new FileWriter(fWrite);
-                BufferedWriter bw = new BufferedWriter(fw);
-                for (int i = 0; i < reWrite.size(); i++) {
-                    bw.write(reWrite.get(i));
-                    bw.newLine();
-                }
-                bw.close();
-                fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(fWrite);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (int i = 0; i < reWrite.size(); i++) {
+                bw.write(reWrite.get(i));
+                bw.newLine();
+            }
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return b;
     }
@@ -482,7 +493,7 @@ public class dataAnalyze {
         Gson gson = new Gson();
         String filename = taskId;
         String[] strings = filename.split(sp);
-        File f = new File(strings[0]);
+        File f = new File(filePath);
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -573,18 +584,22 @@ public class dataAnalyze {
             if(!fWrite.exists()){
                 try {
                     fWrite.createNewFile();
-                    FileWriter fw = new FileWriter(fWrite);
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    for (int i = 0; i < reWrite.size() ; i++) {
-                        bw.write(reWrite.get(i));
-                        bw.newLine();
-                    }
-                    bw.close();
-                    fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+        try {
+            FileWriter fw = new FileWriter(fWrite);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (int i = 0; i < reWrite.size() ; i++) {
+                bw.write(reWrite.get(i));
+                bw.newLine();
+            }
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * 对文件的重新读写实现删除
