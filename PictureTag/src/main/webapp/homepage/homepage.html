@@ -48,45 +48,37 @@
     <div id="search" hidden>
         <!--全部任务-->
         <h6 style="font-weight: bold">全部发布的任务：</h6>
-        <table>
-            <thread>
+        <table id="table_body1">
                 <tr>
-                    <th>任务ID</th>
-                    <th>基本信息</th>
-                    <th>参与者</th>
-                    <th>完成进度</th>
+                    <td>任务ID</td>
+                    <td>基本信息</td>
+                    <td>参与者</td>
+                    <td>完成进度</td>
                 </tr>
-            </thread>
-            <tbody id="table_body1">
-            </tbody>
+
         </table>
         <!--已完成任务-->
         <h6 style="font-weight: bold">已完成的任务（点击链接可看到详细内容和删除）：</h6>
-        <table>
-            <thread>
+        <table id="table_body2">
+
                 <tr>
-                    <th>任务ID</th>
-                    <th>基本信息</th>
-                    <th>参与者</th>
-                    <th>完成进度</th>
+                    <td>任务ID</td>
+                    <td>基本信息</td>
+                    <td>参与者</td>
+                    <td>完成进度</td>
                 </tr>
-            </thread>
-            <tbody id="table_body2">
-            </tbody>
+
         </table>
         <!--未完成任务-->
         <h6 style="font-weight: bold">未完成的任务：</h6>
-        <table>
-            <thread>
+        <table id="table_body3">
                 <tr>
-                    <th>任务ID</th>
-                    <th>基本信息</th>
-                    <th>参与者</th>
-                    <th>完成进度</th>
+                    <td>任务ID</td>
+                    <td>基本信息</td>
+                    <td>参与者</td>
+                    <td>完成进度</td>
                 </tr>
-            </thread>
-            <tbody id="table_body3">
-            </tbody>
+
         </table>
         <!--任务搜索-->
     </div>
@@ -209,7 +201,7 @@
         var task;
         alert("调用");
         var launchproid=info.launchpro;
-        alert(launchproid);
+        alert(launchproid.length)
         //数据的获得
         //获得所有的任务:1-10
         var arr1=new Array();//此处换成从后端获得的方法：ID
@@ -234,16 +226,18 @@
                 url: "/Servlet",
                 type: "POST",
                 data: {
-                    "gData": launchproid[i],
+                    "gData": launchproid[i].toString(),
                     "action": "receiveTaskContent"
                 },
                 success: function (data) {
+                    alert(data)
                     task=JSON.parse(data);
+                    alert(task.requests.length)
                         var task_small = task;
                         arr1.push(task_small.id.toString());
                         var request1 = "";
-                        for (var j = 0; j < task_small.request.length; j++) {
-                            request1 = request1 + task_small.request[i].toString();
+                        for (var j = 0; j < task_small.requests.length; j++) {
+                            request1 = request1 + task_small.requests[j].toString();
                         }
                         arr12.push(request1);
                         arr13.push(task_small.id.toString());
@@ -251,8 +245,8 @@
                         if (task_small.flag.toString() == 'true') {
                             arr2.push(task_small.id.toString());
                             var request2 = "";
-                            for (var j = 0; j < task_small.request.length; j++) {
-                                request2 = request2 + task_small.request[i].toString();
+                            for (var j = 0; j < task_small.requests.length; j++) {
+                                request2 = request2 + task_small.requests[j].toString();
                             }
                             arr22.push(request2);
                             arr23.push(task_small.id.toString());
@@ -261,14 +255,52 @@
                         else {
                             arr3.push(task_small.id.toString());
                             var request3 = "";
-                            for (var j = 0; j < task_small.request.length; j++) {
-                                request3 = request3 + task_small.request[i].toString();
+                            for (var j = 0; j < task_small.requests.length; j++) {
+                                request3 = request3 + task_small.requests[j].toString();
                             }
                             arr32.push(request3);
                             arr33.push(task_small.id.toString());
                             arr34.push(task_small.id.toString());
                         }
 
+                    var ta1=document.getElementById("table_body1");
+                    for(var j=0;j<arr1.length;j++) {
+                        var oneRow = ta1.insertRow();
+                        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                        var cell2 = oneRow.insertCell(1);
+                        var cell3 = oneRow.insertCell(2);
+                        var cell4 = oneRow.insertCell(3);
+                        cell1.innerHTML = arr1[j];
+                        cell2.innerHTML = arr12[j];
+                        cell3.innerHTML = arr13[j];
+                        cell4.innerHTML = arr14[j];
+                    }
+
+                    var ta1=document.getElementById("table_body1");
+                    for(var j=0;j<arr1.length;j++) {
+                        var oneRow = ta1.insertRow();
+                        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                        var cell2 = oneRow.insertCell(1);
+                        var cell3 = oneRow.insertCell(2);
+                        var cell4 = oneRow.insertCell(3);
+                        cell1.innerHTML = arr1[j];
+                        cell2.innerHTML = arr12[j];
+                        cell3.innerHTML = arr13[j];
+                        cell4.innerHTML = arr14[j];
+                    }
+
+                    var ta1=document.getElementById("table_body1");
+                    for(var j=0;j<arr1.length;j++) {
+                        var oneRow = ta1.insertRow();
+                        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                        var cell2 = oneRow.insertCell(1);
+                        var cell3 = oneRow.insertCell(2);
+                        var cell4 = oneRow.insertCell(3);
+                        cell1.innerHTML = arr1[j];
+                        cell2.innerHTML = arr12[j];
+                        cell3.innerHTML = arr13[j];
+                        cell4.innerHTML = arr14[j];
+                    }
                 },
                 error: function () {
                 }
@@ -289,25 +321,25 @@
         // }
 
         //将div（id="search"）中列表显示---三个列表
-        var str1="";
-        for(var i=0;i<arr1.length;i++){
-            str1=str1+"<tr><td>"+arr1[i]+"</td><td>"+arr12[i]+"</td><td>"+arr13[i]+"</td><td>"+arr14[i]+"</td></tr>\n";
-        }
-        document.getElementById("table_body1").innerHTML=str1;
-        var str2="";
-        for(var i=0;i<arr2.length;i++){
-            str2=str2+"<tr><td><a href='contentOfLabel.html?a="+arr2[i]+"' onclick='response("+arr2[i]+")'>"+arr2[i]+"</a></td><td>"+arr22[i]+"</td><td>"+arr23[i]+"</td><td>"+arr24[i]+"</td></tr>\n";
-        }
-        document.getElementById("table_body2").innerHTML=str2;
-        var str3="";
-        for(var i=0;i<arr3.length;i++){
-            str3=str3+"<tr><td>"+arr3[i]+"</td><td>"+arr32[i]+"</td><td>"+arr33[i]+"</td><td>"+arr34[i]+"</td></tr>\n";
-        }
-        document.getElementById("table_body3").innerHTML=str3;
+        // var str1="";
+        // for(var i=0;i<arr1.length;i++){
+        //     str1=str1+"<tr><td>"+arr1[i]+"</td><td>"+arr12[i]+"</td><td>"+arr13[i]+"</td><td>"+arr14[i]+"</td></tr>\n";
+        // }
+        // document.getElementById("table_body1").innerHTML=str1;
+        // var str2="";
+        // for(var i=0;i<arr2.length;i++){
+        //     str2=str2+"<tr><td><a href='contentOfLabel.html?a="+arr2[i]+"' onclick='response("+arr2[i]+")'>"+arr2[i]+"</a></td><td>"+arr22[i]+"</td><td>"+arr23[i]+"</td><td>"+arr24[i]+"</td></tr>\n";
+        // }
+        // document.getElementById("table_body2").innerHTML=str2;
+        // var str3="";
+        // for(var i=0;i<arr3.length;i++){
+        //     str3=str3+"<tr><td>"+arr3[i]+"</td><td>"+arr32[i]+"</td><td>"+arr33[i]+"</td><td>"+arr34[i]+"</td></tr>\n";
+        // }
+        // document.getElementById("table_body3").innerHTML=str3;
 
 
         //先隐藏(hidden)，后显示
-        document.getElementById("released_tasks").innerHTML=document.getElementById("search").innerHTML;
+         document.getElementById("released_tasks").innerHTML=document.getElementById("search").innerHTML;
     }
 
     function response(str) { window.location.assign("contentOfLabel.html?a="+str); }
@@ -318,25 +350,21 @@
         var table=document.getElementById("mission_receive");
         var arr_taskID=info.receivepro;
         for(var i=0;i<arr_taskID.length;i++) {
-            var task_ID=arr_taskID[i];
-            var task_id={
-                "taskId":task_ID
-            };
-            var task_id_json=JSON.stringify(task_id);
             $.ajax({
                 url: "/Servlet",
                 type: "POST",
                 data: {
-                    "gData": task_id_json,
+                    "gData": arr_taskID[i],
                     //根据taskid获取task信息
                     "action": "receiveTaskContent"
                 },
                 success: function (data) {
+                    alert(data);
                     arr_task = JSON.parse(data);
                     var oneRow = table.insertRow();//插入一行
-                    var cell1 = oneRow.insertCell();//单单插入一行是不管用的，需要插入单元格
-                    var cell2 = oneRow.insertCell();
-                    var cell3 = oneRow.insertCell();
+                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                    var cell2 = oneRow.insertCell(1);
+                    var cell3 = oneRow.insertCell(2);
                     cell1.innerHTML="<a href=\"#\"onclick=\"jump(arr_task.id.toString(),arr_task.request[0].toString())\">"+arr_task.id.toString()+"</a>";
                     cell2.innerHTML=arr_task.score.toString();
                     if(arr_task.progress==arr_task.imageIds.length)
@@ -352,7 +380,7 @@
         function jump(taskid,type){
             if(type=="整体标注"){
                 window.location.href="/label/tag_overall.html";
-                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid);
+                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid+">_<"+id);
             }
             else if(type=="边框标注"){
                 window.location.href="/label/tag_frame.html";

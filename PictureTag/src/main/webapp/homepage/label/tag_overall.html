@@ -109,6 +109,8 @@
    var n2 = loc.indexOf("=");//取得=号的位置
    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
    var arr=new Array();
+   var names=id.split(">_<");
+   var userid="";
    $.ajax({
        url : "/Servlet",
        type : "POST",
@@ -119,6 +121,8 @@
        success: function(data) {
            var pic=JSON.parse(data);
            arr=pic.imageIds;
+           userid=pic.
+
        },
        error: function () {
        }
@@ -369,7 +373,24 @@
 
 
 
-    function
+    function final_submit(){
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            //cache: false,
+            //async: false,
+            data: {
+                "taskId": id,
+                "action": "completeTask"
+            },
+            success: function (data) {
+                alert("保存成功！");
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+    }
 </script>
 
 </body>
