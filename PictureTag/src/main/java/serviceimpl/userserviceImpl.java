@@ -62,7 +62,7 @@ public class userserviceImpl implements user{
                      }
                      else{
                           flag=true;
-                          UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0);
+                          UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,100);
                           Gson gson=new Gson();
                           String content=gson.toJson(user);
                           FileReadandWrite.WriteFile(path,content);
