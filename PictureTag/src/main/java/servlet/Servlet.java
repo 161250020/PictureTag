@@ -48,8 +48,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             this.receiveUserInfo(request,response,userId);
         }
         else if("receiveUserCount".equals(action)){
-             String str=request.getParameter("gData");
-             this.receiveUserCount(request,response,str);
+            this.receiveUserCount(request,response);
         }
         else if("receiveUserDegree".equals(action)){
             String userId = request.getParameter("gData");
@@ -83,6 +82,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveProjects(request,response,userId);
         }*/
+        else if("acceptTask".equals(action)){
+            String taskId = request.getParameter("taskId");
+            String userId = request.getParameter("userId");
+            this.acceptTask(request,response,taskId,userId);
+        }
         else if("newTask".equals(action)){
             String taskData = request.getParameter("gData");
             this.newTask(request,response,taskData);
@@ -112,8 +116,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             this.receiveImgId(request,response,taskId);
         }
         else if("analyzeUser".equals(action)){
-             String user=request.getParameter("gData");
-             this.analyzeUser(request,response,user);
+            String user=request.getParameter("gData");
+            this.analyzeUser(request,response,user);
         }
         else if("receiveCommittedTaskIds".equals(action)){
             this.receiveCommittedTaskIds(request,response);
@@ -273,16 +277,13 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param
      * @throws IOException
      */
-    private void receiveUserCount(HttpServletRequest request,HttpServletResponse response,String str){
+    private void receiveUserCount(HttpServletRequest request,HttpServletResponse response){
         userserviceImpl impl=new userserviceImpl();
         ArrayList<UserInfo> user=impl.getall();
         int count=user.size();
         try{
             PrintWriter out=response.getWriter();
-            System.out.println(1);
-            String result=""+count;
-            out.write(result);
-            System.out.println(2);
+            out.write(count);
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -311,15 +312,15 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void savePicture(HttpServletRequest request,HttpServletResponse response,String s){
         tagIO t = new tagIO();
         String reqStr = s;
-        System.out.println("call");
-        System.out.println(s);
+        //System.out.println("call");
+        //System.out.println(s);
 
         Gson g = new Gson();
         image i = g.fromJson(reqStr,image.class);
-        System.out.println(i.getId());
+        //System.out.println(i.getId());
 
         String out = t.writeTag(reqStr);
-        System.out.println(out);
+        //System.out.println(out);
         try {
             PrintWriter p = response.getWriter();
             p.write(out);
@@ -410,7 +411,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     private void modifyTask(HttpServletRequest request,HttpServletResponse response,String taskData){
         dataAnalyze d = new dataAnalyze();
-        boolean b = d.modifyTask(taskData);
+        String filePath = "";
+        boolean b = d.modifyTask(taskData,filePath);
         try {
             PrintWriter p = response.getWriter();
             if(b == false){
@@ -454,7 +456,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      */
     private void deleteTask(HttpServletRequest request,HttpServletResponse response,String taskId){
         dataAnalyze d = new dataAnalyze();
-        d.deleteTask(taskId);
+        String filePath ="";
+        d.deleteTask(taskId,filePath);
     }
 
     private void commitTask(HttpServletRequest request, HttpServletResponse response,String taskId){
@@ -468,6 +471,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         try {
             PrintWriter p = response.getWriter();
             p.write(taskId);
+            System.out.println(taskId);
             p.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -496,9 +500,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
                     Gson gson=new Gson();
                     String gsonString=gson.toJson(list.get(i));
                     p.write(gsonString);
-                    }
+                }
             }
-                    p.close();
+            p.close();
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -516,6 +520,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void acceptTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
+        dataAnalyze d = new dataAnalyze();
     }
 
 }

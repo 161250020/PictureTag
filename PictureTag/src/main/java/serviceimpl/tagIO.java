@@ -58,23 +58,22 @@ public class tagIO implements imageService {
     }
 
     public String writeTag(String jsonData){
-        //this.filePath = filePath;
         //System.out.println(tagPath);
-        System.out.println("call again");
+        //System.out.println("call again");
         String taskId="";
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         String[] strings =i.getId().split(sp);
         taskId = strings[0]+sp+strings[1];
-        System.out.println(taskId);
-        String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"Imgs.txt";
+        //System.out.println(taskId);
+        String filePath = tagIO.class.getResource("/").getFile()+File.separator+taskId+"&Imgs.txt";
         File file = new File(filePath);
-        System.out.println(file.getAbsolutePath());
-      /*  try {
+        //System.out.println(file.getAbsolutePath());
+       try {
             file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         try {
             if(!"".equals(jsonData)) {
                 FileWriter fileWriter = new FileWriter(file,true);
@@ -83,7 +82,7 @@ public class tagIO implements imageService {
                 bw.newLine();
                 bw.close();
                 fileWriter.close();
-                System.out.println(jsonData);
+                //System.out.println(jsonData);
                 return receiveImgId(taskId);
             }
             else{
@@ -134,6 +133,9 @@ public class tagIO implements imageService {
         String filePath = tagIO.class.getResource("/").getFile()+File.separator+i.getId().split("^_^")[0]+"Imgs.txt";
 
         image im = gson.fromJson(jsonData,image.class);
+        im.setFlag(true);
+        int count = 1;//数完成图片的数量
+
         File fRead = new File(filePath);
         File fWrite = new File(filePath);
         try {
@@ -146,6 +148,9 @@ public class tagIO implements imageService {
                     reWrite.add(gson.toJson(im));
                 }
                 else{
+                    if(true == iTemp.isFlag()){
+                        count++;
+                    }
                     reWrite.add(temp);
                 }
             }
@@ -175,6 +180,4 @@ public class tagIO implements imageService {
             }
         }
     }
-
-
 }
