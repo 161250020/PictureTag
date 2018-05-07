@@ -22,6 +22,7 @@
             <button onclick="savePicture()" id="save">保存</button>
             <button onclick="backPage()">上一张</button>
             <button onclick="nextpage()">下一张</button>
+            <button onclick="final_submit()">提交</button>
         </td>
         <td>
             <table align="left" boder="0" cellspacing="0" cellpadding="0" width="50">
@@ -107,6 +108,7 @@
    var n1 = loc.length;//地址的总长度
    var n2 = loc.indexOf("=");//取得=号的位置
    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+   var arr=new Array();
    $.ajax({
        url : "/Servlet",
        type : "POST",
@@ -116,11 +118,31 @@
        },
        success: function(data) {
            var pic=JSON.parse(data);
-           var arr=pic;
+           arr=pic.imageIds;
        },
        error: function () {
        }
    });
+
+   for(var i=0;i<arr.length();i++){
+       $.ajax({
+           url : "/Servlet",
+           type : "POST",
+           data :{
+               "gData":arr[i],
+               "action":"receiveTag"
+           },
+           success: function(data) {
+               var pict=JSON.parse(data);
+               src.push(pict.url);
+           },
+           error: function () {
+           }
+       });
+
+   }
+
+
 
     var img=new Image();
     img.src=src[a];
@@ -344,6 +366,10 @@
             }
         });
     }
+
+
+
+    function
 </script>
 
 </body>

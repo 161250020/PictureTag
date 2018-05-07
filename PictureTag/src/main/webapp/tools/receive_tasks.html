@@ -71,9 +71,10 @@
             <td>2018.04.01</td>
             <td>2018.12.31</td>
             <td><button type="button" class="button radius tiny" data-reveal-id="myModal" style="background-color: gray">需求</button></td>
-            <td><button type="button"  class="button radius tiny" onclick="receive()">领取</button></td>
+            <td><input type="checkbox"></td>
         </tr>
     </table>
+    <button type="button" onclick="receive()"> 确认</button>
 </div>
 <script>
     $(document).ready(function() {
@@ -96,8 +97,29 @@
                 "action": "receiveCommittedTaskIds"
             },
             success: function (data) {
-                alert(data);
-                task_content = JSON.parse(data);
+                task_content = data.split(">_<");
+                for(var i=0;i<task_content.length;i++) {
+                    var task_content1=JSON.parse(task_content[i]);
+                    var oneRow = table.insertRow();//插入一行
+                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                    var cell2 = oneRow.insertCell(1);
+                    var cell3 = oneRow.insertCell(2);
+                    var cell4 = oneRow.insertCell(3);
+                    var cell5 = oneRow.insertCell(4);
+                    cell1.innerHTML = task_content1.id;
+                    cell2.innerHTML = task_content1.requests[0].toString();
+                    cell3.innerHTML = task_content1.startDate;
+                    cell4.innerHTML = task_content1.endDate;
+                    cell5.innerHTML = "<button type='button' class='button radius tiny' data-reveal-id='myModal' style='background-color: gray'>需求</button>";
+                    for (var j = 0; j < task_content1.requests.length; j++) {
+                        var oneRow1 = mission_request.insertRow();
+                        var cell11 = oneRow1.insertCell(0);
+                        cell11.innerHTML = task_content1.requests[j].toString();
+                    }
+                    var cell6 = oneRow.insertCell(5);
+                    cell6.innerHTML = "<input type=\"checkbox\"  >";
+
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
@@ -105,36 +127,47 @@
                 alert(textStatus);
             }
         });
-        alert(task_content[0].startDate.toString())
-               for(var i=0;i<task_content.length;i++){
-                var oneRow = table.insertRow();//插入一行
-                var cell1 = oneRow.insertCell();//单单插入一行是不管用的，需要插入单元格
-                var cell2 = oneRow.insertCell();
-                var cell3 = oneRow.insertCell();
-                var cell4 = oneRow.insertCell();
-                var cell5 = oneRow.insertCell();
-                cell1.innerHTML="1";
-                cell2.innerHTML=task_content[i].requests[0].toString();
-                cell3.innerHTML=task_content[i].startDate;
-                cell4.innerHTML=task_content[i].endDate;
-                cell5.innerHTML="<button type='button' class='button radius tiny' data-reveal-id='myModal' style='background-color: gray'>需求</button>";
-                for(var i=0;i<task_content[i].requests.length;i++){
-                    var oneRow1=mission_request.insertRow();
-                    var cell11=oneRow1.insertCell();
-                    cell11.innerHTML=mission_requests[i].toString();
-                }
-                var cell6 = oneRow.insertCell();
-                cell6.innerHTML="<button type=\"button\"  class=\"button radius tiny\" onclick=\"receive()\">领取</button>";
+
+
+    function receive(){
+        var ta=document.getElementById("receive_mission");
+        for(var i=0;i<ta.rows.length;i++){
+            if(ta.rows[i].cells[5].checked=true){
+                var Taskid=ta.rows[i].cells[0];
+                $.ajax({
+                    url: "/Servlet",
+                    type: "POST",
+                    data: {
+                        "taskId": Taskid,
+                        "userId":id,
+                        "action": "acceptTask"
+                    },
+                    success: function (data) {
+                        if(data=="true"){
+                            alert("发布成功");
+                        }
+                        else{
+                            alert("发布失败")
+                        }
+
+                    },
+                    error: function () {
+                        alert("Wrong!");
+                    }
+                });
             }
 
 
 
-
-
-    function receive(){
+        }
 
 
     }
+
+
+
+
+
 </script>
 </body>
 

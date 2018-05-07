@@ -145,8 +145,23 @@
     //获得积分奖励，群体排名，等级
     function get1() {
         var reward_get=info.score.toString();
-        var rank_get="排名";
+        var rank_get;
         var level_get=info.level.toString();
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                "gData": id,
+                "action": "receiveSingleRanking"
+            },
+            success: function (data) {
+                alert(data);
+                rank_get=data.toString();
+            },
+            error: function () {
+                alert("wrong");
+            }
+        });
         document.getElementById("self_information").innerHTML="        <!--奖励，群体排名，等级-->\n" +
             "        <div data-magellan-expedition=\"fixed\">\n" +
             "            <dl class=\"sub-nav\">\n" +
