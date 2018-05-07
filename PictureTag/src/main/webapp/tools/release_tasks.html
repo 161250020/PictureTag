@@ -123,18 +123,17 @@
 
     //将选择的图片们保存成url形式
     var arr;
+    var txt;
     function savePicsAsUrl(){
         arr=new Array();
         var pics=document.getElementById("choose_files").files;
         var len=pics.length;
-        alert("lalala");
         for(var i=0;i<len;i++){
             var pic=pics[i];
             if(pic){
                 var reader=new FileReader();
                 reader.onload=function (event) {
-                    var txt=event.target.result;
-
+                    txt=event.target.result;
 
                     //传递后端：任务id+url；获得图片的id
                     var obj={
@@ -147,25 +146,22 @@
                         url : "/Servlet",
                         type : "POST",
                         data :{
-                            "gData":obj_json,
-                            //获得imageID
-                            "action":"writeTag"
-
-
-
-
-
+                            "action":"writeTag",
+                            "gData":obj_json
 
                         },
                         success: function(data) {
                             arr.push(data.toString());
-
+                            alert("su");
                         },
-                        error: function () {
-                            alert("Wrong!");
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status);
+                            alert(XMLHttpRequest.readyState);
+                           alert(textStatus);
                         }
 
                     });
+
 
 
 
@@ -173,7 +169,8 @@
                     //alert(arr[i]);
                     //document.getElementById("demo").innerHTML='<img src="'+arr[2]+'">';
                 }
-                reader.readAsDataURL(pic);
+                 reader.readAsDataURL(pic);
+
             }
         }
     }
