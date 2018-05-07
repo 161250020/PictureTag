@@ -43,6 +43,10 @@
         <table id="request_mission">
             <tr>
                 <td>
+                    <p>1.将人脸标注出来</p>
+                    <p>2.具体描述人的动作</p>
+                    <p>3.描述天气情况</p>
+                    <p>4.动物可不必标注</p>
                 </td>
             </tr>
 
@@ -123,8 +127,8 @@
         alert(ta.rows.length);
         for(var i=2;i<ta.rows.length;i++){
             alert("456");
-            if(ta.rows[i].cells[5].checked==true){
-                var Taskid=ta.rows[i].cells[0].;
+            if(ta.rows[i].cells[5].checked=true){
+                var Taskid=ta.rows[i].cells[0].innerText;
                 alert(Taskid);
                 $.ajax({
                     url: "/Servlet",
