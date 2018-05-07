@@ -515,6 +515,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             PrintWriter pw = response.getWriter();
             for (int i = 0; i < ids.size(); i++) {
                 pw.write(ids.get(i));
+                pw.write(">_<");
             }
             pw.close();
         } catch (IOException e) {
