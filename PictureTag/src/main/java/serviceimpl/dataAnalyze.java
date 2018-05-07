@@ -217,6 +217,16 @@ public class dataAnalyze {
         String[] strings = filename.split(sp);
         String fileName = dataAnalyze.class.getResource("/").getFile()+File.separator+strings[0]+".txt";
         File f = new File(fileName);
+        String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
+        File f1 = new File(p+"committedTask.txt");
+        System.out.println(f1.getAbsolutePath());
+        if(!f1.exists()){
+            try {
+                f1.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -226,11 +236,17 @@ public class dataAnalyze {
         }
         try {
             FileWriter fw = new FileWriter(f,true);
+            FileWriter fw1 = new FileWriter(f1,true);
             BufferedWriter bw = new BufferedWriter(fw);
+            BufferedWriter bw1 = new BufferedWriter(fw1);
             bw.write(taskJson);
             bw.newLine();
             bw.close();
             fw.close();
+            bw1.write(taskJson);
+            bw1.newLine();
+            bw1.close();
+            fw1.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

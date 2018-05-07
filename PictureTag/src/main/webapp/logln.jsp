@@ -116,23 +116,25 @@
                 "action":"login"
             },
 
-
-
-
-
             success: function(data) {
                 //exist用来判断该用户是否存在
                 var exist=0;
 
                 //如果返回的值是true
-                if(data){
+                if(data=="true"){
                     exist=1;
                 }
 
                 //针对两种不同的返回值的反应
                 if(exist==1){
-                    window.location.href="tools/tools_index.html";
-                    location.href="tools/tools_index.html?"+"txt="+encodeURI(document.getElementById("input_username").value.toString());
+                    if(document.getElementById("input_username").value.toString()=="admin"){
+                        window.location.href="admin/admin.html";
+                        location.href="admin/admin.html?"+"txt="+encodeURI(document.getElementById("input_username").value.toString());
+                    }
+                    else {
+                        window.location.href = "tools/tools_index.html";
+                        location.href = "tools/tools_index.html?" + "txt=" + encodeURI(document.getElementById("input_username").value.toString());
+                    }
                 }
                 else{
                     //清空后提示

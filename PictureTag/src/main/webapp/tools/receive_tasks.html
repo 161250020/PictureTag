@@ -85,7 +85,7 @@
         data: {
             //获得所有任务的方法
             "name": id,
-            "action": "reve"
+            "action": "receiveCommittedTaskIds"
 
 
 
@@ -99,9 +99,12 @@
             var cell2 = oneRow.insertCell();
             var cell3 = oneRow.insertCell();
             cell1.innerHTML="<a href=\"#\"onclick=\"jump(arr_task.id.toString(),arr_task.request[0].toString())\">"+arr_task.id.toString()+"</a>";
-            cell2.innerHTML=arr_task.score.toString();
+            cell2.innerHTML=arr_task.requests[0].toString();
         },
-        error: function () {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
         }
     });
 </script>
