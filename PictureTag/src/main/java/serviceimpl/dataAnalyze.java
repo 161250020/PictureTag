@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class dataAnalyze {
-
+    String sp = "&";
     String taskFileName="";
 
 
@@ -32,7 +32,7 @@ public class dataAnalyze {
     public String receiveTaskInfo(String TaskId){
 
         Gson gson = new Gson();
-        String[] strings = TaskId.split("^_^");
+        String[] strings = TaskId.split(sp);
         String userId = strings[0];
         File f = new File(userId);
         String out = "";
@@ -67,7 +67,7 @@ public class dataAnalyze {
         userserviceImpl userserv = new userserviceImpl();
         Gson gson = new Gson();
         Project p = gson.fromJson(projectData,Project.class);
-        String userId = p.getId().split("^_^")[0];
+        String userId = p.getId().split(sp)[0];
 
         /*userserv.update();*/
 
@@ -183,7 +183,7 @@ public class dataAnalyze {
             }
             if(!temp1.equals("")) {
                 Task t = gson.fromJson(temp1, Task.class);
-                String preTaskId = t.getId().split("^_^")[1];
+                String preTaskId = t.getId().split("&")[1];
                 int count = 0;
                 for (int i = 0; i < preTaskId.length(); i++) {
                     char c = preTaskId.charAt(i);
@@ -199,7 +199,7 @@ public class dataAnalyze {
                 }
             }
             else{
-                return userId+"^_^"+"00001";
+                return userId+sp+"00001";
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -214,7 +214,7 @@ public class dataAnalyze {
         Gson gson = new Gson();
         Task t = gson.fromJson(taskJson,Task.class);
         String filename = t.getId();
-        String[] strings = filename.split("^_^");
+        String[] strings = filename.split(sp);
         String fileName = dataAnalyze.class.getResource("/").getFile()+File.separator+strings[0]+".txt";
         File f = new File(fileName);
         if(!f.exists()){
@@ -252,7 +252,7 @@ public class dataAnalyze {
         }
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
-        String[] ss = taskId.split("^_^");
+        String[] ss = taskId.split(sp);
         String userId = ss[0];
         File fRead = new File(p+userId+".txt");
         File fWrite = new File(p+userId+".txt");
@@ -300,14 +300,15 @@ public class dataAnalyze {
         }
     }
 
-    public void modifyTask(String taskData){
+    public boolean modifyTask(String taskData){
+        boolean b = false;
         String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
         Task t = gson.fromJson(taskData,Task.class);
         if(!t.isFlag()) {//未被接受
             String taskId = t.getId();
-            String[] ss = taskId.split("^_^");
+            String[] ss = taskId.split(sp);
             String userId = ss[0];
             File fRead = new File(p+userId+".txt");
             File fWrite = new File(p+userId+".txt");
@@ -349,6 +350,7 @@ public class dataAnalyze {
                 }
             }
         }
+        return b;
     }
 
     /**
@@ -359,7 +361,7 @@ public class dataAnalyze {
     public String findTask(String taskId){
         Gson gson = new Gson();
         String filename = taskId;
-        String[] strings = filename.split("^_^");
+        String[] strings = filename.split(sp);
         File f = new File(strings[0]);
         if(!f.exists()){
             try {
@@ -417,7 +419,7 @@ public class dataAnalyze {
             String p = dataAnalyze.class.getResource("/").getFile()+File.separator;
             ArrayList<String> reWrite = new ArrayList<>();
             Gson gson = new Gson();
-            String[] ss = taskId.split("^_^");
+            String[] ss = taskId.split(sp);
             String userId = ss[0];
             boolean b = false;
             File fRead = new File(p+userId+".txt");

@@ -11,8 +11,8 @@ public class Task {          //个体任务
     int progress;//已经完成图片的数量
     boolean flag;//判断task是否已经被接受 true:接受
     boolean flag1;//判断task是否已经被发布 true:发布
-    Date startDate;
-    Date endDate;
+    String startDate;
+    String endDate;
     ArrayList<String> imageIds;
     ArrayList<String> requests;
 
@@ -21,7 +21,7 @@ public class Task {          //个体任务
         this.flag1 = false;
     }
 
-    public Task(String id, String name, double socre, int progress, Date startDate, Date endDate){
+    public Task(String id, String name, double socre, int progress, String startDate, String endDate){
         imageIds = new ArrayList<String>();
         requests = new ArrayList<String>();
         this.id = id;
@@ -30,18 +30,10 @@ public class Task {          //个体任务
         this.progress = progress;
         this.flag = false;
         this.flag1 = false;
-        this.startDate = new Date();
-        this.endDate = new Date();
+        this.startDate = startDate;
+        this.endDate = endDate;
 
     }
-
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
-
-    public ArrayList<String> getImageIds() { return imageIds; }
-
-    public void setImageIds(ArrayList<String> imageIds) { this.imageIds = imageIds; }
 
     public String getId() {
         return id;
@@ -67,8 +59,12 @@ public class Task {          //个体任务
         this.socre = socre;
     }
 
-    public double getProgress() {
+    public int getProgress() {
         return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 
     public boolean isFlag() {
@@ -79,6 +75,38 @@ public class Task {          //个体任务
         this.flag = flag;
     }
 
+    public boolean isFlag1() {
+        return flag1;
+    }
+
+    public void setFlag1(boolean flag1) {
+        this.flag1 = flag1;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public ArrayList<String> getImageIds() {
+        return imageIds;
+    }
+
+    public void setImageIds(ArrayList<String> imageIds) {
+        this.imageIds = imageIds;
+    }
+
     public ArrayList<String> getRequests() {
         return requests;
     }
@@ -86,17 +114,4 @@ public class Task {          //个体任务
     public void setRequests(ArrayList<String> requests) {
         this.requests = requests;
     }
-
-    public boolean isFlag1() { return flag1; }
-
-    public void setFlag1(boolean flag1) { this.flag1 = flag1; }
-
-    public Date getStartDate() { return startDate; }
-
-    public void setStartDate(Date startDate) { this.startDate = startDate; }
-
-    public Date getEndDate() { return endDate; }
-
-    public void setEndDate(Date endDate) { this.endDate = endDate; }
-
 }

@@ -5,6 +5,8 @@ import serviceimpl.AnalyzeUser;
 import serviceimpl.dataAnalyze;
 import serviceimpl.tagIO;
 import serviceimpl.userserviceImpl;
+import vo.Project.Task.Task;
+import vo.Project.Task.image;
 import vo.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -114,6 +116,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
         else{
             System.out.println("no function like this");
+            String imgData = request.getParameter("gData");
+            this.savePicture(request,response,imgData);
         }
     }
 
@@ -284,6 +288,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         tagIO t = new tagIO();
         String reqStr = s;
         System.out.println("call");
+        System.out.println(s);
+
+        Gson g = new Gson();
+        image i = g.fromJson(reqStr,image.class);
+        System.out.println(i.getId());
+
         String out = t.writeTag(reqStr);
         System.out.println(out);
         try {
@@ -359,13 +369,37 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     private void newTask(HttpServletRequest request,HttpServletResponse response,String taskData){
+        System.out.println(taskData);
+        Gson g = new Gson();
+        System.out.println(g.fromJson(taskData,Task.class).getId());
         dataAnalyze d = new dataAnalyze();
         d.newTask(taskData);
+        try {
+            PrintWriter p = response.getWriter();
+            p.write("true");
+            p.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void modifyTask(HttpServletRequest request,HttpServletResponse response,String taskData){
         dataAnalyze d = new dataAnalyze();
-        d.modifyTask(taskData);
+        boolean b = d.modifyTask(taskData);
+        try {
+            PrintWriter p = response.getWriter();
+            if(b == false){
+                p.write("false");
+            }
+            else{
+                p.write("true");
+            }
+            p.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**优先

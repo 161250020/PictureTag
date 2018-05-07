@@ -11,7 +11,7 @@ public class image {
      String split;
      boolean flag;//标志图片是否已经被标记
 
-     public image(){}    //空方法很重要
+    public image(){}    //空方法很重要
      public image(List<Integer> sentids, String imgid, List<Sentence> Sentences, String url, String split, String filename){
          this.sentids=sentids;
          this.imgid=imgid;
@@ -58,6 +58,10 @@ public class image {
      public String getFilename(){
          return this.filename;
      }
+    public String getImgid() { return imgid;}
+    public void setImgid(String imgid) { this.imgid = imgid; }
+    public boolean isFlag() { return flag; }
+    public void setFlag(boolean flag) { this.flag = flag; }
     @Override
     public String toString() {
         return "imageService [sentids=" + sentids + ", imgid=" + imgid + ",Sentences="+Sentences+",split="+split+",filename="+filename+"]";

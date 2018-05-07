@@ -8,6 +8,7 @@ import service.imageService;
 import vo.Project.Task.image;
 
 public class tagIO implements imageService {
+    String sp = "&";
     //String filePath = "C://TomCat//apache-tomcat-8.5.29//apache-tomcat-8.5.29//webapps//TagFile//tag.txt";
     //URL tagPath = Thread.currentThread().getContextClassLoader().getResource("");
     //String filePath = "C:\\TomCat\\apache-tomcat-8.5.29\\apache-tomcat-8.5.29\\webapps\\PictureTag\\TagFile\\tagFile.txt";
@@ -19,7 +20,7 @@ public class tagIO implements imageService {
         String out = "";
         String filePath = tagIO.class.getResource("/").getFile()+File.separator;
         Gson gson = new Gson();
-        String userId = TaskId.split("^_^")[0];
+        String userId = TaskId.split(sp)[0];
         File f = new File(filePath+userId+"Imgs.txt");
         if(!f.exists()){
             try {
@@ -28,7 +29,7 @@ public class tagIO implements imageService {
                 e.printStackTrace();
             }
         }
-        int count = 1;
+        int count = 0;
         try {
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
@@ -51,7 +52,7 @@ public class tagIO implements imageService {
             }
         }
 
-        out = TaskId + "^_^" + out;
+        out = TaskId + sp + out;
 
         return out;
     }
@@ -59,11 +60,13 @@ public class tagIO implements imageService {
     public String writeTag(String jsonData){
         //this.filePath = filePath;
         //System.out.println(tagPath);
+        System.out.println("call again");
         String taskId="";
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
-        String[] strings =i.getId().split("^_^");
-        taskId = strings[0]+"^_^"+strings[1];
+        String[] strings =i.getId().split(sp);
+        taskId = strings[0]+sp+strings[1];
+        System.out.println(taskId);
         String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"Imgs.txt";
         File file = new File(filePath);
         System.out.println(file.getAbsolutePath());
@@ -81,7 +84,7 @@ public class tagIO implements imageService {
                 bw.close();
                 fileWriter.close();
                 System.out.println(jsonData);
-                return null;
+                return receiveImgId(taskId);
             }
             else{
                 System.out.println("空值");
@@ -90,13 +93,13 @@ public class tagIO implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return receiveImgId(taskId);
+        return null;
     }
 
     public String receiveTag(String imageId){
         //this.filePath = filePath;
         Gson gson = new Gson();
-        String[] strings =imageId.split("^_^");
+        String[] strings =imageId.split(sp);
         String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"Imgs.txt";
         String out = "";
         //按行读取文件内容

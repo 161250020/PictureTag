@@ -130,15 +130,13 @@
         var len=pics.length;
         for(var i=0;i<len;i++){
             var pic=pics[i];
-            if(pic){
+            if(pic!=null){
                 var reader=new FileReader();
                 reader.onload=function (event) {
                     txt=event.target.result.toString();
 
                     //传递后端：任务id+url；获得图片的id
-                    obj={
-                        "images":[
-                            {
+                    var obj={
                                 "sentids":[
                                     0
                                 ],
@@ -153,19 +151,18 @@
                                         "sentid":0
                                     }
                                 ],
+                                "url":0,
+                                "filename":0,
                                 "spilt":"train",
-                                "filename":txt
-                            }
-                        ]
-                    };
+                                "flag":false
+                     };
                     var obj_json=JSON.stringify(obj);
                     $.ajax({
                         url : "/Servlet",
                         type : "POST",
                         data :{
-                            "action":"writeTag",
-                            "gData":obj_json
-
+                            "gData":obj_json,
+                            "action":"savePicture"
                         },
                         success: function(data) {
                             arr.push(data.toString());
@@ -189,7 +186,7 @@
                  reader.readAsDataURL(pic);
 
             }
-        }
+       }
     }
 
     function contentLoaded(){
@@ -224,21 +221,23 @@
         var other_needs=document.getElementById("other_needs").value.toString();
         var input_integral=document.getElementById("integral").value.toString();
         var requests=new Array();
-        request.push(tag.toString());
-        request.push(day1.toString());
-        request.push(day2.toString());
-        request.push(low.toString());
-        request.push(high.toString());
-        request.push(other_needs.toString());
-        request.push(input_integral.toString());
+        requests.push(tag.toString());
+        requests.push(low.toString());
+        requests.push(high.toString());
+        requests.push(other_needs.toString());
+        requests.push(input_integral.toString());
 
         //返回所有的数值，包括前面的id，工人等级，需求，这两个数据
         //创建json
         var obj={
             "id":ID,
+            "name":0,
             "score":input_integral,
             "progress":0,
-            "flag":"false",
+            "flag":false,
+            "flag1":false,
+            "startDate":day1,
+            "endDate":day2,
             "imageIds":arr,
             "requests":requests
         }
@@ -269,8 +268,10 @@
                     alert("发布任务失败!");
                 }
             },
-            error: function () {
-                alert("Wrong!");
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
             }
         });
     }
