@@ -26,7 +26,7 @@ public class AnalyzeUser implements Analyze {
           ArrayList<UserInfo> newUser=calTurn();
           for(int i=0;i<newUser.size();i++){
               if(newUser.get(i).getUsername().equals(username)&&newUser.get(i)!=null){
-                      result=i+1;
+                  result=i+1;
               }
           }
           return result;

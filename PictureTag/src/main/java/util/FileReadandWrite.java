@@ -19,7 +19,7 @@ public class FileReadandWrite {
                 content.add(str);
             }
             bufferedReader.close();
-            System.out.println("Read");
+            //System.out.println("Read");
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -37,7 +37,7 @@ public class FileReadandWrite {
             bw.newLine();
             bw.close();
             writer.close();
-            System.out.println("hello");    //测试
+            //System.out.println("hello");    //测试
         }catch(IOException E){
             E.printStackTrace();
         }

@@ -19,7 +19,7 @@ public class userserviceImpl implements user{
                 String gsonstring=gson.toJson(user);
                 FileReadandWrite.WriteFile(path, gsonstring);         //初始化用户
                 UserInfo u = gson.fromJson(gsonstring,UserInfo.class);
-                System.out.println(u.getLevel());
+                //System.out.println(u.getLevel());
             }
             public ArrayList<UserInfo> getall(){
                 ArrayList<String> content=FileReadandWrite.ReadFile(path);         //获得所有的用户
@@ -34,7 +34,7 @@ public class userserviceImpl implements user{
                 if(!checkInit()) {
                     start();
                 }
-                      System.out.println("login");
+                      //System.out.println("login");
                       boolean flag=false;
                       ArrayList<String> content=FileReadandWrite.ReadFile(path);
                       ArrayList<UserInfo> user=new ArrayList<UserInfo>();
@@ -42,7 +42,7 @@ public class userserviceImpl implements user{
                           Gson gson=new Gson();
                           user.add(gson.fromJson(content.get(i),UserInfo.class));
                       }
-                      System.out.println(user.get(0).getUsername());
+                      //System.out.println(user.get(0).getUsername());
                       for(int i=0;i<user.size();i++){
                           if(username.equals(user.get(i).getUsername())){
                               if(password.equals(user.get(i).getPassword())){
@@ -51,23 +51,23 @@ public class userserviceImpl implements user{
                                    break;             //去掉break会报空指针
                           }
                       }
-                      System.out.println(flag);
+                      //System.out.println(flag);
                       return flag;
              }
              public boolean register(String username,String password){
                      boolean flag=true;
                      if(checksame(username)) {
                          flag = false;
-                         System.out.println("Same!!");      //检验是否能测试出相同的用户名
+                         //System.out.println("Same!!");      //检验是否能测试出相同的用户名
                      }
                      else{
                           flag=true;
-                          UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0);
+                          UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,100);
                           Gson gson=new Gson();
                           String content=gson.toJson(user);
                           FileReadandWrite.WriteFile(path,content);
                      }
-                     System.out.println(flag);
+                     //System.out.println(flag);
                      return  flag;
              }
              public boolean register(UserInfo userInfo){
@@ -87,7 +87,7 @@ public class userserviceImpl implements user{
                      boolean flag=true;
                      if(!checksame(username)){
                          flag=false;
-                         System.out.println("non exist");
+                         //System.out.println("non exist");
                      }
                      else{
                          ArrayList<UserInfo> lis=getall();
@@ -137,9 +137,9 @@ public class userserviceImpl implements user{
                      if(checksame(username)) {
                          flag=true;
                          delete(username);
-                         System.out.println("cc");
+                         //System.out.println("cc");
                          register(username,password);
-                         System.out.println("kk");
+                         //System.out.println("kk");
                      }
                      return flag;
              }
