@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<%--
+Created by IntelliJ IDEA.
+User: asus
+Date: 2018/4/25
+Time: 15:02
+To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -106,20 +113,28 @@
             type : "POST",
             data :{
                 "gData":changeobj,
-                "action":"newUser"
+                "action":"login"
             },
+
             success: function(data) {
                 //exist用来判断该用户是否存在
                 var exist=0;
 
                 //如果返回的值是true
-                if(data){
+                if(data=="true"){
                     exist=1;
                 }
 
                 //针对两种不同的返回值的反应
                 if(exist==1){
-                    window.open("tools/tools_index.html",'_self');
+                    if(document.getElementById("input_username").value.toString()=="admin"){
+                        window.location.href="admin/admin.html";
+                        location.href="admin/admin.html?"+"txt="+encodeURI(document.getElementById("input_username").value.toString());
+                    }
+                    else {
+                        window.location.href = "tools/tools_index.html";
+                        location.href = "tools/tools_index.html?" + "txt=" + encodeURI(document.getElementById("input_username").value.toString());
+                    }
                 }
                 else{
                     //清空后提示
@@ -127,14 +142,13 @@
                     document.getElementById("input_password").value="";
                     document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
                 }
-                alert("调用成功！");
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
+            error: function () {
+                alert("Wrong!");
             }
+
         });
+
     }
 </script>
 </body>

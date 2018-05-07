@@ -24,7 +24,7 @@
 <nav class="top-bar" data-topbar>
     <section class="top-bar-section">
         <ul class="left">
-            <li ><a href="#" style="text-decoration:none;font-size:14px">个人信息</a></li>
+            <li ><a href="#" style="text-decoration:none;font-size:14px" onclick="jump4()">首页</a></li>
 
         </ul>
         <ul class="right">
@@ -65,6 +65,9 @@
     function jump3() {
         window.location.href="../homepage/homepage.html";
         location.href="../homepage/homepage.html?"+"txt="+encodeURI(id);
+    }
+    function jump4(){
+        window.location.href="../login.jsp";
     }
 </script>
 </body>

@@ -116,7 +116,15 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var str={
-        "username":id
+        "username":id,
+        "password":"",
+        "name":"",
+        "level":"",
+        "receivepro":[],
+        "launchpro":[],
+        "TaskNumber":0,
+        "score":0.0
+
     };
     var changeobj=JSON.stringify(str);
     $.ajax({
@@ -234,15 +242,11 @@
         var arr34=new Array();//此处换成从后端获得的方法：完成情况
 
         for(var i=0;i<launchproid.length;i++){
-            var str={
-                "taskId":launchproid[i]
-            };
-            var changeobj=JSON.stringify(str);
             $.ajax({
                 url: "/Servlet",
                 type: "POST",
                 data: {
-                    "gData": changeobj,
+                    "gData": launchproid[i],
                     "action": "receiveTaskContent"
                 },
                 success: function (data) {

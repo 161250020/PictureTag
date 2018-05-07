@@ -92,24 +92,26 @@
                 task_content = data.split(">_<");
                 for(var i=0;i<task_content.length;i++) {
                     var task_content1=JSON.parse(task_content[i]);
-                    var oneRow = table.insertRow();//插入一行
-                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-                    var cell2 = oneRow.insertCell(1);
-                    var cell3 = oneRow.insertCell(2);
-                    var cell4 = oneRow.insertCell(3);
-                    var cell5 = oneRow.insertCell(4);
-                    cell1.innerHTML = task_content1.id;
-                    cell2.innerHTML = task_content1.requests[0].toString();
-                    cell3.innerHTML = task_content1.startDate;
-                    cell4.innerHTML = task_content1.endDate;
-                    cell5.innerHTML = "<button type='button' class='button radius tiny' data-reveal-id='myModal' style='background-color: gray'>需求</button>";
-                    for (var j = 0; j < task_content1.requests.length; j++) {
-                        var oneRow1 = mission_request.insertRow();
-                        var cell11 = oneRow1.insertCell(0);
-                        cell11.innerHTML = task_content1.requests[j].toString();
+                    if(task_content1.flag==false) {
+                        var oneRow = table.insertRow();//插入一行
+                        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                        var cell2 = oneRow.insertCell(1);
+                        var cell3 = oneRow.insertCell(2);
+                        var cell4 = oneRow.insertCell(3);
+                        var cell5 = oneRow.insertCell(4);
+                        cell1.innerHTML = task_content1.id;
+                        cell2.innerHTML = task_content1.requests[0].toString();
+                        cell3.innerHTML = task_content1.startDate;
+                        cell4.innerHTML = task_content1.endDate;
+                        cell5.innerHTML = "<button type='button' class='button radius tiny' data-reveal-id='myModal' style='background-color: gray'>需求</button>";
+                        for (var j = 0; j < task_content1.requests.length; j++) {
+                            var oneRow1 = mission_request.insertRow();
+                            var cell11 = oneRow1.insertCell(0);
+                            cell11.innerHTML = task_content1.requests[j].toString();
+                        }
+                        var cell6 = oneRow.insertCell(5);
+                        cell6.innerHTML = "<input type=\"checkbox\"  >";
                     }
-                    var cell6 = oneRow.insertCell(5);
-                    cell6.innerHTML = "<input type=\"checkbox\"  >";
 
                 }
             },
@@ -134,8 +136,8 @@
                     url: "/Servlet",
                     type: "POST",
                     data: {
-                        "taskId": Taskid,
-                        "userId":id,
+                        "taskId": Taskid.toString(),
+                        "userId":id.toString(),
                         "action": "acceptTask"
                     },
                     success: function (data) {
