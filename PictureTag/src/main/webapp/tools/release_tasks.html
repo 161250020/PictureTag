@@ -133,14 +133,31 @@
             if(pic){
                 var reader=new FileReader();
                 reader.onload=function (event) {
-                    txt=event.target.result;
+                    txt=event.target.result.toString();
 
                     //传递后端：任务id+url；获得图片的id
-                    var obj={
-                        "task_id":ID,
-                        "image_url":txt
+                    obj={
+                        "images":[
+                            {
+                                "sentids":[
+                                    0
+                                ],
+                                "imgid":ID.toString(),
+                                "Sentences":[
+                                    {
+                                        "tokens":[
 
-                    }
+                                        ],
+                                        "raw":"",
+                                        "imgid":0,
+                                        "sentid":0
+                                    }
+                                ],
+                                "spilt":"train",
+                                "filename":txt
+                            }
+                        ]
+                    };
                     var obj_json=JSON.stringify(obj);
                     $.ajax({
                         url : "/Servlet",
