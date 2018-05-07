@@ -116,8 +116,10 @@
             document.getElementById("get_taskId").innerHTML="任务ID："+ID;
             alert(data);
         },
-        error: function () {
-            alert("Wrong!");
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
         }
     });
 
@@ -160,6 +162,7 @@
                     $.ajax({
                         url : "/Servlet",
                         type : "POST",
+                        async:true,
                         data :{
                             "gData":obj_json,
                             "action":"savePicture"
@@ -262,8 +265,8 @@
                 if(data=="true"){
                     alert("任务发布成功！");
                     //跳转到个人主页
-                    window.location.href="../homepage/homepage.html";
-                    location.href="../homepage/homepage.html?"+"txt="+encodeURI(id);
+                    window.location.href="tools_index.html";
+                    location.href="tools_index.html?"+"txt="+encodeURI(id);
                 }
                 else{
                     alert("发布任务失败!");
