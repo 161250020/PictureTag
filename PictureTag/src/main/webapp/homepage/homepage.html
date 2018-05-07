@@ -370,7 +370,7 @@
                     var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
                     var cell2 = oneRow.insertCell(1);
                     var cell3 = oneRow.insertCell(2);
-                    cell1.innerHTML="<a href=\"#\"onclick=\"jump(arr_task.id.toString(),arr_task.request[0].toString())\">"+arr_task.id.toString()+"</a>";
+                    cell1.innerHTML="<a href=\"#\"onclick=\"jump()\">"+arr_task.id.toString()+"</a>";
                     cell2.innerHTML=arr_task.score.toString();
                     if(arr_task.progress==arr_task.imageIds.length)
                     cell3.innerHTML="已完成";
@@ -382,18 +382,18 @@
                 }
             });
         }
-        function jump(taskid,type){
-            if(type=="整体标注"){
+        function jump(){
+            if(arr_task.type=="整体标注"){
                 window.location.href="/label/tag_overall.html";
-                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid+">_<"+id);
+                location.href="label/tag_area.html?"+"txt="+encodeURI(arr_task.id+">_<"+id);
             }
-            else if(type=="边框标注"){
+            else if(arr_task.type=="边框标注"){
                 window.location.href="/label/tag_frame.html";
-                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid);
+                location.href="label/tag_area.html?"+"txt="+encodeURI(arr_task.id+">_<"+id);
             }
-            else if(type=="区域标注"){
+            else if(arr_task.type=="区域标注"){
                 window.location.href="/label/tag_area.html";
-                location.href="label/tag_area.html?"+"txt="+encodeURI(taskid);
+                location.href="label/tag_area.html?"+"txt="+encodeURI(arr_task.id+">_<"+id);
             }
         }
     }
