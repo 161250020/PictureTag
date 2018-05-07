@@ -162,4 +162,24 @@ public class userserviceImpl implements user{
                      }
                      return result;
              }
+             //修改用户的等级
+             public int updateLevel(double score){
+                       int level=0;
+                       if(score<10){
+                           level=1;
+                       }
+                       else if(score<30){
+                           level=2;
+                       }
+                       else if(score<60){
+                           level=3;
+                       }
+                       else if(score<100){
+                           level=4;
+                       }
+                       else{
+                           level=5;
+                       }
+                       return level;
+             }
 }
