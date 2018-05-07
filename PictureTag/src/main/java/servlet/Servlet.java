@@ -47,6 +47,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveUserInfo(request,response,userId);
         }
+        else if("receiveUserCount".equals(action)){
+             this.receiveUserCount(request,response);
+        }
         else if("receiveUserDegree".equals(action)){
             String userId = request.getParameter("gData");
             this.receiveUserDegree(request,response,userId);
@@ -262,7 +265,24 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             io.printStackTrace();
         }
     }
-
+    /**
+     *  获取用户总数
+     * @param request
+     * @param response
+     * @param
+     * @throws IOException
+     */
+    private void receiveUserCount(HttpServletRequest request,HttpServletResponse response){
+        userserviceImpl impl=new userserviceImpl();
+        ArrayList<UserInfo> user=impl.getall();
+        int count=user.size();
+        try{
+            PrintWriter out=response.getWriter();
+            out.write(count);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     /**
      *  提供对单一图片的查询功能
      * @param request

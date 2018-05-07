@@ -12,7 +12,7 @@ public class userserviceImpl implements user{
             //final String path="PictureTag/src/main/user.txt";
             //URL pathURL = Thread.currentThread().getContextClassLoader().getResource("");
             //final String path = "user.txt";
-            final String path=UserInfo.class.getResource("/").getFile()+File.separator+"user.data";
+            final String path=UserInfo.class.getResource("/").getFile()+File.separator+"user.txt";
             public void start() {      //一开始有一个用户
                 UserInfo user=new UserInfo("admin","admin",null,0,null,null,0,0.0);
                 Gson gson=new Gson();
