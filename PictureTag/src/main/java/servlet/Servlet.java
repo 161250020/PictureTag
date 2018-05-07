@@ -420,9 +420,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     private void newTask(HttpServletRequest request,HttpServletResponse response,String taskData){
-        System.out.println(taskData);
+        //System.out.println(taskData);
         Gson g = new Gson();
-        System.out.println(g.fromJson(taskData,Task.class).getId());
+        //System.out.println(g.fromJson(taskData,Task.class).getId());
         dataAnalyze d = new dataAnalyze();
         d.newTask(taskData);
         try {
@@ -466,10 +466,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      */
     private void receiveTaskContent(HttpServletRequest request,HttpServletResponse response,String taskId){
         dataAnalyze d = new dataAnalyze();
+        //System.out.print("receiveTaskContent"+taskId);
         String taskInfo = d.receiveTaskInfo(taskId);
         try {
             PrintWriter pw = response.getWriter();
             pw.write(taskInfo);
+            //System.out.println(taskInfo);
             pw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -501,7 +503,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         try {
             PrintWriter p = response.getWriter();
             p.write(taskId);
-            System.out.println(taskId);
+            //System.out.println(taskId);
             p.close();
         } catch (IOException e) {
             e.printStackTrace();

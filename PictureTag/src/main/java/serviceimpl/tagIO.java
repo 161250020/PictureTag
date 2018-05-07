@@ -23,7 +23,7 @@ public class tagIO implements imageService {
         String filePath = tagIO.class.getResource("/").getFile()+File.separator;
         Gson gson = new Gson();
         String userId = TaskId.split(sp)[0];
-        File f = new File(filePath+userId+"Imgs.txt");
+        File f = new File(filePath+TaskId+"&Imgs.txt");
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -39,17 +39,19 @@ public class tagIO implements imageService {
             while (null != (temp = br.readLine())){
                 count++;
             }
+            //System.out.println(count);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(count>=99999){
+        if(count >= 99999){
             return "00000";
         }
         else{
             out = Integer.toString(count);
-            for (int i = 0; i < 5-out.length(); i++) {
+            //System.out.println(out.length());
+            for (int i = 0; i < 9-out.length(); i++) {
                 out = "0" + out;
             }
         }
@@ -76,25 +78,26 @@ public class tagIO implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String imgId = receiveImgId(taskId);
+        i.setId(imgId);
         try {
             if(!"".equals(jsonData)) {
                 FileWriter fileWriter = new FileWriter(file,true);
                 BufferedWriter bw = new BufferedWriter(fileWriter);
-                bw.write(jsonData);
+                bw.write(gson.toJson(i));
                 bw.newLine();
                 bw.close();
                 fileWriter.close();
                 //System.out.println(jsonData);
-                return receiveImgId(taskId);
             }
             else{
                 System.out.println("空值");
-                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        //System.out.println(imgId);
+        return imgId;
     }
 
     public String receiveTag(String imageId){

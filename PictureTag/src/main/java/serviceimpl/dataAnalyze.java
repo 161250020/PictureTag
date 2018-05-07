@@ -35,7 +35,9 @@ public class dataAnalyze {
         Gson gson = new Gson();
         String[] strings = taskId.split(sp);
         String userId = strings[0];
-        File f = new File(userId);
+        String path = dataAnalyze.class.getResource("/").getFile()+File.separator;
+        File f = new File(path+userId+".txt");
+        System.out.println(f.getAbsolutePath());
         String out = "";
         try {
             FileReader fr = new FileReader(f);
@@ -45,6 +47,7 @@ public class dataAnalyze {
                 Task p = gson.fromJson(temp,Task.class);
                 if(p.getId().equals(taskId)){
                     out = temp;
+                    System.out.println(out);
                     break;
                 }
             }
@@ -238,8 +241,8 @@ public class dataAnalyze {
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
             t.setFlag(true);
-            System.out.println(g.toJson(t));
-            System.out.println(taskUserFilePath);
+            //System.out.println(g.toJson(t));
+            //System.out.println(taskUserFilePath);
             modifyTask(g.toJson(t),committedTaskFile);
             modifyTask(g.toJson(t),taskUserFilePath);
 
@@ -260,6 +263,8 @@ public class dataAnalyze {
         Task t = gson.fromJson(taskJson,Task.class);
         t.setFlag1(true);
         t.setFlag(false);
+        t.setSocre(Double.valueOf(t.getRequests().get(t.getRequests().size()-1)));
+        System.out.println(t.getSocre());
         String filename = t.getId();
         String[] strings = filename.split(sp);
         String fileName = dataAnalyze.class.getResource("/").getFile()+File.separator+strings[0]+".txt";
@@ -301,8 +306,10 @@ public class dataAnalyze {
 
         UserInfo user = u.getUser(userId);
         u.update(user);
-        System.out.println(gson.toJson(user));
-        user.setScore(user.getScore()-t.getSocre());
+        //System.out.println(gson.toJson(user));
+        double s = Double.valueOf(user.getScore()) - Double.valueOf(t.getSocre());
+        System.out.println(s);
+        user.setScore(s);
         ArrayList<String> temp = user.getLaunchpro();
         temp.add(t.getId());
         user.setLaunchpro(temp);
@@ -310,7 +317,7 @@ public class dataAnalyze {
         //这里调用一下checkUserLevel的方法，返回修改后的userLevel
         user.setLevel(u.updateLevel(user.getScore()));
         u.update(user);
-        System.out.println(gson.toJson(u.getUser(userId)));
+        //System.out.println(gson.toJson(u.getUser(userId)));
     }
 
 
@@ -432,7 +439,7 @@ public class dataAnalyze {
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
         Task t = gson.fromJson(taskData,Task.class);
-        System.out.println(gson.toJson(t));
+        //System.out.println(gson.toJson(t));
         String taskId = t.getId();
         //String[] ss = taskId.split(sp);
         //String userId = ss[0];
