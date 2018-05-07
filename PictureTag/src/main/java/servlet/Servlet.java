@@ -48,7 +48,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             this.receiveUserInfo(request,response,userId);
         }
         else if("receiveUserCount".equals(action)){
-             this.receiveUserCount(request,response);
+             String str=request.getParameter("gData");
+             this.receiveUserCount(request,response,str);
         }
         else if("receiveUserDegree".equals(action)){
             String userId = request.getParameter("gData");
@@ -272,7 +273,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param
      * @throws IOException
      */
-    private void receiveUserCount(HttpServletRequest request,HttpServletResponse response){
+    private void receiveUserCount(HttpServletRequest request,HttpServletResponse response,String str){
         userserviceImpl impl=new userserviceImpl();
         ArrayList<UserInfo> user=impl.getall();
         int count=user.size();
