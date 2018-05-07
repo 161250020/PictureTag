@@ -92,7 +92,7 @@
 
 <div id="res"></div>
 
-<script type="text/javascript">
+<script >
    // 获取 canvas 对象
     var canvas = document.getElementById('canvas');
     // 获取绘图环境
@@ -110,7 +110,9 @@
    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
    var arr=new Array();
    var arrid=new Array();
+   alert(id);
    var names=id.split(">_<");
+   alert(names[0]+"_"+names[1]);
    var userid="";
    $.ajax({
        url : "/Servlet",
@@ -120,6 +122,7 @@
            "action":"receiveTaskContent"
        },
        success: function(data) {
+           alert(data);
            var pic=JSON.parse(data);
            arr=pic.imageIds;
        },

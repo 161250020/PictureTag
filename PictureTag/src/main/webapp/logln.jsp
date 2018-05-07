@@ -143,8 +143,10 @@
                     document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
                 }
             },
-            error: function () {
-                alert("Wrong!");
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
             }
 
         });
