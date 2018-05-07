@@ -283,7 +283,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         int count=user.size();
         try{
             PrintWriter out=response.getWriter();
-            out.write(count);
+            String result=""+count;
+            out.write(result);
         }catch(IOException e){
             e.printStackTrace();
         }
