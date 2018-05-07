@@ -303,9 +303,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void receiveSingleRanking(HttpServletRequest request,HttpServletResponse response,String username){
         AnalyzeUser analyze=new AnalyzeUser();
         Gson gson=new Gson();
-        String realname=gson.fromJson(username,String.class);
         int ranking=analyze.getSelf_Turn(username);
-        System.out.println(realname);
+        //System.out.println(realname);
         try{
             PrintWriter out=response.getWriter();
             String result=""+ranking;

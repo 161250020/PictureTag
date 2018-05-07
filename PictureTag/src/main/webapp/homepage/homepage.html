@@ -115,23 +115,13 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-    var str={
-        "username":id,
-        "password":"",
-        "name":"",
-        "level":"",
-        "receivepro":[],
-        "launchpro":[],
-        "TaskNumber":0,
-        "score":0.0
-
-    };
+    var str=id;
     var changeobj=JSON.stringify(str);
     $.ajax({
         url: "/Servlet",
         type: "POST",
         data: {
-            "gData": changeobj,
+            "gData": str,
             "action": "receiveUserInfo"
         },
         success: function (data) {
@@ -154,15 +144,13 @@
         var reward_get=info.score.toString();
         var rank_get;
         var level_get=info.level.toString();
-        var str={
-            "username":id
-        };
+        var str=id;
         var changeobj=JSON.stringify(str);
         $.ajax({
             url: "/Servlet",
             type: "POST",
             data: {
-                "gData": changeobj,
+                "gData": str,
                 "action": "receiveSingleRanking"
             },
             success: function (data) {
