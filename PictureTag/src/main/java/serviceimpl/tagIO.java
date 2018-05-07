@@ -56,12 +56,14 @@ public class tagIO implements imageService {
         return out;
     }
 
-    public boolean writeTag(String jsonData){
+    public String writeTag(String jsonData){
         //this.filePath = filePath;
         //System.out.println(tagPath);
+        String taskId="";
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         String[] strings =i.getId().split("^_^");
+        taskId = strings[0]+"^_^"+strings[1];
         String filePath = tagIO.class.getResource("/").getFile()+File.separator+strings[0]+"Imgs.txt";
         File file = new File(filePath);
         System.out.println(file.getAbsolutePath());
@@ -79,15 +81,16 @@ public class tagIO implements imageService {
                 bw.close();
                 fileWriter.close();
                 System.out.println(jsonData);
-                return true;
+                return null;
             }
             else{
-               return false;
+                System.out.println("空值");
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
+        return receiveImgId(taskId);
     }
 
     public String receiveTag(String imageId){

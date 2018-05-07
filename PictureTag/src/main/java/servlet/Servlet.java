@@ -49,9 +49,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveUserDegree(request,response,userId);
         }
-        else if("writeTag".equals(action)){
-            String picId = request.getParameter("gData");
-            this.writeTag(request,response,picId);
+        else if("savePicture".equals(action)){
+            String imgData = request.getParameter("gData");
+            this.savePicture(request,response,imgData);
         }
         else if("receiveTag".equals(action)){
             String picId = request.getParameter("gData");
@@ -280,10 +280,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
 
-    private void writeTag(HttpServletRequest request,HttpServletResponse response,String s){
+    private void savePicture(HttpServletRequest request,HttpServletResponse response,String s){
         tagIO t = new tagIO();
         String reqStr = s;
-        boolean flag = t.writeTag(reqStr);
+        System.out.println("call");
+        String out = t.writeTag(reqStr);
+        System.out.println(out);
+        try {
+            PrintWriter p = response.getWriter();
+            p.write(out);
+            p.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -408,7 +418,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
         tagIO t = new tagIO();
-        System.out.println(taskId);
         String imgId = t.receiveImgId(taskId);
         try {
             PrintWriter pw = response.getWriter();
