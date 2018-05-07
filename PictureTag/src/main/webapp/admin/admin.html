@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>管理员界面</title>
-
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
     <style>
         canvas{
             border: 1px solid #A4E2F9;
@@ -67,30 +69,30 @@
 </div>
 
 <script>
-    $.ajax({
-        url : "/Servlet",
-        type : "POST",
-        data :{
-            //调用后端返回系统用户数的方法
-            "action":""
+    function run() {
+        alert("123");
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                //调用后端返回系统用户数的方法
+                "gData": 0,
+                "action": "receiveUserCount"
 
+            },
+            success: function (data) {
+                document.getElementById("in").value = data.toString();
+            },
+            error: function () {
+                alert("Wrong!");
+            }
 
-
-
-
-
-        },
-        success: function(data) {
-            document.getElementById("in").value=data.toString();
-        },
-        error: function () {
-            alert("Wrong!");
-        }
-
-    });
+        });
+    }
+    run();
 </script>
 
-<script type="text/javascript">
+<script >
     function goChart(dataArr){
         // 声明所需变量
         var canvas,ctx;
@@ -164,6 +166,7 @@
             line=40;         //画线的时候超出半径的一段线长
             textPadding=10;  //文字与线之间的间距
             textMoveDis = 200; //文字运动开始的间距
+
         }
 
         drawMarkers();
@@ -291,7 +294,6 @@
         });
 
     }
-
     function analyse(){
         var day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
         var day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
@@ -361,6 +363,7 @@
     var ctx2=c2.getContext("2d");
     ctx2.font="15px 微软雅黑";
     ctx2.fillText("未完成任务数量："+waited,10,15);
+
 </script>
 </body>
 </html>

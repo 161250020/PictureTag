@@ -40,6 +40,7 @@
 <div>
     <div id="myModal" class="reveal-modal small"   data-reveal>
         <h2>特殊需求</h2>
+        <table id="request_mission"></table>
         <p>1.将人脸标注出来</p>
         <p>2.具体描述人的动作</p>
         <p>3.描述天气情况</p>
@@ -79,27 +80,17 @@
 </script>
 <script>
     var table=document.getElementById("receive_mission");
+    var mission_request=document.getElementById("myModal");
+    var task_id;
     $.ajax({
         url: "/Servlet",
         type: "POST",
         data: {
             //获得所有任务的方法
-            "name": id,
             "action": "receiveCommittedTaskIds"
-
-
-
-
-
         },
         success: function (data) {
-            arr_task = JSON.parse(data);
-            var oneRow = table.insertRow();//插入一行
-            var cell1 = oneRow.insertCell();//单单插入一行是不管用的，需要插入单元格
-            var cell2 = oneRow.insertCell();
-            var cell3 = oneRow.insertCell();
-            cell1.innerHTML="<a href=\"#\"onclick=\"jump(arr_task.id.toString(),arr_task.request[0].toString())\">"+arr_task.id.toString()+"</a>";
-            cell2.innerHTML=arr_task.requests[0].toString();
+            task_id=JSON.parse(data);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -107,6 +98,37 @@
             alert(textStatus);
         }
     });
+    for(var i=0;i<task_id.length;i++){
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                //获得所有任务的方法
+                "action": "receiveCommittedTaskIds"
+            },
+            success: function (data) {
+                 var task_content=JSON.parse(data);
+                var oneRow = table.insertRow();//插入一行
+                var cell1 = oneRow.insertCell();//单单插入一行是不管用的，需要插入单元格
+                var cell2 = oneRow.insertCell();
+                var cell3 = oneRow.insertCell();
+                var cell4 = oneRow.insertCell();
+                var cell5 = oneRow.insertCell();
+                cell1.innerHTML=task_content.id;
+                cell2.innerHTML=task_content.requests[0].toString();
+                cell3.innerHTML=task_content.startDate;
+                cell4.innerHTML=task_content.endDate;
+                cell5.innerHTML="<button type='button' class='button radius tiny' data-reveal-id='myModal' style='background-color: gray'>需求</button>"
+                mission_request.innerHTML=
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+
 </script>
 </body>
 

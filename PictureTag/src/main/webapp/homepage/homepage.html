@@ -306,28 +306,11 @@
     //get3
     function get3(){
         var table=document.getElementById("mission_receive");
-        var obj={
-            "username":id
-        }
-        var obj_JSON=JSON.stringify(obj);
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            data: {
-                "gData":obj_JSON,
-                //根据用户id获取领取的taskid
-                "action": "receiveUserTask"
-            },
-            success: function (data) {
-                arr_taskID=JSON.parse(data);
-            },
-            error: function () {
-            }
-        });
+        var arr_taskID=info.receivepro;
         for(var i=0;i<arr_taskID.length;i++) {
             var task_ID=arr_taskID[i];
             var task_id={
-                "taskID":task_ID
+                "taskId":task_ID
             };
             var task_id_json=JSON.stringify(task_id);
             $.ajax({
@@ -346,7 +329,7 @@
                     var cell3 = oneRow.insertCell();
                     cell1.innerHTML="<a href=\"#\"onclick=\"jump(arr_task.id.toString(),arr_task.request[0].toString())\">"+arr_task.id.toString()+"</a>";
                     cell2.innerHTML=arr_task.score.toString();
-                    if(arr_task.flag.toString()=="true")
+                    if(arr_task.progress==arr_task.imageIds.length)
                     cell3.innerHTML="已完成";
                     else{
                         cell3.innerHTML="未完成";
