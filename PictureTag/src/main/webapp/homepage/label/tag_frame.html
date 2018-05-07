@@ -24,7 +24,7 @@
             <button onclick="savePicture()" id="save">保存</button>
             <button onclick="backPage()" >上一张</button>
             <button onclick="nextpage()">下一张</button>
-            <button onclick="submit()">提交</button>
+            <button onclick="final_submit()">提交</button>
         </td>
         <td>
             <table align="left" boder="0" cellspacing="0" cellpadding="0" width="50">
@@ -116,20 +116,43 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+    var arrid=new Array();
+    var names=id.split(">_<");
+    var userid="";
     $.ajax({
         url : "/Servlet",
         type : "POST",
         data :{
-            "gData":id,
+            "gData":names[0],
             "action":"receiveTaskContent"
         },
         success: function(data) {
             var pic=JSON.parse(data);
-            var arr=pic;
+            arr=pic.imageIds;
         },
         error: function () {
         }
     });
+
+    for(var i=0;i<arr.length();i++){
+        arrid.push(arr[i]);
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "gData":arr[i],
+                "action":"receiveTag"
+            },
+            success: function(data) {
+                var pict=JSON.parse(data);
+                src.push(pict.url);
+            },
+            error: function () {
+            }
+        });
+
+    }
+
 
     var recloc=new Array();
     var img=new Image();
@@ -261,7 +284,7 @@
                         "sentids":[
                             0
                         ],
-                        "imgid":0,
+                        "imgid":arrid[a],
                         "Sentences":[
                             {
                                 "tokens":[
@@ -290,7 +313,7 @@
                         "sentids":[
                             0
                         ],
-                        "imgid":0,
+                        "imgid":arrid[a],
                         "Sentences":[
                             {
                                 "tokens":[
@@ -317,7 +340,7 @@
                         "sentids":[
                             0
                         ],
-                        "imgid":0,
+                        "imgid":arrid[a],
                         "Sentences":[
                             {
                                 "tokens":[
@@ -347,7 +370,7 @@
                         "sentids":[
                             0
                         ],
-                        "imgid":0,
+                        "imgid":arrid[a],
                         "Sentences":[
                             {
                                 "tokens":[
@@ -375,7 +398,7 @@
                         "sentids": [
                             0
                         ],
-                        "imgid": 0,
+                        "imgid":arrid[a],
                         "Sentences": [
                             {
                                 "tokens": [
@@ -404,7 +427,7 @@
                         "sentids":[
                             0
                         ],
-                        "imgid":0,
+                        "imgid":arrid[a],
                         "Sentences":[
                             {
                                 "tokens":[
@@ -432,7 +455,27 @@
             type: "POST",
             data: {
                 "gData": changeobj,
-                "action": "writeTag"
+                "action": "modifyTag"
+            },
+            success: function (data) {
+                alert("保存成功！");
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+    }
+
+    function final_submit(){
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            //cache: false,
+            //async: false,
+            data: {
+                "taskId": names[0],
+                "userId":names[1],
+                "action": "completeTask"
             },
             success: function (data) {
                 alert("保存成功！");
