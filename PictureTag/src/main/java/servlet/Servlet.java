@@ -123,7 +123,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             this.receiveCommittedTaskIds(request,response);
         }
         else if("receiveSingleRanking".equals(action)){
-            String usename=request.getParameter("gData");
+            String usename = request.getParameter("gData");
             this.receiveSingleRanking(request,response,usename);
         }
         else{
@@ -298,7 +298,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         int ranking=analyze.getSelf_Turn(username);
         try{
             PrintWriter out=response.getWriter();
-            out.write(ranking);
+            String result=""+ranking;
+            out.write(result);
         }catch(IOException e){
             e.printStackTrace();
         }
