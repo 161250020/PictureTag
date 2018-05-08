@@ -126,7 +126,7 @@ public class tagIO implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println(out);
         return out;
     }
 

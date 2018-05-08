@@ -323,8 +323,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      */
     private void receiveTag(HttpServletRequest request,HttpServletResponse response,String s) throws IOException {
         String reqStr = s;
+        System.out.println(s);
         tagIO t = new tagIO();
         String image = t.receiveTag(reqStr);
+        System.out.println(image);
         try {
             PrintWriter out = response.getWriter();
             out.write(image);

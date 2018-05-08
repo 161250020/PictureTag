@@ -361,6 +361,9 @@ public class dataAnalyze {
 
             deleteTask(taskId,committedTaskFile);
         }
+        else{
+            b = false;
+        }
         return b;
     }
 
