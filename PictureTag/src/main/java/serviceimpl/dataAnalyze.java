@@ -14,6 +14,17 @@ public class dataAnalyze {
     String committedTaskFile = dataAnalyze.class.getResource("/").getFile()+File.separator+"committedTask.txt";
 
 
+    public ArrayList<String> receiveAllUserIds(){
+        userserviceImpl u = new userserviceImpl();
+        Gson g = new Gson();
+        ArrayList<String> out = new ArrayList<>();
+        ArrayList<UserInfo> users = u.getall();
+        for (int i = 0; i < users.size(); i++) {
+            out.add(g.toJson(users.get(i)));
+        }
+        return out;
+    }
+
     /**
      * 根据用户id获得用户的：积分奖励，群体排名，等级
      * @param userId

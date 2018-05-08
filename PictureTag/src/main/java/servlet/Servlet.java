@@ -48,6 +48,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveUserInfo(request,response,userId);
         }
+        else if("receiveAllUserIds".equals(action)){
+            this.receiveAllUserIds(request,response);
+        }
         else if("receiveUserCount".equals(action)){
             this.receiveUserCount(request,response);
         }
@@ -594,6 +597,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             }
             else{
                 pw.write("false");
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private  void receiveAllUserIds(HttpServletRequest request,HttpServletResponse response){
+        dataAnalyze d = new dataAnalyze();
+        ArrayList<String> out = d.receiveAllUserIds();
+        try {
+            PrintWriter pw = response.getWriter();
+            for (int i = 0; i < out.size(); i++) {
+                pw.write(out.get(i));
             }
             pw.close();
         } catch (IOException e) {
