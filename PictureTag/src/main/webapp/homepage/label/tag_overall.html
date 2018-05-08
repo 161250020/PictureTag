@@ -110,15 +110,15 @@
    var names;
    var img=new Image();
     function startmark(){
-        alert(123);
+
         var loc = location.href;
         var n1 = loc.length;//地址的总长度
         var n2 = loc.indexOf("=");//取得=号的位置
         var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
 
-        alert(id);
+
         names=id.split(">_<");
-        alert(names[0]+"_"+names[1]);
+
         var userid="";
         $.ajax({
             url : "/Servlet",
@@ -128,14 +128,14 @@
                 "action":"receiveTaskContent"
             },
             success: function(data) {
-                alert(data);
+
                 var pic=JSON.parse(data);
                 arr=pic.imageIds;
-                alert(arr.length);
+
                 for(var i=0;i<arr.length;i++){
-                    alert("lala");
+
                     arrid.push(arr[i]);
-                    alert("fufu");
+
                     $.ajax({
                         url : "/Servlet",
                         type : "POST",
@@ -144,7 +144,7 @@
                             "action":"receiveTag"
                         },
                         success: function(data) {
-                            alert(data);
+
                             var pict=JSON.parse(data);
                             src.push(pict.url);
                             img.src=src[a];
@@ -383,8 +383,10 @@
             success: function (data) {
                 alert("保存成功！");
             },
-            error: function () {
-                alert("Wrong!");
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
             }
         });
     }
@@ -403,10 +405,12 @@
                 "action": "completeTask"
             },
             success: function (data) {
-                alert("保存成功！");
+                alert("提交成功！");
             },
-            error: function () {
-                alert("Wrong!");
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
             }
         });
     }

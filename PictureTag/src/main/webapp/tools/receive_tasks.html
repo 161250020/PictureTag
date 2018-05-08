@@ -125,10 +125,9 @@
 
     function receive(){
         var ta=document.getElementById("receive_mission");
-        alert("123");
-        alert(ta.rows.length);
+
         for(var i=2;i<ta.rows.length;i++){
-            alert("456");
+
             if(ta.rows[i].cells[5].checked=true){
                 var Taskid=ta.rows[i].cells[0].innerText;
                 alert(Taskid);
