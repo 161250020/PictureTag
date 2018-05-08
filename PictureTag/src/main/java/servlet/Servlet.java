@@ -48,8 +48,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveUserInfo(request,response,userId);
         }
-        else if("receiveAllUserIds".equals(action)){
-            this.receiveAllUserIds(request,response);
+        else if("receiveAllUser".equals(action)){
+            this.receiveAllUser(request,response);
         }
         else if("receiveUserCount".equals(action)){
             this.receiveUserCount(request,response);
@@ -604,7 +604,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private  void receiveAllUserIds(HttpServletRequest request,HttpServletResponse response){
+    private  void receiveAllUser(HttpServletRequest request,HttpServletResponse response){
         dataAnalyze d = new dataAnalyze();
         ArrayList<String> out = d.receiveAllUserIds();
         try {
