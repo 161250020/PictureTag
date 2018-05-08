@@ -19,6 +19,7 @@
             <canvas id="canvas" width="500" height="500"></canvas>
             <br>
             <button onclick="restuya()">重新标注</button>
+            <button onclick="startmark()">开始标注</button>
             <button onclick="savePicture()" id="save">保存</button>
             <button onclick="backPage()">上一张</button>
             <button onclick="nextpage()">下一张</button>
@@ -104,58 +105,72 @@
     var filedata = null;
     var a=0;
     var src = new Array();
-   var loc = location.href;
-   var n1 = loc.length;//地址的总长度
-   var n2 = loc.indexOf("=");//取得=号的位置
-   var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
    var arr=new Array();
    var arrid=new Array();
-   alert(id);
-   var names=id.split(">_<");
-   alert(names[0]+"_"+names[1]);
-   var userid="";
-   $.ajax({
-       url : "/Servlet",
-       type : "POST",
-       data :{
-           "gData":names[0],
-           "action":"receiveTaskContent"
-       },
-       success: function(data) {
-           alert(data);
-           var pic=JSON.parse(data);
-           arr=pic.imageIds;
-       },
-       error: function () {
-       }
-   });
+   var names;
+    function startmark(){
+        alert(123);
+        var loc = location.href;
+        var n1 = loc.length;//地址的总长度
+        var n2 = loc.indexOf("=");//取得=号的位置
+        var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+        alert(id);
+        names=id.split(">_<");
+        alert(names[0]+"_"+names[1]);
+        var userid="";
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "gData":names[0],
+                "action":"receiveTaskContent"
+            },
+            success: function(data) {
+                alert(data);
+                var pic=JSON.parse(data);
+                arr=pic.imageIds;
+                alert(arr.length);
+                for(var i=0;i<arr.length;i++){
+                    alert("lala");
+                    arrid.push(arr[i]);
+                    alert("fufu");
+                    $.ajax({
+                        url : "/Servlet",
+                        type : "POST",
+                        data :{
+                            "gData":arr[i].toString(),
+                            "action":"receiveTag"
+                        },
+                        success: function(data) {
+                            alert(data);
+                            var pict=JSON.parse(data);
+                            src.push(pict.url);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status);
+                            alert(XMLHttpRequest.readyState);
+                            alert(textStatus);
+                        }
+                    });
 
-   for(var i=0;i<arr.length();i++){
-       arrid.push(arr[i]);
-       $.ajax({
-           url : "/Servlet",
-           type : "POST",
-           data :{
-               "gData":arr[i],
-               "action":"receiveTag"
-           },
-           success: function(data) {
-               var pict=JSON.parse(data);
-               src.push(pict.url);
-           },
-           error: function () {
-           }
-       });
+                }
+                var img=new Image();
+                img.src=src[a];
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0,500,500);
+                }
 
-   }
+            },
+            error: function () {
+            }
+        });
 
-
-
-    var img=new Image();
-    img.src=src[a];
-    img.onload = function() {
-        ctx.drawImage(img, 0, 0,500,500);
     }
+
+
+
+
+
     function nextpage(){
         a++;
         img.src=src[a];

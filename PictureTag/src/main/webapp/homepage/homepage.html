@@ -387,11 +387,11 @@
     function jump(){
         if(arr_task.requests[0]=="整体标注"){
             window.location.href="/label/tag_overall.html";
-            location.href="label/tag_area.html?"+"txt="+encodeURI(arr_task.id+">_<"+id);
+            location.href="label/tag_overall.html?"+"txt="+encodeURI(arr_task.id+">_<"+id);
         }
         else if(arr_task.requests[0]=="边框标注"){
             window.location.href="/label/tag_frame.html";
-            location.href="label/tag_area.html?"+"txt="+encodeURI(arr_task.id+">_<"+id);
+            location.href="label/tag_frame.html?"+"txt="+encodeURI(arr_task.id+">_<"+id);
         }
         else if(arr_task.requests[0]=="区域标注"){
             window.location.href="/label/tag_area.html";
