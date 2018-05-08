@@ -153,6 +153,8 @@ public class tagIO implements imageService {
             String temp = "";
             while (null != (temp = br.readLine())){
                 image iTemp =gson.fromJson(temp,image.class);
+                System.out.println(im.getId());
+                System.out.println(iTemp.getId());
                 if(im.getId().equals(iTemp.getId())){
                     reWrite.add(gson.toJson(im));
                 }
@@ -176,24 +178,32 @@ public class tagIO implements imageService {
         if(!fWrite.exists()){
             try {
                 fWrite.createNewFile();
-                FileWriter fw = new FileWriter(fWrite);
-                BufferedWriter bw = new BufferedWriter(fw);
-                for (int j = 0; j < reWrite.size(); j++) {
-                    bw.write(reWrite.get(j));
-                    bw.newLine();
-                }
-                bw.close();
-                fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(fWrite);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (int j = 0; j < reWrite.size(); j++) {
+                bw.write(reWrite.get(j));
+                bw.newLine();
+            }
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //修改task的值
-        String taskUserFilePath = dataAnalyze.class.getResource("/").getFile()+File.separator+taskId+".txt";
+        String taskUserFilePath = dataAnalyze.class.getResource("/").getFile()+File.separator+ss[0]+".txt";
         String taskData = d.findTask(taskId,taskUserFilePath);
         Task t = gson.fromJson(taskData,Task.class);
         t.setFlag(true);
+        t.setProgress(count);
+        System.out.println(t.getId());
         d.modifyTask(gson.toJson(t),taskUserFilePath);
         d.modifyTask(gson.toJson(t),committedTaskFile);
 

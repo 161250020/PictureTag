@@ -387,7 +387,9 @@
                 "action": "completeTask"
             },
             success: function (data) {
-                alert("保存成功！");
+                alert("提交成功！");
+                window.location.href="../../tools/tools_index.html";
+                location.href="../../tools/tools_index.html?"+"txt="+encodeURI(names[1]);
             },
             error: function () {
                 alert("Wrong!");

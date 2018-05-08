@@ -350,8 +350,10 @@ public class dataAnalyze {
             System.out.println("用户没有接受该任务！");
             return false;
         }
+        System.out.println(t.getProgress());
+        System.out.println(t.getImageIds().size());
         //用户接受过任务并完成标注，修改user信息，删除committed中的信息
-        if(t.getProgress()==t.getImageIds().size()) {
+        if((Integer)t.getProgress()==(Integer) t.getImageIds().size()) {
             int n = userInfo.getTaskNumber();
             double s =userInfo.getScore();
             userInfo.setTaskNumber(n + 1);
@@ -502,7 +504,7 @@ public class dataAnalyze {
     public String findTask(String taskId,String filePath){
         Gson gson = new Gson();
         String filename = taskId;
-        String[] strings = filename.split(sp);
+        //String[] strings = filename.split(sp);
         File f = new File(filePath);
         if(!f.exists()){
             try {
