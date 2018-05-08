@@ -366,7 +366,16 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      */
     private void modifyTag(HttpServletRequest request,HttpServletResponse response,String imgData){
         tagIO t = new tagIO();
+        System.out.println(imgData);
+        System.out.println("modifyTag");
         t.modifyTag(imgData);
+        try {
+            PrintWriter pw = response.getWriter();
+            pw.write("true");
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

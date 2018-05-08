@@ -5,7 +5,12 @@ import java.util.ArrayList;
 public class Sentence {
          private ArrayList<String> tokens;
          private String raw;
-         private int imgid;
+
+    public ArrayList<String> getTokens() {
+        return tokens;
+    }
+
+    private int imgid;
          private int sentid;
          public Sentence(){
              this.tokens=new ArrayList<String>();

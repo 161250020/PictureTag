@@ -202,12 +202,10 @@
         var obj;
         if(option.selectedIndex==0){
             obj={
-                "images":[
-                    {
                         "sentids":[
                             0
                         ],
-                        "imgid":arrid[a],
+                        "imgid":arrid[a].toString(),
                         "Sentences":[
                             {
                                 "tokens":[
@@ -222,22 +220,19 @@
                                 "sentid":0
                             }
                         ],
-                        "url":saveImage,
-                        "spilt":"train",
-                        "filename":""
+                        "url":saveImage.toString(),
+                        "filename":0,
+                        "split":"train",
+                        "flag":true
                     }
-                ]
-            }
 
         }
         else if(option.selectedIndex==1){
             obj={
-                "images":[
-                    {
                         "sentids":[
                             0
                         ],
-                        "imgid":arrid[a],
+                        "imgid":arrid[a].toString(),
                         "Sentences":[
                             {
                                 "tokens":[
@@ -251,21 +246,18 @@
                                 "sentid":0
                             }
                         ],
-                        "url":saveImage,
-                        "spilt":"train",
-                        "filename":""
+                        "url":saveImage.toString(),
+                        "filename":0,
+                         "split":"train",
+                        "flag":true
                     }
-                ]
-            }
         }
         else if(option.selectedIndex==2){
             obj={
-                "images":[
-                    {
                         "sentids":[
                             0
                         ],
-                        "imgid":arrid[a],
+                        "imgid":arrid[a].toString(),
                         "Sentences":[
                             {
                                 "tokens":[
@@ -282,21 +274,18 @@
                                 "sentid":0
                             }
                         ],
-                        "url":saveImage,
-                        "spilt":"train",
-                        "filename":""
+                        "url":saveImage.toString(),
+                        "filename":0,
+                         "split":"train",
+                        "flag":true
                     }
-                ]
-            }
         }
         else if(option.selectedIndex==3){
             obj={
-                "images":[
-                    {
                         "sentids":[
                             0
                         ],
-                        "imgid":arrid[a],
+                        "imgid":arrid[a].toString(),
                         "Sentences":[
                             {
                                 "tokens":[
@@ -311,21 +300,18 @@
                                 "sentid":0
                             }
                         ],
-                        "url":saveImage,
-                        "spilt":"train",
-                        "filename":""
+                        "url":saveImage.toString(),
+                        "filename":0,
+                "split":"train",
+                        "flag":true
                     }
-                ]
-            }
         }
         else if(option.selectedIndex==4) {
             obj = {
-                "images": [
-                    {
                         "sentids": [
                             0
                         ],
-                        "imgid": arrid[a],
+                        "imgid": arrid[a].toString(),
                         "Sentences": [
                             {
                                 "tokens": [
@@ -341,21 +327,18 @@
                                 "sentid": 0
                             }
                         ],
-                        "url":saveImage,
-                        "spilt": "train",
-                        "filename":
+                        "url":saveImage.toString(),
+                        "filename":0,
+                "split":"train",
+                        "flag":true
                     }
-                ]
-            }
         }
         else if(option.selectedIndex==5){
             obj={
-                "images":[
-                    {
                         "sentids":[
                             0
                         ],
-                        "imgid":arrid[a],
+                        "imgid":arrid[a].toString(),
                         "Sentences":[
                             {
                                 "tokens":[
@@ -370,24 +353,26 @@
                                 "sentid":0
                             }
                         ],
-                        "url":saveImage,
-                        "spilt":"train",
-                        "filename":""
+                        "url":saveImage.toString(),
+                        "filename":0,
+                        "split":"train",
+                        "flag":true
                     }
-                ]
-            }
         }
 
-        var changeobj = JSON.stringify(obj);
+        var obj_json = JSON.stringify(obj);
         $.ajax({
             url: "/Servlet",
             type: "POST",
+            async:true,
             data: {
-                "gData": changeobj,
+                "gData": obj_json,
                 "action": "modifyTag"
             },
             success: function (data) {
-                alert("保存成功！");
+                if(data=="true"){
+                    alert("保存成功！");
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);

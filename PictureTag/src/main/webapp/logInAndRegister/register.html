@@ -120,8 +120,10 @@
                         alert("用户名已被注册！")
                     }
                 },
-                error: function () {
-                    alert("Wrong!");
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
                 }
 
             });

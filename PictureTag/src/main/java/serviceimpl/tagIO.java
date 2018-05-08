@@ -67,6 +67,7 @@ public class tagIO implements imageService {
         String taskId="";
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
+        System.out.println(i.getId());
         String[] strings =i.getId().split(sp);
         taskId = strings[0]+sp+strings[1];
         //System.out.println(taskId);
@@ -126,11 +127,12 @@ public class tagIO implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(out);
+        //System.out.println(out);
         return out;
     }
 
     public void modifyTag(String jsonData) {
+
         dataAnalyze d = new dataAnalyze();
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
