@@ -57,7 +57,7 @@
     <br>
     开始日期：<input type="date" id="data1" width="28">
     结束日期：<input type="date" id="data2" width="28" onchange="analyse()">
-    <input type="button" id="make_circle" onclick="goChart()" value="确认">
+    <input type="button" id="make_circle" onclick=" goChart()" value="确认">
     <div height="400" width="500" style="margin:50px">
         <canvas id="chart">您的浏览器不支持HTML5 canvas</canvas>
         <div>
@@ -294,6 +294,12 @@
         });
 
     }
+    var mission1=0;
+    var mission2=0;
+    //获得数据
+    var total=0;
+    var finished=0;
+    var waited=0;
     function analyse(){
         var day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
         var day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
@@ -304,32 +310,45 @@
             //获得数据
             var chartData;
             //传递给后端两个时间
-            var obj={
-                "date1":day1,
-                "date2":day2
-            }
-            var obj_json=JSON.stringify(obj);
+
             $.ajax({
                 url : "/Servlet",
                 type : "POST",
                 data :{
-                    "gData":obj_json,
                     //调用后端返回两个任务数的方法
-                    "action":""
-
-
-
-
-
+                    "action":"receiveAllUser"
 
                 },
                 success: function(data) {
                     //修改为获得的已完成的任务数+未完成的任务数
+                    var userall=JSON.parse(data);
+                    for(var i=0;i<userall.length;i++){
+                        mission1=mission1+ Number(userall[i].TaskNumber);
+                    }
+                    $.ajax({
+                        url : "/Servlet",
+                        type : "POST",
+                        data :{
+                            //调用后端返回两个任务数的方法
+                            "action":"receiveCommittedTaskIds"
 
+                        },
+                        success: function(data) {
+                            //修改为获得的已完成的任务数+未完成的任务数
+                            var taskall=JSON.parse(data);
+                            mission2=taskall.length;
+                            //获得数据
+                             total=mission1;
+                             finished=mission1-mission2;
+                            waited=mission2;
+                            chartData = [[finished,"#2dc6c8","已完成任务数"], [waited,"#d7797f","未完成任务数"]];
+                            goChart(chartData);
+                        },
+                        error: function () {
+                        }
 
+                    });
 
-
-                    chartData = [[50,"#2dc6c8","已完成任务数"], [700,"#d7797f","未完成任务数"]];
                 },
                 error: function () {
                     alert("Wrong!");
@@ -337,17 +356,11 @@
 
             });
 
-            goChart(chartData);
         }
     }
 
-</script>
 
-<script>
-    //获得数据
-    var total=750;
-    var finished=50;
-    var waited=700;
+
     //total
     var c=document.getElementById("data_total");
     var ctx=c.getContext("2d");

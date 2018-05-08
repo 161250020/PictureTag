@@ -364,7 +364,6 @@
                     "action": "receiveTaskContent"
                 },
                 success: function (data) {
-                    alert(data);
                     arr_task = JSON.parse(data);
                     var oneRow = table.insertRow();//插入一行
                     var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
