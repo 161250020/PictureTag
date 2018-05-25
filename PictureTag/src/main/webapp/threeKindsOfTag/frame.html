@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>边框标注</title>
+
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+
+    <style rel="stylesheet">
+        .yuan{
+            width: 100px;
+            height: 100px;
+            background-color: #89f9dc;
+            border-radius: 50%;
+            border:1px solid #ccc;
+        }
+        .one,.two{
+            width: 50%;
+            height: 30px;
+            float: left;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <style type="text/css">
+        canvas{border:1px solid green;}
+    </style>
+</head>
+<body>
+<div class="panel panel-info">
+    <!--内容-->
+    <div class="panel-body">
+        <div class="row" style="height: 2000px">
+            <!--左边-->
+            <div class="col-md-3" style="background-color: white;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 70%;" align="center">
+                <ul class="no-bullet">
+                    <li>
+                        <br>
+                        <div class="yuan">
+                            <br>
+                            <i class="fa fa-edit" style="font-size:30px"></i>
+                            <br>
+                            <b>任务要求</b>
+                        </div>
+                    </li>
+                    <br>
+                    <br>
+                    <br>
+
+                    <div align="left">
+                        <ul class="no-bullet">
+                            <li>
+                                任务ID：001
+                            </li>
+                            <br>
+                            <li>
+                                任务发布者：DEF
+                            </li>
+                            <br>
+                            <li>
+                                任务完成者：ABC
+                            </li>
+                            <br>
+                            <li>
+                                图片数量：100
+                            </li>
+                            <br>
+                            <li>
+                                标注类型：整体标注
+                            </li>
+                            <br>
+                            <li>
+                                日期：2018-01-02~2018-01-08
+                                <br>
+                                还有xx天到期
+                            </li>
+                            <br>
+                            <li>
+                                其他需求：xxxx
+                            </li>
+                            <br>
+                            <li>
+                                积分奖励：100
+                            </li>
+                            <br>
+                            <li>
+                                任务完成状态：100
+                            </li>
+                        </ul>
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <li>
+                        <button type="button" class="btn btn-success" style="alignment: center" onclick="final_submit()">提交任务</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!--右边-->
+            <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 70%;">
+                <!--左边-->
+                <div class="one">
+                    <br>
+                    <br>
+                    <canvas id="canvas" width="350" height="350"></canvas>
+                    <br>
+                    <br>
+
+                    <!--按钮组-->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" onclick="startmark()">开始标注</button>
+                        <button type="button" class="btn btn-default" onclick="start_rec()">开始标记</button>
+                        <button type="button" class="btn btn-default" onclick="remove_rec()">删除标记</button>
+                        <button type="button" class="btn btn-default" onclick="restuya()">重新标注</button>
+                        <button type="button" class="btn btn-default" onclick="backPage()">上一张</button>
+                        <button type="button" class="btn btn-default" onclick="nextpage()">下一张</button>
+                        <button type="button" class="btn btn-default" onclick="savePicture()" id="save">保存</button>
+                    </div>
+                </div>
+
+                <!--右边-->
+                <div class="two" style="height: 95%">
+                    <br>
+                    <div class="panel panel-default" style="height: 100%;background-color: white">
+                        <div class="panel-body" style="height: 100%">
+                            <ul class="no-bullet">
+                                <li>
+                                    <b>图片类别：</b>
+                                    <select style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
+                                        <option value="自然景观" selected="selected">自然景观    </option>
+                                        <option value="现代景观">现代景观    </option>
+                                        <option value="人物剪影">人物剪影    </option>
+                                        <option value="旷野生灵">旷野生灵    </option>
+                                        <option value="惬意生活">惬意生活    </option>
+                                        <option value="风格主义">风格主义    </option>
+                                    </select>
+                                    <br>
+                                    <br>
+
+                                    <div id="selections">
+                                        主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type="text" name="主色调"id='modern3'><br><br>备注:<input type="text" name="备注"id='modern4'>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function select_func(s){
+        var a=s.toString();//获取下拉选项的文本值
+        //document.getElementById("demo").innerHTML=s;
+        if(a=="现代景观"){
+            document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type=\"text\" name=\"主色调\"id='modern3'><br><br>备注:<input type=\"text\" name=\"备注\"id='modern4'>"
+        }
+        else if(a=="人物剪影"){
+            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'>";
+        }
+        else if(a=="旷野生灵"){
+            document.getElementById("selections").innerHTML="物种:<input type='text'name='物种'id='wild1'><br><br>行为:<input type='text'name='行为'id='wild2'><br><br>背景:<input type='text'name='背景'id='wild3'><br><br>备注:<input type='text'name='备注'id='wild4'>";
+        }
+        else if(a=="惬意生活"){
+            document.getElementById("selections").innerHTML="动物:<input type='text'name='动物'id='life1'><br><br>人:<input type='text'name='人'id='life2'><br><br>景物:<input type='text'name='景物'id='life3'><br><br>行为:<input type='text'name='行为'id='life4'><br><br>背景:<input type='text'name='背景'id='life5'><br><br>备注:<input type='text'name='备注'id='life6'>";
+        }
+        else if(a=="风格主义"){
+            document.getElementById("selections").innerHTML="个性色彩:<input type='text'name='个性色彩'id='style1'><br><br>主色调:<input type='text'name='主色调'id='style2'><br><br>主题:<input type='text'name='主题'id='style3'><br><br>备注:<input type='text'name='备注'id='style4'>";
+        }
+        else if(a=="自然景观"){
+            document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物' id='nature1'> <br><br>季节:<input type='text' name='季节'id='nature2'><br><br>区域:<input type='text' name='区域'id='nature3'> <br><br>主色调:<input type='text' name='主色调'id='nature4'><br><br>备注:<input type='text' name='季节'id='nature5'>";
+        }
+    }
+
+</script>
+
+<script >
+    // 获取 canvas 对象
+    var canvas = document.getElementById('canvas');
+    // 获取绘图环境
+    var ctx = canvas.getContext('2d');
+    var last = null;
+    var xx=0,yy=0;
+    var file = document.getElementById('file');
+    var cleanflag=0;
+
+    // 文件对象
+    var filedata = null;
+    var a=0;
+    var src = new Array();
+    var arr=new Array();
+    var arrid=new Array();
+    var names;
+    var recloc=new Array();
+    var img=new Image();
+    function startmark(){
+
+        var loc = location.href;
+        var n1 = loc.length;//地址的总长度
+        var n2 = loc.indexOf("=");//取得=号的位置
+        var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+
+
+        names=id.split(">_<");
+
+        var userid="";
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "gData":names[0],
+                "action":"receiveTaskContent"
+            },
+            success: function(data) {
+
+                var pic=JSON.parse(data);
+                arr=pic.imageIds;
+
+                for(var i=0;i<arr.length;i++){
+
+                    arrid.push(arr[i]);
+
+                    $.ajax({
+                        url : "/Servlet",
+                        type : "POST",
+                        data :{
+                            "gData":arr[i].toString(),
+                            "action":"receiveTag"
+                        },
+                        success: function(data) {
+
+                            var pict=JSON.parse(data);
+                            src.push(pict.url);
+                            img.src=src[a];
+                            img.onload = function() {
+                                ctx.drawImage(img, 0, 0,350,350);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status);
+                            alert(XMLHttpRequest.readyState);
+                            alert(textStatus);
+                        }
+                    });
+
+                }
+
+
+            },
+            error: function () {
+            }
+        });
+
+    }
+
+
+
+    function remove_rec(){
+        cleanflag=1;
+
+    }
+    function start_rec(){
+        cleanflag=0;
+    }
+    function nextpage(){
+        a++;
+        img.src=src[a];
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0,350,350);
+        }
+    }
+
+
+    function backPage(){
+        if(a!=0) {
+            a--;
+            img.src = src[a];
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, 350, 350);
+            }
+        }
+    }
+
+    // 鼠标按下
+    canvas.onmousedown = function(e) {
+        // 在鼠标按下后触发鼠标移动事件
+        e = window.event || e;
+        xx = e.offsetX;
+        yy = e.offsetY;
+        canvas.onmousemove = move;
+        if (cleanflag == 1) {
+            for (var i = 0; i < recloc.length; i = i + 4) {
+                ctx.rect(recloc[i], recloc[i + 1], recloc[i + 2], recloc[i + 3]);
+                if(ctx.isPointInPath(xx,yy)){
+                    // removeByValue(recloc, recloc[i]);
+                    // removeByValue(recloc, recloc[i+1]);
+                    // removeByValue(recloc, recloc[i+2]);
+                    // removeByValue(recloc, recloc[i+3]);
+                    recloc[i]=0;
+                    recloc[i+1]=0;
+                    recloc[i+2]=0;
+                    recloc[i+3]=0;
+                    cleanflag=0;
+                    break;
+                }
+            }
+        }
+    }
+
+    // 鼠标抬起取消鼠标移动的事件
+    canvas.onmouseup = function(e){
+        e=window.event||e;
+        canvas.onmousemove = null;
+        last = null;
+        recloc.push(xx, yy, e.offsetX - xx, e.offsetY - yy);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, 350, 350);
+        for (var i = 0; i < recloc.length; i = i + 4)
+            ctx.strokeRect(recloc[i], recloc[i + 1], recloc[i + 2], recloc[i + 3]);
+
+
+    }
+    //ctx.strokeRect(xx,yy,e.offsetX-xx,e.offsetY-yy);
+    // 鼠标移出画布时 移动事件也要取消。
+    canvas.onmouseout = function(){
+        canvas.onmousemove = null;
+        ctx.strokeRect(xx,yy,e.offsetX-xx,e.offsetY-yy);
+        last = null;
+
+    }
+
+    // 鼠标移动函数
+    function move(e){
+        //console.log(last);
+        if(last != null){
+
+        }
+        // 第一次触发这个函数，只做一件事，把当前 鼠标的 x , y 的位置记录下来
+        // 做下一次 线段的 起始点。
+        last = [e.offsetX,e.offsetY];
+
+    }
+    function removeByValue(arr, val) {
+        for(var i=0; i<arr.length; i++) {
+            if(arr[i] == val) {
+                arr.splice(i, 1);
+                break;
+            }
+        }
+    }
+    // 当文件域内容发生改变时触发函数
+    // file.onchange = function(e){
+    //     filedata = e.target.files[0];
+    //     //  实例化文件读取对象
+    //     drawImg(filedata)
+    // }
+
+    // 重新在画
+    function restuya(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.drawImage(img, 0, 0,350,350);
+        recloc.splice(0,recloc.length);
+
+    }
+
+    function savePicture(){
+        var saveImage = canvas.toDataURL('image/jpg');
+
+        // json
+        var selectPoint=document.getElementById("sel");
+        var option=selectPoint.options;
+
+        var obj;
+        if(option.selectedIndex==0){
+            obj={
+                "sentids":[
+                    0
+                ],
+                "imgid":arrid[a].toString(),
+                "Sentences":[
+                    {
+                        "tokens":[
+                            document.getElementById("style1").value.toString(),
+                            document.getElementById("style2").value.toString(),
+                            document.getElementById("style3").value.toString(),
+                            document.getElementById("style4").value.toString(),
+                            document.getElementById("style5").value.toString()
+                        ],
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "imgid":0,
+                        "sentid":0
+                    }
+                ],
+                "url":saveImage.toString(),
+                "filename":0,
+                "split":"train",
+                "flag":true
+            }
+
+        }
+        else if(option.selectedIndex==1){
+            obj={
+                "sentids":[
+                    0
+                ],
+                "imgid":arrid[a].toString(),
+                "Sentences":[
+                    {
+                        "tokens":[
+                            document.getElementById("style1").value.toString(),
+                            document.getElementById("style2").value.toString(),
+                            document.getElementById("style3").value.toString(),
+                            document.getElementById("style4").value.toString(),
+                            document.getElementById("style5").value.toString()
+                        ],
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "imgid":0,
+                        "sentid":0
+                    }
+                ],
+                "url":saveImage.toString(),
+                "filename":0,
+                "split":"train",
+                "flag":true
+            }
+        }
+        else if(option.selectedIndex==2){
+            obj={
+                "sentids":[
+                    0
+                ],
+                "imgid":arrid[a].toString(),
+                "Sentences":[
+                    {
+                        "tokens":[
+                            document.getElementById("style1").value.toString(),
+                            document.getElementById("style2").value.toString(),
+                            document.getElementById("style3").value.toString(),
+                            document.getElementById("style4").value.toString(),
+                            document.getElementById("style5").value.toString()
+                        ],
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "imgid":0,
+                        "sentid":0
+                    }
+                ],
+                "url":saveImage.toString(),
+                "filename":0,
+                "split":"train",
+                "flag":true
+            }
+        }
+        else if(option.selectedIndex==3){
+            obj={
+                "sentids":[
+                    0
+                ],
+                "imgid":arrid[a].toString(),
+                "Sentences":[
+                    {
+                        "tokens":[
+                            document.getElementById("style1").value.toString(),
+                            document.getElementById("style2").value.toString(),
+                            document.getElementById("style3").value.toString(),
+                            document.getElementById("style4").value.toString(),
+                            document.getElementById("style5").value.toString()
+                        ],
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "imgid":0,
+                        "sentid":0
+                    }
+                ],
+                "url":saveImage.toString(),
+                "filename":0,
+                "split":"train",
+                "flag":true
+            }
+        }
+        else if(option.selectedIndex==4) {
+            obj={
+                "sentids":[
+                    0
+                ],
+                "imgid":arrid[a].toString(),
+                "Sentences":[
+                    {
+                        "tokens":[
+                            document.getElementById("style1").value.toString(),
+                            document.getElementById("style2").value.toString(),
+                            document.getElementById("style3").value.toString(),
+                            document.getElementById("style4").value.toString(),
+                            document.getElementById("style5").value.toString()
+                        ],
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "imgid":0,
+                        "sentid":0
+                    }
+                ],
+                "url":saveImage.toString(),
+                "filename":0,
+                "split":"train",
+                "flag":true
+            }
+        }
+        else if(option.selectedIndex==5){
+            obj={
+                "sentids":[
+                    0
+                ],
+                "imgid":arrid[a].toString(),
+                "Sentences":[
+                    {
+                        "tokens":[
+                            document.getElementById("style1").value.toString(),
+                            document.getElementById("style2").value.toString(),
+                            document.getElementById("style3").value.toString(),
+                            document.getElementById("style4").value.toString(),
+                            document.getElementById("style5").value.toString()
+                        ],
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "imgid":0,
+                        "sentid":0
+                    }
+                ],
+                "url":saveImage.toString(),
+                "filename":0,
+                "split":"train",
+                "flag":true
+            }
+        }
+
+        var changeobj = JSON.stringify(obj);
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                "gData": changeobj,
+                "action": "modifyTag"
+            },
+            success: function (data) {
+                alert("保存成功！");
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+    }
+
+    function final_submit(){
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            //cache: false,
+            //async: false,
+            data: {
+                "taskId": names[0],
+                "userId":names[1],
+                "action": "completeTask"
+            },
+            success: function (data) {
+                alert("提交成功！");
+                window.location.href="../../tools/tools_index.html";
+                location.href="../../tools/tools_index.html?"+"txt="+encodeURI(names[1]);
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
