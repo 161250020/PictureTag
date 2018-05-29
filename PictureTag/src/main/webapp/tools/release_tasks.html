@@ -95,7 +95,8 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容//userid
-
+    id=window.opener.id;
+    alert("test id"+id);
     //从后端获得任务的ID，显示在界面上面
     var ID="";
     $.ajax({

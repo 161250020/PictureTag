@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+</head>
+<style type="text/css">
+    body {
+        margin: 0;
+        background-image: url(../back.png);
+        background-repeat:no-repeat;
+        background-position:0% 0%;
+        background-size:cover;
+
+    }
+</style>
+<body>
+<style>
+    div
+    {
+        border:2px solid #a1a1a1;
+        padding:10px 40px;
+        background: white;
+        width:800px;
+        height: 700px;
+        border-radius:25px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+<div>
+    <h2 align="center">项目发起者</h2>
+    <button onclick="addproject()" class="button radius small"style="background-color: gray">添加项目</button>
+    <table id="project"width="700px">
+        <tr><th>项目列表</th></tr>
+        <tr>
+            <th>项目编号</th>
+            <th>时间</th>
+            <th>任务数</th>
+            <th>添加任务</th>
+        </tr>
+    </table>
+</div>
+<script>
+
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+    function addproject(){
+        var tab=document.getElementById("project");
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                //调用后端获取项目id的方法
+                "action":"receiveTaskId",
+                "gData":id
+            },
+            success: function(data) {
+                var oneRow = tab.insertRow();//插入一行
+                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                var cell2 = oneRow.insertCell(1);
+                var cell3 = oneRow.insertCell(2);
+                var cell4 = oneRow.insertCell(3);
+                cell1.innerHTML="000001";
+                cell2.innerHTML="12345";
+                cell3.innerHTML="1";
+                cell4.innerHTML="<button onclick='add()'class=\"button radius tiny\"style=\"background-color: gray\">添加";
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+
+
+    }
+    function add(){
+        window.open("release_tasks.html");
+
+    }
+</script>
+</body>
+</html>
