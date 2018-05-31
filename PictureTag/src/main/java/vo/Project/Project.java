@@ -1,6 +1,8 @@
 package vo.Project;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Project {          //众包发起项目的信息,包含id,名称,需求和任务的id
 
@@ -9,14 +11,14 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
     int progress;//已经完成task的数量
     ArrayList<String> requests;
     ArrayList<String> taskIds;
-    ArrayList<String> userIds;
+    Map<String,String> list;   //领取者和对应的任务
 
     public Project(){}
 
     public Project(String id,String name,int progress){
         requests = new ArrayList<String>();
         taskIds = new ArrayList<String>();
-        userIds = new ArrayList<String>();
+        list= new HashMap<String,String>();
         this.progress=progress;
         this.id = id;
         this.name = name;
@@ -30,12 +32,12 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
         this.progress = progress;
     }
 
-    public ArrayList<String> getUserIds() {
-        return userIds;
+    public Map<String, String> getList() {
+        return list;
     }
 
-    public void setUserIds(ArrayList<String> userIds) {
-        this.userIds = userIds;
+    public void setList(Map<String, String> list) {
+        this.list = list;
     }
 
     public String getId() {
