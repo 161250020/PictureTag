@@ -2,7 +2,7 @@ package servlet;
 
 import com.google.gson.Gson;
 import serviceimpl.AnalyzeUser;
-import serviceimpl.dataAnalyze;
+import serviceimpl.taskServiceImpl;
 import serviceimpl.tagIO;
 import serviceimpl.userserviceImpl;
 import vo.Project.Task.Task;
@@ -48,9 +48,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveUserInfo(request,response,userId);
         }
-        else if("receiveAllUser".equals(action)){
+/*        else if("receiveAllUser".equals(action)){
             this.receiveAllUser(request,response);
-        }
+        }*/
         else if("receiveUserCount".equals(action)){
             this.receiveUserCount(request,response);
         }
@@ -239,7 +239,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param userId
      */
     private void receiveUserDegree(HttpServletRequest request,HttpServletResponse response,String userId){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         String out = d.receiveUserDegree(userId);
         try {
             PrintWriter pw = response.getWriter();
@@ -437,7 +437,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         //System.out.println(taskData);
         Gson g = new Gson();
         //System.out.println(g.fromJson(taskData,Task.class).getId());
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         d.newTask(taskData);
         try {
             PrintWriter p = response.getWriter();
@@ -452,9 +452,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void modifyTask(HttpServletRequest request,HttpServletResponse response,String taskData){
         Gson g = new Gson();
         String taskId  = g.fromJson(taskData,Task.class).getId();
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         String[] ss = taskId.split("&");
-        String filePath = dataAnalyze.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
+        String filePath = taskServiceImpl.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
         boolean b = d.modifyTask(taskData,filePath);
         try {
             PrintWriter p = response.getWriter();
@@ -479,7 +479,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param taskId
      */
     private void receiveTaskContent(HttpServletRequest request,HttpServletResponse response,String taskId){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         //System.out.print("receiveTaskContent"+taskId);
         String taskInfo = d.receiveTaskInfo(taskId);
         try {
@@ -500,19 +500,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param taskId
      */
     private void deleteTask(HttpServletRequest request,HttpServletResponse response,String taskId){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         String[] ss = taskId.split("&");
-        String filePath = dataAnalyze.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
+        String filePath = taskServiceImpl.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
         d.deleteTask(taskId,filePath);
     }
 
 /*    private void commitTask(HttpServletRequest request, HttpServletResponse response,String taskId){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         d.commitTask(taskId);
     }*/
 
     private void receiveTaskId(HttpServletRequest request, HttpServletResponse response,String userId){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         String taskId = d.getTaskId(userId);
         try {
             PrintWriter p = response.getWriter();
@@ -555,7 +555,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     private void receiveCommittedTaskIds(HttpServletRequest request,HttpServletResponse response){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         ArrayList<String> ids = d.receiveCommittedTaskIds();
         try {
             PrintWriter pw = response.getWriter();
@@ -570,7 +570,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     private void acceptTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         boolean b = d.acceptTask(taskId,userId);
         try {
             PrintWriter pw = response.getWriter();
@@ -584,11 +584,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void completeTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         boolean b = d.completeTask(taskId, userId);
         try {
             PrintWriter pw = response.getWriter();
@@ -604,8 +603,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
+
+/*
     private  void receiveAllUser(HttpServletRequest request,HttpServletResponse response){
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         ArrayList<String> out = d.receiveAllUserIds();
         try {
             PrintWriter pw = response.getWriter();
@@ -617,5 +618,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
+*/
+
 
 }

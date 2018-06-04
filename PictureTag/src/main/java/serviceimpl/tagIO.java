@@ -10,7 +10,7 @@ import vo.Project.Task.image;
 
 public class tagIO implements imageService {
     String sp = "&";
-    String committedTaskFile = dataAnalyze.class.getResource("/").getFile()+File.separator+"committedTask.txt";
+    String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.txt";
     //String filePath = "C://TomCat//apache-tomcat-8.5.29//apache-tomcat-8.5.29//webapps//TagFile//tag.txt";
     //URL tagPath = Thread.currentThread().getContextClassLoader().getResource("");
     //String filePath = "C:\\TomCat\\apache-tomcat-8.5.29\\apache-tomcat-8.5.29\\webapps\\PictureTag\\TagFile\\tagFile.txt";
@@ -133,7 +133,7 @@ public class tagIO implements imageService {
 
     public void modifyTag(String jsonData) {
 
-        dataAnalyze d = new dataAnalyze();
+        taskServiceImpl d = new taskServiceImpl();
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         String[] ss = i.getId().split(sp);
@@ -198,7 +198,7 @@ public class tagIO implements imageService {
         }
 
         //修改task的值
-        String taskUserFilePath = dataAnalyze.class.getResource("/").getFile()+File.separator+ss[0]+".txt";
+        String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+ss[0]+".txt";
         String taskData = d.findTask(taskId,taskUserFilePath);
         Task t = gson.fromJson(taskData,Task.class);
         t.setFlag(true);
