@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        /* Make the image fully responsive */
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <style rel="stylesheet">
+        .one,.two{
+            width: 50%;
+            height: 30px;
+            float: left;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+<body>
+<div class="panel panel-info" style="height: 1000px">
+    <!--标题-->
+    <div class="panel-heading">
+        <b class="panel-title">图片众包网站</b>
+        <button type="button" class="btn btn-link" style="background-color: #1cf8ff">首页</button>
+        <button type="button" class="btn btn-link">发布任务</button>
+        <button type="button" class="btn btn-link">任务广场</button>
+        <button type="button" class="btn btn-link">我的任务</button>
+        <button type="button" class="btn btn-link">个人中心</button>
+        <br>
+        <br>
+        <br>
+    </div>
+
+
+
+    <!--内容-->
+    <div class="panel-body" style="height: 100%; width: 100%">
+        <div class="one">
+            <div id="myCarousel" class="carousel slide">
+                <!-- 轮播（Carousel）指标 -->
+                <ol class="carousel-indicators">
+                    <li data-target="www.baidu.com" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <!-- 轮播（Carousel）项目 -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="../back1.png" alt="First slide">
+                    </div>
+                    <div class="item">
+                        <img src="../back2.png" alt="Second slide">
+                    </div>
+                    <div class="item">
+                        <img src="../back3.png" alt="Third slide">
+                    </div>
+                </div>
+                <!-- 轮播（Carousel）导航 -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <!--登录-->
+        <div class="two">
+            <div class="panel-body" style="border: 1px solid lightblue; height: 100%; width: 100%">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
