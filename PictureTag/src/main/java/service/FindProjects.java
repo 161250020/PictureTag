@@ -13,11 +13,11 @@ public interface FindProjects {
 
     /**
      *
-     * @param id 通过用户id来返回项目列表
+     * @param username 通过用户id来返回项目列表
      * @param b true:自己发布的项目   false:领取的项目
      * @return
      */
-    public ArrayList<Project> getProjects(String id, boolean b);
+    public ArrayList<Project> getProjects(String username, boolean b);
 
     /**
      *
