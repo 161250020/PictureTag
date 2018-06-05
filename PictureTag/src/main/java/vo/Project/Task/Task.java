@@ -7,6 +7,7 @@ public class Task {          //个体任务
 
     String id;//形如格式为projectId+"^_^"+"00001"
     String name;
+    String tagType;//标注类型
     double socre;//完成task将获得的分数
     int progress;//已经完成图片的数量
     boolean flag;//判断task是否已经被接受 true:接受
@@ -113,5 +114,13 @@ public class Task {          //个体任务
 
     public void setRequests(ArrayList<String> requests) {
         this.requests = requests;
+    }
+
+    public String getTagType() {
+        return tagType;
+    }
+
+    public void setTagType(String tagType) {
+        this.tagType = tagType;
     }
 }
