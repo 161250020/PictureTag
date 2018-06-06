@@ -2,381 +2,127 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>管理员界面</title>
+    <title>管理员</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
     <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
-    <style>
-        canvas{
-            border: 1px solid #A4E2F9;
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+
+    <style rel="stylesheet">
+        .yuan{
+            width: 100px;
+            height: 100px;
+            background-color: #89f9dc;
+            border-radius: 50%;
+            border:1px solid #ccc;
+        }
+        .one,.two{
+            width: 50%;
+            height: 30px;
+            float: left;
+            box-sizing: border-box;
         }
     </style>
 
 </head>
-<style type="text/css">
-    body {
-        margin: 0;
-        background-image: url(../back.png);
-        background-repeat:no-repeat;
-        background-position:0% 0%;
-        background-size:cover;
-
-    }
-</style>
 <body>
-<style type="text/css">
-    big_div{
-        border:2px solid #a1a1a1;
-        padding:10px 40px;
-        background: white;
-        width:800px;
-        height: 700px;
-        border-radius:25px;
-        margin: auto;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-</style>
+<div class="panel panel-info">
+    <!--标题-->
+    <div class="panel-heading">
+        <b class="panel-title">图片众包网站</b>
+        <button type="button" class="btn btn-link">数据查看</button>
+        <button type="button" class="btn btn-link">个人中心</button>
+        <!--左边-->
+        <div align="right">
+            <b id="b_userId" style="alignment: right">用户名：admin</b>
+            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
+        </div>
+    </div>
 
-<div id=big_div style=" border:2px solid #a1a1a1;
-        padding:10px 40px;
-        background: white;
-        width:800px;
-        height: 700px;
-        border-radius:25px;
-        margin: auto;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;">
-    <h3>系统用户数:<input id="in" type="text" name="usernumber" disabled="disabled" size="12" style="border:0px;border-bottom:#000000 1px solid;"></h3>
-    <br>
-    开始日期：<input type="date" id="data1" width="28">
-    结束日期：<input type="date" id="data2" width="28" onchange="analyse()">
-    <input type="button" id="make_circle" onclick=" goChart()" value="确认">
-    <div height="400" width="500" style="margin:50px">
-        <canvas id="chart">您的浏览器不支持HTML5 canvas</canvas>
-        <div>
-            <canvas id="data_total" width="185" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
-            <canvas id="data_fin" width="200" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
-            <canvas id="data_wai" width="200" height="40" style="border: 1px solid #A4E2F9;">您的浏览器不支持HTML5 canvas</canvas>
+
+
+    <!--内容-->
+    <div class="panel-body">
+        <div class="row" style="height: 2000px">
+            <!--左边-->
+            <div class="col-md-3" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;" align="center">
+                <ul class="no-bullet">
+                    <li>
+                        <br>
+                        <div class="yuan" align="center">
+                            <br>
+                            <i class="fa fa-calendar" style="font-size:30px"></i>
+                            <br>
+                            <b>我的众包</b>
+                        </div>
+                    </li>
+                    <br>
+                    <li>
+                        <button type="button" class="button secondary" style="width: 100%">我发布的项目</button>
+                    </li>
+                    <li>
+                        <button type="button" class="button secondary" style="width: 100%">我参与的任务</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!--右边-->
+            <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;">
+                <!--筛选条件-->
+                <div>
+                    <div class="one">
+                        <br>
+                        <b>标注类型：</b>
+                        <br>
+                        <select style="width: 50%;">
+                            <option>--全部-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option>整体标注  </option>
+                            <option>边框标注  </option>
+                            <option>边界标注  </option>
+                        </select>
+                    </div>
+                    <div class="two">
+                        <div class="one">
+                            <br>
+                            <b>发布时间段：</b>
+                            <input type="date" align="left" style="width: 100%">
+                        </div>
+                        <div class="two">
+                            <br>
+                            <br>
+                            <input type="date" align="left" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <!--项目列表-->
+                <div>
+                    <div class="panel panel-default">
+                        <table class="table">
+                            <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>参与者</th><th>完成度</th>
+                            <tr>
+                                <td><a href="#">0001</a></td><td>overall</td><td>helloworld</td><td>hello</td><td>0/100</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">0002</a></td><td>overall</td><td>helloworld2</td><td>hello2</td><td>1/100</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    function run() {
-        alert("123");
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            data: {
-                //调用后端返回系统用户数的方法
-                "gData": 0,
-                "action": "receiveUserCount"
-
-            },
-            success: function (data) {
-                document.getElementById("in").value = data.toString();
-            },
-            error: function () {
-                alert("Wrong!");
-            }
-
-        });
-    }
-    run();
-</script>
-
-<script >
-    function goChart(dataArr){
-        // 声明所需变量
-        var canvas,ctx;
-        // 图表属性
-        var cWidth, cHeight, cMargin, cSpace;
-        // 饼状图属性
-        var radius,ox,oy;//半径 圆心
-        var tWidth, tHeight;//图例宽高
-        var posX, posY, textX, textY;
-        var startAngle, endAngle;
-        var totleNb;
-        // 运动相关变量
-        var ctr, numctr, speed;
-        //鼠标移动
-        var mousePosition = {};
-
-        //线条和文字
-        var lineStartAngle,line,textPadding,textMoveDis;
-
-        // 获得canvas上下文
-        canvas = document.getElementById("chart");
-        if(canvas && canvas.getContext){
-            ctx = canvas.getContext("2d");
-        }
-
-        initChart();
-        // 图表初始化
-        function initChart(){
-            // 图表信息
-            cMargin = 20;
-            cSpace = 40;
-
-            canvas.width = canvas.parentNode.getAttribute("width")* 2 ;
-            canvas.height = canvas.parentNode.getAttribute("height")* 2;
-            canvas.style.height = canvas.height/2 + "px";
-            canvas.style.width = canvas.width/2 + "px";
-            cHeight = canvas.height - cMargin*2;
-            cWidth = canvas.width - cMargin*2;
-
-            //饼状图信息
-            radius = cHeight*2/6;  //半径  高度的2/6
-            ox = canvas.width/2 + cSpace;  //圆心
-            oy = canvas.height/2;
-            tWidth = 60; //图例宽和高
-            tHeight = 20;
-            posX = cMargin;
-            posY = cMargin;   //
-            textX = posX + tWidth + 15
-            textY = posY + 18;
-            startAngle = endAngle = 90*Math.PI/180; //起始弧度 结束弧度
-            rotateAngle = 0; //整体旋转的弧度
-
-            //将传入的数据转化百分比
-            totleNb = 0;
-            new_data_arr = [];
-            for (var i = 0; i < dataArr.length; i++){
-                totleNb += dataArr[i][0];
-            }
-            for (var i = 0; i < dataArr.length; i++){
-                new_data_arr.push( dataArr[i][0]/totleNb );
-            }
-            totalYNomber = 10;
-
-            // 运动相关
-            ctr = 1;//初始步骤
-            numctr = 50;//步骤
-            speed = 1.2; //毫秒 timer速度
-
-            //指示线 和 文字
-            lineStartAngle = -startAngle;
-            line=40;         //画线的时候超出半径的一段线长
-            textPadding=10;  //文字与线之间的间距
-            textMoveDis = 200; //文字运动开始的间距
-
-        }
-
-        drawMarkers();
-        //绘制比例图及文字
-        function drawMarkers(){
-            ctx.textAlign="left";
-            for (var i = 0; i < dataArr.length; i++){
-                //绘制比例图及文字
-                ctx.fillStyle = dataArr[i][1];
-                ctx.fillRect(posX, posY + 40 * i, tWidth, tHeight);
-                ctx.moveTo(posX, posY + 40 * i);
-                ctx.font = 'normal 24px 微软雅黑';    //斜体 30像素 微软雅黑字体
-                ctx.fillStyle = dataArr[i][1]; //"#000000";
-                var percent = dataArr[i][2] + "：" + parseInt(100 * new_data_arr[i]) + "%";
-                ctx.fillText(percent, textX, textY + 40 * i);
-            }
-        };
-
-        //绘制动画
-        pieDraw();
-        function pieDraw(mouseMove){
-
-            for (var n = 0; n < dataArr.length; n++){
-                ctx.fillStyle = ctx.strokeStyle = dataArr[n][1];
-                ctx.lineWidth=1;
-                var step = new_data_arr[n]* Math.PI * 2; //旋转弧度
-                var lineAngle = lineStartAngle+step/2;   //计算线的角度
-                lineStartAngle += step;//结束弧度
-
-                ctx.beginPath();
-                var  x0=ox+radius*Math.cos(lineAngle),//圆弧上线与圆相交点的x坐标
-                    y0=oy+radius*Math.sin(lineAngle),//圆弧上线与圆相交点的y坐标
-                    x1=ox+(radius+line)*Math.cos(lineAngle),//圆弧上线与圆相交点的x坐标
-                    y1=oy+(radius+line)*Math.sin(lineAngle),//圆弧上线与圆相交点的y坐标
-                    x2=x1,//转折点的x坐标
-                    y2=y1,
-                    linePadding=ctx.measureText(dataArr[n][2]).width+10; //获取文本长度来确定折线的长度
-
-                ctx.moveTo(x0,y0);
-                //对x1/y1进行处理，来实现折线的运动
-                yMove = y0+(y1-y0)*ctr/numctr;
-                ctx.lineTo(x1,yMove);
-                if(x1<=x0){
-                    x2 -= line;
-                    ctx.textAlign="right";
-                    ctx.lineTo(x2-linePadding,yMove);
-                    ctx.fillText(dataArr[n][2],x2-textPadding-textMoveDis*(numctr-ctr)/numctr,y2-textPadding);
-                }else{
-                    x2 += line;
-                    ctx.textAlign="left";
-                    ctx.lineTo(x2+linePadding,yMove);
-                    ctx.fillText(dataArr[n][2],x2+textPadding+textMoveDis*(numctr-ctr)/numctr,y2-textPadding);
-                }
-
-                ctx.stroke();
-
-            }
-
-            //设置旋转
-            ctx.save();
-            ctx.translate(ox, oy);
-            ctx.rotate((Math.PI*2/numctr)*ctr/2);
-
-            //绘制一个圆圈
-            ctx.strokeStyle = "rgba(0,0,0,"+ 0.5*ctr/numctr +")";
-            ctx.beginPath();
-            ctx.arc(0, 0 ,(radius+20)*ctr/numctr, 0, Math.PI*2, false);
-            ctx.stroke();
-
-            for (var j = 0; j < dataArr.length; j++){
-
-                //绘制饼图
-                endAngle = endAngle + new_data_arr[j]* ctr/numctr * Math.PI * 2; //结束弧度
-
-                ctx.beginPath();
-                ctx.moveTo(0,0); //移动到到圆心
-                ctx.arc(0, 0, radius*ctr/numctr, startAngle, endAngle, false); //绘制圆弧
-
-                ctx.fillStyle = dataArr[j][1];
-                if(mouseMove && ctx.isPointInPath(mousePosition.x*2, mousePosition.y*2)){
-                    ctx.globalAlpha = 0.8;
-                }
-
-                ctx.closePath();
-                ctx.fill();
-                ctx.globalAlpha = 1;
-
-                startAngle = endAngle; //设置起始弧度
-                if( j == dataArr.length-1 ){
-                    startAngle = endAngle = 90*Math.PI/180; //起始弧度 结束弧度
-                }
-            }
-
-            ctx.restore();
-
-            if(ctr<numctr){
-                ctr++;
-                setTimeout(function(){
-                    //ctx.clearRect(-canvas.width,-canvas.width,canvas.width*2, canvas.height*2);
-                    ctx.clearRect(-canvas.width, -canvas.height,canvas.width*2, canvas.height*2);
-                    drawMarkers();
-                    pieDraw();
-                }, speed*=1.085);
-            }
-        }
-
-        //监听鼠标移动
-        var mouseTimer = null;
-        canvas.addEventListener("mousemove",function(e){
-            e = e || window.event;
-            if( e.offsetX || e.offsetX==0 ){
-                mousePosition.x = e.offsetX;
-                mousePosition.y = e.offsetY;
-            }else if( e.layerX || e.layerX==0 ){
-                mousePosition.x = e.layerX;
-                mousePosition.y = e.layerY;
-            }
-
-            clearTimeout(mouseTimer);
-            mouseTimer = setTimeout(function(){
-                ctx.clearRect(0,0,canvas.width, canvas.height);
-                drawMarkers();
-                pieDraw(true);
-            },10);
-        });
-
-    }
-    var mission1=0;
-    var mission2=0;
-    //获得数据
-    var total=0;
-    var finished=0;
-    var waited=0;
-    function analyse(){
-        var day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
-        var day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
-        if(day1>day2){
-            alert("Wrong time!");
-        }
-        else{
-            //获得数据
-            var chartData;
-            //传递给后端两个时间
-
-            $.ajax({
-                url : "/Servlet",
-                type : "POST",
-                data :{
-                    //调用后端返回两个任务数的方法
-                    "action":"receiveAllUser"
-
-                },
-                success: function(data) {
-                    //修改为获得的已完成的任务数+未完成的任务数
-                    var userall=JSON.parse(data);
-                    for(var i=0;i<userall.length;i++){
-                        mission1=mission1+ Number(userall[i].TaskNumber);
-                    }
-                    $.ajax({
-                        url : "/Servlet",
-                        type : "POST",
-                        data :{
-                            //调用后端返回两个任务数的方法
-                            "action":"receiveCommittedTaskIds"
-
-                        },
-                        success: function(data) {
-                            //修改为获得的已完成的任务数+未完成的任务数
-                            var taskall=JSON.parse(data);
-                            mission2=taskall.length;
-                            //获得数据
-                             total=mission1;
-                             finished=mission1-mission2;
-                            waited=mission2;
-                            chartData = [[finished,"#2dc6c8","已完成任务数"], [waited,"#d7797f","未完成任务数"]];
-                            goChart(chartData);
-                        },
-                        error: function () {
-                        }
-
-                    });
-
-                },
-                error: function () {
-                    alert("Wrong!");
-                }
-
-            });
-
-        }
-    }
-
-
-
-    //total
-    var c=document.getElementById("data_total");
-    var ctx=c.getContext("2d");
-    ctx.font="15px 微软雅黑";
-    ctx.fillText("总数："+total,10,15);
-    //finished
-    var c1=document.getElementById("data_fin");
-    var ctx1=c1.getContext("2d");
-    ctx1.font="15px 微软雅黑";
-    ctx1.fillText("已完成任务数量："+finished,10,15);
-    //waited
-    var c2=document.getElementById("data_wai");
-    var ctx2=c2.getContext("2d");
-    ctx2.font="15px 微软雅黑";
-    ctx2.fillText("未完成任务数量："+waited,10,15);
-
-</script>
 </body>
 </html>
