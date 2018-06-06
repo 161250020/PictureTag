@@ -115,7 +115,6 @@
                     <canvas id="canvas" width="350" height="350"></canvas>
                     <br>
                     <br>
-
                     <!--按钮组-->
                     <div align="center">
                         <button type="button" class="btn btn-default" onclick="backPage()">上一张</button>
@@ -140,61 +139,24 @@
                     <div class="panel panel-default" style="height: 100%;background-color: white">
                         <div class="panel-body" style="height: 100%">
                             <ul class="no-bullet">
-                                <li>
-                                    <b>图片类别：</b>
-                                    <select style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
-                                        <option value="自然景观" selected="selected">自然景观    </option>
-                                        <option value="现代景观">现代景观    </option>
-                                        <option value="人物剪影">人物剪影    </option>
-                                        <option value="旷野生灵">旷野生灵    </option>
-                                        <option value="惬意生活">惬意生活    </option>
-                                        <option value="风格主义">风格主义    </option>
-                                    </select>
-                                    <br>
-                                    <br>
-
-                                    <div id="selections">
-                                        主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type="text" name="主色调"id='modern3'><br><br>备注:<input type="text" name="备注"id='modern4'>
-                                    </div>
-                                </li>
+                                <div id="content">
+                                    图片类别：xxxx<br><br>
+                                    主要景物:xxxx<br><br>
+                                    主题:xxxx<br><br>
+                                    主色调:xxxx<br><br>
+                                    备注:xxxx
+                                </div>
                             </ul>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
 
 
 
-<script>
-    function select_func(s){
-        var a=s.toString();//获取下拉选项的文本值
-        //document.getElementById("demo").innerHTML=s;
-        if(a=="现代景观"){
-            document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type=\"text\" name=\"主色调\"id='modern3'><br><br>备注:<input type=\"text\" name=\"备注\"id='modern4'>"
-        }
-        else if(a=="人物剪影"){
-            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'>";
-        }
-        else if(a=="旷野生灵"){
-            document.getElementById("selections").innerHTML="物种:<input type='text'name='物种'id='wild1'><br><br>行为:<input type='text'name='行为'id='wild2'><br><br>背景:<input type='text'name='背景'id='wild3'><br><br>备注:<input type='text'name='备注'id='wild4'>";
-        }
-        else if(a=="惬意生活"){
-            document.getElementById("selections").innerHTML="动物:<input type='text'name='动物'id='life1'><br><br>人:<input type='text'name='人'id='life2'><br><br>景物:<input type='text'name='景物'id='life3'><br><br>行为:<input type='text'name='行为'id='life4'><br><br>背景:<input type='text'name='背景'id='life5'><br><br>备注:<input type='text'name='备注'id='life6'>";
-        }
-        else if(a=="风格主义"){
-            document.getElementById("selections").innerHTML="个性色彩:<input type='text'name='个性色彩'id='style1'><br><br>主色调:<input type='text'name='主色调'id='style2'><br><br>主题:<input type='text'name='主题'id='style3'><br><br>备注:<input type='text'name='备注'id='style4'>";
-        }
-        else if(a=="自然景观"){
-            document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物' id='nature1'> <br><br>季节:<input type='text' name='季节'id='nature2'><br><br>区域:<input type='text' name='区域'id='nature3'> <br><br>主色调:<input type='text' name='主色调'id='nature4'><br><br>备注:<input type='text' name='季节'id='nature5'>";
-        }
-    }
-
-</script>
 
 <script >
     // 获取 canvas 对象
