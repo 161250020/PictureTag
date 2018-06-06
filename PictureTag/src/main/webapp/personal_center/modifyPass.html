@@ -19,7 +19,7 @@
         .yuan{
             width: 100px;
             height: 100px;
-            background-color: #89f9dc;
+            background-color: white;
             border-radius: 50%;
             border:1px solid #ccc;
         }
@@ -55,77 +55,65 @@
     <div class="panel-body">
         <div class="row" style="height: 2000px">
             <!--左边-->
-            <div class="col-md-3" style="background-color: white;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 70%;" align="center">
+            <div class="col-md-3" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffe7a;height: 70%;" align="center">
                 <ul class="no-bullet">
                     <li>
                         <br>
                         <div class="yuan" align="center">
                             <br>
-                            <i class="fa fa-calendar" style="font-size:30px"></i>
+                            <i class="fa fa-user-o" style="font-size:30px"></i>
                             <br>
-                            <b>我的众包</b>
+                            <b>个人中心</b>
                         </div>
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%">我发布的项目</button>
+                        <button type="button" class="button secondary" style="width: 100%">个人信息</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%">我参与的任务</button>
+                        <button type="button" class="button secondary" style="width: 100%">支付管理</button>
+                    </li>
+                    <li>
+                        <button type="button" class="button secondary" style="width: 100%">我的财富</button>
+                    </li>
+                    <li>
+                        <button type="button" class="button secondary" style="width: 100%">修改密码</button>
                     </li>
                 </ul>
             </div>
 
             <!--右边-->
-            <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 70%;">
-                <!--筛选条件-->
-                <div>
-                    <div class="one">
-                        <br>
-                        <b>标注类型：</b>
-                        <br>
-                        <select style="width: 50%;">
-                            <option>--全部-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
-                            <option>整体标注  </option>
-                            <option>边框标注  </option>
-                            <option>边界标注  </option>
-                        </select>
-                    </div>
-                    <div class="two">
+            <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #f7ff62, inset -1px 1px 1px #fff626;height: 70%;">
+                <br>
+                <br>
+                <div class="panel panel-default" align="left">
+                   <div style="height: 40px">
+                       <div class="one">
+                           <h5 style="font-family: 仿宋;font-weight: bold">新密码：</h5>
+                       </div>
+                       <div class="two">
+                           <input type="text" class="form-control" id="newPass">
+                       </div>
+                   </div>
+                    <br>
+                    <div style="height: 40px">
                         <div class="one">
-                            <br>
-                            <b>发布时间段：</b>
-                            <input type="date" align="left" style="width: 100%">
+                            <h5 style="font-family: 仿宋;font-weight: bold">确认新密码：</h5>
                         </div>
                         <div class="two">
-                            <br>
-                            <br>
-                            <input type="date" align="left" style="width: 100%">
+                            <input type="text" class="form-control" id="reInputNewPass">
                         </div>
                     </div>
-                </div>
-                <br>
-                <br>
-                <br>
-                <br>
-
-                <!--项目列表-->
-                <div>
-                    <div class="panel panel-default">
-                        <table class="table">
-                            <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>参与者</th><th>完成度</th>
-                            <tr>
-                                <td><a href="#">0001</a></td><td>overall</td><td>helloworld</td><td>hello</td><td>0/100</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">0002</a></td><td>overall</td><td>helloworld2</td><td>hello2</td><td>1/100</td>
-                            </tr>
-                        </table>
+                    <br>
+                    <br>
+                    <div align="center">
+                        <button type="button" class="button warning tiny" style="width: 50%">确认</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>

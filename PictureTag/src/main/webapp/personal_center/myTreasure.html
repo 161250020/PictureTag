@@ -19,7 +19,7 @@
         .yuan{
             width: 100px;
             height: 100px;
-            background-color: #89f9dc;
+            background-color: white;
             border-radius: 50%;
             border:1px solid #ccc;
         }
@@ -55,77 +55,66 @@
     <div class="panel-body">
         <div class="row" style="height: 2000px">
             <!--左边-->
-            <div class="col-md-3" style="background-color: white;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 70%;" align="center">
+            <div class="col-md-3" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffe7a;height: 70%;" align="center">
                 <ul class="no-bullet">
                     <li>
                         <br>
                         <div class="yuan" align="center">
                             <br>
-                            <i class="fa fa-calendar" style="font-size:30px"></i>
+                            <i class="fa fa-user-o" style="font-size:30px"></i>
                             <br>
-                            <b>我的众包</b>
+                            <b>个人中心</b>
                         </div>
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%">我发布的项目</button>
+                        <button type="button" class="button secondary" style="width: 100%">个人信息</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%">我参与的任务</button>
+                        <button type="button" class="button secondary" style="width: 100%">支付管理</button>
+                    </li>
+                    <li>
+                        <button type="button" class="button secondary" style="width: 100%">我的财富</button>
+                    </li>
+                    <li>
+                        <button type="button" class="button secondary" style="width: 100%">修改密码</button>
                     </li>
                 </ul>
             </div>
 
             <!--右边-->
-            <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 70%;">
-                <!--筛选条件-->
-                <div>
-                    <div class="one">
-                        <br>
-                        <b>标注类型：</b>
-                        <br>
-                        <select style="width: 50%;">
-                            <option>--全部-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
-                            <option>整体标注  </option>
-                            <option>边框标注  </option>
-                            <option>边界标注  </option>
-                        </select>
-                    </div>
-                    <div class="two">
-                        <div class="one">
-                            <br>
-                            <b>发布时间段：</b>
-                            <input type="date" align="left" style="width: 100%">
+            <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;">
+                <br>
+                <br>
+                <div class="panel panel-default" align="left">
+                    <h4 style="font-family: 仿宋;font-weight: bold">财富：</h4>
+                    <h5 style="font-family: 仿宋;font-weight: bold">积分总量：123</h5>
+                    <h5 style="font-family: 仿宋;font-weight: bold">积分排名：12345（总人数：1234567）</h5>
+                    <div align="right">
+                        <button type="button" class="btn btn-default" data-reveal-id="myModal">查看详细收入信息</button>
+                        <div id="myModal" class="reveal-modal" data-reveal>
+                            <div class="panel panel-default">
+                                <h4 style="font-family: 仿宋;font-weight: bold">支出账单：</h4>
+                                <table class="table">
+                                    <th>日期</th><th>项目号</th><th>任务号</th><th>付款方</th><th>积分数量</th>
+                                    <tr><td>xxxx</td><td>xxxx</td><td>xxxx</td><td>xxxx</td><td>xxxx</td></tr>
+                                    <tr><td>xxxx</td><td>xxxx</td><td>xxxx</td><td>xxxx</td><td>xxxx</td></tr>
+                                </table>
+                            </div>
+                            <a class="close-reveal-modal">&times;</a>
                         </div>
-                        <div class="two">
-                            <br>
-                            <br>
-                            <input type="date" align="left" style="width: 100%">
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <br>
-                <br>
-
-                <!--项目列表-->
-                <div>
-                    <div class="panel panel-default">
-                        <table class="table">
-                            <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>参与者</th><th>完成度</th>
-                            <tr>
-                                <td><a href="#">0001</a></td><td>overall</td><td>helloworld</td><td>hello</td><td>0/100</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">0002</a></td><td>overall</td><td>helloworld2</td><td>hello2</td><td>1/100</td>
-                            </tr>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $(document).foundation();
+    })
+</script>
+
 </body>
 </html>
