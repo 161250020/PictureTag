@@ -9,6 +9,13 @@
     <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+
     <style>
         /* Make the image fully responsive */
         .carousel-inner img {
@@ -20,7 +27,7 @@
     <style rel="stylesheet">
         .one,.two{
             width: 50%;
-            height: 30px;
+            height: 800px;
             float: left;
             box-sizing: border-box;
         }
@@ -31,12 +38,12 @@
 <div class="panel panel-info" style="height: 1000px">
     <!--标题-->
     <div class="panel-heading">
-        <b class="panel-title">图片众包网站</b>
-        <button type="button" class="btn btn-link" style="background-color: #1cf8ff">首页</button>
-        <button type="button" class="btn btn-link">发布任务</button>
-        <button type="button" class="btn btn-link">任务广场</button>
-        <button type="button" class="btn btn-link">我的任务</button>
-        <button type="button" class="btn btn-link">个人中心</button>
+        <b class="panel-title">图片众包网站 &nbsp; &nbsp;</b>
+        <button type="button" class="btn btn-link"> &nbsp; &nbsp;首页 &nbsp; &nbsp;</button>
+        <button type="button" class="btn btn-link"> &nbsp;发布任务 &nbsp;</button>
+        <button type="button" class="btn btn-link"> &nbsp;任务广场 &nbsp;</button>
+        <button type="button" class="btn btn-link"> &nbsp;我的任务 &nbsp;</button>
+        <button type="button" class="btn btn-link"> &nbsp;个人中心 &nbsp;</button>
         <br>
         <br>
         <br>
@@ -45,9 +52,9 @@
 
 
     <!--内容-->
-    <div class="panel-body" style="height: 100%; width: 100%">
-        <div class="one">
-            <div id="myCarousel" class="carousel slide">
+    <div class="panel-body" style="height: 800px; width: 100%">
+        <div class="one" align="left">
+            <div id="myCarousel" class="carousel slide" style="background-color: #ffc05f;width: 100%;height: 66%">
                 <!-- 轮播（Carousel）指标 -->
                 <ol class="carousel-indicators">
                     <li data-target="www.baidu.com" data-slide-to="0" class="active"></li>
@@ -78,9 +85,52 @@
             </div>
         </div>
         <!--登录-->
-        <div class="two">
-            <div class="panel-body" style="border: 1px solid lightblue; height: 100%; width: 100%">
+        <div class="two" align="center">
+            <div class="panel-body" style="background-color: #ffc05f;width: 100%;height: 66%" align="center">
+                <br>
+                <br>
+                <br>
+                <div class="panel panel-default" style="width: 50%" align="center">
+                    <div class="panel-heading">
+                        平台用户登录
+                    </div>
+                    <div class="panel-body">
+                        <br>
+                        <input type="text" class="form-control" id="account" placeholder="帐号：">
+                        <input type="text" class="form-control" id="password" placeholder="密码：">
+                        <button type="button" class="button small" style="width: 100%">登录</button>
+                        <div align="right">
+                            <button type="button" class="btn btn-link">注册</button>
+                            <button type="button" class="btn btn-link">忘记密码</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
 
+        <!--已登录-->
+        <div class="two" align="center" hidden>
+            <div class="panel-body" style="background-color: #ffc05f;width: 100%;height: 66%" align="center">
+                <br>
+                <br>
+                <br>
+                <div class="panel panel-default" style="width: 50%" align="center">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <i class="fa fa-user-circle" style="font-size:40px"></i>
+                            <br>
+                            <!--身份-->
+                            <div>
+                                用户名：hello
+                                <br>
+                                ID：001
+                            </div>
+                        </div>
+                        <div class="panel-footer">积分：100</div>
+                    </div>
+                </div>
+                <br>
             </div>
         </div>
     </div>
