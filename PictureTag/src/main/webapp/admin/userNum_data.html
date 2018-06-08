@@ -72,7 +72,7 @@
 		         	这样相当于把两倍的东西缩放到原来的 1/2，这样在高清屏幕上 一个像素的位置就可以有两个像素的值
 		         	这样需要注意的是所有的宽高间距，文字大小等都得设置成原来的两倍才可以。
 		        */
-		        canvas.width = canvas.parentNode.getAttribute("width")* 2 ;
+		        canvas.width = canvas.parentNode.getAttribute("width")* 2.5 ;
 		        canvas.height = canvas.parentNode.getAttribute("height")* 2;
 		        canvas.style.height = canvas.height/2 + "px";
 		        canvas.style.width = canvas.width/2 + "px";
@@ -109,7 +109,7 @@
             // 绘制图表轴、标签和标记
             function drawLineLabelMarkers(){
                 //ctx.translate(0.5,0.5);  // 当只绘制1像素的线的时候，坐标点需要偏移，这样才能画出1像素实线
-                ctx.font = "24px Arial";
+                ctx.font = "25px Arial";
                 ctx.lineWidth = 2;
                 ctx.fillStyle = "#000";
                 ctx.strokeStyle = "#000";
@@ -159,10 +159,10 @@
                 // 绘制标题 y
                 ctx.save();
                 ctx.rotate(-Math.PI/2);
-                ctx.fillText("产 量", -canvas.height/2, cSpace-10);
+                ctx.fillText("用户", -canvas.height/2, cSpace-10);
                 ctx.restore();
                 // 绘制标题 x
-                ctx.fillText("年份", originX+cWidth/2, originY+cSpace/2+30);
+                ctx.fillText("日期", originX+cWidth/2, originY+cSpace/2+30);
             };
 
             //绘制柱形图
@@ -209,7 +209,8 @@
 
 
         goBarChart(
-                [[2007, 750], [2008, 425], [2009, 960], [2010, 700], [2011, 800], [2012, 975], [2013, 375], [2014, 775]]
+                    [["2018-06-08", 750], ["2018-06-08", 425], ["2018-06-08", 960], ["2018-06-08", 700], ["2018-06-08", 800], ["2018-06-08", 975], ["2018-06-08", 375], ["2018-06-08", 775]]
+
         )
 
 
