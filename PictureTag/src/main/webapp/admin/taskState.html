@@ -81,7 +81,7 @@
 		    	
 		    	var posX = cMargin+cSpace*3,
 		    	posY = cMargin,
-		    	tWidth = 30, //图例宽和高
+		    	tWidth = 40, //图例宽和高
 		    	tHeight = 20
 		    	
 	            for (var i = 0; i < totalNomber; i++){
@@ -92,9 +92,9 @@
 	                ctx.font = 'normal 24px 微软雅黑';    //斜体 30像素 微软雅黑字体
 	                ctx.fillStyle = colorArr[i];
 	                //var percent = dataArr[i][2] + "：" + parseInt(100 * new_data_arr[i]) + "%";
-	                ctx.fillText(textArr[i], posX+tWidth+10, posY+17);
+	                ctx.fillText(textArr[i], posX+tWidth, posY+17);
 	                
-	                posX += 150;
+	                posX += 200;
 	                
 	            }
 		    };
@@ -227,7 +227,7 @@
         		ctx.save();
             	ctx.beginPath();
             	ctx.fillStyle = "rgba(0,0,0,0.5)";
-            	var H = 100;
+            	var H = 180;
             	roundedRect(ctx,oX+10,oY,2*H,H,5);
             	
             	ctx.fillStyle = "#fff";
@@ -282,11 +282,11 @@
 
 		var dataArr = [
                 {
-                    value : [100, 40, 60, 80, 20],
+                    value : [1600, 1000, 600, 400],
                     name : '预期'
                 },
                  {
-                    value : [15000, 8000, 18000, 31000, 42000, 11000],
+                    value : [15000, 8000, 18000, 31000, 42000],
                     name : '实际'
                 }
             ];
@@ -297,7 +297,7 @@
 		 * 参数3：一维数组  对应上面每个数据的名字
 		 * 参数4：中部填充是否实心 ，默认false
 		 * */
-        goChart(document.getElementById("chart"),dataArr,["订单量","访问量","点击量","咨询量","转发量"],true)
+        goChart(document.getElementById("chart"),dataArr,["已发布任务数","待领取任务数","已领取任务数","已完成任务数"],true)
 
 
     </script>
