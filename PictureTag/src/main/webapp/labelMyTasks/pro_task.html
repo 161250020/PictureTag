@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布任务</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+    <script src="https://cdn.bootcss.com/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+
+    <style rel="stylesheet">
+        .yuan{
+            width: 100px;
+            height: 100px;
+            background-color: #89f9dc;
+            border-radius: 50%;
+            border:1px solid #ccc;
+        }
+        .one,.two{
+            width: 50%;
+            height: 30px;
+            float: left;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="panel panel-info">
+    <!--标题-->
+    <div class="panel-heading">
+        <b class="panel-title">图片众包网站</b>
+        <button type="button" class="btn btn-link">首页</button>
+        <button type="button" class="btn btn-link">发布任务</button>
+        <button type="button" class="btn btn-link">任务广场</button>
+        <button type="button" class="btn btn-link">我的任务</button>
+        <button type="button" class="btn btn-link">个人中心</button>
+        <!--左边-->
+        <div align="right">
+            <b id="b_userId" style="alignment: right">用户名：001</b>
+            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!--内容-->
+    <div class="panel-body">
+        <div class="row" style="height: 2000px">
+            <!--左边-->
+            <div class="col-md-3" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;" align="center">
+
+                <ul class="no-bullet">
+                    <li>
+                        <br>
+                        <div class="yuan" align="center">
+                            <br>
+                            <i class="fa fa-calendar" style="font-size:30px"></i>
+                            <br>
+                            <b>项目ID</b>
+                        </div>
+                    </li>
+                    <br>
+                    <li>
+                        <button type="button" class="button secondary" data-reveal-id="myModal" style="width: 100%">添加任务</button>
+                    </li>
+                </ul>
+
+            </div>
+
+            <!--添加任务-->
+            <div id="myModal" class="reveal-modal "  data-reveal align="center">
+                <ul class="small-block-grid-5">
+                    <li id="demo" style="width: 25%;"></li>
+                    <!--发布任务-->
+                    <li style="background: white;border-radius: 50px;width: 50%">
+                        <h1 align="center"><small>发布任务</small></h1>
+                        <!--从后端可以获得任务的ID-->
+                        <h5 id="get_taskId"><small>任务ID：</small></h5>
+
+                        <!--自己从本地选择文件-->
+                        <input id="choose_files" type="file" class="button info" multiple>
+
+                        <!--需求-->
+                        <div style="padding: 20px;">
+                            <h3><small>需求：</small></h3>
+                            <blockquote>
+                                <ol>
+                                    <li>
+                                        标注类型：
+                                        <select id="typeOfTag" width="50" length="50" onchange="type_of_tag(this.options[this.options.selectedIndex].value)">
+                                            <option>-请选择-</option>
+                                            <option value="整体标注">整体标注</option>
+                                            <option value="边框标注">边框标注</option>
+                                            <option value="区域标注">区域标注</option>
+                                        </select>
+                                    </li>
+                                    <li>
+                                        任务日期：
+                                        <blockquote>
+                                            开始日期：<input type="date" id="data1" width="25">
+                                            结束日期：<input type="date" id="data2" width="25" onchange="analyse()">
+                                        </blockquote>
+                                    </li>
+                                    <li>
+                                        工人等级要求：
+                                        <blockquote>
+                                            <input id="lowestInput" type="text" placeholder="最低等级">
+                                            <input id="highestInput" type="text" placeholder="最高等级">
+                                        </blockquote>
+                                    </li>
+                                    <li>
+                                        其他需求：<textarea id="other_needs" rows="4" placeholder="其他需求："></textarea>
+                                    </li>
+                                </ol>
+                            </blockquote>
+                        </div>
+                        <!--积分奖励，任务发布者支付-->
+                        积分奖励：<input id="integral" type="text" placeholder="积分奖励：">
+
+                        <!--按钮：确认发布-->
+                        <h1 align="center"><button id="release" type="button" class="button" onclick="release()">确认发布</button></h1>
+                    </li>
+                    <li style="width: 25%"></li>
+                </ul>
+
+
+
+
+
+
+
+                <a class="close-reveal-modal">&times;</a>
+            </div>
+
+
+
+
+            <!--右边-->
+            <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;">
+                <!--筛选条件-->
+                <div>
+                    <div class="one">
+                        <br>
+                        <b>标注类型：</b>
+                        <br>
+                        <select style="width: 50%;">
+                            <option>--全部-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option>整体标注  </option>
+                            <option>边框标注  </option>
+                            <option>边界标注  </option>
+                        </select>
+                    </div>
+                    <div class="two">
+                        <div class="one">
+                            <br>
+                            <b>发布时间段：</b>
+                            <input type="date" align="left" style="width: 100%">
+                        </div>
+                        <div class="two">
+                            <br>
+                            <br>
+                            <input type="date" align="left" style="width: 100%">
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <!--项目列表-->
+                <div>
+                    <div class="panel panel-default">
+                        <table class="table" id="project">
+                            <th>任务ID</th><th>基本信息</th><th>完成度</th><th>发布时间</th>
+                            <tr>
+                                <td><a href="#">0001</a></td><td>helloworld</td><td>0/100</td><td>2018-01-01</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">0002</a></td><td>helloworld2</td><td>1/100</td><td>2018-01-01</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+    function addproject(){
+        var tab=document.getElementById("project");
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                //调用后端获取项目id的方法
+                "action":"receiveTaskId",
+                "gData":id
+            },
+            success: function(data) {
+                var oneRow = tab.insertRow();//插入一行
+                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                var cell2 = oneRow.insertCell(1);
+                var cell3 = oneRow.insertCell(2);
+                var cell4 = oneRow.insertCell(3);
+                cell1.innerHTML="000001";
+                cell2.innerHTML="12345";
+                cell3.innerHTML="1";
+                cell4.innerHTML="时间";
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+
+
+    }
+    function add(){
+        window.open("release_tasks.html");
+
+    }
+</script>
+</body>
+
+</html>
