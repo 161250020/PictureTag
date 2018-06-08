@@ -137,10 +137,10 @@
 		        // 绘制标题 y
 		        ctx.save();
 		        ctx.rotate(-Math.PI/2);
-		        ctx.fillText("访问量", -canvas.height/2, cSpace-10);
+		        ctx.fillText("任务等待被领取时间段(min)", -canvas.height/2, cSpace-10);
 		        ctx.restore();
 		        // 绘制标题 x
-		        ctx.fillText("月份", originX+cWidth/2, originY+cSpace/2+20);
+		        ctx.fillText("积分(分)", originX+cWidth/2, originY+cSpace/2+20);
 		    };
 		
 		    //绘制折线图
@@ -206,7 +206,7 @@
 	
 		}
     	
-    	var chartData = [["2017/01", 50], ["2017/02", 60], ["2017/03", 100], ["2017/04",200], ["2017/05",350], ["2017/06",600]];
+    	var chartData = [[50, 75], [60, 30], [100, 20], [120,25], [139,70], [160,80]];
 		goChart(chartData);
 
 
