@@ -74,75 +74,76 @@
                     <br>
                     <li>
                         <button type="button" class="button secondary" data-reveal-id="myModal" style="width: 100%">添加任务</button>
-                    </li>
-                </ul>
+                        <!--添加任务-->
+                        <div id="myModal" class="reveal-modal "  data-reveal align="center">
+                            <ul class="small-block-grid-5">
+                                <li id="demo" style="width: 25%;"></li>
+                                <!--发布任务-->
+                                <li style="background: white;border-radius: 50px;width: 50%">
+                                    <h1 align="center"><small>发布任务</small></h1>
+                                    <!--从后端可以获得任务的ID-->
+                                    <h5 id="get_taskId"><small>任务ID：</small></h5>
 
-            </div>
+                                    <!--自己从本地选择文件-->
+                                    <input id="choose_files" type="file" class="button info" multiple>
 
-            <!--添加任务-->
-            <div id="myModal" class="reveal-modal "  data-reveal align="center">
-                <ul class="small-block-grid-5">
-                    <li id="demo" style="width: 25%;"></li>
-                    <!--发布任务-->
-                    <li style="background: white;border-radius: 50px;width: 50%">
-                        <h1 align="center"><small>发布任务</small></h1>
-                        <!--从后端可以获得任务的ID-->
-                        <h5 id="get_taskId"><small>任务ID：</small></h5>
-
-                        <!--自己从本地选择文件-->
-                        <input id="choose_files" type="file" class="button info" multiple>
-
-                        <!--需求-->
-                        <div style="padding: 20px;">
-                            <h3><small>需求：</small></h3>
-                            <blockquote>
-                                <ol>
-                                    <li>
-                                        标注类型：
-                                        <select id="typeOfTag" width="50" length="50" onchange="type_of_tag(this.options[this.options.selectedIndex].value)">
-                                            <option>-请选择-</option>
-                                            <option value="整体标注">整体标注</option>
-                                            <option value="边框标注">边框标注</option>
-                                            <option value="区域标注">区域标注</option>
-                                        </select>
-                                    </li>
-                                    <li>
-                                        任务日期：
+                                    <!--需求-->
+                                    <div style="padding: 20px;">
+                                        <h3><small>需求：</small></h3>
                                         <blockquote>
-                                            开始日期：<input type="date" id="data1" width="25">
-                                            结束日期：<input type="date" id="data2" width="25" onchange="analyse()">
+                                            <ol>
+                                                <li>
+                                                    标注类型：
+                                                    <select id="typeOfTag" width="50" length="50" onchange="type_of_tag(this.options[this.options.selectedIndex].value)">
+                                                        <option>-请选择-</option>
+                                                        <option value="整体标注">整体标注</option>
+                                                        <option value="边框标注">边框标注</option>
+                                                        <option value="区域标注">区域标注</option>
+                                                    </select>
+                                                </li>
+                                                <li>
+                                                    任务日期：
+                                                    <blockquote>
+                                                        开始日期：<input type="date" id="data1" width="25">
+                                                        结束日期：<input type="date" id="data2" width="25" onchange="analyse()">
+                                                    </blockquote>
+                                                </li>
+                                                <li>
+                                                    工人等级要求：
+                                                    <blockquote>
+                                                        <input id="lowestInput" type="text" placeholder="最低等级">
+                                                        <input id="highestInput" type="text" placeholder="最高等级">
+                                                    </blockquote>
+                                                </li>
+                                                <li>
+                                                    其他需求：<textarea id="other_needs" rows="4" placeholder="其他需求："></textarea>
+                                                </li>
+                                            </ol>
                                         </blockquote>
-                                    </li>
-                                    <li>
-                                        工人等级要求：
-                                        <blockquote>
-                                            <input id="lowestInput" type="text" placeholder="最低等级">
-                                            <input id="highestInput" type="text" placeholder="最高等级">
-                                        </blockquote>
-                                    </li>
-                                    <li>
-                                        其他需求：<textarea id="other_needs" rows="4" placeholder="其他需求："></textarea>
-                                    </li>
-                                </ol>
-                            </blockquote>
+                                    </div>
+                                    <!--积分奖励，任务发布者支付-->
+                                    积分奖励：<input id="integral" type="text" placeholder="积分奖励：">
+
+                                    <!--按钮：确认发布-->
+                                    <h1 align="center"><button id="release" type="button" class="button" onclick="release()">确认发布</button></h1>
+                                </li>
+                                <li style="width: 25%"></li>
+                            </ul>
+
+
+
+
+
+
+
+                            <a class="close-reveal-modal">&times;</a>
                         </div>
-                        <!--积分奖励，任务发布者支付-->
-                        积分奖励：<input id="integral" type="text" placeholder="积分奖励：">
-
-                        <!--按钮：确认发布-->
-                        <h1 align="center"><button id="release" type="button" class="button" onclick="release()">确认发布</button></h1>
                     </li>
-                    <li style="width: 25%"></li>
                 </ul>
 
-
-
-
-
-
-
-                <a class="close-reveal-modal">&times;</a>
             </div>
+
+
 
 
 
@@ -205,31 +206,189 @@
 
 <script>
 
+    $(document).ready(function() {
+        $(document).foundation();
+    })
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
-    var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-    function addproject(){
-        var tab=document.getElementById("project");
+    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容//userid
+
+    var ID="";
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取任务id的方法
+            "action":"receiveTaskId",
+            "gData":id
+
+
+
+
+
+        },
+        success: function(data) {
+            ID=data.toString();
+            document.getElementById("get_taskId").innerHTML="任务ID："+ID;
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
+    //将选择的图片们保存成url形式
+    var arr;
+    var txt;
+    function savePicsAsUrl(){
+        arr=new Array();
+        var pics=document.getElementById("choose_files").files;
+        var len=pics.length;
+        for(var i=0;i<len;i++){
+            var pic=pics[i];
+            if(pic!=null){
+                var reader=new FileReader();
+                reader.onload=function (event) {
+                    txt=event.target.result.toString();
+
+                    //传递后端：任务id+url；获得图片的id
+                    var obj={
+                        "sentids":[
+                            0
+                        ],
+                        "imgid":ID.toString(),
+                        "Sentences":[
+                            {
+                                "tokens":[
+
+                                ],
+                                "raw":"",
+                                "imgid":0,
+                                "sentid":0
+                            }
+                        ],
+                        "url":txt.toString(),
+                        "filename":0,
+                        "spilt":"train",
+                        "flag":false
+                    };
+                    var obj_json=JSON.stringify(obj);
+                    $.ajax({
+                        url : "/Servlet",
+                        type : "POST",
+                        async:true,
+                        data :{
+                            "gData":obj_json,
+                            "action":"savePicture"
+                        },
+                        success: function(data) {
+                            arr.push(data.toString());
+
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status);
+                            alert(XMLHttpRequest.readyState);
+                            alert(textStatus);
+                        }
+
+                    });
+
+
+
+
+                    //?或许此处有问题，图片存储arr出了reader.onload就无法识别了
+                    //alert(arr[i]);
+                    //document.getElementById("demo").innerHTML='<img src="'+arr[2]+'">';
+                }
+                reader.readAsDataURL(pic);
+
+            }
+        }
+    }
+
+    function contentLoaded(){
+        document.getElementById("choose_files").addEventListener("change",savePicsAsUrl,false);
+    }
+    window.addEventListener("DOMContentLoaded",contentLoaded,false);
+
+    //返回的标注类型
+    //工人等级+标注类型
+    var tag;//存放返回的标注类型
+    function type_of_tag(type){
+        tag=type.toString();
+        //document.getElementById("demo").innerHTML=tag;
+    }
+
+    //日期
+    //返回day1和day2，格式为yyyyMMdd
+    var day1;
+    var day2;
+    function analyse(){
+        day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
+        day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
+        if(day1>day2){
+            alert("Wrong time!");
+        }
+    }
+
+    //其余返回值（其他需求+积分奖励）
+    function release(){
+        var low=document.getElementById("lowestInput").value.toString();
+        var high=document.getElementById("highestInput").value.toString();
+        var other_needs=document.getElementById("other_needs").value.toString();
+        var input_integral=document.getElementById("integral").value.toString();
+        var requests=new Array();
+        requests.push(tag.toString());
+        requests.push(low.toString());
+        requests.push(high.toString());
+        requests.push(other_needs.toString());
+        requests.push(input_integral.toString());
+
+        //返回所有的数值，包括前面的id，工人等级，需求，这两个数据
+        //创建json
+        var obj={
+            "id":ID,
+            "name":0,
+            "score":input_integral,
+            "progress":0,
+            "flag":false,
+            "flag1":false,
+            "startDate":day1,
+            "endDate":day2,
+            "imageIds":arr,
+            "requests":requests
+        }
+        var obj_JSON=JSON.stringify(obj);
+
+
         $.ajax({
             url : "/Servlet",
             type : "POST",
             data :{
-                //调用后端获取项目id的方法
-                "action":"receiveTaskId",
-                "gData":id
+                "gData":obj_JSON,
+                //发布task
+                "action":"newTask"
+
+
+
+
+
+
             },
             success: function(data) {
-                var oneRow = tab.insertRow();//插入一行
-                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-                var cell2 = oneRow.insertCell(1);
-                var cell3 = oneRow.insertCell(2);
-                var cell4 = oneRow.insertCell(3);
-                cell1.innerHTML="000001";
-                cell2.innerHTML="12345";
-                cell3.innerHTML="1";
-                cell4.innerHTML="时间";
+                if(data=="true"){
+                    alert("任务发布成功！");
+                    //跳转到个人主页
+                    window.location.href="pro_task.html";
+                    location.href="pro_task.html?"+"txt="+encodeURI(id);
 
+                }
+                else{
+                    alert("发布任务失败!");
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
@@ -237,13 +396,9 @@
                 alert(textStatus);
             }
         });
-
-
     }
-    function add(){
-        window.open("release_tasks.html");
 
-    }
+
 </script>
 </body>
 
