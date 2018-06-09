@@ -24,6 +24,7 @@ public interface FindProjects {
      * @param id 通过project的id来返回task列表
      * @return
      */
-    public ArrayList<Task> getTask(String id);
+    public ArrayList<Task> getTask(String username,String id);        //project存取多个文件还是 一个; 多个的话需要usename来指定一下.
 
 }
+

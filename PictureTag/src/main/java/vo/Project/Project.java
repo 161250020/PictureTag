@@ -5,23 +5,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Project {          //众包发起项目的信息,包含id,名称,需求和任务的id
-
-    String id;//形如格式为userName+"^_^"+"00001"
+    String username;            //发起者的用户名
+    String id;                   //形如格式为userName+"^_^"+"00001"
     String name;
     int progress;//已经完成task的数量
     ArrayList<String> requests;
     ArrayList<String> taskIds;
     Map<String,String> list;   //领取者和对应的任务
 
-    public Project(){}
+    public Project(){
+        this.username="";
+        this.requests = new ArrayList<String>();
+        this.taskIds = new ArrayList<String>();
+        this.list= new HashMap<String,String>();
+        this.progress=0;
+        this.id = "";
+        this.name = "";
+    }
 
-    public Project(String id,String name,int progress){
-        requests = new ArrayList<String>();
-        taskIds = new ArrayList<String>();
-        list= new HashMap<String,String>();
+    public Project(String id,String name,int progress,String username){
+        this.requests = new ArrayList<String>();
+        this.taskIds = new ArrayList<String>();
+        this.list= new HashMap<String,String>();
         this.progress=progress;
         this.id = id;
         this.name = name;
+        this.username=username;
     }
 
     public int getProgress() {
@@ -76,5 +85,13 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
 
     public void setTaskIds(ArrayList<String> taskIds) {
         this.taskIds = taskIds;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
