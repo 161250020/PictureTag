@@ -37,11 +37,18 @@
 <body>
 <div class="panel panel-info" style="height: 1000px">
     <!--标题-->
-    <div class="panel-heading" id="head">
-        <b class="panel-title">图片众包网站 &nbsp; &nbsp;</b>
-        <br>
-        <br>
-        <br>
+    <div class="panel-heading">
+        <b class="panel-title">图片众包网站</b>
+        <button type="button" class="btn btn-link" onclick="toHomePage()">首页</button>
+        <button type="button" class="btn btn-link" onclick="toReleasePros()">发布任务</button>
+        <button type="button" class="btn btn-link" onclick="toPros()">任务广场</button>
+        <button type="button" class="btn btn-link" onclick="toMyPros()">我的任务</button>
+        <button type="button" class="btn btn-link" onclick="toPersonalCenter()">个人中心</button>
+        <!--左边-->
+        <div align="right">
+            <b id="b_userId" style="alignment: right"></b>
+            <button type="button" class="btn btn-default" style="alignment: right" onclick="logout()">退出登录</button>
+        </div>
     </div>
 
 
@@ -81,90 +88,92 @@
         </div>
         <!--登录-->
         <div class="two" align="center" id="divreg">
-            <div class="panel-body" style="background-color: #ffc05f;width: 100%;height: 66%" align="center">
+            <div class="panel-body" style="background-color: #ffc05f;width: 100%;height: 66%" align="center" id="divreg_ok">
                 <br>
                 <br>
                 <br>
                 <div class="panel panel-default" style="width: 50%" align="center">
-                    <div class="panel-heading">
-                        平台用户登录
-                    </div>
-                    <div class="panel-body">
-                        <br>
-                        <input type="text" class="form-control" id="account" placeholder="帐号：">
-                        <input type="text" class="form-control" id="password" placeholder="密码：">
-                        <button onclick="register()" type="button" class="button small" style="width: 100%">登录</button>
-                        <div align="right">
-                            <button type="button" class="btn btn-link"><a href="register.html">注册</a></button>
-                            <button type="button" class="btn btn-link"><a href="modify_password.html">忘记密码</a></button>
-                        </div>
+                    <div class="panel panel-default" id="show_info">
+                        nothing;
                     </div>
                 </div>
                 <br>
             </div>
         </div>
-
     </div>
 
 
 </div>
 
 <script>
-    //登录
-    function register(){
-        //从服务器端返回判断是否存在这个用户的结果
-        var str={
-            "username":document.getElementById("account").value.toString(),
-            "password":document.getElementById("password").value.toString(),
-            "name":null,
-            "level":0,
-            "receivepro":[],
-            "launchpro":[],
-            "TaskNumber":0,
-            "score":0.0
-        };
-        var changeobj=JSON.stringify(str);
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                "gData":changeobj,
-                "action":"login"
-            },
+    //读取id
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+    document.getElementById("b_userId").innerText="用户名："+id;
 
-            success: function(data) {
-                //exist用来判断该用户是否存在
-                var exist=0;
+    //获得用户名，积分
 
-                //如果返回的值是true
-                if(data=="true"){
-                    exist=1;
-                }
 
-                //针对两种不同的返回值的反应
-                if(exist==1){
-                    if(document.getElementById("account").value.toString()=="admin"){
-                        window.location.href="../admin/view_data.html";
-                        location.href="../admin/view_data.html?"+"txt="+encodeURI(document.getElementById("account").value.toString());
-                    }
-                    else {
-                        window.location.href="home_page_alreadyin.html";
-                        location.href="home_page_alreadyin.html?"+"txt="+encodeURI(document.getElementById("account").value.toString());
-                    }
-                }
-                else{
-                    //清空后提示
-                    document.getElementById("account").value="";
-                    document.getElementById("password").value="";
-                    alert("Invalid username or password!");
-                }
-            },
-            error: function () {
-                alert("Wrong!");
-            }
-        });
+
+
+
+
+
+    var usename="hello";
+    var integral=100;
+    document.getElementById("show_info").innerHTML="                        <div class=\"panel-body\">\n" +
+        "                            <i class=\"fa fa-user-circle\" style=\"font-size:40px\"></i>\n" +
+        "                            <br>\n" +
+        "                            <!--身份-->\n" +
+        "                            <div>\n" +
+        "                                用户名："+usename+"\n" +
+        "                                <br>\n" +
+        "                                ID：001\n" +
+        "                            </div>\n" +
+        "                        </div>\n" +
+        "                        <div class=\"panel-footer\">积分："+integral+"</div>"
+
+
+    //首页
+    function toHomePage(){
+        window.location.href="home_page_alreadyin.html";
+        location.href="home_page_alreadyin.html?"+"txt="+encodeURI(id);
+    }
+    //发布任务
+    function toReleasePros() {
+        window.location.href="../labelMyTasks/mypro.html";
+        location.href="../labelMyTasks/mypro.html?"+"txt="+encodeURI(id);
+
+    }
+    //任务广场
+    function toPros() {
+        window.location.href="../labelMyTasks/pro_list.html";
+        location.href="../labelMyTasks/pro_list.html?"+"txt="+encodeURI(id);
+
+    }
+    //我的任务
+    function toMyPros() {
+        window.location.href="../labelMyTasks/myReleasedPros.html";
+        location.href="../labelMyTasks/myReleasedPros.html?"+"txt="+encodeURI(id);
+
+    }
+    //个人中心
+    function toPersonalCenter() {
+        window.location.href="../personal_center/personal_info.html";
+        location.href="../personal_center/personal_info.html?"+"txt="+encodeURI(id);
+
     }
 
+</script>
+
+<script>
+    //退出
+    function logout(){
+        window.open("home_page.html", "_blank");
+        window.close();
+    }
 </script>
 </body>
 </html>
