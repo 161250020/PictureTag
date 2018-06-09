@@ -117,7 +117,14 @@ public class AnalyzeUser implements Analyze {
         else if(getType3(username)>getType1(username)&&getType3(username)>getType2(username)){
             result="overall";
         }
+        else if(getType1(username)==getType2(username)&&getType3(username)<getType2(username)){
+            //result=compare("")
+        }
             return result;
+    }
+
+    public String compare(String type1,String type2,String type3){
+
     }
     public ArrayList<Task> recom(String username){
         ArrayList<Task> recommendTask=new ArrayList<Task>();
