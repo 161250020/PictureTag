@@ -377,7 +377,12 @@
     var tag;//存放返回的标注类型
     function type_of_tag(type){
         tag=type.toString();
-        if(tag=="")
+        if(tag=="整体标注")
+            tag="overall";
+        else if(tag=="边框标注")
+            tag=="frame";
+        else if(tag=="区域标注")
+            tag="area";
         //document.getElementById("demo").innerHTML=tag;
     }
 
