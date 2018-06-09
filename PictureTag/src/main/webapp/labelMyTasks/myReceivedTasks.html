@@ -37,15 +37,15 @@
     <!--标题-->
     <div class="panel-heading">
         <b class="panel-title">图片众包网站</b>
-        <button type="button" class="btn btn-link">首页</button>
-        <button type="button" class="btn btn-link">发布任务</button>
-        <button type="button" class="btn btn-link">任务广场</button>
-        <button type="button" class="btn btn-link">我的任务</button>
-        <button type="button" class="btn btn-link">个人中心</button>
+        <button type="button" class="btn btn-link" onclick="toHomePage()">首页</button>
+        <button type="button" class="btn btn-link" onclick="toReleasePros()">发布任务</button>
+        <button type="button" class="btn btn-link" onclick="toPros()">任务广场</button>
+        <button type="button" class="btn btn-link" onclick="toMyPros()">我的任务</button>
+        <button type="button" class="btn btn-link" onclick="toPersonalCenter()">个人中心</button>
         <!--左边-->
         <div align="right">
-            <b id="b_userId" style="alignment: right">用户名：001</b>
-            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
+            <b id="b_userId" style="alignment: right"></b>
+            <button type="button" class="btn btn-default" style="alignment: right" onclick="logout()">退出登录</button>
         </div>
     </div>
 
@@ -68,10 +68,10 @@
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="myReleasedPros.html">我发布的项目</a></button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="toMyPros()">我发布的项目</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="myReceivedTasks.html">我参与的任务</a></button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="toMyJoinedTasks()">我参与的任务</button>
                     </li>
                 </ul>
             </div>
@@ -84,23 +84,24 @@
                         <br>
                         <b>标注类型：</b>
                         <br>
-                        <select style="width: 50%;">
-                            <option>--全部-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
-                            <option>整体标注  </option>
-                            <option>边框标注  </option>
-                            <option>边界标注  </option>
+                        <select style="width: 50%;" onchange="select_func(this.options[this.options.selectedIndex].value)">
+                            <option value="all" selected>--全部--&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="overall">整体标注</option>
+                            <option value="frame">边框标注</option>
+                            <option value="area">边界标注</option>
                         </select>
                     </div>
                     <div class="two">
                         <div class="one">
                             <br>
                             <b>发布时间段：</b>
-                            <input type="date" align="left" style="width: 100%">
+                            <input type="date" align="left" style="width: 100%" id="data1">
                         </div>
                         <div class="two">
                             <br>
                             <br>
-                            <input type="date" align="left" style="width: 100%">
+                            <input type="date" align="left" style="width: 100%" id="data2">
+                            <button type="button" class="btn btn-default" onclick="ensure()">确认</button>
                         </div>
                     </div>
                 </div>
@@ -111,13 +112,15 @@
 
                 <!--项目列表-->
                 <div>
+                    <br>
+                    <br>
                     <div class="panel panel-default">
                         <table class="table">
                             <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>参与者</th><th>完成度</th>
                             <tr>
-                                <td><a href="task_content.html">0001</a></td><td>overall</td><td>helloworld</td><td>hello</td><td>0/100</td>
+                                <td><a href="#" onclick="labelPics('0001')">0001</a></td><td>overall</td><td>helloworld</td><td>hello</td><td>0/100</td>
                             </tr>
-                            <tr>
+                            <tr hidden>
                                 <td><a href="task_content.html">0002</a></td><td>overall</td><td>helloworld2</td><td>hello2</td><td>1/100</td>
                             </tr>
                         </table>
@@ -127,5 +130,101 @@
         </div>
     </div>
 </div>
+
+<script>
+    //读取id
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+    document.getElementById("b_userId").innerText="用户名："+id;
+
+    //首页
+    function toHomePage(){
+        window.location.href="../homepage/home_page_alreadyin.html";
+        location.href="../homepage/home_page_alreadyin.html?"+"txt="+encodeURI(id);
+    }
+    //发布任务
+    function toReleasePros() {
+        window.location.href="mypro.html";
+        location.href="mypro.html?"+"txt="+encodeURI(id);
+
+    }
+    //任务广场
+    function toPros() {
+        window.location.href="pro_list.html";
+        location.href="pro_list.html?"+"txt="+encodeURI(id);
+
+    }
+    //我的任务
+    function toMyPros() {
+        window.location.href="myReleasedPros.html";
+        location.href="myReleasedPros.html?"+"txt="+encodeURI(id);
+
+    }
+    //个人中心
+    function toPersonalCenter() {
+        window.location.href="../personal_center/personal_info.html";
+        location.href="../personal_center/personal_info.html?"+"txt="+encodeURI(id);
+
+    }
+
+    //我参与的任务
+    function toMyJoinedTasks(){
+        window.location.href="myReceivedTasks.html";
+        location.href="myReceivedTasks.html?"+"txt="+encodeURI(id);
+    }
+
+</script>
+
+<script>
+    //退出
+    function logout(){
+        window.open("../homepage/home_page.html", "_blank");
+        window.close();
+    }
+
+    //进行标注
+    function labelPics(task_id){
+        //根据task_id获得该task标注的类型：area,frame,overall，然后跳转到对应的界面
+        var labelType="area";
+        if(labelType=="area"){
+            window.open("../threeKindsOfTag_search/area.html"+"?txt="+encodeURI(task_id), "_blank")
+        }
+        else if(labelType=="frame"){
+            window.open("../threeKindsOfTag_search/frame.html"+"?txt="+encodeURI(task_id), "_blank")
+        }
+        else{
+            window.open("../threeKindsOfTag_search/overall.html"+"?txt="+encodeURI(task_id), "_blank")
+        }
+
+    }
+</script>
+
+<script>
+    var labelType="all";//标注的类型：area,overall.frame;先初始化为：all;
+    //修改筛选条件-标注类型
+    function select_func(value){
+        labelType=value;
+    }
+
+    //筛选，后显示
+    function ensure(){
+        var day1;
+        var day2;
+        day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
+        day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
+        alert(labelType);
+        //获得项目ID，基本信息，完成度，发布时间
+
+
+
+
+
+    }
+
+
+</script>
+
 </body>
 </html>

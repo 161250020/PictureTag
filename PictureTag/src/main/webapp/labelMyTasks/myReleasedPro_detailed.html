@@ -37,16 +37,9 @@
     <!--标题-->
     <div class="panel-heading">
         <b class="panel-title">图片众包网站</b>
-        <button type="button" class="btn btn-link">首页</button>
-        <button type="button" class="btn btn-link">发布任务</button>
-        <button type="button" class="btn btn-link">任务广场</button>
-        <button type="button" class="btn btn-link">我的任务</button>
-        <button type="button" class="btn btn-link">个人中心</button>
-        <!--左边-->
-        <div align="right">
-            <b id="b_userId" style="alignment: right">用户名：001</b>
-            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
-        </div>
+        <br>
+        <br>
+        <br>
     </div>
 
 
@@ -111,10 +104,10 @@
                         <table class="table">
                             <th>任务ID</th><th>基本信息</th><th>参与者</th><th>完成度</th><th>评分</th><th>确认评分</th><th>领取时间</th><th>完成时间</th><th>总时间（按日计算）</th>
                             <tr>
-                                <td><a href="task_content.html">0001</a></td><td>helloworld</td><td>hello</td><td>0/100</td><td><input type="text" class="form-control" id="calculate0001" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
+                                <td><a href="#" onclick="searchTasks('0001')">0001</a></td><td>helloworld</td><td>hello</td><td>0/100</td><td><input type="text" class="form-control" id="calculate0001" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
                             </tr>
-                            <tr>
-                                <td><a href="task_content.html">0002</a></td><td>helloworld2</td><td>hello2</td><td>1/100</td><td><input type="text" class="form-control" id="calculate0002" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
+                            <tr hidden>
+                                <td><a href="#">0002</a></td><td>helloworld2</td><td>hello2</td><td>1/100</td><td><input type="text" class="form-control" id="calculate0002" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
                             </tr>
                         </table>
                     </div>
@@ -123,5 +116,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    //读取id
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+
+    alert(id);
+
+</script>
+
+<script>
+    //退出
+    function logout(){
+        window.open("../homepage/home_page.html", "_blank");
+        window.close();
+    }
+
+    //查看标注
+    function searchTasks(task_id) {
+        window.open("../threeKindsOfTag_search/search.html"+"?txt="+encodeURI(task_id), "_blank")
+    }
+</script>
+
 </body>
 </html>
