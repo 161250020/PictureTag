@@ -73,7 +73,7 @@
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" data-reveal-id="myModal" style="width: 100%">添加任务</button>
+                        <button type="button" class="button secondary" data-reveal-id="myModal" style="width: 100%" onclick="add_task()">添加任务</button>
                         <!--添加任务-->
                         <div id="myModal" class="reveal-modal "  data-reveal align="center">
                             <ul class="small-block-grid-5">
@@ -212,26 +212,26 @@
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
-    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容//userid
+    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容//projectid
+    var g1=id.indexOf("-");
+    var userid=id.substr(0,g1);
+    var commited_task_id=new Array();
+    var tas;
 
-    var ID="";
+    //获得项目里taskid
     $.ajax({
-        url : "/Servlet",
-        type : "POST",
-        data :{
-            //调用后端获取任务id的方法
-            "action":"receiveTaskId",
-            "gData":id
-
-
-
-
+        url: "/Servlet",
+        type: "POST",
+        data: {
+            //调用后端获取项目内容的方法
+            "action": "receiveTaskId",
+            "gData": id
+            //userid
 
         },
-        success: function(data) {
-            ID=data.toString();
-            document.getElementById("get_taskId").innerHTML="任务ID："+ID;
-
+        success: function (data) {
+            tas=JSON.parse(data);
+            commited_task_id=tas.taskIds;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -240,6 +240,64 @@
         }
     });
 
+    //根据taskid返回内容
+    var tas2
+    for(var i=0;i<commited_task_id.length;i++)
+    {
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                //调用后端获取项目内容的方法
+                "action": "receiveTaskId",
+                "gData": commited_task_id[i]
+
+
+            },
+            success: function (data) {
+                tas2 = JSON.parse(data);
+                var tab=document.getElementById("project");
+                var oneRow = tab.insertRow();//插入一行
+                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                var cell2 = oneRow.insertCell(1);
+                var cell3 = oneRow.insertCell(2);
+                var cell4 = oneRow.insertCell(3);
+                cell1.innerHTML="<a href='task_content.html?txt="+tas2.id+"'>"+tas2.id+"</a>";
+                cell2.innerHTML=tas2.name;
+                cell3.innerHTML=tas2.progress.toString()+"/"tas2.imageIds.length();
+                cell4.innerHTML=tas2.startDate;
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+    var ID="";
+    function add_task() {
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                //调用后端获取任务id的方法
+                "action": "receiveTaskId",
+                "gData": id
+
+
+            },
+            success: function (data) {
+                ID = data.toString();
+                document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
     //将选择的图片们保存成url形式
     var arr;
     var txt;
@@ -319,6 +377,7 @@
     var tag;//存放返回的标注类型
     function type_of_tag(type){
         tag=type.toString();
+        if(tag=="")
         //document.getElementById("demo").innerHTML=tag;
     }
 
@@ -341,7 +400,6 @@
         var other_needs=document.getElementById("other_needs").value.toString();
         var input_integral=document.getElementById("integral").value.toString();
         var requests=new Array();
-        requests.push(tag.toString());
         requests.push(low.toString());
         requests.push(high.toString());
         requests.push(other_needs.toString());
@@ -352,6 +410,7 @@
         var obj={
             "id":ID,
             "name":0,
+            "tagType":tag.toString(),
             "score":input_integral,
             "progress":0,
             "flag":false,
