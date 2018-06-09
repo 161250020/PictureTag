@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class AnalyzeUser implements Analyze {
     userserviceImpl impl=new userserviceImpl();
-    public ArrayList<UserInfo> calTurn(){
+    public ArrayList<UserInfo> calTurn(){                                            //返回一个排好序的用户积分序列
         ArrayList<UserInfo> all=impl.getall();
         for(int i=0;i<all.size();i++){
             for(int j=0;j<all.size();j++){
@@ -25,7 +25,7 @@ public class AnalyzeUser implements Analyze {
         }
         return all;
     }
-    public int getSelf_Turn(String username){
+    public int getSelf_Turn(String username){                                       //该英雄的排名
         int result=0;
         ArrayList<UserInfo> newUser=calTurn();
         for(int i=0;i<newUser.size();i++){
@@ -63,11 +63,11 @@ public class AnalyzeUser implements Analyze {
         }
         return truth;
     }
-    public double correlation(String username){
+    public double correlation(String username){                //相关性
         double result=0.0;
         return result;
     }
-    public int getType1(String username){
+    public int getType1(String username){                    //用户完成area类型的任务数量
         taskServiceImpl service=new taskServiceImpl();
         int count=0;
         UserInfo user=impl.getUser(username);
@@ -80,7 +80,7 @@ public class AnalyzeUser implements Analyze {
         }
         return count;
     }
-    public int getType2(String username){
+    public int getType2(String username){                    //用户完成frame类型的任务数量
         taskServiceImpl service=new taskServiceImpl();
         int count=0;
         UserInfo user=impl.getUser(username);
@@ -93,7 +93,7 @@ public class AnalyzeUser implements Analyze {
         }
         return count;
     }
-    public int getType3(String username){
+    public int getType3(String username){                    //用户完成overall类型的任务数量
         taskServiceImpl service=new taskServiceImpl();
         int count=0;
         UserInfo user=impl.getUser(username);
@@ -106,7 +106,7 @@ public class AnalyzeUser implements Analyze {
         }
         return count;
     }
-    public String recommend(String username){
+    public String recommend(String username){                    //获得推荐的类型
         String result="" ;
         if(getType1(username)>getType2(username)&&getType1(username)>getType3(username)){
             result="area";
@@ -118,16 +118,95 @@ public class AnalyzeUser implements Analyze {
             result="overall";
         }
         else if(getType1(username)==getType2(username)&&getType3(username)<getType2(username)){
-            //result=compare("")
+             result=compare(true,true,false,username);
         }
+        else if(getType1(username)==getType3(username)&&getType2(username)<getType1(username)){
+            result=compare(true,false,true,username);
+        }
+        else if(getType2(username)==getType3(username)&&getType1(username)<getType2(username)){
+            result=compare(false,true,true,username);
+        }
+        else if(getType1(username)==getType2(username)&&getType2(username)==getType3(username)){
+            result=compare(true,true,true,username);
+        }
+        else{}
             return result;
     }
 
-    public String compare(String type1,String type2,String type3){
+    public String compare(boolean type1,boolean type2,boolean type3,String username){     //recomend方法调用,根据评分来获得推荐的种类
+           String result="";
+           String temp1="";
+           String temp2="";
+           String temp3="";
+           double sum1=0.0;
+           double sum2=0.0;
+           double sum3=0.0;
+           int count1=0;
+           int count2=0;
+           int count3=0;
+           double average1=0.0;
+           double average2=0.0;
+           double average3=0.0;
+           UserInfo user=impl.getUser(username);
+           Map<String,Double> taskIds=user.getReceiveEvalu();
+           if(type1){
+               temp1="area";
+           }
+           if(type2){
+               temp2="frame";
+           }
+           if(type3){
+               temp3="overall";
+           }
+           if(temp1.equals("")){
+               average1=0.0;
+           }
+           if(temp2.equals("")){
+               average2=0.0;
+           }
+           if(temp3.equals("")){
+               average3=0.0;
+           }
+           taskServiceImpl service=new taskServiceImpl();
+           Gson gson=new Gson();
+           for(String s:taskIds.keySet()){
+                //判断task的类型
+                if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("area")){
+                        sum1=sum1+taskIds.get(s);
+                        count1++;
+                }
+                if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("frame")){
+                        sum2=sum2+taskIds.get(s);
+                        count2++;
+                }
+                if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("overall")){
+                        sum3=sum3+taskIds.get(s);
+                        count3++;
+                }
+           }
+           average1=sum1*1.0/count1;
+           average2=sum2*1.0/count2;
+           average3=sum3*1.0/count3;
+           if(average1>average2&&average1>average3){
+                result="area";
+           }
+           else if(average2>average1&&average2>average3){
+               result="frame";
+           }
+           else if(average3>average1&&average3>average2){
+               result="overall";
+           }
+           //未完待续
+           else if(average1==average2&&average2==average3){
 
+           }
+           return result;
     }
-    public ArrayList<Task> recom(String username){
+    public ArrayList<Task> recom(String username){                         //返回推荐的具体任务
+        String recommendType=recommend(username);
         ArrayList<Task> recommendTask=new ArrayList<Task>();
+        //recommendTask先获得所有的任务            //然后根据type筛选出来
+
         return recommendTask;
     }
 }
