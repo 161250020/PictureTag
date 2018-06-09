@@ -37,12 +37,12 @@
     <!--标题-->
     <div class="panel-heading">
         <b class="panel-title">图片众包网站</b>
-        <button type="button" class="btn btn-link">数据查看</button>
-        <button type="button" class="btn btn-link">个人中心</button>
+        <button type="button" class="btn btn-link"><a href="#" onclick="toView_data()">数据查看</a></button>
+        <button type="button" class="btn btn-link"><a href="#" onclick="toPer_center()">个人中心</a></button>
         <!--左边-->
         <div align="right">
-            <b id="b_userId" style="alignment: right">用户名：admin</b>
-            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
+            <b id="b_userId" style="alignment: right">用户名：</b>
+            <button type="button" class="btn btn-default" style="alignment: right" onclick="logout()">退出登录</button>
         </div>
     </div>
 
@@ -65,10 +65,10 @@
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="personal_info.html">个人信息</a></button>
+                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toPer_center()">个人信息</a></button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="modifyPass.html">修改密码</a></button>
+                        <button type="button" class="button secondary" style="width: 100%"><a href="modifyPass.html" onclick="toMod_pass()">修改密码</a></button>
                     </li>
                 </ul>
             </div>
@@ -78,11 +78,11 @@
                 <br>
                 <br>
                 <div align="left" style="width: 60%">
-                    <h4 style="font-family: 仿宋;font-weight: bold">用户ID：admin</h4>
+                    <h4 style="font-family: 仿宋;font-weight: bold">用户ID：</h4>
                     <br>
-                    <h4 style="font-family: 仿宋;font-weight: bold">用户名：hello</h4>
+                    <h4 style="font-family: 仿宋;font-weight: bold">用户名：</h4>
                     <br>
-                    <h4 style="font-family: 仿宋;font-weight: bold">手机号：123456</h4>
+                    <h4 style="font-family: 仿宋;font-weight: bold">手机号：</h4>
                     <br>
                     <button type="button" class="btn btn-default" data-reveal-id="myModal">修改用户信息</button>
                     <div id="myModal" class="reveal-modal" data-reveal align="center">
@@ -92,7 +92,7 @@
                             </div>
                             <div class="panel-body" align="center">
                                 <div style="width: 60%;height: 80%" align="center">
-                                    <h6>用户ID：001</h6>
+                                    <h6>用户ID：</h6>
                                     <input type="text" class="form-control" id="name" placeholder="用户名：">
                                     <input type="text" class="form-control" id="phone" placeholder="手机号：">
                                     <div class="one">
@@ -122,6 +122,42 @@
     $(document).ready(function() {
         $(document).foundation();
     })
+</script>
+
+<script>
+    //读取id
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+    id="admin";
+    document.getElementById("b_userId").innerText="用户ID："+id;
+
+    //转到查看数据
+    function toView_data() {
+        window.location.href="view_data.html";
+        location.href="view_data.html?"+"txt="+encodeURI(id);
+    }
+    //转到个人中心
+    function toPer_center() {
+        window.location.href="personal_info.html";
+        location.href="personal_info.html?"+"txt="+encodeURI(id);
+    }
+    //转到修改密码
+    function toMod_pass() {
+        window.location.href="modifyPass.html";
+        location.href="modifyPass.html?"+"txt="+encodeURI(id);
+    }
+
+</script>
+
+<script>
+    //退出账户
+    function logout(){
+        window.open("../homepage/home_page.html", "_blank");
+        window.close();
+    }
+
 </script>
 
 </body>

@@ -3,11 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>查看数据</title>
-</head><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>个人信息</title>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -42,12 +37,12 @@
     <!--标题-->
     <div class="panel-heading">
         <b class="panel-title">图片众包网站</b>
-        <button type="button" class="btn btn-link">数据查看</button>
-        <button type="button" class="btn btn-link">个人中心</button>
+        <button type="button" class="btn btn-link"><a href="#" onclick="toView_data()">数据查看</a></button>
+        <button type="button" class="btn btn-link"><a href="#" onclick="toPer_center()">个人中心</a></button>
         <!--左边-->
         <div align="right">
-            <b id="b_userId" style="alignment: right">用户名：admin</b>
-            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
+            <b id="b_userId" style="alignment: right">用户ID：</b>
+            <button type="button" class="btn btn-default" style="alignment: right" onclick="logout()">退出登录</button>
         </div>
     </div>
 
@@ -65,37 +60,37 @@
                 <!--注册用户和时间（柱状图-用户/日期等待领取时间）-->
                 <div>
                     <h4 style="font-family: 仿宋;font-weight: bold">注册用户：</h4>
-                    <button type="button" class="btn btn-link"><a href="userNum_data.html" target="_blank">柱状图</a></button>
+                    <button type="button" class="btn btn-link"><a href="#" onclick="to1()">柱状图</a></button>
                 </div>
 
                 <!--积分和领取任务的时间（折线图-积分/任务等待领取时间）-->
                 <div>
                     <h4 style="font-family: 仿宋;font-weight: bold">积分和任务等待领取时间：</h4>
-                    <button type="button" class="btn btn-link"><a href="integral_waitTime.html" target="_blank">折线图</a></button>
+                    <button type="button" class="btn btn-link"><a href="#" onclick="to2()">折线图</a></button>
                 </div>
 
                 <!--任务图片数量和完成时间（折线图-完成时间/图片数量）-->
                 <div>
                     <h4 style="font-family: 仿宋;font-weight: bold">图片数量和完成时间的关系：</h4>
-                    <button type="button" class="btn btn-link"><a href="finishTime_picsNum.html" target="_blank">折线图</a></button>
+                    <button type="button" class="btn btn-link"><a href="#" onclick="to3()">折线图</a></button>
                 </div>
 
                 <!--标注质量（折线图-分数段/图片数量）-->
                 <div>
                     <h4 style="font-family: 仿宋;font-weight: bold">标注质量：</h4>
-                    <button type="button" class="btn btn-link"><a href="score_picsNum.html" target="_blank">折线图</a></button>
+                    <button type="button" class="btn btn-link"><a href="#" onclick="to4()">折线图</a></button>
                 </div>
 
                 <!--任务完成情况（饼状图）-->
                 <div>
                     <h4 style="font-family: 仿宋;font-weight: bold">任务完成情况：</h4>
-                    <button type="button" class="btn btn-link"><a href="tasksFinished.html" target="_blank">饼状图</a></button>
+                    <button type="button" class="btn btn-link"><a href="#" onclick="to5()">饼状图</a></button>
                 </div>
 
                 <!--总任务数（漏斗图）-->
                 <div>
                     <h4 style="font-family: 仿宋;font-weight: bold">任务状态：</h4>
-                    <button type="button" class="btn btn-link"><a href="taskState.html" target="_blank">漏斗图</a></button>
+                    <button type="button" class="btn btn-link"><a href="#" onclick="to6()">漏斗图</a></button>
                 </div>
             </div>
         </div>
@@ -106,11 +101,71 @@
     $(document).ready(function() {
         $(document).foundation();
     })
+
 </script>
 
-</body>
-</html>
-<body>
+<script>
+    //读取id
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+    id="admin";
+    document.getElementById("b_userId").innerText="用户ID："+id;
+
+    //转到查看数据
+    function toView_data() {
+        window.location.href="view_data.html";
+        location.href="view_data.html?"+"txt="+encodeURI(id);
+    }
+    //转到个人中心
+    function toPer_center() {
+        window.location.href="personal_info.html";
+        location.href="personal_info.html?"+"txt="+encodeURI(id);
+    }
+
+</script>
+
+<script>
+    //退出账户
+    function logout(){
+        window.open("../homepage/home_page.html", "_blank");
+        window.close();
+    }
+
+    //转到图片展示的页面
+    function to1(){
+        //txt为你想要传递的数据（想要转到的页面的图展示的数据）
+        var txt="hello";
+        window.open("userNum_data.html"+"?txt="+encodeURI(txt), "_blank")
+    }
+    function to2() {
+        //txt为你想要传递的数据（想要转到的页面的图展示的数据）
+        var txt="hello";
+        window.open("integral_waitTime.html"+"?txt="+encodeURI(txt), "_blank")
+    }
+    function to3() {
+        //txt为你想要传递的数据（想要转到的页面的图展示的数据）
+        var txt="hello";
+        window.open("finishTime_picsNum.html"+"?txt="+encodeURI(txt), "_blank")
+    }
+    function to4() {
+        //txt为你想要传递的数据（想要转到的页面的图展示的数据）
+        var txt="hello";
+        window.open("score_picsNum.html"+"?txt="+encodeURI(txt), "_blank")
+    }
+    function to5() {
+        //txt为你想要传递的数据（想要转到的页面的图展示的数据）
+        var txt="hello";
+        window.open("tasksFinished.html"+"?txt="+encodeURI(txt), "_blank")
+    }
+    function to6() {
+        //txt为你想要传递的数据（想要转到的页面的图展示的数据）
+        var txt="hello";
+        window.open("taskState.html"+"?txt="+encodeURI(txt), "_blank")
+    }
+
+</script>
 
 </body>
 </html>
