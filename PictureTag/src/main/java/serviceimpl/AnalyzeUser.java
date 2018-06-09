@@ -68,42 +68,55 @@ public class AnalyzeUser implements Analyze {
         return result;
     }
     public int getType1(String username){
-
+        taskServiceImpl service=new taskServiceImpl();
         int count=0;
         UserInfo user=impl.getUser(username);
-        ArrayList<String> receivepro=user.getReceivepro();
+        ArrayList<String> receivepro=user.getReceivetask();
         Gson gson=new Gson();
         for(String str:receivepro){
-            if(str!=null&&){
-
+            if(str!=null&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
+                  count++;
             }
         }
         return count;
     }
     public int getType2(String username){
+        taskServiceImpl service=new taskServiceImpl();
         int count=0;
         UserInfo user=impl.getUser(username);
-        ArrayList<String> receivepro=user.getReceivepro();
+        ArrayList<String> receivepro=user.getReceivetask();
+        Gson gson=new Gson();
         for(String str:receivepro){
-            if(str!=null&&)
+            if(str!=null&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
+                   count++;
+            }
         }
         return count;
     }
     public int getType3(String username){
+        taskServiceImpl service=new taskServiceImpl();
         int count=0;
         UserInfo user=impl.getUser(username);
-        ArrayList<String> receivepro=user.getReceivepro();
+        ArrayList<String> receivepro=user.getReceivetask();
+        Gson gson=new Gson();
         for(String str:receivepro){
-            if(str!=null&&)
+            if(str!=null&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
+                   count++;
+            }
         }
         return count;
     }
     public String recommend(String username){
         String result="" ;
         if(getType1(username)>getType2(username)&&getType1(username)>getType3(username)){
-            result="";
+            result="area";
         }
-        else if()
+        else if(getType2(username)>getType1(username)&&getType2(username)>getType3(username)){
+            result="frame";
+        }
+        else if(getType3(username)>getType1(username)&&getType3(username)>getType2(username)){
+            result="overall";
+        }
             return result;
     }
     public ArrayList<Task> recom(String username){

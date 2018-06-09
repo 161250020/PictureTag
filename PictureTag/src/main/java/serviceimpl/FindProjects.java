@@ -25,8 +25,8 @@ public class FindProjects implements service.FindProjects {
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";                                      //路径未填写
         FileReadandWrite.WriteFile(path,gsonString);
     }
-    public void deletePro(String proId){
-        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";                                     //路径未填写
+    /*public void deletePro(String username,String proId){
+        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt";                                     //路径未填写
         Gson gson=new Gson();
         ArrayList<String> content=FileReadandWrite.ReadFile(path);
         ArrayList<String> current=new ArrayList<String>();
@@ -41,7 +41,8 @@ public class FindProjects implements service.FindProjects {
             }
         }
     }
-    public ArrayList<Project> getProjects(String username){
+    */
+    public ArrayList<Project> getProjects(String username){            //显示所用
         ArrayList<Project> list=new ArrayList<Project>();
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt" ;                                       //路径未知.
         Gson gson=new Gson();
@@ -53,9 +54,24 @@ public class FindProjects implements service.FindProjects {
         }
         return list;
     }
-    public ArrayList<projectInfo> getProjectInfo(){                //先获得所有的路径,再判断文件是否存在,全都读取出来     先不管这个方法
+    public Project getProject(String proid){                       //给task调用通过proid获得project的内容
+        Project pro=new Project();
+        Gson gson=new Gson();
+        String []split=proid.split("_");
+        String username=split[0];
+        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt" ;
+        ArrayList<String> content=FileReadandWrite.ReadFile(path);
+        for(String str:content){
+            if(str!=null&&gson.fromJson(str,Project.class).getId()==proid){
+                  pro=gson.fromJson(str,Project.class);
+            }
+        }
+        return pro;
+    }
+    /*public ArrayList<projectInfo> getProjectInfo(){                //先获得所有的路径,再判断文件是否存在,全都读取出来     先不管这个方法
         return null;
-    }               //获得任务得大致信息.
+    }
+    */             //获得任务得大致信息.
     /*public Task getTask(String username,String id){
         taskServiceImpl impl=new taskServiceImpl();
         Task task=new Task();

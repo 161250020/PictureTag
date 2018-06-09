@@ -9,10 +9,11 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
     String id;                   //形如格式为userName+"^_^"+"00001"
     String name;
     String date;
-    int progress;               //已经完成task的数量
+    int progress;               //已经完成task的数量       完成task更新一次
+    boolean finish;             //是否完成
     ArrayList<String> requests;
     ArrayList<String> taskIds;
-    Map<String,String> list;    //领取者和对应的任务
+    Map<String,String> list;    //领取者和对应的任务        领取的时候更新一下
 
     public Project(){
         this.username="";
@@ -23,6 +24,7 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
         this.id = "";
         this.name = "";
         this.date="";
+        this.finish=false;
     }
 
     public Project(String id,String name,int progress,String username){
@@ -34,6 +36,7 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
         this.name = name;
         this.username=username;
         this.date=date;
+        this.finish=false;
     }
 
     public int getProgress() {
@@ -105,4 +108,6 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
     public void setDate(String date) {
         this.date = date;
     }
+
+
 }

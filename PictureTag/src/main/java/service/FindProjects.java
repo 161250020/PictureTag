@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface FindProjects {
 
-    public ArrayList<projectInfo> getProjectInfo();
+    public void lauchPro(Project pro);
 
 
     /**
@@ -19,12 +19,8 @@ public interface FindProjects {
      */
     public ArrayList<Project> getProjects(String username);
 
-    /**
-     *
-     * @param id 通过project的id来返回task列表
-     * @return
-     */
-    public ArrayList<Task> getTask(String username,String id);        //project存取多个文件还是 一个; 多个的话需要usename来指定一下.
+
+    public Project getProject(String proid);
 
 }
 
