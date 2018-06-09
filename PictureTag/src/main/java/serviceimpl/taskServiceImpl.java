@@ -10,9 +10,9 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class taskServiceImpl implements taskService {
-    String sp = "&";
+    String sp = "_";
     String taskFileName ="";
-    String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.txt";
+    String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committed.task";
 
     /**
      * 根据用户id获得用户的：积分奖励，群体排名，等级
@@ -89,13 +89,13 @@ public class taskServiceImpl implements taskService {
 
     /**
      * 获得下一个taskId的方法
-     * @param userId
+     * @param projectId
      * @return
      */
-    public String getTaskId(String userId){
+    public String getTaskId(String projectId){
         String file = Project.class.getResource("/").getFile()+File.separator;
         Gson gson = new Gson();
-        File f = new File(file+userId+".txt");
+        File f = new File(file+projectId+".task");
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -115,7 +115,7 @@ public class taskServiceImpl implements taskService {
             }
             if(!temp1.equals("")) {
                 Task t = gson.fromJson(temp1, Task.class);
-                String preTaskId = t.getId().split("&")[1];
+                String preTaskId = t.getId().split(sp)[2];
                 //System.out.println(preTaskId);
                 int count = 0;
                 for (int i = 0; i < preTaskId.length(); i++) {
@@ -134,10 +134,10 @@ public class taskServiceImpl implements taskService {
                     out = "0" + out;
                 }
                 //System.out.println(out);
-                return userId+sp+out;
+                return projectId+sp+out;
             }
             else{
-                return userId+sp+"00001";
+                return projectId+sp+"00001";
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -145,7 +145,7 @@ public class taskServiceImpl implements taskService {
             e.printStackTrace();
         }
 
-        return userId+sp+out;
+        return projectId+sp+out;
     }
 
     /**
@@ -156,7 +156,7 @@ public class taskServiceImpl implements taskService {
     public boolean acceptTask(String taskId,String userId){
         Gson g = new Gson();
         boolean b = false;
-        String[] ss = taskId.split("&");
+        String[] ss = taskId.split(sp);
         String taskUserId = ss[0];
         //改变UserInfo
         if(!userId.equals(taskId)){
@@ -167,7 +167,7 @@ public class taskServiceImpl implements taskService {
             u.update(temp);
 
             //改变taskUserInfo的task文件内的对应信息和committedTask里文件内的对应信息
-            String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskUserId+".txt";
+            String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskUserId+".task";
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
             t.setFlag(true);
@@ -197,7 +197,7 @@ public class taskServiceImpl implements taskService {
         System.out.println(t.getSocre());
         String filename = t.getId();
         String[] strings = filename.split(sp);
-        String fileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+strings[0]+".txt";
+        String fileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+strings[0]+".task";
         File f = new File(fileName);
         File f1 = new File(committedTaskFile);
         //System.out.println(f1.getAbsolutePath());
@@ -260,7 +260,7 @@ public class taskServiceImpl implements taskService {
         Gson g = new Gson();
         String[] ss = taskId.split(sp);
         String taskUserId = ss[0];
-        String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskUserId+".txt";
+        String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskUserId+".task";
         String taskData = findTask(taskId,taskUserFilePath);
         Task t = g.fromJson(taskData,Task.class);
 
@@ -297,12 +297,16 @@ public class taskServiceImpl implements taskService {
         return b;
     }
 
+    public String giveUpTask(String taskId,String userId){
+        return null;
+    }
+
     /**
      * 修改task的信息
      * @param taskData
      * @return
      */
-    public boolean modifyTask(String taskData,String filePath){
+    private boolean modifyTask(String taskData,String filePath){
         boolean b = false;
         //String p = taskServiceImpl.class.getResource("/").getFile()+File.separator;
         ArrayList<String> reWrite = new ArrayList<>();
@@ -358,42 +362,6 @@ public class taskServiceImpl implements taskService {
             e.printStackTrace();
         }
         return b;
-    }
-
-    /**
-     * 通过taskId查找task
-     * @param taskId
-     * @return
-     */
-    public String findTask(String taskId,String filePath){
-        Gson gson = new Gson();
-        String filename = taskId;
-        //String[] strings = filename.split(sp);
-        File f = new File(filePath);
-        if(!f.exists()){
-            try {
-                f.createNewFile();
-                return null;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String temp = "";
-            while(null != (temp = br.readLine())){
-                Task t = gson.fromJson(temp,Task.class);
-                if(t.getId().equals(taskId)){
-                    return temp;
-                }
-            }
-            return null;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public ArrayList<String> receiveCommittedTaskIds(){
@@ -476,5 +444,41 @@ public class taskServiceImpl implements taskService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 通过taskId查找task
+     * @param taskId
+     * @return
+     */
+    private String findTask(String taskId,String filePath){
+        Gson gson = new Gson();
+        String filename = taskId;
+        //String[] strings = filename.split(sp);
+        File f = new File(filePath);
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while(null != (temp = br.readLine())){
+                Task t = gson.fromJson(temp,Task.class);
+                if(t.getId().equals(taskId)){
+                    return temp;
+                }
+            }
+            return null;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

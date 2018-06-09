@@ -100,10 +100,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String taskData = request.getParameter("gData");
             this.newTask(request,response,taskData);
         }
-        else if("modifyTask".equals(action)){
-            String taskData = request.getParameter("gData");
-            this.modifyTask(request,response,taskData);
-        }
         else if("receiveTaskContent".equals(action)){
             String taskId = request.getParameter("gData");
             this.receiveTaskContent(request,response,taskId);
@@ -442,28 +438,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         try {
             PrintWriter p = response.getWriter();
             p.write("true");
-            p.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void modifyTask(HttpServletRequest request,HttpServletResponse response,String taskData){
-        Gson g = new Gson();
-        String taskId  = g.fromJson(taskData,Task.class).getId();
-        taskServiceImpl d = new taskServiceImpl();
-        String[] ss = taskId.split("&");
-        String filePath = taskServiceImpl.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
-        boolean b = d.modifyTask(taskData,filePath);
-        try {
-            PrintWriter p = response.getWriter();
-            if(b == false){
-                p.write("false");
-            }
-            else{
-                p.write("true");
-            }
             p.close();
         } catch (IOException e) {
             e.printStackTrace();

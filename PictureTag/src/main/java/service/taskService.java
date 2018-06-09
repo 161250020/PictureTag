@@ -14,12 +14,10 @@ public interface taskService {
 
     public void newTask(String taskJson);//新建任务
 
-    public String findTask(String taskId,String filePath);
+    public void deleteTask(String taskId,String filepath);//删除task
 
-    public boolean modifyTask(String taskData,String filePath);
+    public boolean completeTask(String taskId,String userId);//完成task
 
-    public void deleteTask(String taskId,String filepath);
-
-    public boolean completeTask(String taskId,String userId);
+    public String giveUpTask(String taskId,String userId);//放弃task
 
 }
