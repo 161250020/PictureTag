@@ -10,9 +10,9 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class taskServiceImpl implements taskService {
+
     String sp = "_";
-    String taskFileName ="";
-    String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committed.task";
+    String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
 
     /**
      * 根据用户id获得用户的：积分奖励，群体排名，等级
@@ -162,7 +162,7 @@ public class taskServiceImpl implements taskService {
         if(!userId.equals(taskId)){
             userserviceImpl u = new userserviceImpl();
             UserInfo temp = u.getUser(userId);
-            ArrayList<String> reTask = temp.getReceivepro();
+            ArrayList<String> reTask = temp.getReceivetask();
             reTask.add(taskId);
             u.update(temp);
 
@@ -185,7 +185,7 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 新建发布任务
+     * 新建发布任务,同时修改project和user信息u
      * @param taskJson
      */
     public void newTask(String taskJson){
@@ -197,7 +197,8 @@ public class taskServiceImpl implements taskService {
         System.out.println(t.getSocre());
         String filename = t.getId();
         String[] strings = filename.split(sp);
-        String fileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+strings[0]+".task";
+        String projectId = strings[0]+sp+strings[1];
+        String fileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+projectId+".task";
         File f = new File(fileName);
         File f1 = new File(committedTaskFile);
         //System.out.println(f1.getAbsolutePath());
@@ -231,6 +232,10 @@ public class taskServiceImpl implements taskService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //更新project信息
+
+        //更新user信息
         String userId = strings[0];
         userserviceImpl u = new userserviceImpl();
 
@@ -240,9 +245,9 @@ public class taskServiceImpl implements taskService {
         double s = Double.valueOf(user.getScore()) - Double.valueOf(t.getSocre());
         System.out.println(s);
         user.setScore(s);
-        ArrayList<String> temp = user.getLaunchpro();
+/*        ArrayList<String> temp = user.getLaunchpro();
         temp.add(t.getId());
-        user.setLaunchpro(temp);
+        user.setLaunchpro(temp);*/
 
         //这里调用一下checkUserLevel的方法，返回修改后的userLevel
         user.setLevel(u.updateLevel(user.getScore()));
@@ -266,7 +271,7 @@ public class taskServiceImpl implements taskService {
 
         userserviceImpl u = new userserviceImpl();
         UserInfo userInfo = u.getUser(userId);
-        ArrayList<String> receivePro = userInfo.getReceivepro();
+        ArrayList<String> receivePro = userInfo.getReceivetask();
         //判断用户是否接受过该任务
         boolean flag = false;
         for (int i = 0; i < receivePro.size(); i++) {
@@ -306,7 +311,7 @@ public class taskServiceImpl implements taskService {
      * @param taskData
      * @return
      */
-    private boolean modifyTask(String taskData,String filePath){
+    public boolean modifyTask(String taskData,String filePath){
         boolean b = false;
         //String p = taskServiceImpl.class.getResource("/").getFile()+File.separator;
         ArrayList<String> reWrite = new ArrayList<>();
@@ -451,7 +456,7 @@ public class taskServiceImpl implements taskService {
      * @param taskId
      * @return
      */
-    private String findTask(String taskId,String filePath){
+    public String findTask(String taskId,String filePath){
         Gson gson = new Gson();
         String filename = taskId;
         //String[] strings = filename.split(sp);

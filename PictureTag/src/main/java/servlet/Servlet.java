@@ -3,9 +3,8 @@ package servlet;
 import com.google.gson.Gson;
 import serviceimpl.AnalyzeUser;
 import serviceimpl.taskServiceImpl;
-import serviceimpl.tagIO;
+import serviceimpl.imageServiceImpl;
 import serviceimpl.userserviceImpl;
-import vo.Project.Task.Task;
 import vo.Project.Task.image;
 import vo.UserInfo;
 
@@ -323,7 +322,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void receiveTag(HttpServletRequest request,HttpServletResponse response,String s) throws IOException {
         String reqStr = s;
         System.out.println(s);
-        tagIO t = new tagIO();
+        imageServiceImpl t = new imageServiceImpl();
         String image = t.receiveTag(reqStr);
         System.out.println(image);
         try {
@@ -337,7 +336,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
 
     private void savePicture(HttpServletRequest request,HttpServletResponse response,String s){
-        tagIO t = new tagIO();
+        imageServiceImpl t = new imageServiceImpl();
         String reqStr = s;
         //System.out.println("call");
         //System.out.println(s);
@@ -364,7 +363,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param response
      */
     private void modifyTag(HttpServletRequest request,HttpServletResponse response,String imgData){
-        tagIO t = new tagIO();
+        imageServiceImpl t = new imageServiceImpl();
         System.out.println(imgData);
         System.out.println("modifyTag");
         t.modifyTag(imgData);
@@ -499,7 +498,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
 /*    private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
-        tagIO t = new tagIO();
+        imageServiceImpl t = new imageServiceImpl();
         String imgId = t.receiveImgId(taskId);
         try {
             PrintWriter pw = response.getWriter();

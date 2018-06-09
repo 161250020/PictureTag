@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Task {          //个体任务
 
-    String id;//形如格式为projectId+"^_^"+"00001"
+    String id;//形如格式为projectId+"_"+"00001"
     String name;
     String tagType;//标注类型
     double socre;//完成task将获得的分数

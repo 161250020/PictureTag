@@ -8,7 +8,7 @@ public interface taskService {
 
     public String receiveTaskInfo(String taskId);
 
-    public String getTaskId(String userId);//获得下一个taskId      等待修改
+    public String getTaskId(String userId);//获得下一个taskId
 
     public boolean acceptTask(String taskId,String userId);//接受任务
 
