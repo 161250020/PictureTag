@@ -37,15 +37,15 @@
     <!--标题-->
     <div class="panel-heading">
         <b class="panel-title">图片众包网站</b>
-        <button type="button" class="btn btn-link">首页</button>
-        <button type="button" class="btn btn-link">发布任务</button>
-        <button type="button" class="btn btn-link">任务广场</button>
-        <button type="button" class="btn btn-link">我的任务</button>
-        <button type="button" class="btn btn-link">个人中心</button>
+        <button type="button" class="btn btn-link" onclick="toHomePage()">首页</button>
+        <button type="button" class="btn btn-link" onclick="toReleasePros()">发布任务</button>
+        <button type="button" class="btn btn-link" onclick="toPros()">任务广场</button>
+        <button type="button" class="btn btn-link" onclick="toMyPros()">我的任务</button>
+        <button type="button" class="btn btn-link" onclick="toPersonalCenter()">个人中心</button>
         <!--左边-->
         <div align="right">
-            <b id="b_userId" style="alignment: right">用户名：001</b>
-            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
+            <b id="b_userId" style="alignment: right"></b>
+            <button type="button" class="btn btn-default" style="alignment: right" onclick="logout()">退出登录</button>
         </div>
     </div>
 
@@ -68,16 +68,16 @@
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="personal_info.html">个人信息</a></button>
+                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toPer_info()">个人信息</a></button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="paymentManagement.html">支付管理</a></button>
+                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toPay_management()">支付管理</a></button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="myTreasure.html">我的财富</a></button>
+                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toMy_treasure()">我的财富</a></button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="modifyPass.html">修改密码</a></button>
+                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toModify_pass()">修改密码</a></button>
                     </li>
                 </ul>
             </div>
@@ -114,6 +114,80 @@
         </div>
     </div>
 </div>
+
+<script>
+    //读取id
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+    document.getElementById("b_userId").innerText="用户ID："+id;
+
+    //首页
+    function toHomePage(){
+        window.location.href="../homepage/home_page_alreadyin.html";
+        location.href="../homepage/home_page_alreadyin.html?"+"txt="+encodeURI(id);
+    }
+    //发布任务
+    function toReleasePros() {
+        window.location.href="../labelMyTasks/mypro.html";
+        location.href="../labelMyTasks/mypro.html?"+"txt="+encodeURI(id);
+
+    }
+    //任务广场
+    function toPros() {
+        window.location.href="../labelMyTasks/pro_list.html";
+        location.href="../labelMyTasks/pro_list.html?"+"txt="+encodeURI(id);
+
+    }
+    //我的任务
+    function toMyPros() {
+        window.location.href="../labelMyTasks/myReleasedPros.html";
+        location.href="../labelMyTasks/myReleasedPros.html?"+"txt="+encodeURI(id);
+
+    }
+    //个人中心
+    function toPersonalCenter() {
+        window.location.href="personal_info.html";
+        location.href="personal_info.html?"+"txt="+encodeURI(id);
+
+    }
+
+    //个人信息
+    function toPer_info(){
+        window.location.href="personal_info.html";
+        location.href="personal_info.html?"+"txt="+encodeURI(id);
+
+    }
+    //支付管理
+    function toPay_management(){
+        window.location.href="paymentManagement.html";
+        location.href="paymentManagement.html?"+"txt="+encodeURI(id);
+
+    }
+    //我的财富
+    function toMy_treasure(){
+        window.location.href="myTreasure.html";
+        location.href="myTreasure.html?"+"txt="+encodeURI(id);
+
+    }
+    //修改密码
+    function toModify_pass(){
+        window.location.href="modifyPass.html";
+        location.href="modifyPass.html?"+"txt="+encodeURI(id);
+
+    }
+
+</script>
+
+<script>
+    //退出
+    function logout(){
+        window.open("../homepage/home_page.html", "_blank");
+        window.close();
+    }
+
+</script>
 
 </body>
 </html>

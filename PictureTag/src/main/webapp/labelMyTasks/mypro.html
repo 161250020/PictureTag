@@ -146,6 +146,10 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var  project_id;
+    var tab=document.getElementById("project");
+    var oneRow = tab.insertRow();//插入一行
+    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+    cell1.innerHTML="<a href='pro_task.html?txt="+123+"'>"+123+"</a>";
     function addproject(){
         var tab=document.getElementById("project");
 
@@ -194,7 +198,7 @@
                 var pro=JSON.parse(data);
                 cell1.innerHTML="<a href='pro_task.html?txt="+pro.id+"'>"+pro.id+"</a>";
                 cell2.innerHTML=pro.name;
-                cell3.innerHTML=pro.progress.toString()+"/"pro.taskIds.length();
+                cell3.innerHTML=pro.progress.toString()+"/"+pro.taskIds.length();
                 cell4.innerHTML=myDate.getFullYear()+"."+myDate.getMonth()+"."+myDate.getDay();
 
             },

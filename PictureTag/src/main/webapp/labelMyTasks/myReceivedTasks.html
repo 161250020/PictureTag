@@ -137,7 +137,7 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
-    document.getElementById("b_userId").innerText="用户名："+id;
+    document.getElementById("b_userId").innerText="用户ID："+id;
 
     //首页
     function toHomePage(){
