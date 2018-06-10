@@ -134,7 +134,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
         else if("receiveProjects".equals(action)){
             String username=request.getParameter("gData");
-
+            this.receiveProjects(request,response,username);
         }
         else{
             System.out.println("no function like this");
@@ -580,7 +580,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);
-           System.out.println(complete.getDate());
+           System.out.println(complete.getTaskIds().size());
        }catch(IOException e){
            e.printStackTrace();
        }
