@@ -19,7 +19,7 @@ public interface FindProjects {
      */
     public ArrayList<Project> getProjects(String username);
 
-
+    //辅助方法
     public Project getProject(String proid);
 
 }
