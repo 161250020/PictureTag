@@ -10,6 +10,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FindProjects implements service.FindProjects {
     public Project lauchPro(Project pro){
@@ -18,6 +20,9 @@ public class FindProjects implements service.FindProjects {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");      //当前日期
         proId=pro.getUsername()+"_"+format.format(current);
         Project result=pro;
+        result.setTaskIds(new ArrayList<String>());
+        result.setList(new HashMap<String,String>());
+        result.setRequests(new ArrayList<String>());
         result.setId(proId);                              //设置编号.
         String date=""+format.format(current);         //设置日期.
         result.setDate(date);
