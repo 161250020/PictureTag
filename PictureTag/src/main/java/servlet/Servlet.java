@@ -579,7 +579,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        String gsondata=gson.toJson(complete);
        try{
            PrintWriter writer=response.getWriter();
-           writer.write("complete");
+           writer.write(gsondata);
+           System.out.println(complete.getDate());
        }catch(IOException e){
            e.printStackTrace();
        }
