@@ -588,10 +588,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
    private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){
        FindProjects impl=new FindProjects();
-       impl.getProjects(username);
+       ArrayList<Project> pro=impl.getProjects(username);
+       Gson gson=new Gson();
+       String gsondata=gson.toJson(pro);
        try{
            PrintWriter writer=response.getWriter();
-           writer.write("true");
+           writer.write(gsondata);
        }catch(IOException e){
            e.printStackTrace();
        }
