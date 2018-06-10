@@ -1,10 +1,8 @@
 package servlet;
 
 import com.google.gson.Gson;
-import serviceimpl.AnalyzeUser;
-import serviceimpl.taskServiceImpl;
-import serviceimpl.imageServiceImpl;
-import serviceimpl.userserviceImpl;
+import serviceimpl.*;
+import vo.Project.Project;
 import vo.Project.Task.image;
 import vo.UserInfo;
 
@@ -129,6 +127,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveSingleRanking".equals(action)){
             String usename = request.getParameter("gData");
             this.receiveSingleRanking(request,response,usename);
+        }
+        else if("launchPro".equals(action)){
+            String project=request.getParameter("gData");
+            this.launchPro(request,response,project);
+        }
+        else if("receiveProjects".equals(action)){
+            String username=request.getParameter("gData");
+
         }
         else{
             System.out.println("no function like this");
@@ -406,17 +412,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    /**
-     * 暂无
-     * 王灿灿
-     * 获得user下所有projects的info，包含projects的id列表和该project所有的taskId
-     * @param request
-     * @param response
-     * @param userId
-     */
-    private  void receiveProjects(HttpServletRequest request,HttpServletResponse response,String userId){
-
-    }
 
     /**
      * 暂无
@@ -576,7 +571,29 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
+   private void launchPro(HttpServletRequest request,HttpServletResponse response,String projectdata){
+       FindProjects impl=new FindProjects();
+       Gson gson=new Gson();
+       Project pro=gson.fromJson(projectdata,Project.class);
+       impl.lauchPro(pro);
+       try{
+           PrintWriter writer=response.getWriter();
+           writer.write("true");
+       }catch(IOException e){
+           e.printStackTrace();
+       }
+   }
 
+   private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){
+       FindProjects impl=new FindProjects();
+       impl.getProjects(username);
+       try{
+           PrintWriter writer=response.getWriter();
+           writer.write("true");
+       }catch(IOException e){
+           e.printStackTrace();
+       }
+   }
 /*
     private  void receiveAllUser(HttpServletRequest request,HttpServletResponse response){
         taskServiceImpl d = new taskServiceImpl();

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class AnalyzeUser implements Analyze {
+public class AnalyzeUser implements Analyze {                           //质量评估与推荐
     userserviceImpl impl=new userserviceImpl();
     public ArrayList<UserInfo> calTurn(){                                            //返回一个排好序的用户积分序列
         ArrayList<UserInfo> all=impl.getall();
@@ -197,16 +197,23 @@ public class AnalyzeUser implements Analyze {
                result="overall";
            }
            //未完待续
-           else if(average1==average2&&average2==average3){
-
-           }
+           else if(average1==average2&&average2>average3){}
+           else if(average1==average3&&average1>average2){}
+           else if(average2==average3&&average3>average1){}
+           else if(average1==average2&&average2==average3){}
+           else{}
            return result;
     }
     public ArrayList<Task> recom(String username){                         //返回推荐的具体任务
+        taskServiceImpl service=new taskServiceImpl();
         String recommendType=recommend(username);
         ArrayList<Task> recommendTask=new ArrayList<Task>();
-        //recommendTask先获得所有的任务            //然后根据type筛选出来
-
+        if(recommendType.equals("all")){
+            //通过servic获得所有的任务
+        }
+        else{
+            //通过service获得推荐类型的任务
+        }
         return recommendTask;
     }
 }
