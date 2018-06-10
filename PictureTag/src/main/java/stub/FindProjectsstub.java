@@ -8,24 +8,22 @@ import vo.Project.projectInfo;
 import java.util.ArrayList;
 
 public class FindProjectsstub implements FindProjects {
-    public ArrayList<projectInfo> getProjectInfo(){
-        return new ArrayList<projectInfo>();
+    public void lauchPro(Project pro){
+
     }
     /**
      *
-     * @param id 通过用户id来返回项目列表
-     * @param b true:自己发布的项目   false:领取的项目
+     * @param
+     * @param  :自己发布的项目   false:领取的项目
      * @return
      */
-    public ArrayList<Project> getProjects(String id, boolean b){
-        return new ArrayList<Project>();
-    }
+    public ArrayList<Project> getProjects(String username){return new ArrayList<Project>();}
     /**
      *
-     * @param id 通过project的id来返回task列表
+     * @param
      * @return
      */
-    public ArrayList<Task> getTask(String id){
-        return new ArrayList<Task>();
+    public Project getProject(String proid){
+        return new Project();
     }
 }
