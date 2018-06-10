@@ -12,18 +12,20 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class FindProjects implements service.FindProjects {
-    public void lauchPro(Project pro){
+    public Project lauchPro(Project pro){
         String proId="";
         Date current=new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");      //当前日期
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");      //当前日期
         proId=pro.getUsername()+"_"+format.format(current);
-        pro.setId(proId);                              //设置编号.
-        String date=""+format.format(current);         //设置日期
-        pro.setDate(date);
+        Project result=pro;
+        result.setId(proId);                              //设置编号.
+        String date=""+format.format(current);         //设置日期.
+        result.setDate(date);
         Gson gson=new Gson();
-        String gsonString=gson.toJson(pro);
+        String gsonString=gson.toJson(result);
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";                                      //路径未填写
         FileReadandWrite.WriteFile(path,gsonString);
+        return result;
     }
     /*public void deletePro(String username,String proId){
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt";                                     //路径未填写
@@ -67,6 +69,31 @@ public class FindProjects implements service.FindProjects {
             }
         }
         return pro;
+    }
+    public ArrayList<Task> getTasks(String ProId){                       //点击id,获得对应的所有任务
+        taskServiceImpl service=new taskServiceImpl();
+        ArrayList<Task> tasks=new ArrayList<Task>();
+        Project current=getProject(ProId);
+        ArrayList<String> temp=current.getTaskIds();
+        Gson gson=new Gson();
+        for(String str:temp){
+            if(str!=null){
+                tasks.add(gson.fromJson(service.receiveTaskInfo(str),Task.class));
+            }
+        }
+        return tasks;
+    }
+    public ArrayList<Project> choose(String Date1,String Date2,String username){                 //筛选发布时间内的project
+        ArrayList<Project> pro=new ArrayList<Project>();
+        return pro;
+    }
+    public boolean checkDate1(String Date1){
+        boolean flag=false;
+        return flag;
+    }
+    public boolean checkDate2(String Date2){
+        boolean flag=false;
+        return flag;
     }
     /*public ArrayList<projectInfo> getProjectInfo(){                //先获得所有的路径,再判断文件是否存在,全都读取出来     先不管这个方法
         return null;

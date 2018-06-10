@@ -575,10 +575,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        FindProjects impl=new FindProjects();
        Gson gson=new Gson();
        Project pro=gson.fromJson(projectdata,Project.class);
-       impl.lauchPro(pro);
+       Project complete=impl.lauchPro(pro);
+       String gsondata=gson.toJson(complete);
        try{
            PrintWriter writer=response.getWriter();
-           writer.write("true");
+           writer.write("complete");
        }catch(IOException e){
            e.printStackTrace();
        }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface FindProjects {
 
-    public void lauchPro(Project pro);
+    public Project lauchPro(Project pro);
 
 
     /**
