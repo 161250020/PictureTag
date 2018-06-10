@@ -153,26 +153,26 @@
     function addproject(){
         var tab=document.getElementById("project");
 
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                //调用后端获取项目id的方法
-                "action":"receiveProjectId",
-                "gData":id
-            },
-            success: function(data) {
-                project_id=data;
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
+        // $.ajax({
+        //     url : "/Servlet",
+        //     type : "POST",
+        //     data :{
+        //         //调用后端获取项目id的方法
+        //         "action":"receiveProjectId",
+        //         "gData":id
+        //     },
+        //     success: function(data) {
+        //         project_id=data;
+        //     },
+        //     error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //         alert(XMLHttpRequest.status);
+        //         alert(XMLHttpRequest.readyState);
+        //         alert(textStatus);
+        //     }
+        // });
         var obj={
             "username":id,
-            "id":project_id,
+            "id":"",
             "name":document.getElementById("project_name").value,
             "progress":0,
             "requests":null,
@@ -185,7 +185,7 @@
             type : "POST",
             data :{
                 //调用后端新建项目的方法
-                "action":"receiveProjectId",
+                "action":"launchPro",
                 "gData":changeobj
             },
             success: function(data) {

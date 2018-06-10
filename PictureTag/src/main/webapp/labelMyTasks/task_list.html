@@ -68,7 +68,7 @@
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%">确认领取</button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="receive_mission()">确认领取</button>
                     </li>
                     <li>
                         <button type="button" class="button secondary" style="width: 100%">刷新</button>
@@ -141,7 +141,7 @@
         url : "/Servlet",
         type : "POST",
         data :{
-            //调用后端获取具体项目内容的方法
+            //调用后端获取具体任务内容的方法
             "action":"receiveProjectId",
             "gData":id
         },
@@ -152,11 +152,16 @@
             var cell2 = oneRow.insertCell(1);
             var cell3 = oneRow.insertCell(2);
             var cell4 = oneRow.insertCell(3);
+            var cell5 = oneRow.insertCell(4);
+            var cell6 = oneRow.insertCell(5);
             var pro=JSON.parse(data);
-            cell1.innerHTML="<a href='task_list.html?txt="+pro.id+"'>"+pro.id+"</a>";
+            cell1.innerHTML="<a href='task_content.html?txt="+pro.id+"'>"+pro.id+"</a>";
             cell2.innerHTML=pro.name;
             cell3.innerHTML=pro.taskIds.length();
-            cell4.innerHTML=pro.id.split("");
+            var g2=id.indexOf("_");
+            cell4.innerHTML=pro.id.substring(0,g2);
+            cell5.innerHTML=pro.progress+"/"+pro.imageIds.length;
+            cell6.innerHTML="<input type=\"checkbox\" name=\"mission\" value=\"ischeck\" />";
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -166,7 +171,9 @@
         }
     });
 
+    function receive_mission(){
 
+    }
 
 </script>
 

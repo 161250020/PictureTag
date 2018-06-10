@@ -264,7 +264,7 @@
                 var cell4 = oneRow.insertCell(3);
                 cell1.innerHTML="<a href='task_content.html?txt="+tas2.id+"'>"+tas2.id+"</a>";
                 cell2.innerHTML=tas2.name;
-                cell3.innerHTML=tas2.progress.toString()+"/"tas2.imageIds.length();
+                cell3.innerHTML=tas2.progress.toString()+"/"+tas2.imageIds.length();
                 cell4.innerHTML=tas2.startDate;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

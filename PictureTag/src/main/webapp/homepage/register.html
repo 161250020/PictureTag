@@ -93,14 +93,17 @@
 <script>
     function register(){
         var str={
-            "username":document.getElementById("name").value.toString(),
+            "username":document.getElementById("id").value.toString(),
             "password":document.getElementById("new_pass").value.toString(),
+            "nickname":document.getElementById("name").value.toString(),
             "name":null,
             "level":0,
-            "receivepro":[],
+            "receivetask":[],
             "launchpro":[],
             "TaskNumber":0,
-            "score":0.0
+            "score":0.0,
+            "receiveEvalu":null,
+            "finish":null
         };
         var changeobj=JSON.stringify(str);
         $.ajax({
@@ -108,7 +111,7 @@
             type : "POST",
             data :{
                 "gData":changeobj,
-                "action":"login"
+                "action":"newUser"
             },
 
             success: function(data) {
@@ -122,13 +125,13 @@
 
                 //针对两种不同的返回值的反应
                 if(exist==1){
-                    if(document.getElementById("input_username").value.toString()=="admin"){
+                    if(document.getElementById("id").value.toString()=="admin"){
                         window.location.href="admin/admin.html";
-                        location.href="admin/admin.html?"+"txt="+encodeURI(document.getElementById("input_username").value.toString());
+                        location.href="admin/admin.html?"+"txt="+encodeURI(document.getElementById("id").value.toString());
                     }
                     else {
                         window.location.href = "home_page_alreadyin.html";
-                        location.href = "home_page_alreadyin?" + "txt=" + encodeURI(document.getElementById("input_username").value.toString());
+                        location.href = "home_page_alreadyin.html?" + "txt=" + encodeURI(document.getElementById("id").value.toString());
                     }
                 }
                 else{

@@ -155,8 +155,8 @@
             var pro=JSON.parse(data);
             cell1.innerHTML="<a href='task_list.html?txt="+pro.id+"'>"+pro.id+"</a>";
             cell2.innerHTML=pro.name;
-            cell3.innerHTML=pro.taskIds.length();
-            cell4.innerHTML=pro.id.split("");
+            cell3.innerHTML=id;
+            cell4.innerHTML=pro.progress+"/"+pro.taskIds.length;
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
