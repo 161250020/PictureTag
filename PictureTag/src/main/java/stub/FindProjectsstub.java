@@ -8,8 +8,8 @@ import vo.Project.projectInfo;
 import java.util.ArrayList;
 
 public class FindProjectsstub implements FindProjects {
-    public void lauchPro(Project pro){
-
+    public Project lauchPro(Project pro){
+             return new Project();
     }
     /**
      *
