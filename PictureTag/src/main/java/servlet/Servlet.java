@@ -136,6 +136,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String username=request.getParameter("gData");
             this.receiveProjects(request,response,username);
         }
+        else if("chooseProjectByDate".equals(action)){
+            String Date1=request.getParameter("Date1");
+            String Date2=request.getParameter("Date2");
+            String username=request.getParameter("username");
+            this.chooseProjectByDate(request,response,Date1,Date2,username);
+        }
         else{
             System.out.println("no function like this");
             String imgData = request.getParameter("gData");
@@ -589,6 +595,18 @@ public class Servlet extends javax.servlet.http.HttpServlet {
    private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){
        FindProjects impl=new FindProjects();
        ArrayList<Project> pro=impl.getProjects(username);
+       Gson gson=new Gson();
+       String gsondata=gson.toJson(pro);
+       try{
+           PrintWriter writer=response.getWriter();
+           writer.write(gsondata);
+       }catch(IOException e){
+           e.printStackTrace();
+       }
+   }
+   private void chooseProjectByDate(HttpServletRequest request,HttpServletResponse response,String Date1,String Date2,String username){
+       FindProjects impl=new FindProjects();
+       ArrayList<Project> pro=impl.chooseProjectByDate(Date1,Date2,username);
        Gson gson=new Gson();
        String gsondata=gson.toJson(pro);
        try{

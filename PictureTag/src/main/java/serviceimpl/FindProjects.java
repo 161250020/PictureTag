@@ -1,6 +1,7 @@
 package serviceimpl;
 
 import com.google.gson.Gson;
+import com.sun.xml.internal.xsom.impl.scd.Iterators;
 import util.FileReadandWrite;
 import vo.Project.Project;
 import vo.Project.Task.Task;
@@ -88,7 +89,7 @@ public class FindProjects implements service.FindProjects {
         }
         return tasks;
     }
-    public ArrayList<Project> choose(String Date1,String Date2,String username){                 //筛选发布时间内的project
+    public ArrayList<Project> chooseProjectByDate(String Date1,String Date2,String username){                 //筛选发布时间内的project,添加到servelet里面
         ArrayList<Project> pro=getProjects(username);
         ArrayList<Project> result=new ArrayList<Project>();
         for(Project project:pro){
@@ -374,6 +375,36 @@ public class FindProjects implements service.FindProjects {
                 }
             }
         }
+    }
+    public void update(Project pro){                       //界面修改任务
+         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";
+         ArrayList<String> content=FileReadandWrite.ReadFile(path);
+         ArrayList<String> current=new ArrayList<String>();
+         Gson gson=new Gson();
+         for(String str:content){
+             if(gson.fromJson(str,Project.class).getId()!=pro.getId()&&str!=null){
+                 current.add(str);
+             }
+             if(gson.fromJson(str,Project.class).getId()==pro.getId()&&str!=null){
+                 current.add(gson.toJson(pro));
+             }
+         }
+    }
+    //该方法用来提供给task完成时使用
+    public void updateProgress(String proid){              //需要返回更新后的任务嘛;(有个麻烦:好像不能做到实时更新)
+         Project current=getProject(proid);
+         int pastprogress=current.getProgress();
+         int currentprogress=pastprogress+1;
+         current.setProgress(currentprogress);
+         if(isfinish()){
+             current.setFinish(true);
+         }
+         update(current);
+    }
+    public boolean isfinish(){                              //检验项目是否完成
+        boolean finish=false;
+
+        return finish;
     }
     /*public ArrayList<projectInfo> getProjectInfo(){                //先获得所有的路径,再判断文件是否存在,全都读取出来     先不管这个方法
         return null;
