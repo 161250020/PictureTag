@@ -109,5 +109,11 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
         this.date = date;
     }
 
+    public void setFinish(boolean finish) {
+        this.finish = finish;
+    }
 
+    public boolean getFinish() {
+        return finish;
+    }
 }
