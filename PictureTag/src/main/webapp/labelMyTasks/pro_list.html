@@ -136,7 +136,7 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var tab=document.getElementById("project");
-
+    var changepro=new Array();
     $.ajax({
         url : "/Servlet",
         type : "POST",
@@ -147,9 +147,8 @@
         },
         success: function(data) {
 
-            var changepro=JSON.parse(data);
-            alert(changepro[0]);
-            for(var i=0;i<changepro.length();i++) {
+            changepro=JSON.parse(data);
+            for(var i=0;i<changepro.length;i++) {//不能有括号
                 var oneRow = tab.insertRow();//插入一行
                 var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
                 var cell2 = oneRow.insertCell(1);
