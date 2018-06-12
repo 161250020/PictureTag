@@ -18,6 +18,8 @@ public interface taskService {
 
     public boolean completeTask(String taskId,String userId);//完成task
 
-    public String giveUpTask(String taskId,String userId);//放弃task
+    public void giveUpTask(String taskId,String userId);//放弃task
+
+    public ArrayList<String> receiveTasks(String tagType);
 
 }

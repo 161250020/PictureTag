@@ -233,7 +233,7 @@ public class taskServiceImpl implements taskService {
             e.printStackTrace();
         }
 
-        //更新project信息
+        //这里更新project信息
 
         //更新user信息
         String userId = strings[0];
@@ -302,8 +302,11 @@ public class taskServiceImpl implements taskService {
         return b;
     }
 
-    public String giveUpTask(String taskId,String userId){
-        return null;
+    public void giveUpTask(String taskId,String userId){
+
+        //修改task属性
+        //修改user属性
+
     }
 
     /**
@@ -367,6 +370,32 @@ public class taskServiceImpl implements taskService {
             e.printStackTrace();
         }
         return b;
+    }
+
+    public ArrayList<String> receiveTasks(String tagType){
+
+        Gson gson = new Gson();
+        ArrayList<String> out = new ArrayList<>();
+        File f = new File(committedTaskFile);
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String t = "";
+            while(null != (t = br.readLine())){
+                Task temp = gson.fromJson(t,Task.class);
+                if(temp.getTagType().equals(tagType)){
+                    out.add(t);
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return out;
     }
 
     public ArrayList<String> receiveCommittedTaskIds(){
