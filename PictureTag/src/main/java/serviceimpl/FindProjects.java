@@ -176,7 +176,6 @@ public class FindProjects implements service.FindProjects {
         }
         */
 
-        System.out.println("CheckDate1");
         //进行比较;
         if (Date1Year > DateYear) {
             return false;

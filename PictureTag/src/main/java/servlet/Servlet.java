@@ -3,6 +3,7 @@ package servlet;
 import com.google.gson.Gson;
 import serviceimpl.*;
 import vo.Project.Project;
+import vo.Project.Task.Task;
 import vo.Project.Task.image;
 import vo.UserInfo;
 
@@ -144,7 +145,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
         else if("receiveTasks".equals(action)){
             String proId=request.getParameter("gData");
-
+            this.receiveTasks(request,response,proId);
         }
         else{
             System.out.println("no function like this");
@@ -622,7 +623,16 @@ public class Servlet extends javax.servlet.http.HttpServlet {
    }
 
    private void receiveTasks(HttpServletRequest request,HttpServletResponse response,String proId){
-
+       FindProjects impl=new FindProjects();
+       ArrayList<Task> list=impl.getTasks(proId);
+       Gson gson=new Gson();
+       String gsondata=gson.toJson(list);
+       try{
+           PrintWriter writer=response.getWriter();
+           writer.write(gsondata);
+       }catch(IOException e){
+           e.printStackTrace();
+       }
    }
 /*
     private  void receiveAllUser(HttpServletRequest request,HttpServletResponse response){
