@@ -605,10 +605,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        }
    }
    private void chooseProjectByDate(HttpServletRequest request,HttpServletResponse response,String Date1,String Date2,String username){
+       System.out.println("1444");
+       System.out.println(Date1);
        FindProjects impl=new FindProjects();
        ArrayList<Project> pro=impl.chooseProjectByDate(Date1,Date2,username);
        Gson gson=new Gson();
        String gsondata=gson.toJson(pro);
+
+
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);

@@ -13,7 +13,7 @@ public class Project {          //众包发起项目的信息,包含id,名称,�
     boolean finish;             //是否完成
     ArrayList<String> requests;
     ArrayList<String> taskIds;
-    Map<String,String> list;    //领取者和对应的任务        领取的时候更新一下
+    Map<String,String> list;    //领取者和对应的任务id,(注意:任务id应为key值,否则对于同一个)        领取的时候更新一下
 
     public Project(){
         this.username="";
