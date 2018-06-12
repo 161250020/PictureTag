@@ -86,8 +86,8 @@
             <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;">
                 <!--筛选条件-->
                 <div>
-                    <!--<div class="one">-->
-                        <!--<br>-->
+                    <div class="one">
+                        <br>
                         <!--<b>标注类型：</b>-->
                         <!--<br>-->
                         <!--<select style="width: 50%;">-->
@@ -96,17 +96,19 @@
                             <!--<option>边框标注  </option>-->
                             <!--<option>边界标注  </option>-->
                         <!--</select>-->
-                    <!--</div>-->
+                        <br>
+                        <button  align="right" class='button radius tiny' onclick="date_project()">确认</button>
+                    </div>
                     <div class="two">
                         <div class="one">
                             <br>
                             <b>发布时间段：</b>
-                            <input type="date" align="left" style="width: 100%">
+                            <input type="date" align="left" id="start_date" style="width: 100%">
                         </div>
                         <div class="two">
                             <br>
                             <br>
-                            <input type="date" align="left" style="width: 100%">
+                            <input type="date" align="left" id="end_date" style="width: 100%" onclick="clear()" >
                         </div>
                     </div>
                 </div>
@@ -177,6 +179,45 @@
                 alert(textStatus);
             }
         });
+    function date_project(){
+
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                //调用后端获取项目id的方法
+                "action":"chooseProjectByDate",
+                "date1":document.getElementById("start_date").value.toString().replace("-","").replace("-",""),
+                "date2":document.getElementById("end_date").value.toString().replace("-","").replace("-",""),
+                "username":id
+            },
+            success: function(data) {
+                alert("123")
+                var changepro=JSON.parse(data);
+                for(var i=0;i<changepro.size();i++){
+                    var oneRow = tab.insertRow();//插入一行
+                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                    var cell2 = oneRow.insertCell(1);
+                    var cell3 = oneRow.insertCell(2);
+                    var cell4 = oneRow.insertCell(3);
+                    var pro=changepro[i];
+                    cell1.innerHTML="<a href='pro_task.html?txt="+pro.id+"'>"+pro.id+"</a>";
+                    cell2.innerHTML=pro.name;
+                    cell3.innerHTML=pro.progress+"/"+pro.taskIds.length;
+                    cell4.innerHTML=pro.date.substring(0,4)+"-"+pro.date.substring(4,6)+"-"+pro.date.substring(6,8);
+                }
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+    function clear(){
+        $("#project  tr:not(:first)").empty("");
+    }
     function addproject(){
         var tab=document.getElementById("project");
 
