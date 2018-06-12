@@ -591,7 +591,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);
-           System.out.println(complete.getTaskIds().size());
+           writer.close();
        }catch(IOException e){
            e.printStackTrace();
        }
@@ -605,6 +605,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);
+           writer.close();
        }catch(IOException e){
            e.printStackTrace();
        }
@@ -617,6 +618,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);
+           writer.close();
        }catch(IOException e){
            e.printStackTrace();
        }
@@ -630,6 +632,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);
+           writer.close();
        }catch(IOException e){
            e.printStackTrace();
        }

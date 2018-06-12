@@ -61,8 +61,10 @@ public class FindProjects implements service.FindProjects {
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt" ;
         ArrayList<String> content=FileReadandWrite.ReadFile(path);
         for(String str:content){
-            if(str!=null&&gson.fromJson(str,Project.class).getId()==proid){
-                pro=gson.fromJson(str,Project.class);
+            if(str!=null){
+                if(gson.fromJson(str,Project.class).getId().equals(proid)) {               //智障的用了等于号
+                    pro = gson.fromJson(str, Project.class);
+                }
             }
         }
         return pro;
@@ -76,8 +78,10 @@ public class FindProjects implements service.FindProjects {
         for(String str:temp){
             if(str!=null){
                 tasks.add(gson.fromJson(service.receiveTaskInfo(str),Task.class));
+                System.out.println(service.receiveTaskInfo(str));
             }
         }
+        System.out.println(tasks.size());
         return tasks;
     }
     public ArrayList<Project> chooseProjectByDate(String Date1,String Date2,String username){                 //筛选发布时间内的project,添加到servelet里面
@@ -376,12 +380,15 @@ public class FindProjects implements service.FindProjects {
         ArrayList<String> current=new ArrayList<String>();
         Gson gson=new Gson();
         for(String str:content){
-            if(gson.fromJson(str,Project.class).getId()!=pro.getId()&&str!=null){
+            if(gson.fromJson(str,Project.class).getId().equals(pro.getId())&&str!=null){             //==和equals
                 current.add(str);
             }
-            if(gson.fromJson(str,Project.class).getId()==pro.getId()&&str!=null){
+            if(gson.fromJson(str,Project.class).getId().equals(pro.getId())&&str!=null){             //==和equals
                 current.add(gson.toJson(pro));
             }
+        }
+        for(String str:current) {
+            FileReadandWrite.WriteFile(path,str);
         }
     }
     //该方法用来提供生成任务时使用
@@ -391,6 +398,7 @@ public class FindProjects implements service.FindProjects {
         taskIds.add(taskId);
         current.setTaskIds(taskIds);
         update(current);
+        Project temp=getProject(proId);
     }
     //该方法用来提供给task完成时使用
     public void updateProgress(String proid){              //需要返回更新后的任务嘛;(有个麻烦:好像不能做到实时更新)
