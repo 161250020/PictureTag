@@ -63,6 +63,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         return truth;
     }
+    //还未实现
     public double correlation(String username){                //相关性
         double result=0.0;
         return result;
@@ -106,7 +107,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         return count;
     }
-    public String recommend(String username){                    //获得推荐的类型
+    public String recommend(String username){                    //获得推荐的类型   推荐的优先级调度为接受任务数>评分>用户的完成情况
         String result="" ;
         if(getType1(username)>getType2(username)&&getType1(username)>getType3(username)){
             result="area";
@@ -118,22 +119,22 @@ public class AnalyzeUser implements Analyze {                           //质量
             result="overall";
         }
         else if(getType1(username)==getType2(username)&&getType3(username)<getType2(username)){
-             result=compare(true,true,false,username);
+             result=comparebyEva(true,true,false,username);
         }
         else if(getType1(username)==getType3(username)&&getType2(username)<getType1(username)){
-            result=compare(true,false,true,username);
+            result=comparebyEva(true,false,true,username);
         }
         else if(getType2(username)==getType3(username)&&getType1(username)<getType2(username)){
-            result=compare(false,true,true,username);
+            result=comparebyEva(false,true,true,username);
         }
         else if(getType1(username)==getType2(username)&&getType2(username)==getType3(username)){
-            result=compare(true,true,true,username);
-        }
+            result=comparebyEva(true,true,true,username);
+    }
         else{}
             return result;
     }
 
-    public String compare(boolean type1,boolean type2,boolean type3,String username){     //recomend方法调用,根据评分来获得推荐的种类
+    public String comparebyEva(boolean type1,boolean type2,boolean type3,String username){     //recomend方法调用,根据评分来获得推荐的种类
            String result="";
            String temp1="";
            String temp2="";
@@ -196,15 +197,39 @@ public class AnalyzeUser implements Analyze {                           //质量
            else if(average3>average1&&average3>average2){
                result="overall";
            }
-           //未完待续
-           else if(average1==average2&&average2>average3){}
-           else if(average1==average3&&average1>average2){}
-           else if(average2==average3&&average3>average1){}
-           else if(average1==average2&&average2==average3){}
+           //未完待续        每一种类型的完成度比较
+           else if(average1==average2&&average2>average3){
+               result=comparebyComplete(true,true,false);
+           }
+           else if(average1==average3&&average1>average2){
+               result=comparebyComplete(true,false,true);
+           }
+           else if(average2==average3&&average3>average1){
+               result=comparebyComplete(false,true,true);
+           }
+           else if(average1==average2&&average2==average3){
+               result=comparebyComplete(true,true,true);
+           }
            else{}
            return result;
     }
-    public ArrayList<Task> recom(String username){                         //返回推荐的具体任务
+    public String comparebyComplete(boolean type1,boolean type2,boolean type3){
+           String result="";
+           if(type1&&type2&&!type3){
+
+           }
+           if(type1&&type3&&!type2){
+
+           }
+           if(!type1&&type2&&type3){
+
+           }
+           if(type1&&type2&&type3){
+
+           }
+           return result;
+    }
+    public ArrayList<Task> recom(String username,String type){                         //返回推荐的具体任务
         taskServiceImpl service=new taskServiceImpl();
         String recommendType=recommend(username);
         ArrayList<Task> recommendTask=new ArrayList<Task>();

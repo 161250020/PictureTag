@@ -8,6 +8,7 @@ import vo.UserInfo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class userserviceImpl implements user{
     //final String path="PictureTag/src/main/user.txt";
@@ -182,5 +183,33 @@ public class userserviceImpl implements user{
             level=5;
         }
         return level;
+    }
+    //每接受一个任务,就更新一次
+    public void updatereceiveTask(String username,String taskId){
+           UserInfo user=getUser(username);
+           ArrayList<String> taskIds=user.getReceivetask();
+           taskIds.add(taskId);
+           user.setReceivetask(taskIds);
+           update(user);
+    }
+    //用户给任务打分时,就更新一次
+    public void receiveEvalu(String username,String taskId,double score){
+           UserInfo user=getUser(username);
+           Map<String,Double> temp=user.getReceiveEvalu();
+           temp.put(taskId,score);
+           user.setReceiveEvalu(temp);
+           update(user);
+    }
+    //每放弃或完成一个任务就执行
+    public void updatefinish(String username,String taskId,boolean finish){
+           UserInfo user=getUser(username);
+           Map<String,Boolean> temp=user.getFinish();
+           temp.put(taskId,finish);
+           if(finish){
+               int number=user.getTaskNumber();
+               number=number+1;
+               user.setTaskNumber(number);
+           }
+           update(user);
     }
 }

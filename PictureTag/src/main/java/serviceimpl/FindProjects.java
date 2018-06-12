@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import util.FileReadandWrite;
 import vo.Project.Project;
 import vo.Project.Task.Task;
-import vo.Project.projectInfo;
+import vo.UserInfo;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -30,6 +30,14 @@ public class FindProjects implements service.FindProjects {
         String gsonString=gson.toJson(result);
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";                                      //路径未填写
         FileReadandWrite.WriteFile(path,gsonString);
+        //更新user的lauchPro;
+        userserviceImpl impl=new userserviceImpl();
+        String username=pro.getUsername();
+        UserInfo user=impl.getUser(username);
+        ArrayList<String> temp=user.getLaunchpro();
+        temp.add(pro.getId());
+        user.setLaunchpro(temp);
+        impl.update(user);
         return result;
     }
     /*public void deletePro(String username,String proId){
@@ -70,7 +78,7 @@ public class FindProjects implements service.FindProjects {
         ArrayList<String> content=FileReadandWrite.ReadFile(path);
         for(String str:content){
             if(str!=null&&gson.fromJson(str,Project.class).getId()==proid){
-                  pro=gson.fromJson(str,Project.class);
+                pro=gson.fromJson(str,Project.class);
             }
         }
         return pro;
@@ -376,33 +384,43 @@ public class FindProjects implements service.FindProjects {
         }
     }
     public void update(Project pro){                       //界面修改任务
-         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";
-         ArrayList<String> content=FileReadandWrite.ReadFile(path);
-         ArrayList<String> current=new ArrayList<String>();
-         Gson gson=new Gson();
-         for(String str:content){
-             if(gson.fromJson(str,Project.class).getId()!=pro.getId()&&str!=null){
-                 current.add(str);
-             }
-             if(gson.fromJson(str,Project.class).getId()==pro.getId()&&str!=null){
-                 current.add(gson.toJson(pro));
-             }
-         }
+        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";
+        ArrayList<String> content=FileReadandWrite.ReadFile(path);
+        ArrayList<String> current=new ArrayList<String>();
+        Gson gson=new Gson();
+        for(String str:content){
+            if(gson.fromJson(str,Project.class).getId()!=pro.getId()&&str!=null){
+                current.add(str);
+            }
+            if(gson.fromJson(str,Project.class).getId()==pro.getId()&&str!=null){
+                current.add(gson.toJson(pro));
+            }
+        }
     }
     //该方法用来提供给task完成时使用
     public void updateProgress(String proid){              //需要返回更新后的任务嘛;(有个麻烦:好像不能做到实时更新)
-         Project current=getProject(proid);
-         int pastprogress=current.getProgress();
-         int currentprogress=pastprogress+1;
-         current.setProgress(currentprogress);
-         if(isfinish()){
-             current.setFinish(true);
-         }
-         update(current);
+        Project current=getProject(proid);
+        int pastprogress=current.getProgress();
+        int currentprogress=pastprogress+1;
+        current.setProgress(currentprogress);
+        if(isfinish(currentprogress,current.getTaskIds().size())){                                   //判断
+            current.setFinish(true);
+        }
+        update(current);
     }
-    public boolean isfinish(){                              //检验项目是否完成
+    //领取任务时使用
+    public void updateList(String proid,String username,String taskId){
+        Project current=getProject(proid);
+        Map<String,String> past=current.getList();
+        past.put(taskId,username);
+        current.setList(past);
+        update(current);
+    }
+    public boolean isfinish(int currentprogress,int tasknumbers){                              //检验项目是否完成
         boolean finish=false;
-
+        if(currentprogress==tasknumbers){
+            finish=true;
+        }
         return finish;
     }
     /*public ArrayList<projectInfo> getProjectInfo(){                //先获得所有的路径,再判断文件是否存在,全都读取出来     先不管这个方法

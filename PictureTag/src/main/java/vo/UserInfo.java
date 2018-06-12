@@ -14,7 +14,7 @@ public class UserInfo {
     public int level;
     public ArrayList<String> receivetask;        //对应的接受项目ID
     public ArrayList<String> launchpro;         //对应的发布项目
-    public int TaskNumber;
+    public int TaskNumber;                     //完成的任务数
     public double score;                        //用户的积分
     public Map<String,Double> receiveEvalu;     //用户的评价,key是任务id,value是用户评分
     public Map<String,Boolean> finish;           //用户对任务是否放弃,接受任务的同时要调用user的setMap方法
@@ -89,7 +89,7 @@ public class UserInfo {
         return receivetask;
     }
 
-    public void setReceivepro(ArrayList<String> receivepro) {
+    public void setReceivetask(ArrayList<String> receivepro) {
         this.receivetask = receivepro;
     }
 
