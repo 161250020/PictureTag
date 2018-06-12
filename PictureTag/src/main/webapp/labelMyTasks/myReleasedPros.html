@@ -109,14 +109,8 @@
                 <!--项目列表-->
                 <div>
                     <div class="panel panel-default">
-                        <table class="table">
+                        <table class="table" id="tab">
                             <th>项目ID</th><th>基本信息</th><th>完成度</th><th>发布时间</th>
-                            <tr>
-                                <td><a href="#" onclick="showProDetail('0001')">0001</a></td><td>helloworld</td><td>0/100</td><td>2018-01-01</td>
-                            </tr>
-                            <tr hidden>
-                                <td><a href="myReleasedPro_detailed.html">0002</a></td><td>helloworld2</td><td>1/100</td><td>2018-01-01</td>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -169,6 +163,47 @@
         location.href="myReceivedTasks.html?"+"txt="+encodeURI(id);
     }
 
+
+    function ensure(){
+        var day1;
+        var day2;
+        day1=document.getElementById("data1").value;
+        day2=document.getElementById("data2").value;
+
+        //获得项目ID，基本信息，完成度，发布时间
+        var tab_info=document.getElementById("tab");
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "action":"chooseProjectByDate",
+                "Date1":day1.toString(),
+                "Date2":day2.toString(),
+                "username":id
+            },
+            success: function(data) {
+                //返回的列表
+                var chagnepro=JSON.parse(data);
+                for(var i=0;i<chagnepro.size();i++){
+                    var oneRow = tab_info.insertRow();//插入一行
+                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                    var cell2 = oneRow.insertCell(1);
+                    var cell3 = oneRow.insertCell(2);
+                    var cell4 = oneRow.insertCell(3);
+                    var pro=changepro[i];
+                    cell1.innerHTML="<a href=\"#\" onclick=\"showProDetail("+pro.id+")\">"+pro.id+"</a>";
+                    cell2.innerHTML=pro.name;
+                    cell3.innerHTML=pro.progress+"/"+pro.taskIds.length;
+                    cell4.innerHTML=pro.date.substring(0,4)+"-"+pro.date.substring(4,6)+"-"+pro.date.substring(6,8);
+                }
+                alert("hello");
+            },
+            error: function () {
+                alert("Wrong!");
+            }
+        });
+    }
+
 </script>
 
 <script>
@@ -181,22 +216,6 @@
     //展示项目的具体内容
     function showProDetail(pro_id){
         window.open("myReleasedPro_detailed.html"+"?txt="+encodeURI(pro_id), "_blank")
-    }
-</script>
-
-<script>
-    function ensure(){
-        var day1;
-        var day2;
-        day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
-        day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
-
-        //获得项目ID，基本信息，完成度，发布时间
-
-
-
-
-
     }
 </script>
 
