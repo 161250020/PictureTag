@@ -68,7 +68,7 @@ public class taskServiceImpl implements taskService {
         String projectId = strings[0]+sp+strings[1];
         String path = taskServiceImpl.class.getResource("/").getFile()+File.separator;
         File f = new File(path+projectId+".task");
-        System.out.println(f.getAbsolutePath());
+        //System.out.println(f.getAbsolutePath());
         String out = "";
         try {
             FileReader fr = new FileReader(f);
@@ -78,7 +78,7 @@ public class taskServiceImpl implements taskService {
                 Task p = gson.fromJson(temp,Task.class);
                 if(p.getId().equals(taskId)){
                     out = temp;
-                    System.out.println(out);
+                    //System.out.println(out);
                     break;
                 }
             }
@@ -241,7 +241,7 @@ public class taskServiceImpl implements taskService {
         }
 
         //这里更新project信息
-
+        findProjects.updateTaskId(projectId,t.getId());
 
 
         //更新user信息
