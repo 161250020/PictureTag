@@ -40,23 +40,7 @@ public class FindProjects implements service.FindProjects {
         impl.update(user);
         return result;
     }
-    /*public void deletePro(String username,String proId){
-        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt";                                     //路径未填写
-        Gson gson=new Gson();
-        ArrayList<String> content=FileReadandWrite.ReadFile(path);
-        ArrayList<String> current=new ArrayList<String>();
-        for(String str:content){
-            if(str!=null&&gson.fromJson(str,Project.class).getId()!=proId){
-                current.add(str);
-            }
-        }
-        for(String str:current){
-            if(str!=null){
-                FileReadandWrite.WriteFile(path,str);
-            }
-        }
-    }
-    */
+
     public ArrayList<Project> getProjects(String username){            //显示所用
         ArrayList<Project> list=new ArrayList<Project>();
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt" ;                                       //路径未知.
@@ -98,13 +82,14 @@ public class FindProjects implements service.FindProjects {
     }
     public ArrayList<Project> chooseProjectByDate(String Date1,String Date2,String username){                 //筛选发布时间内的project,添加到servelet里面
         ArrayList<Project> pro=getProjects(username);
+        System.out.println(pro.get(0).getId());
         ArrayList<Project> result=new ArrayList<Project>();
         for(Project project:pro){
-            if(checkDate1(Date1,project.getDate())&&checkDate2(Date2,project.getDate())){
+            if(checkDate1(Date1,project.getDate().substring(0,8))&&checkDate2(Date2,project.getDate().substring(0,8))){
                 result.add(project);
             }
         }
-        System.out.println("q");
+        System.out.println(result.size());
         return result;
     }
     public boolean checkDate1(String Date1,String Date) {   //"yyyyMMddHHmmss"
@@ -190,6 +175,8 @@ public class FindProjects implements service.FindProjects {
             DateSecond=Integer.parseInt(Datesecond);
         }
         */
+
+        System.out.println("CheckDate1");
         //进行比较;
         if (Date1Year > DateYear) {
             return false;
@@ -328,7 +315,7 @@ public class FindProjects implements service.FindProjects {
         else{
             DateSecond=Integer.parseInt(Datesecond);
         }*/
-
+        System.out.println("CheckDate2");
         //进行比较;
         if (Date2Year > DateYear) {
             return true;
@@ -446,5 +433,23 @@ public class FindProjects implements service.FindProjects {
         taskIds=pro.getTaskIds();
         return task;
     }    //获得project展开得所有task信息
+    */
+
+     /*public void deletePro(String username,String proId){
+        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt";                                     //路径未填写
+        Gson gson=new Gson();
+        ArrayList<String> content=FileReadandWrite.ReadFile(path);
+        ArrayList<String> current=new ArrayList<String>();
+        for(String str:content){
+            if(str!=null&&gson.fromJson(str,Project.class).getId()!=proId){
+                current.add(str);
+            }
+        }
+        for(String str:current){
+            if(str!=null){
+                FileReadandWrite.WriteFile(path,str);
+            }
+        }
+    }
     */
 }
