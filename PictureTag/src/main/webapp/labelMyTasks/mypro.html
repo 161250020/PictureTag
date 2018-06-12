@@ -153,7 +153,7 @@
             },
             success: function(data) {
                 var changepro=JSON.parse(data);
-                for(var i=0;i<changepro.size();i++){
+                for(var i=0;i<changepro.length;i++){
                     var oneRow = tab.insertRow();//插入一行
                     var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
                     var cell2 = oneRow.insertCell(1);
@@ -268,7 +268,8 @@
                 cell2.innerHTML=pro.name;
                 cell3.innerHTML=pro.progress+"/"+pro.taskIds.length;
                 cell4.innerHTML=pro.date.substring(0,4)+"-"+pro.date.substring(4,6)+"-"+pro.date.substring(6,8);
-
+                window.location.href="mypro.html";
+                location.href="mypro.html?"+"txt="+encodeURI(id);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
