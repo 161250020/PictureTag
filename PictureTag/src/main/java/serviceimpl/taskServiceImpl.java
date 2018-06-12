@@ -4,15 +4,20 @@ import com.google.gson.Gson;
 import service.taskService;
 import vo.Project.Project;
 import vo.Project.Task.Task;
+import vo.Project.projectInfo;
 import vo.UserInfo;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class taskServiceImpl implements taskService {
-
+    FindProjects findProjects = new FindProjects();
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
+
+    public taskServiceImpl taskServiceImpl(){
+        return new taskServiceImpl();
+    }
 
     /**
      * 根据用户id获得用户的：积分奖励，群体排名，等级
@@ -60,9 +65,9 @@ public class taskServiceImpl implements taskService {
 
         Gson gson = new Gson();
         String[] strings = taskId.split(sp);
-        String userId = strings[0];
+        String projectId = strings[0]+sp+strings[1];
         String path = taskServiceImpl.class.getResource("/").getFile()+File.separator;
-        File f = new File(path+userId+".txt");
+        File f = new File(path+projectId+".task");
         System.out.println(f.getAbsolutePath());
         String out = "";
         try {
@@ -115,7 +120,7 @@ public class taskServiceImpl implements taskService {
             }
             if(!temp1.equals("")) {
                 Task t = gson.fromJson(temp1, Task.class);
-                String preTaskId = t.getId().split(sp)[2];
+                String preTaskId = t.getId().split(sp)[3];
                 //System.out.println(preTaskId);
                 int count = 0;
                 for (int i = 0; i < preTaskId.length(); i++) {
@@ -149,15 +154,14 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 领取任务
-     * @param taskId
+     * 领取任务-------需要User接口
      * @param userId
      */
     public boolean acceptTask(String taskId,String userId){
         Gson g = new Gson();
         boolean b = false;
         String[] ss = taskId.split(sp);
-        String taskUserId = ss[0];
+        String taskProjecgtId = ss[0]+sp+ss[1];
         //改变UserInfo
         if(!userId.equals(taskId)){
             userserviceImpl u = new userserviceImpl();
@@ -166,8 +170,8 @@ public class taskServiceImpl implements taskService {
             reTask.add(taskId);
             u.update(temp);
 
-            //改变taskUserInfo的task文件内的对应信息和committedTask里文件内的对应信息
-            String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskUserId+".task";
+            //改变taskProjectInfo的task文件内的对应信息和committedTask里文件内的对应信息
+            String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjecgtId+".task";
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
             t.setFlag(true);
@@ -175,6 +179,9 @@ public class taskServiceImpl implements taskService {
             //System.out.println(taskUserFilePath);
             modifyTask(g.toJson(t),committedTaskFile);
             modifyTask(g.toJson(t),taskUserFilePath);
+
+            //改变project文件的对应信息
+            findProjects.updateList(taskProjecgtId,userId,taskId);
 
             b = true;
         }
@@ -185,7 +192,7 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 新建发布任务,同时修改project和user信息u
+     * 新建发布任务,同时修改project和user信息u--------需要user接口
      * @param taskJson
      */
     public void newTask(String taskJson){
@@ -235,6 +242,8 @@ public class taskServiceImpl implements taskService {
 
         //这里更新project信息
 
+
+
         //更新user信息
         String userId = strings[0];
         userserviceImpl u = new userserviceImpl();
@@ -255,17 +264,22 @@ public class taskServiceImpl implements taskService {
         //System.out.println(gson.toJson(u.getUser(userId)));
     }
 
+    @Override
+    public void confirmTask(String taskId, String userId) {
+
+    }
+
     /**
-     * 是否完成要交予谁来判断？
-     * 该方法要判断task是否完成，如果完成就将committedTask中的内容删掉，
+     * 完成是否有效交予confirmTask判断，如果有效就修改数据
+     * 该方法要判断task是否完成，如果完成就将committedTask中的内容删掉---------需要user接口
      * @param taskId
      */
     public boolean completeTask(String taskId,String userId){
         boolean b = false;
         Gson g = new Gson();
         String[] ss = taskId.split(sp);
-        String taskUserId = ss[0];
-        String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskUserId+".task";
+        String taskProjectId = ss[0]+sp+ss[1];
+        String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task";
         String taskData = findTask(taskId,taskUserFilePath);
         Task t = g.fromJson(taskData,Task.class);
 
@@ -283,6 +297,24 @@ public class taskServiceImpl implements taskService {
             System.out.println("用户没有接受该任务！");
             return false;
         }
+        //判断是否将所有图片标注完成
+        if(!(t.getProgress() == t.getImageIds().size())){
+            flag = false;
+        }
+        //将task交予confirmTask.task执行
+        analyzeTagAccuracyImpl analyzeTagAccuracy = new analyzeTagAccuracyImpl();
+        File c = new File(analyzeTagAccuracy.checkTaskFileName);
+        try {
+            FileWriter fw = new FileWriter(c);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         System.out.println(t.getProgress());
         System.out.println(t.getImageIds().size());
         //用户接受过任务并完成标注，修改user信息，删除committed中的信息
@@ -299,6 +331,9 @@ public class taskServiceImpl implements taskService {
         else{
             b = false;
         }
+        //修改project信息
+        findProjects.updateProgress(taskProjectId);
+
         return b;
     }
 
@@ -372,6 +407,11 @@ public class taskServiceImpl implements taskService {
         return b;
     }
 
+    /**
+     * 未被认领的task
+      * @param tagType
+     * @return
+     */
     public ArrayList<String> receiveTasks(String tagType){
 
         Gson gson = new Gson();
@@ -383,7 +423,7 @@ public class taskServiceImpl implements taskService {
             String t = "";
             while(null != (t = br.readLine())){
                 Task temp = gson.fromJson(t,Task.class);
-                if(temp.getTagType().equals(tagType)){
+                if((temp.getTagType().equals(tagType))&&(!temp.isFlag())){
                     out.add(t);
                 }
             }
@@ -398,10 +438,9 @@ public class taskServiceImpl implements taskService {
         return out;
     }
 
-    public ArrayList<String> receiveCommittedTaskIds(){
+/*    public ArrayList<String> receiveCommittedTaskIds(){
         ArrayList<String> out = new ArrayList<>();
-        String p = taskServiceImpl.class.getResource("/").getFile()+File.separator;
-        File f = new File(p+"committedTask.txt");
+        File f = new File(committedTaskFile);
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -422,7 +461,7 @@ public class taskServiceImpl implements taskService {
             e.printStackTrace();
         }
         return out;
-    }
+    }*/
 
     public void deleteTask(String taskId,String filepath){
             //String p = taskServiceImpl.class.getResource("/").getFile()+File.separator;
