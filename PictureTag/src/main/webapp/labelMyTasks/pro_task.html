@@ -187,12 +187,6 @@
                     <div class="panel panel-default">
                         <table class="table" id="project">
                             <th>任务ID</th><th>基本信息</th><th>完成度</th><th>发布时间</th>
-                            <tr>
-                                <td><a href="#">0001</a></td><td>helloworld</td><td>0/100</td><td>2018-01-01</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">0002</a></td><td>helloworld2</td><td>1/100</td><td>2018-01-01</td>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -224,14 +218,27 @@
         type: "POST",
         data: {
             //调用后端获取项目内容的方法
-            "action": "receiveTaskId",
+            "action": "receiveTasks",
             "gData": id
             //userid
 
         },
         success: function (data) {
             tas=JSON.parse(data);
+            alert(data);
             commited_task_id=tas.taskIds;
+            var tab=document.getElementById("project");
+            for(var i=0;i<tas.length;i++) {
+                var oneRow = tab.insertRow();//插入一行
+                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                var cell2 = oneRow.insertCell(1);
+                var cell3 = oneRow.insertCell(2);
+                var cell4 = oneRow.insertCell(3);
+                cell1.innerHTML = "<a href='task_content.html?txt=" + tas.id + "'>" + tas2.id + "</a>";
+                cell2.innerHTML = tas.name;
+                cell3.innerHTML = tas.progress.toString() + "/" + tas2.imageIds.length();
+                cell4.innerHTML = tas.startDate;
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -241,39 +248,39 @@
     });
 
     //根据taskid返回内容
-    var tas2
-    for(var i=0;i<commited_task_id.length;i++)
-    {
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            data: {
-                //调用后端获取项目内容的方法
-                "action": "receiveTaskId",
-                "gData": commited_task_id[i]
-
-
-            },
-            success: function (data) {
-                tas2 = JSON.parse(data);
-                var tab=document.getElementById("project");
-                var oneRow = tab.insertRow();//插入一行
-                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-                var cell2 = oneRow.insertCell(1);
-                var cell3 = oneRow.insertCell(2);
-                var cell4 = oneRow.insertCell(3);
-                cell1.innerHTML="<a href='task_content.html?txt="+tas2.id+"'>"+tas2.id+"</a>";
-                cell2.innerHTML=tas2.name;
-                cell3.innerHTML=tas2.progress.toString()+"/"+tas2.imageIds.length();
-                cell4.innerHTML=tas2.startDate;
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
-    }
+    // var tas2
+    // for(var i=0;i<commited_task_id.length;i++)
+    // {
+    //     $.ajax({
+    //         url: "/Servlet",
+    //         type: "POST",
+    //         data: {
+    //             //调用后端获取项目内容的方法
+    //             "action": "receiveTaskId",
+    //             "gData": commited_task_id[i]
+    //
+    //
+    //         },
+    //         success: function (data) {
+    //             tas2 = JSON.parse(data);
+    //             var tab=document.getElementById("project");
+    //             var oneRow = tab.insertRow();//插入一行
+    //             var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+    //             var cell2 = oneRow.insertCell(1);
+    //             var cell3 = oneRow.insertCell(2);
+    //             var cell4 = oneRow.insertCell(3);
+    //             cell1.innerHTML="<a href='task_content.html?txt="+tas2.id+"'>"+tas2.id+"</a>";
+    //             cell2.innerHTML=tas2.name;
+    //             cell3.innerHTML=tas2.progress.toString()+"/"+tas2.imageIds.length();
+    //             cell4.innerHTML=tas2.startDate;
+    //         },
+    //         error: function (XMLHttpRequest, textStatus, errorThrown) {
+    //             alert(XMLHttpRequest.status);
+    //             alert(XMLHttpRequest.readyState);
+    //             alert(textStatus);
+    //         }
+    //     });
+    // }
     var ID="";
     function add_task() {
         $.ajax({
