@@ -16,7 +16,9 @@ public interface taskService {
 
     public void deleteTask(String taskId,String filepath);//删除task
 
-    public boolean completeTask(String taskId,String userId);//完成task
+    public void confirmTask(String taskId,String userId);//确认完成有效后系统修改数据
+
+    public boolean completeTask(String taskId,String userId);//标注着确认完成task
 
     public void giveUpTask(String taskId,String userId);//放弃task
 
