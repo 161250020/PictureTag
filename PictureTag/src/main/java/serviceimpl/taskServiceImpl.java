@@ -438,7 +438,7 @@ public class taskServiceImpl implements taskService {
         return out;
     }
 
-/*    public ArrayList<String> receiveCommittedTaskIds(){
+    public ArrayList<String> receiveCommittedTaskIds(){
         ArrayList<String> out = new ArrayList<>();
         File f = new File(committedTaskFile);
         if(!f.exists()){
@@ -461,7 +461,7 @@ public class taskServiceImpl implements taskService {
             e.printStackTrace();
         }
         return out;
-    }*/
+    }
 
     public void deleteTask(String taskId,String filepath){
             //String p = taskServiceImpl.class.getResource("/").getFile()+File.separator;
