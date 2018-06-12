@@ -192,8 +192,8 @@
                 "username":id
             },
             success: function(data) {
-                alert("123")
                 var changepro=JSON.parse(data);
+                alert(changepro[0].id);
                 for(var i=0;i<changepro.size();i++){
                     var oneRow = tab.insertRow();//插入一行
                     var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
@@ -217,6 +217,7 @@
     }
     function clear(){
         $("#project  tr:not(:first)").empty("");
+        var aaa;
     }
     function addproject(){
         var tab=document.getElementById("project");
