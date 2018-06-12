@@ -108,7 +108,7 @@
                         <div class="two">
                             <br>
                             <br>
-                            <input type="date" align="left" id="end_date" style="width: 100%" onclick="clear()" >
+                            <input type="date" align="left" id="end_date" style="width: 100%" onclick="clear_date()" >
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                 <div>
                     <div class="panel panel-default">
                         <table class="table" id="project">
-                            <th>项目ID</th><th>基本信息</th><th>任务数</th><th>发布时间</th>
+                            <th>项目ID</th><th>名称</th><th>任务数</th><th>发布时间</th>
                             <tr>
                                 <td><a href="#">0001</a></td><td>helloworld</td><td>0</td><td>2018-01-01</td>
                             </tr>
@@ -179,6 +179,11 @@
                 alert(textStatus);
             }
         });
+
+    function clear_date(){
+        $("#project  tr:not(:first)").empty("");
+        var aaa;
+    }
     function date_project(){
 
         $.ajax({
@@ -215,10 +220,7 @@
             }
         });
     }
-    function clear(){
-        $("#project  tr:not(:first)").empty("");
-        var aaa;
-    }
+
     function addproject(){
         var tab=document.getElementById("project");
 
