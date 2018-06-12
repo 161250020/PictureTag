@@ -384,6 +384,14 @@ public class FindProjects implements service.FindProjects {
             }
         }
     }
+    //该方法用来提供生成任务时使用
+    public void updateTaskId(String proId,String taskId){
+        Project current=getProject(proId);
+        ArrayList<String> taskIds=current.getTaskIds();
+        taskIds.add(taskId);
+        current.setTaskIds(taskIds);
+        update(current);
+    }
     //该方法用来提供给task完成时使用
     public void updateProgress(String proid){              //需要返回更新后的任务嘛;(有个麻烦:好像不能做到实时更新)
         Project current=getProject(proid);
