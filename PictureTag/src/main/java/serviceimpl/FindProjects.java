@@ -106,36 +106,34 @@ public class FindProjects implements service.FindProjects {
         }
         return result;
     }
-    public boolean checkDate1(String Date1,String Date){   //"yyyyMMddHHmmss"
-        String Date1year=Date1.substring(4);
-        String Date1month=Date1.substring(4,6);
-        String Date1day=Date1.substring(6,8);
-        String Date1hour=Date1.substring(8,10);
-        String Date1minute=Date1.substring(10,12);
-        String Date1second=Date1.substring(12,14);
-        int Date1Year=Integer.parseInt(Date1year);
-        int Date1Month=0;                                    //这部分可以优化;写一个抽象函数
-        if(Date1month.charAt(0)=='0'){
-            Date1Month=Integer.parseInt(Date1month.substring(1,2));
+    public boolean checkDate1(String Date1,String Date) {   //"yyyyMMddHHmmss"
+        String Date1year = Date1.substring(4);
+        String Date1month = Date1.substring(4, 6);
+        String Date1day = Date1.substring(6, 8);
+        //String Date1hour=Date1.substring(8,10);
+        //String Date1minute=Date1.substring(10,12);
+        //String Date1second=Date1.substring(12,14);
+        int Date1Year = Integer.parseInt(Date1year);
+        int Date1Month = 0;                                    //这部分可以优化;写一个抽象函数
+        if (Date1month.charAt(0) == '0') {
+            Date1Month = Integer.parseInt(Date1month.substring(1, 2));
+        } else {
+            Date1Month = Integer.parseInt(Date1month);
         }
-        else{
-            Date1Month=Integer.parseInt(Date1month);
+        int Date1Day = 0;
+        if (Date1day.charAt(0) == '0') {
+            Date1Day = Integer.parseInt(Date1day.substring(1, 2));
+        } else {
+            Date1Day = Integer.parseInt(Date1day);
         }
-        int Date1Day=0;
-        if(Date1day.charAt(0)=='0'){
-            Date1Day=Integer.parseInt(Date1day.substring(1,2));
-        }
-        else{
-            Date1Day=Integer.parseInt(Date1day);
-        }
-        int Date1Hour=0;
-        if(Date1hour.charAt(0)=='0'){
-            Date1Hour=Integer.parseInt(Date1hour.substring(1,2));
-        }
-        else{
-            Date1Hour=Integer.parseInt(Date1hour);
-        }
-        int Date1Minute=0;
+        //int Date1Hour=0;
+        //if(Date1hour.charAt(0)=='0'){
+        //Date1Hour=Integer.parseInt(Date1hour.substring(1,2));
+        //}
+        //else{
+        //Date1Hour=Integer.parseInt(Date1hour);
+        //}
+        /*int Date1Minute=0;
         if(Date1minute.charAt(0)=='0'){
             Date1Minute=Integer.parseInt(Date1minute.substring(1,2));
         }
@@ -149,29 +147,27 @@ public class FindProjects implements service.FindProjects {
         else{
             Date1Second=Integer.parseInt(Date1second);
         }
-
-        String Dateyear=Date.substring(4);
-        String Datemonth=Date.substring(4,6);
-        String Dateday=Date.substring(6,8);
-        String Datehour=Date.substring(8,10);
-        String Dateminute=Date.substring(10,12);
-        String Datesecond=Date.substring(12,14);
-        int DateYear=Integer.parseInt(Dateyear);
-        int DateMonth=0;                                    //这部分可以优化;写一个抽象函数
-        if(Datemonth.charAt(0)=='0'){
-            DateMonth=Integer.parseInt(Datemonth.substring(1,2));
+       */
+        String Dateyear = Date.substring(4);
+        String Datemonth = Date.substring(4, 6);
+        String Dateday = Date.substring(6, 8);
+        //String Datehour=Date.substring(8,10);
+        //String Dateminute=Date.substring(10,12);
+        //String Datesecond=Date.substring(12,14);
+        int DateYear = Integer.parseInt(Dateyear);
+        int DateMonth = 0;                                    //这部分可以优化;写一个抽象函数
+        if (Datemonth.charAt(0) == '0') {
+            DateMonth = Integer.parseInt(Datemonth.substring(1, 2));
+        } else {
+            DateMonth = Integer.parseInt(Datemonth);
         }
-        else{
-            DateMonth=Integer.parseInt(Datemonth);
+        int DateDay = 0;
+        if (Dateday.charAt(0) == '0') {
+            DateDay = Integer.parseInt(Dateday.substring(1, 2));
+        } else {
+            DateDay = Integer.parseInt(Dateday);
         }
-        int DateDay=0;
-        if(Dateday.charAt(0)=='0'){
-            DateDay=Integer.parseInt(Dateday.substring(1,2));
-        }
-        else{
-            DateDay=Integer.parseInt(Dateday);
-        }
-        int DateHour=0;
+        /*int DateHour=0;
         if(Datehour.charAt(0)=='0'){
             DateHour=Integer.parseInt(Datehour.substring(1,2));
         }
@@ -192,29 +188,32 @@ public class FindProjects implements service.FindProjects {
         else{
             DateSecond=Integer.parseInt(Datesecond);
         }
-
+        */
         //进行比较;
-        if(Date1Year>DateYear){
+        if (Date1Year > DateYear) {
             return false;
         }
-        if(Date1Year<DateYear){
+        if (Date1Year < DateYear) {
             return true;
-        }
-        else{
-            if(Date1Month>DateMonth){
+        } else {
+            if (Date1Month > DateMonth) {
                 return false;
             }
-            if(Date1Month<DateMonth){
+            if (Date1Month < DateMonth) {
                 return true;
-            }
-            else{
-                if(Date1Day>DateDay){
+            } else {
+                if (Date1Day > DateDay) {
                     return false;
                 }
-                if(Date1Day<DateDay){
+                if (Date1Day < DateDay) {
+                    return true;
+                } else {
                     return true;
                 }
-                else{
+            }
+        }
+    }
+                /*else{
                     if(Date1Hour>DateHour){
                         return false;
                     }
@@ -244,30 +243,29 @@ public class FindProjects implements service.FindProjects {
             }
         }
     }
-    public boolean checkDate2(String Date2,String Date){
-        boolean flag=false;
-        String Date2year=Date2.substring(4);
-        String Date2month=Date2.substring(4,6);
-        String Date2day=Date2.substring(6,8);
-        String Date2hour=Date2.substring(8,10);
-        String Date2minute=Date2.substring(10,12);
-        String Date2second=Date2.substring(12,14);
-        int Date2Year=Integer.parseInt(Date2year);
-        int Date2Month=0;                                    //这部分可以优化;写一个抽象函数
-        if(Date2month.charAt(0)=='0'){
-            Date2Month=Integer.parseInt(Date2month.substring(1,2));
+    */
+    public boolean checkDate2(String Date2,String Date) {
+        boolean flag = false;
+        String Date2year = Date2.substring(4);
+        String Date2month = Date2.substring(4, 6);
+        String Date2day = Date2.substring(6, 8);
+        //String Date2hour=Date2.substring(8,10);
+        //String Date2minute=Date2.substring(10,12);
+        //String Date2second=Date2.substring(12,14);
+        int Date2Year = Integer.parseInt(Date2year);
+        int Date2Month = 0;                                    //这部分可以优化;写一个抽象函数
+        if (Date2month.charAt(0) == '0') {
+            Date2Month = Integer.parseInt(Date2month.substring(1, 2));
+        } else {
+            Date2Month = Integer.parseInt(Date2month);
         }
-        else{
-            Date2Month=Integer.parseInt(Date2month);
+        int Date2Day = 0;
+        if (Date2day.charAt(0) == '0') {
+            Date2Day = Integer.parseInt(Date2day.substring(1, 2));
+        } else {
+            Date2Day = Integer.parseInt(Date2day);
         }
-        int Date2Day=0;
-        if(Date2day.charAt(0)=='0'){
-            Date2Day=Integer.parseInt(Date2day.substring(1,2));
-        }
-        else{
-            Date2Day=Integer.parseInt(Date2day);
-        }
-        int Date2Hour=0;
+        /*int Date2Hour=0;
         if(Date2hour.charAt(0)=='0'){
             Date2Hour=Integer.parseInt(Date2hour.substring(1,2));
         }
@@ -287,30 +285,28 @@ public class FindProjects implements service.FindProjects {
         }
         else{
             Date2Second=Integer.parseInt(Date2second);
-        }
+        }*/
 
-        String Dateyear=Date.substring(4);
-        String Datemonth=Date.substring(4,6);
-        String Dateday=Date.substring(6,8);
-        String Datehour=Date.substring(8,10);
-        String Dateminute=Date.substring(10,12);
-        String Datesecond=Date.substring(12,14);
-        int DateYear=Integer.parseInt(Dateyear);
-        int DateMonth=0;                                    //这部分可以优化;写一个抽象函数
-        if(Datemonth.charAt(0)=='0'){
-            DateMonth=Integer.parseInt(Datemonth.substring(1,2));
+        String Dateyear = Date.substring(4);
+        String Datemonth = Date.substring(4, 6);
+        String Dateday = Date.substring(6, 8);
+        //String Datehour=Date.substring(8,10);
+        //String Dateminute=Date.substring(10,12);
+        //String Datesecond=Date.substring(12,14);
+        int DateYear = Integer.parseInt(Dateyear);
+        int DateMonth = 0;                                    //这部分可以优化;写一个抽象函数
+        if (Datemonth.charAt(0) == '0') {
+            DateMonth = Integer.parseInt(Datemonth.substring(1, 2));
+        } else {
+            DateMonth = Integer.parseInt(Datemonth);
         }
-        else{
-            DateMonth=Integer.parseInt(Datemonth);
+        int DateDay = 0;
+        if (Dateday.charAt(0) == '0') {
+            DateDay = Integer.parseInt(Dateday.substring(1, 2));
+        } else {
+            DateDay = Integer.parseInt(Dateday);
         }
-        int DateDay=0;
-        if(Dateday.charAt(0)=='0'){
-            DateDay=Integer.parseInt(Dateday.substring(1,2));
-        }
-        else{
-            DateDay=Integer.parseInt(Dateday);
-        }
-        int DateHour=0;
+        /*int DateHour=0;
         if(Datehour.charAt(0)=='0'){
             DateHour=Integer.parseInt(Datehour.substring(1,2));
         }
@@ -330,30 +326,33 @@ public class FindProjects implements service.FindProjects {
         }
         else{
             DateSecond=Integer.parseInt(Datesecond);
-        }
+        }*/
 
         //进行比较;
-        if(Date2Year>DateYear){
+        if (Date2Year > DateYear) {
             return true;
         }
-        if(Date2Year<DateYear){
+        if (Date2Year < DateYear) {
             return false;
-        }
-        else{
-            if(Date2Month>DateMonth){
+        } else {
+            if (Date2Month > DateMonth) {
                 return true;
             }
-            if(Date2Month<DateMonth){
+            if (Date2Month < DateMonth) {
                 return false;
-            }
-            else{
-                if(Date2Day>DateDay){
+            } else {
+                if (Date2Day > DateDay) {
                     return true;
                 }
-                if(Date2Day<DateDay){
+                if (Date2Day < DateDay) {
                     return false;
+                } else {
+                    return true;
                 }
-                else{
+            }
+        }
+    }
+                /*else{
                     if(Date2Hour>DateHour){
                         return true;
                     }
@@ -383,6 +382,7 @@ public class FindProjects implements service.FindProjects {
             }
         }
     }
+    */
     public void update(Project pro){                       //界面修改任务
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";
         ArrayList<String> content=FileReadandWrite.ReadFile(path);
