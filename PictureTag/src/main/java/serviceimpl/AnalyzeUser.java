@@ -238,9 +238,11 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         return recommendTask;
     }
-    public double correlation(String username){                //相关性
+    public double correlation(String username){                       //相关系数 Cov(X,Y)
         double result=0.0;
-
+        double cov=0.0;
+        double varX=0.0;
+        double varY=0.0;
         return result;
     }
     public double ExpectedScore(String username){                    //会不断更新 (需不需要存储数据,便于作图),(新建一个数据类型)
