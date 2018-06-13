@@ -16,7 +16,6 @@ public class AnalyzeUser implements Analyze {                           //质量
         for(int i=0;i<all.size();i++){
             for(int j=0;j<all.size();j++){
                 if(all.get(i)!=null&&all.get(j)!=null&&all.get(i).getScore()>all.get(j).getScore()){
-                    //System.out.println("111");
                     UserInfo temp=all.get(i);
                     all.set(i,all.get(j));
                     all.set(j,temp);
@@ -41,6 +40,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         Map<String,Double> receiveEvalu=user.getReceiveEvalu();
         receiveEvalu.put(taskId,score);
         user.setReceiveEvalu(receiveEvalu);
+        //添加期望值保存
         impl.update(user);
     }
     /*
@@ -63,11 +63,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         return truth;
     }
-    //还未实现
-    public double correlation(String username){                //相关性
-        double result=0.0;
-        return result;
-    }
+
     public int getType1(String username){                    //用户完成area类型的任务数量
         taskServiceImpl service=new taskServiceImpl();
         int count=0;
@@ -229,6 +225,7 @@ public class AnalyzeUser implements Analyze {                           //质量
            }
            return result;
     }
+
     public ArrayList<Task> recom(String username,String type){                         //返回推荐的具体任务
         taskServiceImpl service=new taskServiceImpl();
         String recommendType=recommend(username);
@@ -241,4 +238,97 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         return recommendTask;
     }
+    public double correlation(String username){                //相关性
+        double result=0.0;
+
+        return result;
+    }
+    public double ExpectedScore(String username){                    //会不断更新 (需不需要存储数据,便于作图),(新建一个数据类型)
+        double result=0.0;
+        userserviceImpl impl=new userserviceImpl();
+        UserInfo user=impl.getUser(username);
+        Map<String,Double> list=user.getReceiveEvalu();              //注意一点,完成的任务不一定有评分,因为打分和完成任务不是同步的
+        int size=list.size();
+        double sum=0.0;
+        for(String str:list.keySet()){
+            if(str!=null) {
+                sum = sum + list.get(str);
+            }
+        }
+        result=(1*1.0/size)*sum;
+        return result;
+    }
+    public ArrayList<Double> relationbyScoreandEvalu(String username){             //(获得两个事件的概率P(A),P(B))完成事件关联度(优秀)    任务数+打分情况+得分奖励.(有多个事件)   (规定一个是好,一个是差)
+        ArrayList<Double> result=new ArrayList<Double>();
+        userserviceImpl impl=new userserviceImpl();
+        UserInfo user=impl.getUser(username);
+        //假设打分情况85为优秀
+        int count1=0;
+        double probability1=0.0;      //p(打分情况为优秀)
+        Map<String,Double> list=user.getReceiveEvalu();
+        for(String str:list.keySet()){
+            if(str!=null){
+                if(list.get(str)>=85){
+                       count1++;
+                }
+            }
+        }
+        probability1=count1*1.0/list.size();
+        result.add(probability1);
+
+        int count2=0;
+        double probabaility2=0.0;   //p(得分奖励高)
+        //先获得有打分的任务(有完成的不一定有分);得分奖励,以10分为高.
+        taskServiceImpl service=new taskServiceImpl();
+        Gson gson=new Gson();
+        ArrayList<String> getScoreList=new ArrayList<String>();
+        for(String str:list.keySet()){
+            if(str!=null) {
+                getScoreList.add(str);
+            }
+        }
+        for(String str:getScoreList){
+            if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getSocre()>=10&&str!=null){
+                count2++;
+            }
+        }
+        probabaility2=count2*1.0/getScoreList.size();
+        result.add(probabaility2);
+        return result;
+    }
+    public double SupportbyScoreandEvalu(String username) {           //P(AB)
+        ArrayList<Double> result = new ArrayList<Double>();
+        userserviceImpl impl = new userserviceImpl();
+        Gson gson=new Gson();
+        taskServiceImpl service=new taskServiceImpl();
+        UserInfo user = impl.getUser(username);
+        int count = 0;
+        double probability=0.0;
+        Map<String, Double> list = user.getReceiveEvalu();
+        for (String str : list.keySet()) {
+            if (str != null) {
+                if(list.get(str)>=85&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getSocre()>=10){
+                    count++;
+                }
+            }
+        }
+        probability=count*1.0/list.size();
+        return probability;
+    }
+    public double ConfidencebyScoreandEvalu(String username){           //P(A|B)
+        ArrayList<Double> list=relationbyScoreandEvalu(username);
+        double probality2=list.get(1);
+        //求解P(A|B)=P(AB)/P(B)
+        double result=0.0;
+        result=SupportbyScoreandEvalu(username)/probality2;
+        return result;
+    }
+   public double LiftbyScoreandEvalu(String username){                //P(A|B)/P(A)
+       ArrayList<Double> list=relationbyScoreandEvalu(username);
+       double probality1=list.get(0);
+       double result=0.0;
+       result=ConfidencebyScoreandEvalu(username)/probality1;
+       return result;
+   }
+    //完成情况的关联度
 }
