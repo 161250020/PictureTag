@@ -67,7 +67,7 @@ public class imageServiceImpl implements imageService {
         image i = gson.fromJson(jsonData,image.class);
         String[] strings =i.getId().split(sp);
         taskId = strings[0]+sp+strings[1];
-        //System.out.println(taskId);
+        System.out.println(taskId);
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         File file = new File(filePath);
         //System.out.println(file.getAbsolutePath());
@@ -199,7 +199,7 @@ public class imageServiceImpl implements imageService {
         String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+ss[0]+sp+ss[1]+".task";
         String taskData = d.findTask(taskId,taskUserFilePath);
         Task t = gson.fromJson(taskData,Task.class);
-        t.setFlag(true);
+        t.setReceive(true);
         t.setProgress(count);
         System.out.println(t.getId());
         d.modifyTask(gson.toJson(t),taskUserFilePath);

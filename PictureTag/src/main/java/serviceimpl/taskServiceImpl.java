@@ -12,8 +12,10 @@ import java.util.ArrayList;
 
 public class taskServiceImpl implements taskService {
     FindProjects findProjects = new FindProjects();
+    userserviceImpl userservice = new userserviceImpl();
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
+    String checkTaskFileName = analyzeTagAccuracyImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
 
     public taskServiceImpl taskServiceImpl(){
         return new taskServiceImpl();
@@ -174,8 +176,7 @@ public class taskServiceImpl implements taskService {
             String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjecgtId+".task";
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
-            t.setFlag(true);
-            //System.out.println(g.toJson(t));
+            t.setReceive(true);            //System.out.println(g.toJson(t));
             //System.out.println(taskUserFilePath);
             modifyTask(g.toJson(t),committedTaskFile);
             modifyTask(g.toJson(t),taskUserFilePath);
@@ -198,8 +199,8 @@ public class taskServiceImpl implements taskService {
     public void newTask(String taskJson){
         Gson gson = new Gson();
         Task t = gson.fromJson(taskJson,Task.class);
-        t.setFlag1(true);
-        t.setFlag(false);
+        t.setPublish(true);
+        t.setReceive(false);
         t.setSocre(Double.valueOf(t.getRequests().get(t.getRequests().size()-1)));
         System.out.println(t.getSocre());
         String filename = t.getId();
@@ -252,11 +253,8 @@ public class taskServiceImpl implements taskService {
         u.update(user);
         //System.out.println(gson.toJson(user));
         double s = Double.valueOf(user.getScore()) - Double.valueOf(t.getSocre());
-        System.out.println(s);
+        //System.out.println(s);
         user.setScore(s);
-/*        ArrayList<String> temp = user.getLaunchpro();
-        temp.add(t.getId());
-        user.setLaunchpro(temp);*/
 
         //这里调用一下checkUserLevel的方法，返回修改后的userLevel
         user.setLevel(u.updateLevel(user.getScore()));
@@ -266,6 +264,19 @@ public class taskServiceImpl implements taskService {
 
     @Override
     public void confirmTask(String taskId, String userId) {
+        userserviceImpl u = new userserviceImpl();
+        UserInfo userInfo = u.getUser(userId);
+        String[] ss = taskId.split(sp);
+        String taskProjectId = ss[0]+sp+ss[1];
+
+        //确认task完成，修改projectId.task文件内的task信息
+
+        //确认task完成，修改project信息
+        findProjects.updateProgress(taskProjectId);
+        //确认task完成，修改user信息
+        userservice.updatefinish(userId,taskId,true);
+        //删除committedTaskFile里的该task
+        deleteTask(taskId,checkTaskFileName);
 
     }
 
@@ -294,31 +305,50 @@ public class taskServiceImpl implements taskService {
             }
         }
         if(!flag){
-            System.out.println("用户没有接受该任务！");
-            return false;
+                System.out.println("用户没有接受该任务！");
+                return false;
         }
         //判断是否将所有图片标注完成
         if(!(t.getProgress() == t.getImageIds().size())){
             flag = false;
+            System.out.println("任务没有完成！");
+            return false;
         }
-        //将task交予confirmTask.task执行
-        analyzeTagAccuracyImpl analyzeTagAccuracy = new analyzeTagAccuracyImpl();
-        File c = new File(analyzeTagAccuracy.checkTaskFileName);
-        try {
-            FileWriter fw = new FileWriter(c);
-            BufferedWriter bw = new BufferedWriter(fw);
+        //这里判断task是否超过期限
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        //将task内容添加到confirmTask.task，注意此时的task的bool值receive和publish都为true
+        if(flag) {
+            analyzeTagAccuracyImpl analyzeTagAccuracy = new analyzeTagAccuracyImpl();
+            File c = new File(analyzeTagAccuracy.checkTaskFileName);
+            if (!c.exists()) {
+                try {
+                    c.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                FileWriter fw = new FileWriter(c, true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(taskData);
+                bw.newLine();
+                bw.close();
+                fw.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
+        //删除committed中的信息
+        deleteTask(taskId,committedTaskFile);
 
-        System.out.println(t.getProgress());
-        System.out.println(t.getImageIds().size());
+        return b;
+
         //用户接受过任务并完成标注，修改user信息，删除committed中的信息
-        if((Integer)t.getProgress()==(Integer) t.getImageIds().size()) {
+        /*if((Integer)t.getProgress()==(Integer) t.getImageIds().size()) {
             int n = userInfo.getTaskNumber();
             double s =userInfo.getScore();
             userInfo.setTaskNumber(n + 1);
@@ -330,11 +360,9 @@ public class taskServiceImpl implements taskService {
         }
         else{
             b = false;
-        }
+        }*/
         //修改project信息
-        findProjects.updateProgress(taskProjectId);
-
-        return b;
+        //findProjects.updateProgress(taskProjectId);
     }
 
     public void giveUpTask(String taskId,String userId){
@@ -423,7 +451,7 @@ public class taskServiceImpl implements taskService {
             String t = "";
             while(null != (t = br.readLine())){
                 Task temp = gson.fromJson(t,Task.class);
-                if((temp.getTagType().equals(tagType))&&(!temp.isFlag())){
+                if((temp.getTagType().equals(tagType))&&(!temp.isReceive())){
                     out.add(t);
                 }
             }
