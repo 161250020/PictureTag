@@ -95,18 +95,15 @@
                         <input type="text" class="form-control" id="password" placeholder="密码：">
                         <button onclick="register()" type="button" class="button small" style="width: 100%">登录</button>
                         <div align="right">
-                            <a href="register.html">注册</a>
-                            <button type="button" class="btn btn-link"><a href="modify_password.html">忘记密码</a></button>
+                            <a href="homepage/register.html">注册</a>
+                            <a href="homepage/modify_password.html">忘记密码</a>
                         </div>
                     </div>
                 </div>
                 <br>
             </div>
         </div>
-
     </div>
-
-
 </div>
 
 <script>

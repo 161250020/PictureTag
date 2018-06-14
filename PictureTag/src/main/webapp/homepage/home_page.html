@@ -95,21 +95,24 @@
                         <input type="text" class="form-control" id="password" placeholder="密码：">
                         <button onclick="register()" type="button" class="button small" style="width: 100%">登录</button>
                         <div align="right">
-                             <a href="homepage/register.html">注册</a>
-                             <a href="homepage/modify_password.html">忘记密码</a>
+                             <a href="#" onclick="signin()">注册</a>
                         </div>
                     </div>
                 </div>
                 <br>
             </div>
         </div>
-
     </div>
-
-
 </div>
 
 <script>
+    //读取id
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+    document.getElementById("b_userId").innerText="用户ID："+id;
+
     //登录
     function register(){
         //从服务器端返回判断是否存在这个用户的结果
@@ -163,6 +166,12 @@
                 alert("Wrong!");
             }
         });
+    }
+
+    //注册
+    function signin() {
+        window.location.href="register.html";
+        location.href="register.html?"+"txt="+encodeURI(id);
     }
 
 </script>
