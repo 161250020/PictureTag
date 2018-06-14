@@ -23,8 +23,8 @@ public class FindProjects implements service.FindProjects {
         result.setTaskIds(new ArrayList<String>());
         result.setList(new HashMap<String,String>());
         result.setRequests(new ArrayList<String>());
-        result.setId(proId);                              //设置编号.
-        String date=""+format.format(current);         //设置日期.
+        result.setId(proId);                                                            //设置编号.
+        String date=""+format.format(current);                                         //设置日期.
         result.setDate(date);
         Gson gson=new Gson();
         String gsonString=gson.toJson(result);

@@ -12,7 +12,7 @@ public class UserInfo {
     public String nickname;
     public String name;
     public int level;
-    public ArrayList<String> receivetask;        //对应的接受项目ID
+    public ArrayList<String> receivetask;        //对应的接受的任务ID
     public ArrayList<String> launchpro;         //对应的发布项目
     public int TaskNumber;                     //完成的任务数
     public double score;                        //用户的积分
