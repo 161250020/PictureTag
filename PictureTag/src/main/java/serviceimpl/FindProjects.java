@@ -28,8 +28,10 @@ public class FindProjects implements service.FindProjects {
         result.setDate(date);
         Gson gson=new Gson();
         String gsonString=gson.toJson(result);
-        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";                                      //路径未填写
+        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";
+
         FileReadandWrite.WriteFile(path,gsonString);
+
         //更新user的lauchPro;
         userserviceImpl impl=new userserviceImpl();
         String username=pro.getUsername();
@@ -46,6 +48,7 @@ public class FindProjects implements service.FindProjects {
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt" ;                                       //路径未知.
         Gson gson=new Gson();
         ArrayList<String> temp=FileReadandWrite.ReadFile(path);
+        System.out.println("all size:"+temp.size());
         for(String str:temp){
             if(str!=null){
                 list.add(gson.fromJson(str,Project.class));
@@ -380,15 +383,19 @@ public class FindProjects implements service.FindProjects {
         ArrayList<String> current=new ArrayList<String>();
         Gson gson=new Gson();
         for(String str:content){
-            if(gson.fromJson(str,Project.class).getId().equals(pro.getId())&&str!=null){             //==和equals
+            if((!gson.fromJson(str,Project.class).getId().equals(pro.getId()))&&str!=null){             //==和equals    前后一致
                 current.add(str);
             }
-            if(gson.fromJson(str,Project.class).getId().equals(pro.getId())&&str!=null){             //==和equals
+            if((gson.fromJson(str,Project.class).getId().equals(pro.getId()))&&str!=null){             //==和equals
                 current.add(gson.toJson(pro));
             }
         }
         for(String str:current) {
-            FileReadandWrite.WriteFile(path,str);
+            if(str!=null) {
+                File file=new File(path);
+                file.delete();
+                FileReadandWrite.WriteFile(path, str);
+            }
         }
     }
     //该方法用来提供生成任务时使用
@@ -398,7 +405,6 @@ public class FindProjects implements service.FindProjects {
         taskIds.add(taskId);
         current.setTaskIds(taskIds);
         update(current);
-        Project temp=getProject(proId);
     }
     //该方法用来提供给task完成时使用
     public void updateProgress(String proid){              //需要返回更新后的任务嘛;(有个麻烦:好像不能做到实时更新)
