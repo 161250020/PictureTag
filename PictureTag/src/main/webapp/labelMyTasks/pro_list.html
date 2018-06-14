@@ -124,7 +124,9 @@
 
 
 <script>
-
+    $(document).ready(function() {
+        $(document).foundation();
+    })
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
@@ -192,6 +194,9 @@
         location.href="../personal_center/personal_info.html?"+"txt="+encodeURI(id);
 
     }
+</script>
+
+<script>
     //退出
     function logout(){
         window.location.href="../homepage/home_page.html";
