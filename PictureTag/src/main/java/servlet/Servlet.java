@@ -602,7 +602,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        ArrayList<Project> pro=impl.getProjects(username);
        Gson gson=new Gson();
        String gsondata=gson.toJson(pro);
-
+       System.out.println("receivePro");
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);
