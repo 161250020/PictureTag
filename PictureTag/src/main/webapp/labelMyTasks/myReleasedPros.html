@@ -183,9 +183,10 @@
             },
             success: function(data) {
                 //返回的列表
-                var changepro=JSON.parse(data);
-                alert(changepro.toString());
-                for(var i=0;i<changepro.size();i++){
+                var changepro=new Array();
+                changepro=JSON.parse(data);
+                alert(changepro.length);
+                for(var i=0;i<changepro.length;i++){
                     var oneRow = tab.insertRow();//插入一行
                     var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
                     var cell2 = oneRow.insertCell(1);

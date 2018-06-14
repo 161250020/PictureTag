@@ -97,8 +97,10 @@
         var str={
             "username":document.getElementById("id").value.toString(),
             "password":document.getElementById("new_pass").value.toString(),
-            "nickname":document.getElementById("name").value.toString(),
             "name":document.getElementById("real_name").value.toString(),
+            "name":document.getElementById("mail").value.toString(),
+            "name":document.getElementById("phone").value.toString(),
+            "nickname":document.getElementById("name").value.toString(),
             "level":0,
             "receivetask":[],
             "launchpro":[],
@@ -127,28 +129,27 @@
 
                 //针对两种不同的返回值的反应
                 if(exist==1){
-                    if(document.getElementById("id").value.toString()=="admin"){
-                        window.location.href="admin/admin.html";
-                        location.href="admin/admin.html?"+"txt="+encodeURI(document.getElementById("id").value.toString());
-                    }
-                    else {
                         window.location.href = "home_page_alreadyin.html";
                         location.href = "home_page_alreadyin.html?" + "txt=" + encodeURI(document.getElementById("id").value.toString());
-                    }
                 }
                 else{
+                    alert("该用户已存在！");
                     //清空后提示
+                    document.getElementById("id").value="";
                     document.getElementById("name").value="";
+                    document.getElementById("real_name").value="";
+                    document.getElementById("mail").value="";
+                    document.getElementById("phone").value="";
+                    document.getElementById("verification").value="";
                     document.getElementById("new_pass").value="";
+                    document.getElementById("reInputNew_pass").value="";
                     //document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
                 }
             },
             error: function () {
                 alert("Wrong!");
             }
-
         });
-
     }
 </script>
 </body>

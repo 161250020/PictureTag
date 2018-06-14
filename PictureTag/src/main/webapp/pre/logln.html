@@ -19,7 +19,7 @@ To change this template use File | Settings | File Templates.
     <!--背景图-->
     <style type="text/css">
         body{
-            background-image: url("background.jpg");
+            background-image: url("../background.jpg");
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: inherit;
@@ -60,7 +60,7 @@ To change this template use File | Settings | File Templates.
         <br><br><br><br>
         <h2 align="center">New user？Create an account</h2>
         <br><br><br><br>
-        <a href="logInAndRegister/register.html" class="button" role="button" style="left: 34%;">Register</a>
+        <a href="../logInAndRegister/register.html" class="button" role="button" style="left: 34%;">Register</a>
         <br><br><br><br>
     </li>
     <!--登录-->
@@ -128,11 +128,11 @@ To change this template use File | Settings | File Templates.
                 //针对两种不同的返回值的反应
                 if(exist==1){
                     if(document.getElementById("input_username").value.toString()=="admin"){
-                        window.location.href="admin/admin.html";
+                        window.location.href="../admin/admin.html";
                         location.href="admin/admin.html?"+"txt="+encodeURI(document.getElementById("input_username").value.toString());
                     }
                     else {
-                        window.location.href = "tools/tools_index.html";
+                        window.location.href = "../tools/tools_index.html";
                         location.href = "tools/tools_index.html?" + "txt=" + encodeURI(document.getElementById("input_username").value.toString());
                     }
                 }
