@@ -102,6 +102,12 @@
                                                     </select>
                                                 </li>
                                                 <li>
+                                                    任务名称：
+                                                    <blockquote>
+                                                        <input id="task_name" type="text" placeholder="名称">
+                                                    </blockquote>
+                                                </li>
+                                                <li>
                                                     任务日期：
                                                     <blockquote>
                                                         开始日期：<input type="date" id="data1" width="25">
@@ -235,7 +241,7 @@
                 var cell4 = oneRow.insertCell(3);
                 cell1.innerHTML = "<a href='task_content.html?txt=" + tas[i].id + "'>" + tas[i].id + "</a>";
                 cell2.innerHTML = tas[i].name;
-                cell3.innerHTML = tas[i].progress.toString() + "/" + tas[i].imageIds.length;
+                cell3.innerHTML = tas[i].progress+ "/" + tas[i].imageIds.length;
                 cell4.innerHTML = tas[i].startDate.substring(0,4)+"-"+tas[i].startDate.substring(4,6)+"-"+tas[i].startDate.substring(6,8);
             }
         },
@@ -420,12 +426,14 @@
         //创建json
         var obj={
             "id":ID,
-            "name":0,
+            "name":document.getElementById("task_name").value.toString(),
             "tagType":tag.toString(),
             "score":input_integral,
             "progress":0,
-            "flag":false,
-            "flag1":false,
+            "receive":false,
+            "publish":false,
+            "complete":false,
+            "grade":0,
             "startDate":day1,
             "endDate":day2,
             "imageIds":arr,
