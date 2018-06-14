@@ -161,7 +161,7 @@
                 cell2.innerHTML = tas[i].tagType;
                 cell3.innerHTML = tas[i].name;
                 cell4.innerHTML = userid;
-                cell5.innerHTML = tas[i].progress.toString() + "/" + tas.imageIds.length;
+                cell5.innerHTML = tas[i].progress+ "/" + tas[i].imageIds.length;
                 cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
             }
         },
@@ -172,7 +172,7 @@
         }
     });
     function receive_mission(){
-        for(var i=2;i<tab.rows.length;i++){
+        for(var i=1;i<tab.rows.length;i++){
             if(tab.rows[i].cells[5].checked=true){
                 var Task_id=tab.rows[i].cells[0].innerText;
                 $.ajax({
