@@ -49,8 +49,8 @@
                     <input type="text" class="form-control" id="id" placeholder="用户名：">
                     <input type="text" class="form-control" id="name" placeholder="昵称：">
                     <input type="text" class="form-control" id="real_name" placeholder="真实姓名：">
-                    <input type="text" class="form-control" id="new_pass" placeholder="新密码：">
-                    <input type="text" class="form-control" id="reInputNew_pass" placeholder="再次输入新密码：">
+                    <input type="password" class="form-control" id="new_pass" placeholder="新密码：">
+                    <input type="password" class="form-control" id="reInputNew_pass" placeholder="再次输入新密码：">
                     <div class="one">
                         <div class="checkbox">
                             <label>
@@ -86,61 +86,71 @@
 
 <script>
     function register(){
-        var str={
-            "username":document.getElementById("id").value.toString(),
-            "password":document.getElementById("new_pass").value.toString(),
-            "name":document.getElementById("real_name").value.toString(),
-            "nickname":document.getElementById("name").value.toString(),
-            "level":0,
-            "receivetask":[],
-            "launchpro":[],
-            "TaskNumber":0,
-            "score":0.0,
-            "receiveEvalu":null,
-            "finish":null
-        };
-        var changeobj=JSON.stringify(str);
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                "gData":changeobj,
-                "action":"newUser"
-            },
+        //验证两次密码是否一样
+        var in1=document.getElementById("new_pass").value.toString();
+        var in2=document.getElementById("reInputNew_pass").value.toString();
 
-            success: function(data) {
-                alert("he");
-                //exist用来判断该用户是否存在
-                var exist=0;
+        if(in1==in2){
+            var str={
+                "username":document.getElementById("id").value.toString(),
+                "password":document.getElementById("new_pass").value.toString(),
+                "name":document.getElementById("real_name").value.toString(),
+                "nickname":document.getElementById("name").value.toString(),
+                "level":0,
+                "receivetask":[],
+                "launchpro":[],
+                "TaskNumber":0,
+                "score":0.0,
+                "receiveEvalu":null,
+                "finish":null
+            };
+            var changeobj=JSON.stringify(str);
+            $.ajax({
+                url : "/Servlet",
+                type : "POST",
+                data :{
+                    "gData":changeobj,
+                    "action":"newUser"
+                },
 
-                //如果返回的值是true
-                if(data=="true"){
-                    exist=1;
-                }
+                success: function(data) {
+                    //exist用来判断该用户是否不存在
+                    var exist=0;
 
-                //针对两种不同的返回值的反应
-                if(exist==1){
+                    //如果返回的值是true
+                    if(data=="true"){
+                        exist=1;
+                    }
+
+                    //针对两种不同的返回值的反应
+                    if(exist==1){
                         window.location.href = "home_page_alreadyin.html";
                         location.href = "home_page_alreadyin.html?" + "txt=" + encodeURI(document.getElementById("id").value.toString());
+                    }
+                    else{
+                        //提示后清空
+                        alert("该用户已存在！");
+                        document.getElementById("id").value="";
+                        document.getElementById("name").value="";
+                        document.getElementById("real_name").value="";
+                        document.getElementById("new_pass").value="";
+                        document.getElementById("reInputNew_pass").value="";
+                        //document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
+                    }
+                },
+                error: function () {
+                    alert("Wrong!");
                 }
-                else{
-                    //提示后清空
-                    alert("该用户已存在！");
-                    document.getElementById("id").value="";
-                    document.getElementById("name").value="";
-                    document.getElementById("real_name").value="";
-                    document.getElementById("mail").value="";
-                    document.getElementById("phone").value="";
-                    document.getElementById("verification").value="";
-                    document.getElementById("new_pass").value="";
-                    document.getElementById("reInputNew_pass").value="";
-                    //document.getElementById("tip").innerHTML="<div data-alert class='alert-box'>Invalid username or password!<a href=\"#\" class=\"close\">&times;</a></div>"
-                }
-            },
-            error: function () {
-                alert("Wrong!");
-            }
-        });
+            });
+        }
+        else{
+            alert("两次输入密码不同！");
+            document.getElementById("id").value="";
+            document.getElementById("name").value="";
+            document.getElementById("real_name").value="";
+            document.getElementById("new_pass").value="";
+            document.getElementById("reInputNew_pass").value="";
+        }
     }
 
 </script>
