@@ -195,22 +195,60 @@ public class AnalyzeUser implements Analyze {                           //质量
            }
            //未完待续        每一种类型的完成度比较
            else if(average1==average2&&average2>average3){
-               result=comparebyComplete(true,true,false);
+               result=comparebyComplete(true,true,false,username);
            }
            else if(average1==average3&&average1>average2){
-               result=comparebyComplete(true,false,true);
+               result=comparebyComplete(true,false,true,username);
            }
            else if(average2==average3&&average3>average1){
-               result=comparebyComplete(false,true,true);
+               result=comparebyComplete(false,true,true,username);
            }
            else if(average1==average2&&average2==average3){
-               result=comparebyComplete(true,true,true);
+               result=comparebyComplete(true,true,true,username);
            }
            else{}
            return result;
     }
-    public String comparebyComplete(boolean type1,boolean type2,boolean type3){
+    public String comparebyComplete(boolean type1,boolean type2,boolean type3,String username){
            String result="";
+           taskServiceImpl service=new taskServiceImpl();
+           Gson gson=new Gson();
+           UserInfo user=impl.getUser(username);
+           Map<String,Boolean> finish=user.getFinish();
+           int finishType1=0;
+           int finishType2=0;
+           int finishType3=0;
+           int unfinishType1=0;
+           int unfinishType2=0;
+           int unfinishType3=0;
+           for(String str:finish.keySet()){
+               if(finish.get(str)){           //完成的任务
+                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
+                       finishType1=finishType1+1;
+                   }
+                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
+                       finishType2=finishType2+1;
+                   }
+                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
+                       finishType3=finishType3+1;
+                   }
+               }
+               if(!finish.get(str)){
+                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
+                       unfinishType1=unfinishType1+1;
+                   }
+                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
+                       unfinishType2=unfinishType2+1;
+                   }
+                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
+                       unfinishType3=unfinishType3+1;
+                   }
+               }
+           }
+           int allType1=finishType1+unfinishType1;
+           int allType2=finishType2+unfinishType2;
+           int allType3=finishType2+unfinishType3;
+
            if(type1&&type2&&!type3){
 
            }
