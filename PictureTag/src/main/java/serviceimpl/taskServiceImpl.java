@@ -122,7 +122,7 @@ public class taskServiceImpl implements taskService {
             }
             if(!temp1.equals("")) {
                 Task t = gson.fromJson(temp1, Task.class);
-                String preTaskId = t.getId().split(sp)[3];
+                String preTaskId = t.getId().split(sp)[2];
                 //System.out.println(preTaskId);
                 int count = 0;
                 for (int i = 0; i < preTaskId.length(); i++) {
@@ -262,14 +262,23 @@ public class taskServiceImpl implements taskService {
         //System.out.println(gson.toJson(u.getUser(userId)));
     }
 
+    public void gradeTask(String taskId, int grade){
+        String[] ss = taskId.split(sp);
+        String taskProjectId = ss[0]+sp+ss[1];
+        Gson g = new Gson();
+        //用户确认自己已经完成task，将task的complete属性修改为true
+        String taskData = findTask(taskId,taskProjectId+".task");
+        Task temp = g.fromJson(taskData,Task.class);
+        temp.setComplete(true);
+        modifyTask(g.toJson(temp),taskProjectId+".task");
+    }
+
     @Override
     public void confirmTask(String taskId, String userId) {
         userserviceImpl u = new userserviceImpl();
         UserInfo userInfo = u.getUser(userId);
         String[] ss = taskId.split(sp);
         String taskProjectId = ss[0]+sp+ss[1];
-
-        //确认task完成，修改projectId.task文件内的task信息
 
         //确认task完成，修改project信息
         findProjects.updateProgress(taskProjectId);
@@ -316,7 +325,6 @@ public class taskServiceImpl implements taskService {
         }
         //这里判断task是否超过期限
 
-
         //将task内容添加到confirmTask.task，注意此时的task的bool值receive和publish都为true
         if(flag) {
             analyzeTagAccuracyImpl analyzeTagAccuracy = new analyzeTagAccuracyImpl();
@@ -341,6 +349,11 @@ public class taskServiceImpl implements taskService {
                 e.printStackTrace();
             }
         }
+
+        //用户确认自己已经完成task，将task的complete属性修改为true
+        Task temp = g.fromJson(taskData,Task.class);
+        temp.setComplete(true);
+        modifyTask(g.toJson(temp),taskProjectId+".task");
 
         //删除committed中的信息
         deleteTask(taskId,committedTaskFile);
@@ -466,6 +479,7 @@ public class taskServiceImpl implements taskService {
         return out;
     }
 
+
     public ArrayList<String> receiveCommittedTaskIds(){
         ArrayList<String> out = new ArrayList<>();
         File f = new File(committedTaskFile);
@@ -582,4 +596,11 @@ public class taskServiceImpl implements taskService {
         }
         return null;
     }
+
+    public void rePublishTask(String taskId){
+        String[] ss = taskId.split(sp);
+        //String projectId =
+
+    }
+
 }
