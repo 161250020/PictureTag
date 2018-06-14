@@ -193,7 +193,7 @@ public class userserviceImpl implements user{
            update(user);
     }
     //用户给任务打分时,就更新一次
-    public void receiveEvalu(String username,String taskId,double score){
+    public void updateEvalu(String username,String taskId,double score){             //打分的分数
            UserInfo user=getUser(username);
            Map<String,Double> temp=user.getReceiveEvalu();
            temp.put(taskId,score);
@@ -211,5 +211,15 @@ public class userserviceImpl implements user{
                user.setTaskNumber(number);
            }
            update(user);
+    }
+    //
+    public void updatescore(String username,double score){
+         UserInfo user=getUser(username);
+         double newscore=user.getScore();
+         newscore=newscore+score;
+         user.setScore(newscore);
+         int level=updateLevel(score);
+         user.setLevel(level);
+         update(user);
     }
 }

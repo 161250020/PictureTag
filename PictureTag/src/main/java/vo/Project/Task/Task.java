@@ -10,16 +10,20 @@ public class Task {          //个体任务
     String tagType;//标注类型
     double socre;//完成task将获得的分数
     int progress;//已经完成图片的数量
-    boolean flag;//判断task是否已经被接受 true:接受
-    boolean flag1;//判断task是否已经被发布 true:发布
+    boolean receive;//判断task是否已经被接受 true:接受
+    boolean publish;//判断task是否已经被发布 true:发布
+    boolean complete;//判断task是否已经被complete true:完成
+    int grade;//评分
+
     String startDate;
     String endDate;
     ArrayList<String> imageIds;
     ArrayList<String> requests;
 
     public Task(){
-        this.flag = false;
-        this.flag1 = false;
+        this.receive = false;
+        this.publish = false;
+        this.complete = false;
     }
 
     public Task(String id, String name, double socre, int progress, String startDate, String endDate){
@@ -29,8 +33,9 @@ public class Task {          //个体任务
         this.name = name;
         this.socre = socre;
         this.progress = progress;
-        this.flag = false;
-        this.flag1 = false;
+        this.receive = false;
+        this.publish = false;
+        this.complete = false;
         this.startDate = startDate;
         this.endDate = endDate;
 
@@ -68,21 +73,13 @@ public class Task {          //个体任务
         this.progress = progress;
     }
 
-    public boolean isFlag() {
-        return flag;
-    }
+    public boolean isReceive() { return receive; }
 
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
+    public void setReceive(boolean receive) { this.receive = receive; }
 
-    public boolean isFlag1() {
-        return flag1;
-    }
+    public boolean isPublish() { return publish; }
 
-    public void setFlag1(boolean flag1) {
-        this.flag1 = flag1;
-    }
+    public void setPublish(boolean publish) { this.publish = publish; }
 
     public String getStartDate() {
         return startDate;
@@ -123,4 +120,12 @@ public class Task {          //个体任务
     public void setTagType(String tagType) {
         this.tagType = tagType;
     }
+
+    public int getGrade() { return grade; }
+
+    public void setGrade(int grade) { this.grade = grade; }
+
+    public boolean isComplete() { return complete; }
+
+    public void setComplete(boolean complete) { this.complete = complete; }
 }
