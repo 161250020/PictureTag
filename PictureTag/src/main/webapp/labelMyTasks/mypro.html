@@ -195,7 +195,6 @@
 
 
                 for(var i=0;i<changepro.length;i++){
-                    alert("123");
                     var tab=document.getElementById("project");
                     var oneRow = tab.insertRow();//插入一行
                     var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
@@ -316,8 +315,9 @@
 <script>
     //退出
     function logout(){
-        window.open("home_page.html", "_blank");
-        window.close();
+        window.location.href="../homepage/home_page.html";
+        location.href="../homepage/home_page.html?"+"txt="+encodeURI(id);
+
     }
 </script>
 </body>

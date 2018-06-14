@@ -37,15 +37,15 @@
     <!--标题-->
     <div class="panel-heading">
         <b class="panel-title">图片众包网站</b>
-        <button type="button" class="btn btn-link">首页</button>
-        <button type="button" class="btn btn-link">发布任务</button>
-        <button type="button" class="btn btn-link">任务广场</button>
-        <button type="button" class="btn btn-link">我的任务</button>
-        <button type="button" class="btn btn-link">个人中心</button>
+        <button type="button" class="btn btn-link" onclick="toHomePage()">首页</button>
+        <button type="button" class="btn btn-link" onclick="toReleasePros()">发布任务</button>
+        <button type="button" class="btn btn-link" onclick="toPros()">任务广场</button>
+        <button type="button" class="btn btn-link" onclick="toMyPros()">我的任务</button>
+        <button type="button" class="btn btn-link" onclick="toPersonalCenter()">个人中心</button>
         <!--左边-->
         <div align="right">
             <b id="b_userId" style="alignment: right">用户名：001</b>
-            <button type="button" class="btn btn-default" style="alignment: right">退出登录</button>
+            <button type="button" class="btn btn-default" style="alignment: right" onclick="logout()">退出登录</button>
         </div>
     </div>
 
@@ -163,7 +163,41 @@
     });
 
 
-</script>
+    //首页
+    function toHomePage(){
+        window.location.href="../home_page_alreadyin.html";
+        location.href="../home_page_alreadyin.html?"+"txt="+encodeURI(id);
+    }
+    //发布任务
+    function toReleasePros() {
+        window.location.href="mypro.html";
+        location.href="mypro.html?"+"txt="+encodeURI(id);
 
+    }
+    //任务广场
+    function toPros() {
+        window.location.href="pro_list.html";
+        location.href="pro_list.html?"+"txt="+encodeURI(id);
+
+    }
+    //我的任务
+    function toMyPros() {
+        window.location.href="../labelMyTasks/myReleasedPros.html";
+        location.href="../labelMyTasks/myReleasedPros.html?"+"txt="+encodeURI(id);
+
+    }
+    //个人中心
+    function toPersonalCenter() {
+        window.location.href="../personal_center/personal_info.html";
+        location.href="../personal_center/personal_info.html?"+"txt="+encodeURI(id);
+
+    }
+    //退出
+    function logout(){
+        window.location.href="../homepage/home_page.html";
+        location.href="../homepage/home_page.html?"+"txt="+encodeURI(id);
+
+    }
+</script>
 </body>
 </html>
