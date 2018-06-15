@@ -1,7 +1,7 @@
 package serviceimpl;
 
 import com.google.gson.Gson;
-import javafx.util.converter.DateStringConverter;
+//import javafx.util.converter.DateStringConverter;
 import vo.Project.Task.Task;
 
 import java.io.*;
@@ -52,8 +52,8 @@ public class taskFilterServiceImpl {
     private Date changeToDate(String s){
         Date d = null;
         String date = s.substring(0,4)+"-"+s.substring(4,6)+"-"+s.substring(6,s.length());
-        DateStringConverter dateStringConverter = new DateStringConverter();
-        d = dateStringConverter.fromString(date);
+       // DateStringConverter dateStringConverter = new DateStringConverter();
+       // d = dateStringConverter.fromString(date);
         return d;
     }
 

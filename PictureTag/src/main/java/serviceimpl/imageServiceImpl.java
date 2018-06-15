@@ -24,6 +24,7 @@ public class imageServiceImpl implements imageService {
         String[] ss = taskId.split(sp);
         String projectId = ss[0]+sp+ss[1];
         File f = new File(filePath+taskId+imageFileName);
+        System.out.println(f.getAbsolutePath());
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -37,6 +38,7 @@ public class imageServiceImpl implements imageService {
             BufferedReader br = new BufferedReader(fr);
             String temp = "";
             while (null != (temp = br.readLine())){
+                System.out.println(temp);
                 count++;
             }
             //System.out.println(count);
@@ -45,6 +47,7 @@ public class imageServiceImpl implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //System.out.println("count:"+count);
         if(count >= 99999){
             return "00000";
         }
@@ -67,9 +70,10 @@ public class imageServiceImpl implements imageService {
         String taskId="";
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
+        //System.out.println(i.getId());
         String[] strings =i.getId().split(sp);
         taskId = strings[0]+sp+strings[1]+sp+strings[2];
-        System.out.println(taskId);
+        //System.out.println(taskId);
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         File file = new File(filePath);
         //System.out.println(file.getAbsolutePath());

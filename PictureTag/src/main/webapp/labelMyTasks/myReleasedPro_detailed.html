@@ -102,13 +102,12 @@
                 <div style="border: black;border-radius: 2px">
                     <div class="panel panel-default">
                         <table class="table" id="task_table">
-                            <th>任务ID</th><th>基本信息</th><th>参与者</th><th>完成度</th><th>评分</th><th>确认评分</th><th>领取时间</th><th>完成时间</th><th>总时间（按日计算）</th>
-                            <tr>
-                                <td><a href="#" onclick="searchTasks('0001')">0001</a></td><td>helloworld</td><td>hello</td><td>0/100</td><td><input type="text" class="form-control" id="calculate0001" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
-                            </tr>
-                            <tr hidden>
-                                <td><a href="#">0002</a></td><td>helloworld2</td><td>hello2</td><td>1/100</td><td><input type="text" class="form-control" id="calculate0002" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
-                            </tr>
+                            <th>任务ID</th><th>基本信息</th><th>参与者</th><th>完成度</th><th>评分</th><th>确认评分</th><th>领取时间</th><th>完成时间</th>
+                                <!--<td><a href="#" onclick="searchTasks('0001')">0001</a></td><td>helloworld</td><td>hello</td><td>0/100</td><td><input type="text" class="form-control" id="calculate0001" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>-->
+                            <!--</tr>-->
+                            <!--<tr hidden>-->
+                                <!--<td><a href="#">0002</a></td><td>helloworld2</td><td>hello2</td><td>1/100</td><td><input type="text" class="form-control" id="calculate0002" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>-->
+                            <!--</tr>-->
                         </table>
                     </div>
                 </div>
@@ -146,16 +145,14 @@
                     var cell6 = oneRow.insertCell(5);
                     var cell7 = oneRow.insertCell(6);
                     var cell8 = oneRow.insertCell(7);
-                    var cell9 = oneRow.insertCell(8);
                     cell1.innerHTML = "<a href=\"#\" onclick=\"searchTasks(tas[i].id)\">" + tas[i].id + "</a>";
                     cell2.innerHTML = tas[i].name;
                     cell3.innerHTML = tas[i].receiverId;
-                    cell4.innerHTML = userid;
-                    cell5.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
-                    cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
-                    cell7.innerHTML = "<input type='checkbox' name='ischeck'>";
-                    cell8.innerHTML = "<input type='checkbox' name='ischeck'>";
-                    cell9.innerHTML = "<input type='checkbox' name='ischeck'>";
+                    cell4.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
+                    cell5.innerHTML = "<input type=\"text\" class=\"form-control\" id=\"calculate0002\" placeholder=\"满分100\" style=\"width: 100px\">";
+                    cell6.innerHTML = "<button type=\"button\" class=\"btn btn-default\">确认</button>";
+                    cell7.innerHTML = tas[i].startDate;
+                    cell8.innerHTML = tas[i].endDate;
                 }
             }
 

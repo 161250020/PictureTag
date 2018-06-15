@@ -215,7 +215,6 @@
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容//projectid
     var g1=id.indexOf("_");
     var userid=id.substring(0,g1);
-    alert(userid);
     var commited_task_id=new Array();
     var tas;
     var tab=document.getElementById("project");
@@ -233,7 +232,6 @@
         },
         success: function (data) {
             tas=JSON.parse(data);
-            alert(data);
             commited_task_id=tas.taskIds;
             for(var i=0;i<tas.length;i++) {
                 var oneRow = tab.insertRow();//插入一行
@@ -428,7 +426,7 @@
         //创建json
         var obj={
             "id":ID,
-            "receiverId":ID,
+            "receiverId":"",
             "name":document.getElementById("task_name").value.toString(),
             "tagType":tag.toString(),
             "score":input_integral,
