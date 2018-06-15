@@ -10,19 +10,20 @@ import vo.Project.Task.image;
 
 public class imageServiceImpl implements imageService {
     Gson gson = new Gson();
-    String imageFileName = "images.txt";
+    String imageFileName = "_images.txt";
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
 /*    public imageServiceImpl imageServiceImpl(){
         return new imageServiceImpl();
     }*/
 
-    public String receiveImgId(String TaskId){
+    public String receiveImgId(String taskId){
         String out = "";
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator;
         Gson gson = new Gson();
-        String userId = TaskId.split(sp)[0];
-        File f = new File(filePath+TaskId+imageFileName);
+        String[] ss = taskId.split(sp);
+        String projectId = ss[0]+sp+ss[1];
+        File f = new File(filePath+taskId+imageFileName);
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -55,7 +56,7 @@ public class imageServiceImpl implements imageService {
             }
         }
 
-        out = TaskId + sp + out;
+        out = taskId + sp + out;
 
         return out;
     }

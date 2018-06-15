@@ -125,6 +125,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveCommittedTaskIds".equals(action)){
             this.receiveCommittedTaskIds(request,response);
         }
+        else if("receiveTaskByDate".equals(action)){
+            String taskId = request.getParameter("TaskId");
+            String startDate = request.getParameter("StartDate");
+            String endDate = request.getParameter("EndDate");
+        }
         else if("receiveSingleRanking".equals(action)){
             String usename = request.getParameter("gData");
             this.receiveSingleRanking(request,response,usename);

@@ -628,7 +628,7 @@ public class taskServiceImpl implements taskService {
         try {
             FileWriter fw = new FileWriter(f,true);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(gson.toJson(task));
+            bw.write(gson.toJson(task,Task.class));
             bw.newLine();
             bw.close();
             fw.close();
