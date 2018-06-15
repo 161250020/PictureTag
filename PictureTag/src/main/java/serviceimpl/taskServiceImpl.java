@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class taskServiceImpl implements taskService {
+    Gson gson = new Gson();
     FindProjects findProjects = new FindProjects();
     userserviceImpl userservice = new userserviceImpl();
     String sp = "_";
@@ -224,29 +225,19 @@ public class taskServiceImpl implements taskService {
                 e.printStackTrace();
             }
         }
-        try {
-            FileWriter fw = new FileWriter(f,true);
-            FileWriter fw1 = new FileWriter(f1,true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            BufferedWriter bw1 = new BufferedWriter(fw1);
-            bw.write(gson.toJson(t));
-            bw.newLine();
-            bw.close();
-            fw.close();
-            bw1.write(gson.toJson(t));
-            bw1.newLine();
-            bw1.close();
-            fw1.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        //向committed.task和checkTask.task文件中添加task纪录
+        appendProjectTask(projectId,t);
+        appendCommittedTask(t);
+
 
         //这里更新project信息
         findProjects.updateTaskId(projectId,t.getId());
 
 
         //更新user信息
-        String userId = strings[0];
+
+/*        String userId = strings[0];
         userserviceImpl u = new userserviceImpl();
 
         UserInfo user = u.getUser(userId);
@@ -259,7 +250,7 @@ public class taskServiceImpl implements taskService {
         //这里调用一下checkUserLevel的方法，返回修改后的userLevel
         user.setLevel(u.updateLevel(user.getScore()));
         u.update(user);
-        //System.out.println(gson.toJson(u.getUser(userId)));
+        //System.out.println(gson.toJson(u.getUser(userId)));*/
     }
 
     public void gradeTask(String taskId, int grade){
@@ -283,7 +274,7 @@ public class taskServiceImpl implements taskService {
         //确认task完成，修改project信息
         findProjects.updateProgress(taskProjectId);
         //确认task完成，修改user信息
-        userservice.updatefinish(userId,taskId,true);
+
         //删除committedTaskFile里的该task
         deleteTask(taskId,checkTaskFileName);
 
@@ -381,6 +372,7 @@ public class taskServiceImpl implements taskService {
     public void giveUpTask(String taskId,String userId){
 
         //修改task属性
+        rePublishTask(taskId);
         //修改user属性
 
     }
@@ -599,7 +591,50 @@ public class taskServiceImpl implements taskService {
 
     public void rePublishTask(String taskId){
         String[] ss = taskId.split(sp);
-        //String projectId =
+        String projectId = ss[0]+sp+ss[1];
+        imageServiceImpl imageService = new imageServiceImpl();
+        imageService.initializeTagData(taskId);//将对task图片的更改都消除,要修改committedTask.task和projectId.task文件内的内容
+                                               //将对project的更改都消除
+        String taskData = findTask(taskId,projectId+".task");
+        //将任务重新加入committedTask.task文件，并删除在checkTask.task内的task
+        if(null == findTask(taskId,committedTaskFile)){
+            appendCommittedTask(gson.fromJson(taskData,Task.class));
+        }
+        deleteTask(taskId,checkTaskFileName);
+    }
+
+    private void appendCommittedTask(Task task){
+        Gson g = new Gson();
+        File f = new File(committedTaskFile);
+
+        if(null == findTask(task.getId(),committedTaskFile)){
+            try {
+                FileWriter  fw = new FileWriter(f,true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(g.toJson(task,Task.class));
+                bw.newLine();
+                bw.close();
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void appendProjectTask(String projectId,Task task){
+
+        String proFileName = projectId+".task";
+        File f = new File(proFileName);
+        try {
+            FileWriter fw = new FileWriter(f,true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(gson.toJson(task));
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

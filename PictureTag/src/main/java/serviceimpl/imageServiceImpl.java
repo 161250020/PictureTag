@@ -9,6 +9,7 @@ import vo.Project.Task.Task;
 import vo.Project.Task.image;
 
 public class imageServiceImpl implements imageService {
+    Gson gson = new Gson();
     String imageFileName = "images.txt";
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
@@ -206,4 +207,43 @@ public class imageServiceImpl implements imageService {
         d.modifyTask(gson.toJson(t),committedTaskFile);
 
     }
+
+    public void initializeTagData(String taskId){//将该task的标注信息全部删除，包括committedTask.task和checkTask.task
+        taskServiceImpl taskService = new taskServiceImpl();
+        String[] ss = taskId.split(sp);
+        String projectId = ss[0]+sp+ss[1];
+        String fileName = projectId+".task";
+        String taskData = "";
+        String changedTaskData = "";
+        taskData = taskService.findTask(taskId,committedTaskFile);
+        if(taskData != null){
+            String temp = initializeTask(taskData);
+            taskService.modifyTask(temp,committedTaskFile);
+        }
+        taskData = taskService.findTask(taskId,fileName);
+        if(taskData != null){
+            String temp = initializeTask(taskData);
+            taskService.modifyTask(temp,committedTaskFile);
+        }
+    }
+
+    public String initializeTask(String taskData){
+        String output = "";
+
+        Task temp = gson.fromJson(taskData,Task.class);
+        Task out = new Task();
+        out.setId(temp.getId());
+        out.setName(temp.getName());
+        out.setTagType(temp.getTagType());
+        out.setSocre(temp.getSocre());
+        out.setProgress(0);
+        out.setReceive(false);
+        out.setPublish(true);
+        out.setComplete(false);
+        out.setGrade(-1);
+
+        output = gson.toJson(out);
+        return output;
+    }
+
 }

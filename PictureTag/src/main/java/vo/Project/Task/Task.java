@@ -6,6 +6,7 @@ import java.util.Date;
 public class Task {          //个体任务
 
     String id;//形如格式为projectId+"_"+"00001"
+    String receiverId;//领取者的Id
     String name;
     String tagType;//标注类型
     double socre;//完成task将获得的分数
@@ -26,10 +27,11 @@ public class Task {          //个体任务
         this.complete = false;
     }
 
-    public Task(String id, String name, double socre, int progress, String startDate, String endDate){
+    public Task(String id,String receiverId, String name, double socre, int progress, String startDate, String endDate){
         imageIds = new ArrayList<String>();
         requests = new ArrayList<String>();
         this.id = id;
+        this.receiverId = receiverId;
         this.name = name;
         this.socre = socre;
         this.progress = progress;
@@ -128,4 +130,8 @@ public class Task {          //个体任务
     public boolean isComplete() { return complete; }
 
     public void setComplete(boolean complete) { this.complete = complete; }
+
+    public String getReceiverId() { return receiverId; }
+
+    public void setReceiverId(String receiverId) { this.receiverId = receiverId; }
 }
