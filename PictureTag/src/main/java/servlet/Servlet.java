@@ -146,11 +146,13 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveTasks".equals(action)){
             String proId=request.getParameter("gData");
             this.receiveTasks(request,response,proId);
-        }
-        else{
+        } else if ("recom".equals(action)) {
+            String username=request.getParameter("gData");
+            this.recom(request,response,username);
+        } else {
             System.out.println("no function like this");
             String imgData = request.getParameter("gData");
-            this.savePicture(request,response,imgData);
+            this.savePicture(request, response, imgData);
         }
     }
 
@@ -629,6 +631,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
        ArrayList<Task> list=impl.getTasks(proId);
        Gson gson=new Gson();
        String gsondata=gson.toJson(list);
+       try{
+           PrintWriter writer=response.getWriter();
+           writer.write(gsondata);
+           writer.close();
+       }catch(IOException e){
+           e.printStackTrace();
+       }
+   }
+   public void recom(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser impl=new AnalyzeUser();
+        ArrayList<Task> list=impl.recom(username);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(list);
        try{
            PrintWriter writer=response.getWriter();
            writer.write(gsondata);

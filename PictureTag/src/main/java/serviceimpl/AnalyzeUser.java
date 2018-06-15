@@ -146,24 +146,7 @@ public class AnalyzeUser implements Analyze {                           //质量
            double average3=0.0;
            UserInfo user=impl.getUser(username);
            Map<String,Double> taskIds=user.getReceiveEvalu();
-           if(type1){
-               temp1="area";
-           }
-           if(type2){
-               temp2="frame";
-           }
-           if(type3){
-               temp3="overall";
-           }
-           if(temp1.equals("")){
-               average1=0.0;
-           }
-           if(temp2.equals("")){
-               average2=0.0;
-           }
-           if(temp3.equals("")){
-               average3=0.0;
-           }
+
            taskServiceImpl service=new taskServiceImpl();
            Gson gson=new Gson();
            for(String s:taskIds.keySet()){
@@ -184,6 +167,24 @@ public class AnalyzeUser implements Analyze {                           //质量
            average1=sum1*1.0/count1;
            average2=sum2*1.0/count2;
            average3=sum3*1.0/count3;
+        if(type1){
+            temp1="area";
+        }
+        if(type2){
+            temp2="frame";
+        }
+        if(type3){
+            temp3="overall";
+        }
+        if(temp1.equals("")){
+            average1=0.0;
+        }
+        if(temp2.equals("")){
+            average2=0.0;
+        }
+        if(temp3.equals("")){
+            average3=0.0;
+        }
            if(average1>average2&&average1>average3){
                 result="area";
            }
@@ -249,30 +250,100 @@ public class AnalyzeUser implements Analyze {                           //质量
            int allType2=finishType2+unfinishType2;
            int allType3=finishType2+unfinishType3;
 
+           double result1=0.0;
+           double result2=0.0;
+           double result3=0.0;
+           if(allType1==0){
+               result1=0.0;
+           }
+           else{
+               result1=finishType1*1.0/allType1;
+           }
+           if(allType2==0){
+               result2=0.0;
+           }
+           else{
+               result2=finishType2*1.0/allType2;
+           }
+           if(allType3==0){
+               result3=0.0;
+           }
+           else{
+               result3=finishType3*1.0/allType3;
+           }
            if(type1&&type2&&!type3){
+               if(result1>result2){
+                   result="area";
+               }
+               else if(result1<result2){
+                   result="frame";
+               }
+               else{
 
+               }
            }
            if(type1&&type3&&!type2){
-
+               if(result1>result3){
+                   result="area";
+               }
+               else if(result1<result3){
+                   result="overall";
+               }
+               else{}
            }
            if(!type1&&type2&&type3){
-
+               if(result2>result3){
+                   result="frame";
+               }
+               else if(result2<result3){
+                   result="overall";
+               }
+               else{}
            }
            if(type1&&type2&&type3){
-
+               result="all";
            }
            return result;
     }
 
-    public ArrayList<Task> recom(String username,String type){                         //返回推荐的具体任务
+    public ArrayList<Task> recom(String username){                         //返回推荐的具体任务
         taskServiceImpl service=new taskServiceImpl();
         String recommendType=recommend(username);
         ArrayList<Task> recommendTask=new ArrayList<Task>();
+        ArrayList<String> temp=new ArrayList<String>();
+        Gson gson=new Gson();
         if(recommendType.equals("all")){
             //通过servic获得所有的任务
+            ArrayList<String> temp1=new ArrayList<String>();
+            ArrayList<String> temp2=new ArrayList<String>();
+            ArrayList<String> temp3=new ArrayList<String>();
+            temp1=service.receiveTasks("area");
+            temp2=service.receiveTasks("frame");
+            temp3=service.receiveTasks("overall");
+            for(String str:temp1){
+                if(str!=null){
+                    temp.add(str);
+                }
+            }
+            for(String str:temp2){
+                if(str!=null){
+                    temp.add(str);
+                }
+            }
+            for(String str:temp3){
+                if(str!=null){
+                    temp.add(str);
+                }
+            }
         }
         else{
             //通过service获得推荐类型的任务
+            temp=service.receiveTasks(recommendType);
+        }
+        for(String str:temp){
+            if(str!=null){
+                recommendTask.add(gson.fromJson(str,Task.class));
+            }
         }
         return recommendTask;
     }
