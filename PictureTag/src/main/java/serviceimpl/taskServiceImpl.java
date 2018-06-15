@@ -625,6 +625,13 @@ public class taskServiceImpl implements taskService {
 
         String proFileName = projectId+".task";
         File f = new File(proFileName);
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try {
             FileWriter fw = new FileWriter(f,true);
             BufferedWriter bw = new BufferedWriter(fw);
