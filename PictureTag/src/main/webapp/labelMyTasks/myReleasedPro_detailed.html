@@ -101,7 +101,7 @@
                 <br>
                 <div style="border: black;border-radius: 2px">
                     <div class="panel panel-default">
-                        <table class="table">
+                        <table class="table" id="task_table">
                             <th>任务ID</th><th>基本信息</th><th>参与者</th><th>完成度</th><th>评分</th><th>确认评分</th><th>领取时间</th><th>完成时间</th><th>总时间（按日计算）</th>
                             <tr>
                                 <td><a href="#" onclick="searchTasks('0001')">0001</a></td><td>helloworld</td><td>hello</td><td>0/100</td><td><input type="text" class="form-control" id="calculate0001" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
@@ -123,8 +123,49 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取项目的方法
+            "action":"receiveTasks",
+            "gData":id
+        },
+        success: function(data) {
+            $("#task_table  tr:not(:first)").empty("");
+            tas=JSON.parse(data);
+            commited_task_id=tas.taskIds;
+            for(var i=0;i<tas.length;i++) {
+                if(tas[i].complete==true) {
+                    var oneRow = tab.insertRow();//插入一行
+                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                    var cell2 = oneRow.insertCell(1);
+                    var cell3 = oneRow.insertCell(2);
+                    var cell4 = oneRow.insertCell(3);
+                    var cell5 = oneRow.insertCell(4);
+                    var cell6 = oneRow.insertCell(5);
+                    var cell7 = oneRow.insertCell(6);
+                    var cell8 = oneRow.insertCell(7);
+                    var cell9 = oneRow.insertCell(8);
+                    cell1.innerHTML = "<a href=\"#\" onclick=\"searchTasks(tas[i].id)\">" + tas[i].id + "</a>";
+                    cell2.innerHTML = tas[i].name;
+                    cell3.innerHTML = tas[i].receiverId;
+                    cell4.innerHTML = userid;
+                    cell5.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
+                    cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
+                    cell7.innerHTML = "<input type='checkbox' name='ischeck'>";
+                    cell8.innerHTML = "<input type='checkbox' name='ischeck'>";
+                    cell9.innerHTML = "<input type='checkbox' name='ischeck'>";
+                }
+            }
 
-    alert(id);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
 
 </script>
 

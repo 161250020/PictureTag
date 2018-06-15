@@ -117,12 +117,6 @@
                     <div class="panel panel-default">
                         <table class="table">
                             <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>参与者</th><th>完成度</th>
-                            <tr>
-                                <td><a href="#" onclick="labelPics('0001')">0001</a></td><td>overall</td><td>helloworld</td><td>hello</td><td>0/100</td>
-                            </tr>
-                            <tr hidden>
-                                <td><a href="task_content.html">0002</a></td><td>overall</td><td>helloworld2</td><td>hello2</td><td>1/100</td>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -138,6 +132,49 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
     document.getElementById("b_userId").innerText="用户ID："+id;
+    var tasks=new Array();
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取项目的方法
+            "action":"receiveUserInfo",
+            "gData":id
+        },
+        success: function(data) {
+            changepro=JSON.parse(data);
+            tasks=changepro.receivetask;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
+    for(var i=0;i<tasks.length;i++){
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                //调用后端获取项目的方法
+                "action":"receiveTaskContent",
+                "gData":tasks[i]
+            },
+            success: function(data) {
+                changepro=JSON.parse(data);
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+
+
+
 
     //首页
     function toHomePage(){
