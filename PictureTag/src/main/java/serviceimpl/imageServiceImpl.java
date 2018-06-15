@@ -68,7 +68,7 @@ public class imageServiceImpl implements imageService {
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         String[] strings =i.getId().split(sp);
-        taskId = strings[0]+sp+strings[1]+strings[2];
+        taskId = strings[0]+sp+strings[1]+sp+strings[2];
         System.out.println(taskId);
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         File file = new File(filePath);
