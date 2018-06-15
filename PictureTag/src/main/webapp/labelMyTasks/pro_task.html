@@ -233,6 +233,7 @@
         },
         success: function (data) {
             tas=JSON.parse(data);
+            alert(data);
             commited_task_id=tas.taskIds;
             for(var i=0;i<tas.length;i++) {
                 var oneRow = tab.insertRow();//插入一行

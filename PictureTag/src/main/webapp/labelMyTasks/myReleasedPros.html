@@ -138,6 +138,7 @@
         },
         success: function(data) {
             changepro=JSON.parse(data);
+            alert(data);
             for(var i=0;i<changepro.length;i++) {//不能有括号
                 var oneRow = tab.insertRow();//插入一行
                 var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
@@ -200,7 +201,7 @@
         var day2;
         day1=document.getElementById("data1").value.replace("-","").replace("-","");
         day2=document.getElementById("data2").value.replace("-","").replace("-","");
-
+        $("#project  tr:not(:first)").empty("");
         //获得项目ID，基本信息，完成度，发布时间
         $.ajax({
             url : "/Servlet",

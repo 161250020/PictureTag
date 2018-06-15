@@ -153,6 +153,7 @@
             tas=JSON.parse(data);
             commited_task_id=tas.taskIds;
             for(var i=0;i<tas.length;i++) {
+                if(tas[i].receive==false)
                 var oneRow = tab.insertRow();//插入一行
                 var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
                 var cell2 = oneRow.insertCell(1);

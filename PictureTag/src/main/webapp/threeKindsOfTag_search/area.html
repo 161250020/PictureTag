@@ -58,41 +58,35 @@
 
                     <div align="left">
                         <ul class="no-bullet">
-                            <li>
+                            <li id="task_id">
                                 任务ID：001
                             </li>
                             <br>
-                            <li>
+                            <li id="task_create">
                                 任务发布者：DEF
                             </li>
                             <br>
-                            <li>
-                                任务完成者：ABC
-                            </li>
-                            <br>
-                            <li>
+                            <li id="image_num">
                                 图片数量：100
                             </li>
                             <br>
-                            <li>
+                            <li id="tag_type">
                                 标注类型：区域标注
                             </li>
                             <br>
-                            <li>
+                            <li  id="date1">
                                 日期：2018-01-02~2018-01-08
-                                <br>
-                                还有xx天到期
                             </li>
                             <br>
-                            <li>
+                            <li id="other_need">
                                 其他需求：xxxx
                             </li>
                             <br>
-                            <li>
+                            <li id="score">
                                 积分奖励：130
                             </li>
                             <br>
-                            <li>
+                            <li id="progress">
                                 任务完成状态：100
                             </li>
                         </ul>
@@ -230,12 +224,19 @@
         url : "/Servlet",
         type : "POST",
         data :{
-            "gData":names[0],
+            "gData":id,
             "action":"receiveTaskContent"
         },
         success: function(data) {
             var pic=JSON.parse(data);
             arr=pic.imageIds;
+            document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
+            document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
+            document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
+            document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
+            document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
+            document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
+            document.getElementById("get_taskId").innerHTML = "任务ID：" + ID;
         },
         error: function () {
         }
@@ -253,6 +254,8 @@
             success: function(data) {
                 var pict=JSON.parse(data);
                 src.push(pict.url);
+
+
             },
             error: function () {
             }
