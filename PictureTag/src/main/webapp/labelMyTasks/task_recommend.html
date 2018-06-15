@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>我领取的任务</title>
+    <title>任务广场</title>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -68,10 +68,10 @@
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%">项目列表</button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="receive_mission()">确认领取</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%">刷新</button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="go_back()">返回</button>
                     </li>
                 </ul>
             </div>
@@ -80,17 +80,17 @@
             <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;">
                 <!--筛选条件-->
                 <div>
-                    <!--<div class="one">-->
-                    <!--<br>-->
-                    <!--<b>标注类型：</b>-->
-                    <!--<br>-->
-                    <!--<select style="width: 50%;">-->
-                    <!--<option>&#45;&#45;全部&#45;&#45; &nbsp;&nbsp;&nbsp;&nbsp;</option>-->
-                    <!--<option>整体标注  </option>-->
-                    <!--<option>边框标注  </option>-->
-                    <!--<option>边界标注  </option>-->
-                    <!--</select>-->
-                    <!--</div>-->
+                    <div class="one">
+                        <br>
+                        <b>标注类型：</b>
+                        <br>
+                        <select style="width: 50%;">
+                            <option>--全部-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option>整体标注  </option>
+                            <option>边框标注  </option>
+                            <option>边界标注  </option>
+                        </select>
+                    </div>
                     <div class="two">
                         <div class="one">
                             <br>
@@ -112,8 +112,10 @@
                 <!--项目列表-->
                 <div>
                     <div class="panel panel-default">
-                        <table class="table" id="project">
-                            <th>项目ID</th><th>基本信息</th><th>发起者</th><th>任务数</th>
+                        <table class="table" id="task_table">
+                            <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>发布者</th><th>完成度</th><th>领取</th>
+
+
                         </table>
                     </div>
                 </div>
@@ -122,39 +124,48 @@
     </div>
 </div>
 
-
 <script>
+
     $(document).ready(function() {
         $(document).foundation();
     })
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
-    var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-    var tab=document.getElementById("project");
-    var changepro=new Array();
-    $.ajax({
-        url : "/Servlet",
-        type : "POST",
-        data :{
-            //调用后端获取项目的方法
-            "action":"receiveProjects",
-            "gData":id
-        },
-        success: function(data) {
+    var  id = decodeURI(loc.substr(n2+1, n1-n2));//projectid
+    var tab=document.getElementById("task_table");
+    var g1=id.indexOf("_");
+    var userid=id.substring(0,g1);
 
-            changepro=JSON.parse(data);
-            for(var i=0;i<changepro.length;i++) {//不能有括号
+    $("#task_table  tr:not(:first)").empty("");
+
+    $.ajax({
+        url: "/Servlet",
+        type: "POST",
+        data: {
+            //调用后端获取推荐任务的方法
+            "action": "receiveTasks",
+            "gData": id
+            //userid
+
+        },
+        success: function (data) {
+            tas=JSON.parse(data);
+            commited_task_id=tas.taskIds;
+            for(var i=0;i<tas.length;i++) {
                 var oneRow = tab.insertRow();//插入一行
                 var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
                 var cell2 = oneRow.insertCell(1);
                 var cell3 = oneRow.insertCell(2);
                 var cell4 = oneRow.insertCell(3);
-                var pro=changepro[i];
-                cell1.innerHTML = "<a href='task_list.html?txt=" + pro.id + "'>" + pro.id + "</a>";
-                cell2.innerHTML = pro.name;
-                cell3.innerHTML = id;
-                cell4.innerHTML = pro.progress + "/" + pro.taskIds.length;
+                var cell5 = oneRow.insertCell(4);
+                var cell6 = oneRow.insertCell(5);
+                cell1.innerHTML = "<a href='task_content.html?txt=" + tas[i].id + "'>" + tas[i].id + "</a>";
+                cell2.innerHTML = tas[i].tagType;
+                cell3.innerHTML = tas[i].name;
+                cell4.innerHTML = userid;
+                cell5.innerHTML = tas[i].progress+ "/" + tas[i].imageIds.length;
+                cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -163,7 +174,38 @@
             alert(textStatus);
         }
     });
+    function receive_mission(){
+        for(var i=1;i<tab.rows.length;i++){
+            if(tab.rows[i].cells[5].checked=true){
+                var Task_id=tab.rows[i].cells[0].innerText;
+                $.ajax({
+                    url: "/Servlet",
+                    type: "POST",
+                    data: {
+                        "taskId": Task_id,
+                        "userId":userid,
+                        "action": "acceptTask"
+                    },
+                    success: function (data) {
+                        if(data=="true"){
+                            window.location.href="task_list.html";
+                            location.href="task_list.html?"+"txt="+encodeURI(id);
+                        }
+                        else{
+                            alert("领取失败")
+                        }
 
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+                });
+            }
+
+        }
+    }
 
     //首页
     function toHomePage(){
@@ -194,15 +236,18 @@
         location.href="../personal_center/personal_info.html?"+"txt="+encodeURI(id);
 
     }
-</script>
-
-<script>
     //退出
     function logout(){
         window.location.href="../homepage/home_page.html";
         location.href="../homepage/home_page.html?"+"txt="+encodeURI(id);
 
     }
+    function go_back(){
+        window.location.href="pro_list.html";
+        location.href="pro_list.html?"+"txt="+encodeURI(id);
+    }
+
 </script>
+
 </body>
 </html>

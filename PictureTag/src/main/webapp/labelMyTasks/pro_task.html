@@ -220,6 +220,7 @@
     var tas;
     var tab=document.getElementById("project");
     //获得项目里taskid
+    $("#project  tr:not(:first)").empty("");
     $.ajax({
         url: "/Servlet",
         type: "POST",
