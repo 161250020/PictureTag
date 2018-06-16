@@ -123,6 +123,9 @@
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var  g1=id.lastIndexOf("_");
     var proid=id.substring(0,g1);
+    var  g2=id.IndexOf("_");
+    var userid=id.substring(0,g2)
+    document.getElementById("b_userId").innerText="用户名："+userid;
     $.ajax({
         url: "/Servlet",
         type: "POST",
@@ -159,36 +162,36 @@
     //首页
     function toHomePage(){
         window.location.href="../home_page_alreadyin.html";
-        location.href="../home_page_alreadyin.html?"+"txt="+encodeURI(id);
+        location.href="../home_page_alreadyin.html?"+"txt="+encodeURI(userid);
     }
     //发布任务
     function toReleasePros() {
         window.location.href="mypro.html";
-        location.href="mypro.html?"+"txt="+encodeURI(id);
+        location.href="mypro.html?"+"txt="+encodeURI(userid);
 
     }
     //任务广场
     function toPros() {
         window.location.href="pro_list.html";
-        location.href="pro_list.html?"+"txt="+encodeURI(id);
+        location.href="pro_list.html?"+"txt="+encodeURI(userid);
 
     }
     //我的任务
     function toMyPros() {
         window.location.href="../labelMyTasks/myReleasedPros.html";
-        location.href="../labelMyTasks/myReleasedPros.html?"+"txt="+encodeURI(id);
+        location.href="../labelMyTasks/myReleasedPros.html?"+"txt="+encodeURI(userid);
 
     }
     //个人中心
     function toPersonalCenter() {
         window.location.href="../personal_center/personal_info.html";
-        location.href="../personal_center/personal_info.html?"+"txt="+encodeURI(id);
+        location.href="../personal_center/personal_info.html?"+"txt="+encodeURI(userid);
 
     }
     //退出
     function logout(){
         window.location.href="../homepage/home_page.html";
-        location.href="../homepage/home_page.html?"+"txt="+encodeURI(id);
+        location.href="../homepage/home_page.html?"+"txt="+encodeURI(userid);
 
     }
 

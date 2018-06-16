@@ -2,9 +2,10 @@ package serviceimpl;
 
 import com.google.gson.Gson;
 import service.taskService;
+import serviceimpl.tag.imageServiceImpl;
+import serviceimpl.tagAccuracy.analyzeTagAccuracyImpl;
 import vo.Project.Project;
 import vo.Project.Task.Task;
-import vo.Project.projectInfo;
 import vo.UserInfo;
 
 import java.io.*;
@@ -203,7 +204,7 @@ public class taskServiceImpl implements taskService {
         t.setPublish(true);
         t.setReceive(false);
         t.setSocre(Double.valueOf(t.getRequests().get(t.getRequests().size()-1)));
-        System.out.println(t.getSocre());
+        //System.out.println(t.getSocre());
         String filename = t.getId();
         String[] strings = filename.split(sp);
         String projectId = strings[0]+sp+strings[1];
@@ -623,12 +624,12 @@ public class taskServiceImpl implements taskService {
 
     private void appendProjectTask(String projectId,Task task){
 
-        String proFileName = projectId+".task";
+        String proFileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+projectId+".task";
         File f = new File(proFileName);
         try {
             FileWriter fw = new FileWriter(f,true);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(gson.toJson(task));
+            bw.write(gson.toJson(task,Task.class));
             bw.newLine();
             bw.close();
             fw.close();

@@ -143,6 +143,7 @@
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var  project_id;
     var tab=document.getElementById("project");
+    document.getElementById("b_userId").innerText="用户名："+id;
     $.ajax({
             url : "/Servlet",
             type : "POST",
@@ -276,7 +277,6 @@
                 alert(textStatus);
             }
         });
-
 
     }
 

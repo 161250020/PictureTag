@@ -78,45 +78,13 @@
 
             <!--右边-->
             <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;">
-                <!--筛选条件-->
-                <div>
-                    <div class="one">
-                        <br>
-                        <b>标注类型：</b>
-                        <br>
-                        <select style="width: 50%;" onchange="select_func(this.options[this.options.selectedIndex].value)">
-                            <option value="all" selected>--全部--&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                            <option value="overall">整体标注</option>
-                            <option value="frame">边框标注</option>
-                            <option value="area">边界标注</option>
-                        </select>
-                    </div>
-                    <div class="two">
-                        <div class="one">
-                            <br>
-                            <b>发布时间段：</b>
-                            <input type="date" align="left" style="width: 100%" id="data1">
-                        </div>
-                        <div class="two">
-                            <br>
-                            <br>
-                            <input type="date" align="left" style="width: 100%" id="data2">
-                            <button type="button" class="btn btn-default" onclick="ensure()">确认</button>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <br>
-                <br>
-
                 <!--项目列表-->
                 <div>
                     <br>
                     <br>
                     <div class="panel panel-default">
-                        <table class="table">
-                            <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>参与者</th><th>完成度</th>
+                        <table class="table" id="project">
+                            <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>完成度</th>
                         </table>
                     </div>
                 </div>
@@ -132,18 +100,22 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
     document.getElementById("b_userId").innerText="用户ID："+id;
-    var tasks=new Array();
+
+    var userinfo=new Array();
+    var tab=document.getElementById("project");
     $.ajax({
         url : "/Servlet",
         type : "POST",
         data :{
-            //调用后端获取项目的方法
+            //调用后端获取项目id的方法
             "action":"receiveUserInfo",
             "gData":id
         },
         success: function(data) {
-            changepro=JSON.parse(data);
-            tasks=changepro.receivetask;
+            alert(data);
+            var changepro=JSON.parse(data);
+            userinfo=changepro.receivetask
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -152,18 +124,39 @@
         }
     });
 
-    for(var i=0;i<tasks.length;i++){
+    // 清空表格
+    $("#project  tr:not(:first)").empty("");
+    var aaa;
+    for(var i=0;i<userinfo.length;i++){
         $.ajax({
             url : "/Servlet",
             type : "POST",
             data :{
-                //调用后端获取项目的方法
+                //调用后端获取项目id的方法
                 "action":"receiveTaskContent",
-                "gData":tasks[i]
+                "gData":userinfo[i]
             },
             success: function(data) {
-                changepro=JSON.parse(data);
-
+                alert(userinfo[i]);
+                alert(data);
+                var changepro=JSON.parse(data);
+                var oneRow = tab.insertRow();//插入一行
+                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                var cell2 = oneRow.insertCell(1);
+                var cell3 = oneRow.insertCell(2);
+                var cell4 = oneRow.insertCell(3);
+                if(changepro.tagType=="overall"){
+                    cell1.innerHTML = "<a href='../threeKindsOfTag_search/overall.html?txt=" + changepro.id + "'>" + changepro.id + "</a>";
+                }
+                if(changepro.tagType=="area"){
+                    cell1.innerHTML = "<a href='../threeKindsOfTag_search/area.html?txt=" + changepro.id + "'>" + changepro.id + "</a>";
+                }
+                if(changepro.tagType=="frame"){
+                    cell1.innerHTML = "<a href='../threeKindsOfTag_search/frame.html?txt=" + changepro.id + "'>" + changepro.id + "</a>";
+                }
+                cell2.innerHTML = changepro.tagType;
+                cell3.innerHTML = changepro.name;
+                cell4.innerHTML = changepro.progress + "/" + changepro.imageIds.length;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
@@ -172,9 +165,6 @@
             }
         });
     }
-
-
-
 
     //首页
     function toHomePage(){
@@ -220,43 +210,6 @@
         window.open("../homepage/home_page.html", "_blank");
         window.close();
     }
-
-    //进行标注
-    function labelPics(task_id){
-        //根据task_id获得该task标注的类型：area,frame,overall，然后跳转到对应的界面
-        var labelType="area";
-        if(labelType=="area"){
-            window.open("../threeKindsOfTag_search/area.html"+"?txt="+encodeURI(task_id), "_blank")
-        }
-        else if(labelType=="frame"){
-            window.open("../threeKindsOfTag_search/frame.html"+"?txt="+encodeURI(task_id), "_blank")
-        }
-        else{
-            window.open("../threeKindsOfTag_search/overall.html"+"?txt="+encodeURI(task_id), "_blank")
-        }
-
-    }
-</script>
-
-<script>
-    var labelType="all";//标注的类型：area,overall.frame;先初始化为：all;
-    //修改筛选条件-标注类型
-    function select_func(value){
-        labelType=value;
-    }
-
-
-    //筛选，后显示
-    function ensure(){
-        var day1;
-        var day2;
-        day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
-        day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
-        alert(labelType);
-        //获得项目ID，基本信息，完成度，发布时间
-
-    }
-
 
 </script>
 
