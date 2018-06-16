@@ -48,7 +48,6 @@ public class FindProjects implements service.FindProjects {
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt" ;                                       //路径未知.
         Gson gson=new Gson();
         ArrayList<String> temp=FileReadandWrite.ReadFile(path);
-        System.out.println("all size:"+temp.size());
         for(String str:temp){
             if(str!=null){
                 list.add(gson.fromJson(str,Project.class));
@@ -78,13 +77,11 @@ public class FindProjects implements service.FindProjects {
         Project current=getProject(ProId);
         ArrayList<String> temp=current.getTaskIds();
         Gson gson=new Gson();
-        for(String str:temp){
-            if(str!=null){
-                tasks.add(gson.fromJson(service.receiveTaskInfo(str),Task.class));
-                System.out.println(service.receiveTaskInfo(str));
+        for(String str:temp) {
+            if (str != null) {
+                tasks.add(gson.fromJson(service.receiveTaskInfo(str), Task.class));
             }
         }
-        System.out.println(tasks.size());
         return tasks;
     }
     public ArrayList<Project> chooseProjectByDate(String Date1,String Date2,String username){                 //筛选发布时间内的project,添加到servelet里面
@@ -390,13 +387,14 @@ public class FindProjects implements service.FindProjects {
                 current.add(gson.toJson(pro));
             }
         }
+        File file=new File(path);
+        file.delete();
         for(String str:current) {
             if(str!=null) {
-                File file=new File(path);
-                file.delete();
                 FileReadandWrite.WriteFile(path, str);
             }
         }
+        ArrayList<Project> list=getProjects(pro.getUsername());
     }
     //该方法用来提供生成任务时使用
     public void updateTaskId(String proId,String taskId){
@@ -419,11 +417,15 @@ public class FindProjects implements service.FindProjects {
     }
     //领取任务时使用
     public void updateList(String proid,String username,String taskId){
+        //更新pro
         Project current=getProject(proid);
         Map<String,String> past=current.getList();
         past.put(taskId,username);
         current.setList(past);
         update(current);
+        //更新user
+        userserviceImpl impl=new userserviceImpl();
+        impl.updatereceiveTask(username,taskId);
     }
     public boolean isfinish(int currentprogress,int tasknumbers){                              //检验项目是否完成
         boolean finish=false;
