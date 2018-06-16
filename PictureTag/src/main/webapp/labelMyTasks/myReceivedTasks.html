@@ -112,6 +112,7 @@
             "gData":id
         },
         success: function(data) {
+            alert(data);
             var changepro=JSON.parse(data);
             userinfo=changepro.receivetask
 
@@ -136,6 +137,8 @@
                 "gData":userinfo[i]
             },
             success: function(data) {
+                alert(userinfo[i]);
+                alert(data);
                 var changepro=JSON.parse(data);
                 var oneRow = tab.insertRow();//插入一行
                 var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
@@ -206,15 +209,6 @@
     function logout(){
         window.open("../homepage/home_page.html", "_blank");
         window.close();
-    }
-
-</script>
-
-<script>
-    var labelType="all";//标注的类型：area,overall.frame;先初始化为：all;
-    //修改筛选条件-标注类型
-    function select_func(value){
-        labelType=value;
     }
 
 </script>
