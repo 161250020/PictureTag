@@ -130,6 +130,7 @@
 
     //清空表格
     function clear_date(){
+        //判断后一个时间要大于前一个
         $("#project  tr:not(:first)").empty("");
         var aaa;
     }
@@ -206,8 +207,11 @@
         day1=document.getElementById("data1").value.replace("-","").replace("-","");
         day2=document.getElementById("data2").value.replace("-","").replace("-","");
 
-        alert(day1);
-        alert(day2);
+        //控制后一个时间要大于前一个
+        if(day1>day2){
+            alert("Wrong time!");
+        }
+
         //获得项目ID，基本信息，完成度，发布时间
         $.ajax({
             url : "/Servlet",
