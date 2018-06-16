@@ -1,12 +1,14 @@
-package serviceimpl;
+package serviceimpl.task;
 
 import com.google.gson.Gson;
-//import javafx.util.converter.DateStringConverter;
+import serviceimpl.FindProjects;
+import serviceimpl.tagAccuracy.analyzeTagAccuracyImpl;
+import serviceimpl.taskServiceImpl;
+import serviceimpl.userserviceImpl;
 import vo.Project.Task.Task;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class taskFilterServiceImpl {
@@ -19,10 +21,9 @@ public class taskFilterServiceImpl {
     String checkTaskFileName = analyzeTagAccuracyImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
 
     public ArrayList<String> findTaskByDate(String taskId, String startDate, String endDate,String tagType){
-        Date startTemp = null;
-        Date endTemp = null;
-        Date start = changeToDate(startDate);
-        Date end = changeToDate(endDate);
+        dateComparer dateComparer = new dateComparer();
+        String startTemp = "";
+        String endTemp = "";
         ArrayList<String> out = new ArrayList<>();
         File f = new File(committedTaskFile);
         try {
@@ -30,11 +31,11 @@ public class taskFilterServiceImpl {
             BufferedReader br = new BufferedReader(fr);
             Task t = null;
             String temp = "";
-            while ((temp=br.readLine())!=null){
+            while ((temp = br.readLine()) != null){
                 t = gson.fromJson(temp,Task.class);
-                startTemp = changeToDate(t.getStartDate());
-                endTemp = changeToDate(t.getEndDate());
-                if(startTemp.after(start)&&endTemp.before(end)){
+                startTemp = t.getStartDate();
+                endTemp = t.getEndDate();
+                if(dateComparer.isAfter(startTemp,startDate) && dateComparer.isBefore(endTemp,endDate)){
                     out.add(temp);
                 }
             }
@@ -46,15 +47,6 @@ public class taskFilterServiceImpl {
             e.printStackTrace();
         }
         return out;
-    }
-
-    //将类似于20180607的字符串转为Date类型便于比较
-    private Date changeToDate(String s){
-        Date d = null;
-        String date = s.substring(0,4)+"-"+s.substring(4,6)+"-"+s.substring(6,s.length());
-       // DateStringConverter dateStringConverter = new DateStringConverter();
-       // d = dateStringConverter.fromString(date);
-        return d;
     }
 
 }
