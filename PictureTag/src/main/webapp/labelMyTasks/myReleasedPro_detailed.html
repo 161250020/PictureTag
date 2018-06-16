@@ -110,9 +110,8 @@
                             <th>确认评分</th>
                             <th>领取时间</th>
                             <th>完成时间</th>
-                            <th>总时间（按日计算）</th>
                             <tr>
-                                <td><a href="#" onclick="searchTasks('0001')">0001</a></td><td>helloworld</td><td>hello</td><td>0/100</td><td><input type="text" class="form-control" id="calculate0001" placeholder="满分100" style="width: 100px"></td><td><button type="button" class="btn btn-default">确认</button></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
+                                <td></td><td>2018-01-01</td><td>2018-01-02</td><td>1</td>
                             </tr>
                         </table>
                     </div>
@@ -155,16 +154,14 @@
                 var cell6 = oneRow.insertCell(5);
                 var cell7 = oneRow.insertCell(6);
                 var cell8 = oneRow.insertCell(7);
-                var cell9 = oneRow.insertCell(8);
                 cell1.innerHTML = "<a href='../threeKindsOfTag_search/search.html?txt=" + tas[i].id + "'>" + tas[i].id + "</a>";
                 cell2.innerHTML = tas[i].name;
                 cell3.innerHTML = tas[i].receiverId;
                 cell4.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
-                cell5.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
-                cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
-                cell7.innerHTML = "<input type='checkbox' name='ischeck'>";
-                cell8.innerHTML = "<input type='checkbox' name='ischeck'>";
-                cell9.innerHTML = "<input type='checkbox' name='ischeck'>";
+                cell5.innerHTML = "<input type=\"text\" class=\"form-control\" id=\"calculate"+tas[i].id+"\" placeholder=\"满分100\" style=\"width: 100px\">";
+                cell6.innerHTML = "<button type=\"button\" class=\"btn btn-default\" onclick=\"ensure_score("+tas[i].id+")\">确认</button>";
+                cell7.innerHTML = tas[i].startDate.substring(0,4)+"-"+tas[i].startDate.substring(4,6)+"-"+tas[i].startDate.substring(6,8);
+                cell8.innerHTML = tas[i].endDate.substring(0,4)+"-"+tas[i].endDate.substring(4,6)+"-"+tas[i].endDate.substring(6,8);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -183,9 +180,15 @@
         window.close();
     }
 
-    //查看标注
-    function searchTasks(task_id) {
-        window.open("../threeKindsOfTag_search/search.html"+"?txt="+encodeURI(task_id), "_blank")
+    //确认任务发布者对一个task的评分
+    function ensure_score(task_id) {
+
+
+
+
+
+
+
     }
 </script>
 
