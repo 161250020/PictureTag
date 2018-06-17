@@ -22,15 +22,32 @@ public class AdminUser {
               ArrayList<Integer> count=new ArrayList<Integer>();
               ArrayList<UserInfo> all=getAll();
               ArrayList<UserInfo> newlist=new ArrayList<UserInfo>();
+              int MonthOfDay=checkMonth(month);
               for(UserInfo user:all){
                   if(user.getMonth().equals(month)){
                       newlist.add(user);
                   }
               }
               int counts[]={0,0,0,0,0,0};
-              for(UserInfo user:newlist){
-                     int day=convertDay(user.getDay());
-                     counts[day/5]++;
+              if(MonthOfDay==28||MonthOfDay==30) {
+                  for (UserInfo user : newlist) {
+                      int day = convertDay(user.getDay());
+                      counts[(day - 1) / 5]++;
+                  }
+              }
+              if(MonthOfDay==31){
+                  for (UserInfo user : newlist) {
+                      int day = convertDay(user.getDay());
+                      if(day==31){
+                          counts[5]++;
+                      }
+                      else {
+                          counts[(day - 1) / 5]++;
+                      }
+                  }
+              }
+              for(int i=0;i<counts.length;i++){
+                  count.add(counts[0]);
               }
               return count;
           }

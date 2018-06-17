@@ -394,7 +394,6 @@ public class FindProjects implements service.FindProjects {
                 FileReadandWrite.WriteFile(path, str);
             }
         }
-        ArrayList<Project> list=getProjects(pro.getUsername());
     }
     //该方法用来提供生成任务时使用
     public void updateTaskId(String proId,String taskId){
@@ -434,45 +433,4 @@ public class FindProjects implements service.FindProjects {
         }
         return finish;
     }
-    /*public ArrayList<projectInfo> getProjectInfo(){                //先获得所有的路径,再判断文件是否存在,全都读取出来     先不管这个方法
-        return null;
-    }
-    */             //获得任务得大致信息.
-    /*public Task getTask(String username,String id){
-        taskServiceImpl impl=new taskServiceImpl();
-        Task task=new Task();
-        Gson gson=new Gson();
-        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt";
-        ArrayList<String>  content=FileReadandWrite.ReadFile(path);     //读出该用户的所有任务
-        //查找到指定的project.
-        Project pro=new Project();
-        for(String str:content){
-            if(str!=null&&gson.fromJson(str,Project.class).getId()==id){
-                pro=gson.fromJson(str,Project.class);
-                break;
-            }
-        }
-        ArrayList<String> taskIds=new ArrayList<String>();
-        taskIds=pro.getTaskIds();
-        return task;
-    }    //获得project展开得所有task信息
-    */
-
-     /*public void deletePro(String username,String proId){
-        String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt";                                     //路径未填写
-        Gson gson=new Gson();
-        ArrayList<String> content=FileReadandWrite.ReadFile(path);
-        ArrayList<String> current=new ArrayList<String>();
-        for(String str:content){
-            if(str!=null&&gson.fromJson(str,Project.class).getId()!=proId){
-                current.add(str);
-            }
-        }
-        for(String str:current){
-            if(str!=null){
-                FileReadandWrite.WriteFile(path,str);
-            }
-        }
-    }
-    */
 }
