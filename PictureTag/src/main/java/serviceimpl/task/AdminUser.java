@@ -32,9 +32,7 @@ public class AdminUser {
               if(MonthOfDay==28||MonthOfDay==30) {
                   for (UserInfo user : newlist) {
                       int day = convertDay(user.getDay());
-                      System.out.println("Day:"+" "+day);
                       counts[(day - 1) / 5]++;
-                      System.out.println(counts[(day - 1) / 5]);
                   }
               }
 
