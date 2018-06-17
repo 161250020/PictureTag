@@ -116,6 +116,28 @@ public class AdminUser {
               return result;
           }
 
+          public ArrayList<String> getProjectCountByYear(String year){
+              FindProjects service=new FindProjects();
+              ArrayList<String> result=new ArrayList<String>();
+              ArrayList<UserInfo> all=getAll();
+              ArrayList<String> proIds=new ArrayList<String>();
+              for(UserInfo user:all){
+                    for(String str:user.getLaunchpro()){
+                        if(service.getProject(str).getDate().substring(0,4).equals(year)) {
+                            proIds.add(str);
+                        }
+                    }
+              }
+              int counts[]={0,0,0,0,0,0,0,0,0,0,0,0};
+              for(String str:proIds){
+                  counts[getMonthIndex(service.getProject(str).getDate().substring(4,6))]++;
+              }
+              for(int i=0;i<counts.length;i++){
+                  String temp=""+counts[i];
+                  result.add(temp);
+              }
+              return result;
+          }
 
 
           //辅助方法

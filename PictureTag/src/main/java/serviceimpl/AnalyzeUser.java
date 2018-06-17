@@ -46,7 +46,7 @@ public class AnalyzeUser implements Analyze {                           //质量
     /*
     可信度是不停的变动的,所以需要不停的调用,进行轮询
     */
-    public double calTruth(String username){          //1.需要创建一个枚举类型,代表三种状态.(条件:每领取一个任务,就update一下user) 2.任务完成或放弃后,再更新
+    public double calTruth(String username){          //可信度
         double truth=0.0;
         UserInfo user=impl.getUser(username);
         Map<String,Boolean> finish=user.getFinish();
@@ -347,14 +347,14 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         return recommendTask;
     }
-    public double correlation(String username){                       //相关系数 Cov(X,Y)
+    public double correlation(String username){                       //  相关系数 Cov(X,Y)
         double result=0.0;
         double cov=0.0;
         double varX=0.0;
         double varY=0.0;
         return result;
     }
-    public double ExpectedScore(String username){                    //会不断更新 (需不需要存储数据,便于作图),(新建一个数据类型)
+    public double ExpectedScore(String username){                    //期望得分,会不断更新 (需不需要存储数据,便于作图),(新建一个数据类型)
         double result=0.0;
         userserviceImpl impl=new userserviceImpl();
         UserInfo user=impl.getUser(username);
@@ -369,7 +369,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         result=(1*1.0/size)*sum;
         return result;
     }
-    public ArrayList<Double> relationbyScoreandEvalu(String username){             //(获得两个事件的概率P(A),P(B))完成事件关联度(优秀)    任务数+打分情况+得分奖励.(有多个事件)   (规定一个是好,一个是差)
+    public ArrayList<Double> relationbyScoreandEvalu(String username){          //(获得两个事件的概率P(A),P(B))完成事件关联度(优秀)    任务数+打分情况+得分奖励.(有多个事件)   (规定一个是好,一个是差)
         ArrayList<Double> result=new ArrayList<Double>();
         userserviceImpl impl=new userserviceImpl();
         UserInfo user=impl.getUser(username);
@@ -407,7 +407,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         result.add(probabaility2);
         return result;
     }
-    public double SupportbyScoreandEvalu(String username) {           //P(AB)
+    public double SupportbyScoreandEvalu(String username) {           //P(AB)          支持度
         ArrayList<Double> result = new ArrayList<Double>();
         userserviceImpl impl = new userserviceImpl();
         Gson gson=new Gson();
@@ -426,7 +426,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         probability=count*1.0/list.size();
         return probability;
     }
-    public double ConfidencebyScoreandEvalu(String username){           //P(A|B)
+    public double ConfidencebyScoreandEvalu(String username){           //P(A|B)      置信度
         ArrayList<Double> list=relationbyScoreandEvalu(username);
         double probality2=list.get(1);
         //求解P(A|B)=P(AB)/P(B)
@@ -434,7 +434,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         result=SupportbyScoreandEvalu(username)/probality2;
         return result;
     }
-   public double LiftbyScoreandEvalu(String username){                //P(A|B)/P(A)
+   public double LiftbyScoreandEvalu(String username){                //P(A|B)/P(A)   作用度
        ArrayList<Double> list=relationbyScoreandEvalu(username);
        double probality1=list.get(0);
        double result=0.0;
