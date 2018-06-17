@@ -247,7 +247,7 @@ public class taskServiceImpl implements taskService {
         //System.out.println(gson.toJson(u.getUser(userId)));*/
     }
 
-    public void gradeTask(String taskId, int grade){
+    public void gradeTask(String taskId, double grade){
         String[] ss = taskId.split(sp);
         String taskProjectId = ss[0]+sp+ss[1];
         Gson g = new Gson();
@@ -271,7 +271,8 @@ public class taskServiceImpl implements taskService {
         u.updateEvalu(userId,taskId,grade);
         //删除committedTaskFile里的该task
         deleteTask(taskId,checkTaskFileName);
-
+        //修改评分
+        gradeTask(taskId,grade);
     }
 
     /**

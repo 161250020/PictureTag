@@ -64,29 +64,21 @@
 
 
                     <div align="left">
-                        <ul class="no-bullet">
+                        <ul class="no-bullet" id="left_info">
                             <li>
-                                项目ID：0001
+                                项目ID：
                             </li>
                             <br>
                             <li>
-                                项目日期：2018-01-01~2018-01-03
+                                任务总数：
                             </li>
                             <br>
                             <li>
-                                任务总数：100
+                                已完成任务数：
                             </li>
                             <br>
                             <li>
-                                已完成任务数：90
-                            </li>
-                            <br>
-                            <li>
-                                未完成任务数：10
-                            </li>
-                            <br>
-                            <li>
-                                具体要求：xxxx
+                                未完成任务数：
                             </li>
                             <br>
                         </ul>
@@ -141,8 +133,11 @@
 
         },
         success: function (data) {
-            $("#project  tr:not(:first)").empty("");
+            alert(data);
             tas=JSON.parse(data);
+
+            //右边的表格
+            $("#project  tr:not(:first)").empty("");
             commited_task_id=tas.taskIds;
             for(var i=0;i<tas.length;i++) {
                 var oneRow = tab.insertRow();//插入一行
@@ -171,6 +166,41 @@
         }
     });
 
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "gData":id,
+            "action":"receiveProjectById"
+        },
+        success: function(data) {
+            var tas2=JSON.parse(data);
+
+            //左边的内容
+            document.getElementById("left_info").innerHTML=" <li>\n" +
+                "                                项目ID："+tas2.id+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                任务总数："+tas2.taskIds.length+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                已完成任务数："+tas2.progress+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                未完成任务数："+(tas2.taskIds.length-tas2.progress)+"\n" +
+                "                            </li>\n" +
+                "                            <br>";
+
+
+        },
+        error: function () {
+        }
+    });
+
+
 </script>
 
 <script>
@@ -182,7 +212,19 @@
 
     //确认任务发布者对一个task的评分
     function ensure_score(task_id) {
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "gData":names[0],
+                "action":"receiveTaskContent"
+            },
+            success: function(data) {
 
+            },
+            error: function () {
+            }
+        });
 
 
 
