@@ -3,6 +3,7 @@ package servlet;
 import com.google.gson.Gson;
 import serviceimpl.*;
 import serviceimpl.tag.imageServiceImpl;
+import serviceimpl.task.AdminUser;
 import vo.Project.Project;
 import vo.Project.Task.Task;
 import vo.Project.Task.image;
@@ -155,7 +156,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } else if ("recom".equals(action)) {
             String username=request.getParameter("gData");
             this.recom(request,response,username);
-        } else {
+        }
+        else if("receiveAll".equals(action)){
+            this.receiveAll(request,response);
+        }
+        else {
             System.out.println("no function like this");
             String imgData = request.getParameter("gData");
             this.savePicture(request, response, imgData);
@@ -658,6 +663,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
            e.printStackTrace();
        }
    }
+    public void receiveAll(HttpServletRequest request,HttpServletResponse response){
+        AdminUser service=new AdminUser();
+        ArrayList<UserInfo> list=service.getAll();
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(list);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 /*
     private  void receiveAllUser(HttpServletRequest request,HttpServletResponse response){
         taskServiceImpl d = new taskServiceImpl();

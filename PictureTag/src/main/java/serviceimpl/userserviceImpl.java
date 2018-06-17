@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class userserviceImpl implements user{
-    //final String path="PictureTag/src/main/user.txt";
-    //URL pathURL = Thread.currentThread().getContextClassLoader().getResource("");
-    //final String path = "user.txt";
     final String path=UserInfo.class.getResource("/").getFile()+File.separator+"user.txt";
     public void start() {      //一开始有一个用户
         UserInfo user=new UserInfo("admin","admin","",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"管理员");
