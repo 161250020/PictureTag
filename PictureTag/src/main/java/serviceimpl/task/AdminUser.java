@@ -18,8 +18,8 @@ public class AdminUser {
               }
               return newList;
           }
-          public ArrayList<Integer> getUserCountByMonth(String month){
-              ArrayList<Integer> count=new ArrayList<Integer>();
+          public ArrayList<String> getUserCountByMonth(String month){
+              ArrayList<String> count=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               ArrayList<UserInfo> newlist=new ArrayList<UserInfo>();
               int MonthOfDay=checkMonth(month);
@@ -48,7 +48,8 @@ public class AdminUser {
                   }
               }
               for(int i=0;i<counts.length;i++){
-                  count.add(counts[i]);
+                  String temp=""+counts[i];
+                  count.add(temp);
               }
               return count;
           }

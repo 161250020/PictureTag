@@ -694,7 +694,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
     private void receiveUserCountByMonth(HttpServletRequest request,HttpServletResponse response,String month){
         AdminUser service=new AdminUser();
-        ArrayList<Integer> counts=service.getUserCountByMonth(month);
+        ArrayList<String> counts=service.getUserCountByMonth(month);
         Gson gson=new Gson();
         String gsondata=gson.toJson(counts);
         try{
