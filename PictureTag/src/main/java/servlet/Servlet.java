@@ -78,6 +78,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("userId");
             this.completeTask(request,response,taskId,userId);
         }
+        else if("confirmTask".equals(action)){
+            String taskId = request.getParameter("taskId");
+            String userId = request.getParameter("userId");
+            double grade = Double.valueOf(request.getParameter("grade"));
+            this.confirmTask(request,response,taskId,userId,grade);
+        }
         else if("newTask".equals(action)){
             String taskData = request.getParameter("gData");
             this.newTask(request,response,taskData);
@@ -102,9 +108,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             this.receiveCommittedTaskIds(request,response);
         }
         else if("receiveTaskByDate".equals(action)){
-            String taskId = request.getParameter("TaskId");
-            String startDate = request.getParameter("StartDate");
-            String endDate = request.getParameter("EndDate");
+            String projectId = request.getParameter("projectId");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+            this.receiveTaskByDate(request,response,projectId,startDate,endDate);
         }
         else if("receiveSingleRanking".equals(action)){
             String usename = request.getParameter("gData");
@@ -579,6 +586,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void confirmTask(HttpServletRequest request,HttpServletResponse response,String taskId, String userId,double grade){
+        taskServiceImpl t = new taskServiceImpl();
+        t.confirmTask(taskId,userId,grade);
     }
 
     private void completeTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
