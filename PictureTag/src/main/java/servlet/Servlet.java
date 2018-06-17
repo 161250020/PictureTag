@@ -134,6 +134,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveAll".equals(action)){
             this.receiveAll(request,response);
         }
+        else if("receiveUserCountByMonth".equals(action)){
+            String month=request.getParameter("gData");
+            this.receiveUserCountByMonth(request,response,month);
+        }
         else {
             System.out.println("no function like this");
             String imgData = request.getParameter("gData");
@@ -665,6 +669,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         ArrayList<UserInfo> list=service.getAll();
         Gson gson=new Gson();
         String gsondata=gson.toJson(list);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void receiveUserCountByMonth(HttpServletRequest request,HttpServletResponse response,String month){
+        AdminUser service=new AdminUser();
+        ArrayList<Integer> counts=service.getUserCountByMonth(month);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(counts);
         try{
             PrintWriter writer=response.getWriter();
             writer.write(gsondata);

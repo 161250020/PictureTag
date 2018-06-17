@@ -93,7 +93,6 @@ public class FindProjects implements service.FindProjects {
                 result.add(project);
             }
         }
-        System.out.println(result.size());
         return result;
     }
     public boolean checkDate1(String Date1,String Date) {   //"yyyyMMddHHmmss"
