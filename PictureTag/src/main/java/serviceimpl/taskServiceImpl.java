@@ -168,18 +168,11 @@ public class taskServiceImpl implements taskService {
         String taskProjecgtId = ss[0]+sp+ss[1];
         //改变UserInfo
         if(!userId.equals(taskId)){
-            userserviceImpl u = new userserviceImpl();
-            UserInfo temp = u.getUser(userId);
-            ArrayList<String> reTask = temp.getReceivetask();
-            reTask.add(taskId);
-            u.update(temp);
-
             //改变taskProjectInfo的task文件内的对应信息和committedTask里文件内的对应信息
             String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjecgtId+".task";
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
             t.setReceive(true);
-            //System.out.println(taskUserFilePath);
             modifyTask(g.toJson(t),committedTaskFile);
             modifyTask(g.toJson(t),taskUserFilePath);
             //改变project文件的对应信息（以及user内的信息）

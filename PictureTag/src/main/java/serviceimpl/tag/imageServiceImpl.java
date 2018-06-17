@@ -14,9 +14,6 @@ public class imageServiceImpl implements imageService {
     String imageFileName = "_images.txt";
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
-/*    public imageServiceImpl imageServiceImpl(){
-        return new imageServiceImpl();
-    }*/
 
     public String receiveImgId(String taskId){
         String out = "";
@@ -109,7 +106,7 @@ public class imageServiceImpl implements imageService {
         //this.filePath = filePath;
         Gson gson = new Gson();
         String[] strings =imageId.split(sp);
-        String taskId = strings[0]+sp+strings[1];
+        String taskId = strings[0]+sp+strings[1]+strings[2];
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         String out = "";
         //按行读取文件内容
@@ -142,7 +139,7 @@ public class imageServiceImpl implements imageService {
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         String[] ss = i.getId().split(sp);
-        String taskId = ss[0]+sp+ss[1];
+        String taskId = ss[0]+sp+ss[1]+ss[2];
         ArrayList<String> reWrite = new ArrayList<>();
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
 
@@ -215,34 +212,49 @@ public class imageServiceImpl implements imageService {
     }
 
     /**
-     * 格式化标注信息，包括
+     * 格式化task内有关图片的标注信息和图片文件的标注信息
      * @param taskId
      */
     public void initializeTagData(String taskId){
+        boolean b = true;
         taskServiceImpl taskService = new taskServiceImpl();
         String[] ss = taskId.split(sp);
         String projectId = ss[0]+sp+ss[1];
-        String fileName = projectId+".task";
+        String projectfileName = projectId+".task";
+        String imageFilePath = taskId+imageFileName;
         String taskData = "";
-        String changedTaskData = "";
         taskData = taskService.findTask(taskId,committedTaskFile);
         if(taskData != null){
             String temp = initializeTask(taskData);
             taskService.modifyTask(temp,committedTaskFile);
+            b = false;
         }
-        taskData = taskService.findTask(taskId,fileName);
+
+        taskData = taskService.findTask(taskId,projectfileName);
         if(taskData != null){
             String temp = initializeTask(taskData);
-            taskService.modifyTask(temp,fileName);
+            taskService.modifyTask(temp,projectfileName);
+            b = false;
         }
+        else{
+            b = true;
+        }
+
+        if(!b){
+            initializeImgs(imageFilePath);
+        }
+
     }
 
-/*    public void initializeImgs(String filePath){
-        boolean b = false;
+    /**
+     * 将目标task的所有图片的标注信息全部还原
+     * @param filePath
+     */
+    public void initializeImgs(String filePath){
+
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
-        Task t = gson.fromJson(taskData,Task.class);
-        String taskId = t.getId();
+        image tempImage = null;
         File fRead = new File(filePath);
         File fWrite = new File(filePath);
         try {
@@ -250,12 +262,10 @@ public class imageServiceImpl implements imageService {
             BufferedReader br = new BufferedReader(fr);
             String temp = "";
             while (null != (temp = br.readLine())) {
-                Task task = gson.fromJson(temp, Task.class);//反序列化
-                if ((!task.getId().equals(taskId))&&(!task.isReceive())) {
-                    reWrite.add(temp);
-                } else {
-                    reWrite.add(taskData);
-                }
+                tempImage = gson.fromJson(temp,image.class);
+                tempImage.setFlag(false);
+                tempImage.setUrl(tempImage.getFilename());
+                reWrite.add(gson.toJson(tempImage));
             }
             br.close();
             fr.close();
@@ -287,9 +297,8 @@ public class imageServiceImpl implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return b;
 
-    }*/
+    }
 
     /**
      * 格式化task
