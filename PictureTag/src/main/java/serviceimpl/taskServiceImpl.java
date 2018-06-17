@@ -173,6 +173,7 @@ public class taskServiceImpl implements taskService {
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
             t.setReceive(true);
+            t.setReceiverId(userId);
             modifyTask(g.toJson(t),committedTaskFile);
             modifyTask(g.toJson(t),taskUserFilePath);
             //改变project文件的对应信息（以及user内的信息）
