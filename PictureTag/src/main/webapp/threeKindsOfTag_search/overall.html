@@ -136,7 +136,7 @@
                             <ul class="no-bullet">
                                 <li>
                                     <b>图片类别：</b>
-                                    <select style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
+                                    <select id="sel" style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
                                         <option value="自然景观" selected="selected">自然景观    </option>
                                         <option value="现代景观">现代景观    </option>
                                         <option value="人物剪影">人物剪影    </option>
@@ -208,6 +208,7 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var arr=new Array();
+    var arrid=new Array();
     var names=id.split("_");
     $.ajax({
         url : "/Servlet",
@@ -254,28 +255,34 @@
 
             //将标注到的图片画上去
             var progress=pic.progress;
-            $.ajax({
-                url : "/Servlet",
-                type : "POST",
-                data :{
-                    "gData":arr[pic.progress].toString(),
-                    "action":"receiveTag"
-                },
-                success: function(data) {
-                    a=pic.progress;
-                    var pict=JSON.parse(data);
-                    src.push(pict.url);
-                    img.src=src[a];
-                    img.onload = function() {
-                        ctx.drawImage(img, 0, 0,350,350);
+            alert("加载成功！");
+            alert("从上次未标注的图片开始显示！");
+            alert("祝您标注愉快！");
+            for(var i=0;i<arr.length;i++){
+                arrid.push(arr[i]);
+                $.ajax({
+                    url : "/Servlet",
+                    type : "POST",
+                    data :{
+                        "gData":arr[i].toString(),
+                        "action":"receiveTag"
+                    },
+                    success: function(data) {
+                        var pict=JSON.parse(data);
+                        src.push(pict.url);
+                        img.src=src[progress];
+                        a=progress;
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0,350,350);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
                     }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.status);
-                    alert(XMLHttpRequest.readyState);
-                    alert(textStatus);
-                }
-            });
+                });
+            }
         },
         error: function () {
         }

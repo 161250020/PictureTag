@@ -137,7 +137,7 @@
                             <ul class="no-bullet">
                                 <li>
                                     <b>图片类别：</b>
-                                    <select style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
+                                    <select id="sel" style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
                                         <option value="自然景观" selected="selected">自然景观    </option>
                                         <option value="现代景观">现代景观    </option>
                                         <option value="人物剪影">人物剪影    </option>
@@ -196,22 +196,23 @@
     var ctx = canvas.getContext('2d');
     var last = null;
     var xx=0,yy=0;
-    // var file = document.getElementById('file');
+    var file = document.getElementById('file');
     var cleanflag=0;
 
     //加载首张标注图片
     // 文件对象
-    var img=new Image();
-    // var filedata = null;
-    // var de=document.getElementById("demo1");
+    var filedata = null;
+    var recloc=new Array();
     var a=0;
     var src = new Array();
+    var img=new Image();
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-    var arr=new Array();
     var names=id.split("_");
+    var arr=new Array();
+    var arrid=new Array();
     $.ajax({
         url : "/Servlet",
         type : "POST",
@@ -257,28 +258,34 @@
 
             //将标注到的图片画上去
             var progress=pic.progress;
-            $.ajax({
-                url : "/Servlet",
-                type : "POST",
-                data :{
-                    "gData":arr[pic.progress].toString(),
-                    "action":"receiveTag"
-                },
-                success: function(data) {
-                    a=pic.progress;
-                    var pict=JSON.parse(data);
-                    src.push(pict.url);
-                    img.src=src[a];
-                    img.onload = function() {
-                        ctx.drawImage(img, 0, 0,350,350);
+            alert("加载成功！");
+            alert("从上次未标注的图片开始显示！");
+            alert("祝您标注愉快！");
+            for(var i=0;i<arr.length;i++){
+                arrid.push(arr[i]);
+                $.ajax({
+                    url : "/Servlet",
+                    type : "POST",
+                    data :{
+                        "gData":arr[i].toString(),
+                        "action":"receiveTag"
+                    },
+                    success: function(data) {
+                        var pict=JSON.parse(data);
+                        src.push(pict.url);
+                        img.src=src[progress];
+                        a=progress;
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0,350,350);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
                     }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.status);
-                    alert(XMLHttpRequest.readyState);
-                    alert(textStatus);
-                }
-            });
+                });
+            }
         },
         error: function () {
         }

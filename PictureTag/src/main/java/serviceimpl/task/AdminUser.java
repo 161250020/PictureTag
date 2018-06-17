@@ -138,7 +138,7 @@ public class AdminUser {
               }
               return result;
           }
-          public ArrayList<String> getTaskCountByLevel(String username){
+          public ArrayList<String> getTaskCountByLevel(){
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               int counts[]={0,0,0,0,0};
@@ -165,6 +165,31 @@ public class AdminUser {
                   String temp=""+counts[i];
                   result.add(temp);
               }
+              return result;
+          }
+
+          public ArrayList<String> getTaskCount(){
+              ArrayList<String> result=new ArrayList<String>();
+              ArrayList<UserInfo> list=getAll();
+              int finish=0;
+              int unfinish=0;
+              int giveup=0;
+              for(UserInfo user:list){
+                  if(user!=null){
+                      for(String str:user.getFinish().keySet()){
+                          if(user.getFinish().get(str)){
+                                finish++;
+                          }
+                          if(!user.getFinish().get(str)){
+                                giveup++;
+                          }
+                      }
+                      unfinish=unfinish+(user.getReceivetask().size()-user.getFinish().size());
+                  }
+              }
+              result.add(""+finish);
+              result.add(""+unfinish);
+              result.add(""+giveup);
               return result;
           }
 
