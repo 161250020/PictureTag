@@ -180,7 +180,8 @@
 
     function receive_mission(){
         for(var i=1;i<tab.rows.length;i++){
-            if(tab.rows[i].cells[5].checked=true){
+            var ad=tab.rows[i].cells[5];
+            if(ad.checked){
                 var Task_id=tab.rows[i].cells[0].innerText;
                 $.ajax({
                     url: "/Servlet",
