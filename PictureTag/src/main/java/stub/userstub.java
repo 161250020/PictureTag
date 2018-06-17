@@ -8,7 +8,7 @@ public class userstub implements user {
     public boolean login(String username,String password){
         return true;
     }
-    public boolean register(String usename,String password){
+    public boolean register(String usename,String password,String nickname,String name){
         return true;
     }
     public boolean delete(String username){

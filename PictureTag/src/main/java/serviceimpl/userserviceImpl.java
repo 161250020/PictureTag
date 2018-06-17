@@ -55,15 +55,14 @@ public class userserviceImpl implements user{
         //System.out.println(flag);
         return flag;
     }
-    public boolean register(String username,String password){
+    public boolean register(String username,String password,String nickname,String name){
         boolean flag=true;
         if(checksame(username)) {
             flag = false;
-            //System.out.println("Same!!");      //检验是否能测试出相同的用户名
         }
         else{
             flag=true;
-            UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,100,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"","","","");
+            UserInfo user=new UserInfo(username,password,name,0,new ArrayList<String>(),new ArrayList<String>(),0,100,new HashMap<String,Double>(),new HashMap<String, Boolean>(),nickname,"","","");
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             String date=format.format(new Date());
             String str1=date.substring(4,6);
@@ -138,15 +137,7 @@ public class userserviceImpl implements user{
         }
         return flag;
     }
-    public boolean update(String username,String password){
-        boolean flag=false;
-        if(checksame(username)) {
-            flag=true;
-            delete(username);
-            register(username,password);
-        }
-        return flag;
-    }
+
     public boolean update(UserInfo userInfo){
         boolean flag=false;
         if(checksame(userInfo.getUsername())){

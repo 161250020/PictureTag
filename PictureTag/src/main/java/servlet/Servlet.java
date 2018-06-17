@@ -171,7 +171,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         Gson gson=new Gson();
         UserInfo user=gson.fromJson(userData,UserInfo.class);
         userserviceImpl impl=new userserviceImpl();
-        result=impl.register(user.getUsername(),user.getPassword());                 //userdata到底是什么
+        result=impl.register(user.getUsername(),user.getPassword(),user.getNickname(),user.getName());                 //userdata到底是什么
         try {
             PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
             String data = "false";
