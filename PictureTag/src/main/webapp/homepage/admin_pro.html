@@ -180,7 +180,7 @@
                     }]
                 }
             });
-            },
+        },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
             alert(XMLHttpRequest.readyState);
@@ -200,7 +200,7 @@
             type : "POST",
             data :{
                 //调用后端获取项目id的方法
-                "action":"receiveUserCountByMonth",
+                "action":"receiveProjectCountByMonth",
                 "gData":v.toString()
             },
             success: function(data) {
@@ -214,7 +214,7 @@
                     data: {
                         labels: ["01-05", "06-10", "11-15", "16-20", "21-25", "26-30(31)"],
                         datasets: [{
-                            label: 'User_number',
+                            label: 'Projects_number',
                             data: [parseInt(changepro[0]),parseInt(changepro[1]),parseInt(changepro[2]),parseInt(changepro[3]),parseInt(changepro[4]),parseInt(changepro[5])],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.6)',
