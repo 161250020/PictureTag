@@ -20,10 +20,11 @@ public class taskFilterServiceImpl {
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+ File.separator+"committedTask.task";
     String checkTaskFileName = analyzeTagAccuracyImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
 
-    public ArrayList<String> findTaskByDate(String taskId, String startDate, String endDate){
+    public ArrayList<String> findTaskByDate(String projectId, String startDate, String endDate){
         dateComparer dateComparer = new dateComparer();
         String startTemp = "";
         String endTemp = "";
+        String projectIdTemp = "";
         ArrayList<String> out = new ArrayList<>();
         File f = new File(committedTaskFile);
         try {
@@ -35,7 +36,9 @@ public class taskFilterServiceImpl {
                 t = gson.fromJson(temp,Task.class);
                 startTemp = t.getStartDate();
                 endTemp = t.getEndDate();
-                if(dateComparer.isAfter(startTemp,startDate) && dateComparer.isBefore(endTemp,endDate)){
+                String[] ss = t.getId().split(sp);
+                projectIdTemp = ss[0]+sp+ss[1];
+                if(dateComparer.isAfter(startTemp,startDate) && dateComparer.isBefore(endTemp,endDate) && projectIdTemp.equals(projectId)){
                     out.add(temp);
                 }
             }

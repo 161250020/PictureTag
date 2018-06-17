@@ -6,14 +6,16 @@ import util.FileReadandWrite;
 import vo.UserInfo;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class userserviceImpl implements user{
     final String path=UserInfo.class.getResource("/").getFile()+File.separator+"user.txt";
     public void start() {      //一开始有一个用户
-        UserInfo user=new UserInfo("admin","admin","",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"管理员");
+        UserInfo user=new UserInfo("admin","admin","",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"管理员","","","");
         Gson gson=new Gson();
         String gsonstring=gson.toJson(user);
         FileReadandWrite.WriteFile(path, gsonstring);         //初始化用户
@@ -61,12 +63,14 @@ public class userserviceImpl implements user{
         }
         else{
             flag=true;
-            UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,100,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"");
+            UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,100,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"","","","");
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            String date=format.format(new Date());
+            user.setDate(date);
             Gson gson=new Gson();
             String content=gson.toJson(user);
             FileReadandWrite.WriteFile(path,content);
         }
-        //System.out.println(flag);
         return  flag;
     }
     public boolean register(UserInfo userInfo){
@@ -86,7 +90,6 @@ public class userserviceImpl implements user{
         boolean flag=true;
         if(!checksame(username)){
             flag=false;
-            //System.out.println("non exist");
         }
         else{
             ArrayList<UserInfo> lis=getall();
@@ -97,9 +100,9 @@ public class userserviceImpl implements user{
                     renew.add(gson.toJson(user));
                 }
             }
+            File f=new File(path);
+            f.delete();
             for(String str:renew){
-                File f=new File(path);
-                f.delete();
                 for(int i=0;i<renew.size();i++){
                     FileReadandWrite.WriteFile(path,renew.get(i));
                 }
@@ -136,9 +139,7 @@ public class userserviceImpl implements user{
         if(checksame(username)) {
             flag=true;
             delete(username);
-            //System.out.println("cc");
             register(username,password);
-            //System.out.println("kk");
         }
         return flag;
     }
