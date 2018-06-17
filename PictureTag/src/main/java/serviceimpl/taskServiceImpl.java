@@ -419,7 +419,7 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 修改task的信息,如果task未被领取
+     * 如果task未被领取
      * @param taskData
      * @return
      */
@@ -437,7 +437,7 @@ public class taskServiceImpl implements taskService {
             String temp = "";
             while (null != (temp = br.readLine())) {
                 Task task = gson.fromJson(temp, Task.class);//反序列化
-                if ((!task.getId().equals(taskId))&&(!task.isReceive())) {
+                if ((!task.getId().equals(taskId))) {
                     reWrite.add(temp);
                 } else {
                     reWrite.add(taskData);
@@ -495,7 +495,7 @@ public class taskServiceImpl implements taskService {
                 String temp = "";
                 while (null != (temp = br.readLine())) {
                     Task task = gson.fromJson(temp, Task.class);//反序列化
-                    if((!task.getId().equals(taskId))&&(!task.isReceive())){
+                    if((!task.getId().equals(taskId))){
                         reWrite.add(temp);
                     }
                 }
