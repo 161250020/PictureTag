@@ -118,6 +118,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String username=request.getParameter("gData");
             this.receiveProjects(request,response,username);
         }
+        else if("receiveProjectById".equals(action)){
+            String projectId=request.getParameter("gData");
+            this.receiveProjectById(request,response,projectId);
+        }
         else if("chooseProjectByDate".equals(action)){
             String Date1=request.getParameter("Date1");
             String Date2=request.getParameter("Date2");
@@ -426,9 +430,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     private void newTask(HttpServletRequest request,HttpServletResponse response,String taskData){
-        //System.out.println(taskData);
         Gson g = new Gson();
-        //System.out.println(g.fromJson(taskData,Task.class).getId());
         taskServiceImpl d = new taskServiceImpl();
         d.newTask(taskData);
         try {
@@ -614,6 +616,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
    private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){
        FindProjects impl=new FindProjects();
        ArrayList<Project> pro=impl.getProjects(username);
+       Gson gson=new Gson();
+       String gsondata=gson.toJson(pro);
+       try{
+           PrintWriter writer=response.getWriter();
+           writer.write(gsondata);
+           writer.close();
+       }catch(IOException e){
+           e.printStackTrace();
+       }
+   }
+   private void receiveProjectById(HttpServletRequest request,HttpServletResponse response,String projectId){
+       FindProjects impl=new FindProjects();
+       Project pro=impl.getProject(projectId);
        Gson gson=new Gson();
        String gsondata=gson.toJson(pro);
        try{
