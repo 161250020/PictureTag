@@ -17,4 +17,9 @@ public class AdminUser {
               }
               return newList;
           }
+          public ArrayList<Integer> getUserCountByMonth(String month){
+              ArrayList<Integer> count=new ArrayList<Integer>();
+
+              return count;
+          }
 }

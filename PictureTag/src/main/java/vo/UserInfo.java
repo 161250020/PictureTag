@@ -18,6 +18,9 @@ public class UserInfo {
     public double score;                        //用户的积分
     public Map<String,Double> receiveEvalu;     //用户的评价,key是任务id,value是用户评分
     public Map<String,Boolean> finish;           //用户对任务是否放弃,接受任务的同时要调用user的setMap方法
+    public String Date;                          //用户注册的日期
+    public String Month;                         //用户注册的月份
+    public String Day;                           //用户注册的日子
 
     public UserInfo(){
         this.username="";
@@ -31,6 +34,9 @@ public class UserInfo {
         this.receiveEvalu= new HashMap<String,Double>();
         this.finish=new HashMap<String,Boolean>();
         this.nickname="";
+        this.Date="";
+        this.Month="";
+        this.Day="";
     }
     public UserInfo(String username,String password){
         this.username=username;
@@ -44,8 +50,11 @@ public class UserInfo {
         this.receiveEvalu= new HashMap<String,Double>();
         this.finish=new HashMap<String,Boolean>();
         this.nickname="";
+        this.Date="";
+        this.Month="";
+        this.Day="";
     }
-    public UserInfo(String username,String password,String name,int level,ArrayList<String> receivepro,ArrayList<String> launchpro,int TaskNumber,double score,Map<String,Double> receiveEvalu,Map<String,Boolean> finish,String nickname){
+    public UserInfo(String username,String password,String name,int level,ArrayList<String> receivepro,ArrayList<String> launchpro,int TaskNumber,double score,Map<String,Double> receiveEvalu,Map<String,Boolean> finish,String nickname,String Date,String Month,String Day){
         this.username=username;
         this.password=password;
         this.name=name;
@@ -57,6 +66,9 @@ public class UserInfo {
         this.receiveEvalu= receiveEvalu;
         this.finish=finish;
         this.nickname=nickname;
+        this.Date=Date;
+        this.Month=Month;
+        this.Day=Day;
     }
     public String getUsername() {
         return username;
@@ -126,5 +138,36 @@ public class UserInfo {
 
     public Map<String, Boolean> getFinish() {
         return finish;
+    }
+    public void setNickname(String nickname){
+        this.nickname=nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDay(String day) {
+        Day = day;
+    }
+
+    public String getDay() {
+        return Day;
+    }
+
+    public void setMonth(String month) {
+        Month = month;
+    }
+
+    public String getMonth() {
+        return Month;
     }
 }
