@@ -92,7 +92,7 @@
                            <h5 style="font-family: 仿宋;font-weight: bold">新密码：</h5>
                        </div>
                        <div class="two">
-                           <input type="text" class="form-control" id="newPass">
+                           <input type="password" class="form-control" id="new_pass">
                        </div>
                    </div>
                     <br>
@@ -101,13 +101,13 @@
                             <h5 style="font-family: 仿宋;font-weight: bold">确认新密码：</h5>
                         </div>
                         <div class="two">
-                            <input type="text" class="form-control" id="reInputNewPass">
+                            <input type="password" class="form-control" id="reInputNew_pass">
                         </div>
                     </div>
                     <br>
                     <br>
                     <div align="center">
-                        <button type="button" class="button warning tiny" style="width: 50%">确认</button>
+                        <button type="button" class="button warning tiny" style="width: 50%" onclick="modify_pass()">确认</button>
                     </div>
                 </div>
             </div>
@@ -122,6 +122,66 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
     document.getElementById("b_userId").innerText="用户ID："+id;
+
+    //获得用户信息
+    var changepro;//返回的user的data
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"receiveUserInfo",
+            "gData":id
+        },
+        success: function(data) {
+            changepro=JSON.parse(data);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
+    //修改密码
+    function modify_pass(){
+        //验证两次密码是否一样
+        var in1=document.getElementById("new_pass").value.toString();
+        var in2=document.getElementById("reInputNew_pass").value.toString();
+
+        if(in1==in2){
+            var str={
+                "username":id,
+                "password":in1,
+                "name":changepro.name,
+                "nickname":changepro.nickname,
+                "level":changepro.level,
+                "receivetask":changepro.receivetask,
+                "launchpro":changepro.launchpro,
+                "TaskNumber":changepro.TaskNumber,
+                "score":changepro.score,
+                "receiveEvalu":changepro.receiveEvalu,
+                "finish":changepro.finish,
+                "Date":changepro.Date,
+                "Month":changepro.Month,
+                "Day":changepro.Day
+            };
+            var changeobj=JSON.stringify(str);
+            $.ajax({
+                url : "/Servlet",
+                type : "POST",
+                data :{
+                    "gData":changeobj,
+                    "action":"modifyUser"
+                },
+                success: function(data) {
+                    alert("修改密码成功！");
+                },
+                error: function () {
+                    alert("Wrong!");
+                }
+            });
+        }
+    }
 
     //首页
     function toHomePage(){
