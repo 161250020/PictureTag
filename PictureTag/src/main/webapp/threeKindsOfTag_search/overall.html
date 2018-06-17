@@ -58,43 +58,43 @@
                     <br>
 
                     <div align="left">
-                        <ul class="no-bullet">
+                        <ul class="no-bullet" id="left_info">
                             <li>
-                                任务ID：001
+                                任务ID：
                             </li>
                             <br>
                             <li>
-                                任务发布者：DEF
+                                任务发布者：
                             </li>
                             <br>
                             <li>
-                                任务完成者：ABC
+                                任务完成者：
                             </li>
                             <br>
                             <li>
-                                图片数量：100
+                                图片数量：
                             </li>
                             <br>
                             <li>
-                                标注类型：整体标注
+                                标注类型：
                             </li>
                             <br>
                             <li>
-                                日期：2018-01-02~2018-01-08
+                                日期：
                                 <br>
-                                还有xx天到期
+                                还有__天到期
                             </li>
                             <br>
                             <li>
-                                其他需求：xxxx
+                                其他需求：
                             </li>
                             <br>
                             <li>
-                                积分奖励：130
+                                积分奖励：
                             </li>
                             <br>
                             <li>
-                                任务完成状态：100
+                                任务完成状态：
                             </li>
                         </ul>
                     </div>
@@ -165,9 +165,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
@@ -216,6 +214,7 @@
     var arrid=new Array();
     var names;
     var img=new Image();
+
     function startmark(){
 
         var loc = location.href;
@@ -276,10 +275,6 @@
 
     }
 
-
-
-
-
     function nextpage(){
         a++;
         img.src=src[a];
@@ -287,6 +282,7 @@
             ctx.drawImage(img, 0, 0,350,350);
         }
     }
+
     function backPage(){
         if(a!=0) {
             a--;
@@ -490,8 +486,6 @@
         });
     }
 
-
-
     function final_submit(){
         $.ajax({
             url: "/Servlet",
@@ -515,6 +509,7 @@
             }
         });
     }
+
 </script>
 
 </body>
