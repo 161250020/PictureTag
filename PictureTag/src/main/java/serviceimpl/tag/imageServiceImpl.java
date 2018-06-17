@@ -106,7 +106,7 @@ public class imageServiceImpl implements imageService {
         //this.filePath = filePath;
         Gson gson = new Gson();
         String[] strings =imageId.split(sp);
-        String taskId = strings[0]+sp+strings[1];
+        String taskId = strings[0]+sp+strings[1]+strings[2];
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         String out = "";
         //按行读取文件内容
@@ -139,7 +139,7 @@ public class imageServiceImpl implements imageService {
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         String[] ss = i.getId().split(sp);
-        String taskId = ss[0]+sp+ss[1];
+        String taskId = ss[0]+sp+ss[1]+ss[2];
         ArrayList<String> reWrite = new ArrayList<>();
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
 
