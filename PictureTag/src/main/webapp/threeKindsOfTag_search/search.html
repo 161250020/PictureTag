@@ -245,6 +245,37 @@
                 "                            </li>\n" +
                 "                        </ul>\n" ;
 
+            arr=tas.imageIds;
+
+            //将标注到的图片画上去
+            var progress=tas.progress;
+            alert("加载成功！");
+            alert("从第一张图片开始显示！");
+            alert("祝您查看愉快！");
+            for(var i=0;i<arr.length;i++){
+                arrid.push(arr[i]);
+                $.ajax({
+                    url : "/Servlet",
+                    type : "POST",
+                    data :{
+                        "gData":arr[i].toString(),
+                        "action":"receiveTag"
+                    },
+                    success: function(data) {
+                        var pict=JSON.parse(data);
+                        src.push(pict.url);
+                        img.src=src[a];
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0,350,350);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+                });
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -252,43 +283,17 @@
             alert(textStatus);
         }
     });
-
-    //右边内容---一开始的时候显示第一张图片的标注
-    arr=tas.imageIds;
-    $.ajax({
-        url : "/Servlet",
-        type : "POST",
-        data :{
-            "gData":arr[0].toString(),
-            "action":"receiveTag"
-        },
-        success: function(data) {
-            var pict=JSON.parse(data);
-            src.push(pict.url);
+    //下一张
+    function nextpage(){
+        if(a<(arr.length-1)){
+            a++;
             img.src=src[a];
             img.onload = function() {
                 ctx.drawImage(img, 0, 0,350,350);
             }
-            //右边标签的显示
-            document.getElementById("").innerHTML="";
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(XMLHttpRequest.status);
-            alert(XMLHttpRequest.readyState);
-            alert(textStatus);
         }
-    });
-    for(var i=0;i<arr.length;i++){
-        arrid.push(arr[i]);
-
-    }
-
-    //下一张
-    function nextpage(){
-        a++;
-        img.src=src[a];
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0,350,350);
+        else{
+            alert("结束啦！");
         }
     }
     //上一张
@@ -299,6 +304,9 @@
             img.onload = function () {
                 ctx.drawImage(img, 0, 0, 350, 350);
             }
+        }
+        else{
+            alert("到头啦！");
         }
     }
 
