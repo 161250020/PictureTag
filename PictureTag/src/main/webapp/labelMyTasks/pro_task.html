@@ -342,7 +342,7 @@
                             }
                         ],
                         "url":txt.toString(),
-                        "filename":0,
+                        "filename":txt.toString(),
                         "spilt":"train",
                         "flag":false
                     };
@@ -380,11 +380,11 @@
         }
     }
 
+
+    window.addEventListener("DOMContentLoaded",contentLoaded,false);
     function contentLoaded(){
         document.getElementById("choose_files").addEventListener("change",savePicsAsUrl,false);
     }
-    window.addEventListener("DOMContentLoaded",contentLoaded,false);
-
     //返回的标注类型
     //工人等级+标注类型
     var tag;//存放返回的标注类型
