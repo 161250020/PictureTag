@@ -186,6 +186,7 @@
                 $.ajax({
                     url: "/Servlet",
                     type: "POST",
+                    async: false,
                     data: {
                         "taskId": Task_id,
                         "userId":userid,

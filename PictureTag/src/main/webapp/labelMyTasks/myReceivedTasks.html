@@ -112,11 +112,9 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
             var changepro=JSON.parse(data);
             userinfo=changepro.receivetask;
-            alert(userinfo);
-            alert(userinfo.length);
+            $("#project  tr:not(:first)").empty("");
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -126,10 +124,7 @@
     });
 
     // 清空表格
-    alert(userinfo);
-    $("#project  tr:not(:first)").empty("");
-    var aaa;
-    alert(userinfo);
+   alert(userinfo);
     for(var i=0;i<userinfo.length;i++){
         $.ajax({
             url : "/Servlet",
@@ -138,7 +133,9 @@
                 //调用后端获取项目id的方法
                 "action":"receiveTaskContent",
                 "gData":userinfo[i]
+
             },
+            async: false,
             success: function(data) {
                 alert(data);
                 var changepro=JSON.parse(data);
@@ -150,10 +147,10 @@
                 if(changepro.tagType=="overall"){
                     cell1.innerHTML = "<a href='../threeKindsOfTag_search/overall.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
                 }
-                if(changepro.tagType=="area"){
+                else if(changepro.tagType=="area"){
                     cell1.innerHTML = "<a href='../threeKindsOfTag_search/area.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
                 }
-                if(changepro.tagType=="frame"){
+               else  if(changepro.tagType=="frame"){
                     cell1.innerHTML = "<a href='../threeKindsOfTag_search/frame.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
                 }
                 cell2.innerHTML = changepro.tagType;
