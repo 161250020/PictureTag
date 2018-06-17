@@ -181,7 +181,7 @@
     function receive_mission(){
         for(var i=1;i<tab.rows.length;i++){
             var ad=tab.rows[i].cells[5];
-            if(ad.checked){
+            if(ad.checked=true){
                 var Task_id=tab.rows[i].cells[0].innerText;
                 $.ajax({
                     url: "/Servlet",
