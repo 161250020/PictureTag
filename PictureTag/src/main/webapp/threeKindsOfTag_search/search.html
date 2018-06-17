@@ -57,18 +57,14 @@
                     <br>
                     <br>
 
-                    <div align="left">
+                    <div align="left" id="left_info">
                         <ul class="no-bullet">
                             <li>
                                 任务ID：001
                             </li>
                             <br>
                             <li>
-                                任务发布者：DEF
-                            </li>
-                            <br>
-                            <li>
-                                任务完成者：ABC
+                                任务领取者：ABC
                             </li>
                             <br>
                             <li>
@@ -101,7 +97,7 @@
                     <br>
 
                     <li>
-                        <button type="button" class="btn btn-success" style="alignment: center">删除任务</button>
+                        <button type="button" class="btn btn-success" style="alignment: center" onclick="delete_task()">删除任务</button>
                     </li>
                 </ul>
             </div>
@@ -174,69 +170,6 @@
     var arrid=new Array();
     var names;
     var img=new Image();
-    function startmark(){
-
-        var loc = location.href;
-        var n1 = loc.length;//地址的总长度
-        var n2 = loc.indexOf("=");//取得=号的位置
-        var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-
-
-        names=id.split(">_<");
-
-        var userid="";
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                "gData":names[0],
-                "action":"receiveTaskContent"
-            },
-            success: function(data) {
-
-                var pic=JSON.parse(data);
-                arr=pic.imageIds;
-
-                for(var i=0;i<arr.length;i++){
-
-                    arrid.push(arr[i]);
-
-                    $.ajax({
-                        url : "/Servlet",
-                        type : "POST",
-                        data :{
-                            "gData":arr[i].toString(),
-                            "action":"receiveTag"
-                        },
-                        success: function(data) {
-
-                            var pict=JSON.parse(data);
-                            src.push(pict.url);
-                            img.src=src[a];
-                            img.onload = function() {
-                                ctx.drawImage(img, 0, 0,350,350);
-                            }
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            alert(XMLHttpRequest.status);
-                            alert(XMLHttpRequest.readyState);
-                            alert(textStatus);
-                        }
-                    });
-
-                }
-
-
-            },
-            error: function () {
-            }
-        });
-
-    }
-
-
-
-
 
     function nextpage(){
         a++;
@@ -245,6 +178,7 @@
             ctx.drawImage(img, 0, 0,350,350);
         }
     }
+
     function backPage(){
         if(a!=0) {
             a--;
@@ -255,235 +189,98 @@
         }
     }
 
-    //保存图片
-    function savePicture(){
-        //保存图片
-        var saveImage = canvas.toDataURL('image/jpg');
 
-        // json
-        var selectPoint=document.getElementById("sel");
-        var option=selectPoint.options;
-
-        var obj;
-        if(option.selectedIndex==0){
-            obj={
-                "sentids":[
-                    0
-                ],
-                "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
-                        "tokens":[
-                            document.getElementById("nature1").value.toString(),
-                            document.getElementById("nature2").value.toString(),
-                            document.getElementById("nature3").value.toString(),
-                            document.getElementById("nature4").value.toString(),
-                            document.getElementById("nature5").value.toString()
-                        ],
-                        "raw":document.getElementById("nature1").value.toString()+document.getElementById("nature2").value.toString()+document.getElementById("nature3").value.toString()+document.getElementById("nature4").value.toString()+document.getElementById("nature5").value.toString(),
-                        "imgid":0,
-                        "sentid":0
-                    }
-                ],
-                "url":saveImage.toString(),
-                "filename":0,
-                "split":"train",
-                "flag":true
-            }
-
-        }
-        else if(option.selectedIndex==1){
-            obj={
-                "sentids":[
-                    0
-                ],
-                "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
-                        "tokens":[
-                            document.getElementById("modern1").value.toString(),
-                            document.getElementById("modern2").value.toString(),
-                            document.getElementById("modern3").value.toString(),
-                            document.getElementById("modern4").value.toString()
-                        ],
-                        "raw":document.getElementById("modern1").value.toString()+document.getElementById("modern2").value.toString()+document.getElementById("modern3").value.toString()+document.getElementById("modern4").toString(),
-                        "imgid":0,
-                        "sentid":0
-                    }
-                ],
-                "url":saveImage.toString(),
-                "filename":0,
-                "split":"train",
-                "flag":true
-            }
-        }
-        else if(option.selectedIndex==2){
-            obj={
-                "sentids":[
-                    0
-                ],
-                "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
-                        "tokens":[
-                            document.getElementById("people1").value.toString(),
-                            document.getElementById("people2").value.toString(),
-                            document.getElementById("people3").value.toString(),
-                            document.getElementById("people4").value.toString(),
-                            document.getElementById("people5").value.toString(),
-                            document.getElementById("people6").value.toString(),
-                            document.getElementById("people7").value.toString()
-                        ],
-                        "raw":document.getElementById("people1").value.toString()+document.getElementById("people2").value.toString()+document.getElementById("people3").value.toString()+document.getElementById("people4").value.toString()+document.getElementById("people5").value.toString()+document.getElementById("people6").value.toString()+document.getElementById("people7").value.toString(),
-                        "imgid":0,
-                        "sentid":0
-                    }
-                ],
-                "url":saveImage.toString(),
-                "filename":0,
-                "split":"train",
-                "flag":true
-            }
-        }
-        else if(option.selectedIndex==3){
-            obj={
-                "sentids":[
-                    0
-                ],
-                "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
-                        "tokens":[
-                            document.getElementById("wild1").value.toString(),
-                            document.getElementById("wild2").value.toString(),
-                            document.getElementById("wild3").value.toString(),
-                            document.getElementById("wild4").value.toString()
-
-                        ],
-                        "raw":document.getElementById("wild1").value.toString()+document.getElementById("wild2").value.toString()+document.getElementById("wild3").value.toString()+document.getElementById("wild4").value.toString(),
-                        "imgid":0,
-                        "sentid":0
-                    }
-                ],
-                "url":saveImage.toString(),
-                "filename":0,
-                "split":"train",
-                "flag":true
-            }
-        }
-        else if(option.selectedIndex==4) {
-            obj = {
-                "sentids": [
-                    0
-                ],
-                "imgid": arrid[a].toString(),
-                "Sentences": [
-                    {
-                        "tokens": [
-                            document.getElementById("life1").value.toString(),
-                            document.getElementById("life2").value.toString(),
-                            document.getElementById("life3").value.toString(),
-                            document.getElementById("life4").value.toString(),
-                            document.getElementById("life5").value.toString(),
-                            document.getElementById("life6").value.toString()
-                        ],
-                        "raw": document.getElementById("life1").value.toString() + document.getElementById("life2").value.toString() + document.getElementById("life3").value.toString()+ document.getElementById("life4").value.toString() + document.getElementById("life5").value.toString()+ document.getElementById("life6").value.toString(),
-                        "imgid": 0,
-                        "sentid": 0
-                    }
-                ],
-                "url":saveImage.toString(),
-                "filename":0,
-                "split":"train",
-                "flag":true
-            }
-        }
-        else if(option.selectedIndex==5){
-            obj={
-                "sentids":[
-                    0
-                ],
-                "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
-                        "tokens":[
-                            document.getElementById("style1").value.toString(),
-                            document.getElementById("style2").value.toString(),
-                            document.getElementById("style3").value.toString(),
-                            document.getElementById("style4").value.toString(),
-                            document.getElementById("style5").value.toString()
-                        ],
-                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
-                        "imgid":0,
-                        "sentid":0
-                    }
-                ],
-                "url":saveImage.toString(),
-                "filename":0,
-                "split":"train",
-                "flag":true
-            }
-        }
-
-        var obj_json = JSON.stringify(obj);
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            async:true,
-            data: {
-                "gData": obj_json,
-                "action": "modifyTag"
-            },
-            success: function (data) {
-                if(data=="true"){
-                    alert("保存成功！");
-
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
-    }
-
-
-
-    function final_submit(){
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            //cache: false,
-            //async: false,
-            data: {
-                "taskId": names[0],
-                "userId":names[1],
-                "action": "completeTask"
-            },
-            success: function (data) {
-                alert("提交成功！");
-                window.location.href="../../tools/tools_index.html";
-                location.href="../../tools/tools_index.html?"+"txt="+encodeURI(names[1]);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
-    }
 </script>
 
 <script>
-    //读取id
+    //读取id---task的id
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
 
-    alert(id);
+    var tas;
+    $.ajax({
+        url: "/Servlet",
+        type: "POST",
+        data: {
+            //调用后端获取项目内容的方法
+            "action": "receiveTaskContent",
+            "gData": id
 
+        },
+        success: function (data) {
+            alert(data);
+            tas=JSON.parse(data);
+
+            //左边信息
+            document.getElementById("left_info").innerHTML="\n" +
+                "                        <ul class=\"no-bullet\">\n" +
+                "                            <li>\n" +
+                "                                任务ID："+tas.id+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                任务领取者："+tas.receiverId+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                图片数量："+tas.imageIds.length+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                标注类型："+tas.tagType+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                日期："+tas.startDate.substring(0,4)+"-"+tas.startDate.substring(4,6)+"-"+tas.startDate.substring(6,8)+"~"+tas.endDate.substring(0,4)+"-"+tas.endDate.substring(4,6)+"-"+tas.endDate.substring(6,8)+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                其他需求："+tas.requests+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                积分奖励："+tas.socre+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                任务完成状态："+tas.pbulish+"\n" +
+                "                            </li>\n" +
+                "                        </ul>\n" ;
+            //右边内容
+            document.getElementById("")
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
+
+    //删除任务
+    function delete_task(){
+        $.ajax({
+            url: "/Servlet",
+            type: "POST",
+            data: {
+                //调用后端获取项目内容的方法
+                "action": "deleteTask",
+                "gData": id
+
+            },
+            success: function (data) {
+                alert("删除任务成功！");
+                window.close();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
 </script>
 
 </body>
