@@ -78,6 +78,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("userId");
             this.completeTask(request,response,taskId,userId);
         }
+        else if("confirmTask".equals(action)){
+            String taskId = request.getParameter("taskId");
+            String userId = request.getParameter("userId");
+            double grade = Double.valueOf(request.getParameter("grade"));
+            this.confirmTask(request,response,taskId,userId,grade);
+        }
         else if("newTask".equals(action)){
             String taskData = request.getParameter("gData");
             this.newTask(request,response,taskData);
@@ -85,6 +91,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveTaskContent".equals(action)){
             String taskId = request.getParameter("gData");
             this.receiveTaskContent(request,response,taskId);
+        }
+        else if("receiveTaskByDate".equals(action)){
+            String projectId = request.getParameter("projectId");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+            this.receiveTaskByDate(request,response,projectId,startDate,endDate);
         }
         else if("deleteTask".equals(action)){
             String taskId = request.getParameter("gData");
@@ -118,10 +130,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String username=request.getParameter("gData");
             this.receiveProjects(request,response,username);
         }
-        else if("receiveProjectById".equals(action)){
-            String projectId=request.getParameter("gData");
-            this.receiveProjectById(request,response,projectId);
-        }
         else if("chooseProjectByDate".equals(action)){
             String Date1=request.getParameter("Date1");
             String Date2=request.getParameter("Date2");
@@ -137,10 +145,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
         else if("receiveAll".equals(action)){
             this.receiveAll(request,response);
-        }
-        else if("receiveUserCountByMonth".equals(action)){
-            String month=request.getParameter("gData");
-            this.receiveUserCountByMonth(request,response,month);
         }
         else {
             System.out.println("no function like this");
@@ -348,16 +352,18 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
 
     private void savePicture(HttpServletRequest request,HttpServletResponse response,String s){
+        Gson gson = new Gson();
+
         imageServiceImpl t = new imageServiceImpl();
-        String reqStr = s;
+        //ArrayList<String> reqStr = ;
         //System.out.println("call");
         //System.out.println(s);
 
         Gson g = new Gson();
-        image i = g.fromJson(reqStr,image.class);
+        image i = g.fromJson(s,image.class);
         //System.out.println(i.getId());
 
-        String out = t.writeTag(reqStr);
+        String out = t.writeTag(s);
         //System.out.println(out);
         try {
             PrintWriter p = response.getWriter();
@@ -388,49 +394,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-    /**
-     *暂无
-     * @param request
-     * @param response
-     */
-    private void receiveProjectInfo(HttpServletRequest request,HttpServletResponse response,String projectId){
-
-    }
-
-    /**
-     * 暂无
-     * 新增project，输入为project对象的完整信息
-     * @param request
-     * @param response
-     */
-    private  void newProject(HttpServletRequest request,HttpServletResponse response,String projectData){
-
-    }
-
-    /**
-     * 暂无
-     * 修改project，输入为project对象的完整信息
-     * @param request
-     * @param response
-     * @param projectData
-     */
-    private void modifyProject(HttpServletRequest request,HttpServletResponse response,String projectData){
-
-    }
-
-
-    /**
-     * 暂无
-     * @param request
-     * @param response
-     * @param projectId
-     */
-    private  void deleteProject(HttpServletRequest request,HttpServletResponse response,String projectId){
-
-    }
-
     private void newTask(HttpServletRequest request,HttpServletResponse response,String taskData){
+        //System.out.println(taskData);
         Gson g = new Gson();
+        //System.out.println(g.fromJson(taskData,Task.class).getId());
         taskServiceImpl d = new taskServiceImpl();
         d.newTask(taskData);
         try {
@@ -496,18 +463,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-/*    private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
-        imageServiceImpl t = new imageServiceImpl();
-        String imgId = t.receiveImgId(taskId);
-        try {
-            PrintWriter pw = response.getWriter();
-            pw.write(imgId);
-            pw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     private void analyzeUser(HttpServletRequest request,HttpServletResponse response,String user){
         AnalyzeUser analyze=new AnalyzeUser();
         ArrayList<UserInfo> list=analyze.calTurn();
@@ -545,14 +500,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * 根据日期区间筛选出未被接受的task
      * @param request
      * @param response
-     * @param taskId
+     * @param projectId
      * @param startDate
      * @param endDate
      */
-    private void receiveTaskByDate(HttpServletRequest request,HttpServletResponse response,String taskId,String startDate,String endDate){
+    private void receiveTaskByDate(HttpServletRequest request,HttpServletResponse response,String projectId,String startDate,String endDate){
         Gson gson = new Gson();
         taskFilterServiceImpl taskFilterService = new taskFilterServiceImpl();
-        ArrayList<String> out = taskFilterService.findTaskByDate(taskId,startDate,endDate);
+        ArrayList<String> out = taskFilterService.findTaskByDate(projectId,startDate,endDate);
         String taskData = gson.toJson(out);
         try {
             PrintWriter pw = response.getWriter();
@@ -598,87 +553,79 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-   private void launchPro(HttpServletRequest request,HttpServletResponse response,String projectdata){
-       FindProjects impl=new FindProjects();
-       Gson gson=new Gson();
-       Project pro=gson.fromJson(projectdata,Project.class);
-       Project complete=impl.lauchPro(pro);
-       String gsondata=gson.toJson(complete);
-       try{
-           PrintWriter writer=response.getWriter();
-           writer.write(gsondata);
-           writer.close();
-       }catch(IOException e){
-           e.printStackTrace();
-       }
-   }
+    private void confirmTask(HttpServletRequest request,HttpServletResponse response,String taskId, String userId,double grade){
+        taskServiceImpl t = new taskServiceImpl();
+        t.confirmTask(taskId,userId,grade);
+    }
 
-   private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){
-       FindProjects impl=new FindProjects();
-       ArrayList<Project> pro=impl.getProjects(username);
-       Gson gson=new Gson();
-       String gsondata=gson.toJson(pro);
-       try{
-           PrintWriter writer=response.getWriter();
-           writer.write(gsondata);
-           writer.close();
-       }catch(IOException e){
-           e.printStackTrace();
-       }
-   }
-   private void receiveProjectById(HttpServletRequest request,HttpServletResponse response,String projectId){
-       FindProjects impl=new FindProjects();
-       Project pro=impl.getProject(projectId);
-       Gson gson=new Gson();
-       String gsondata=gson.toJson(pro);
-       try{
-           PrintWriter writer=response.getWriter();
-           writer.write(gsondata);
-           writer.close();
-       }catch(IOException e){
-           e.printStackTrace();
-       }
-   }
-   private void chooseProjectByDate(HttpServletRequest request,HttpServletResponse response,String Date1,String Date2,String username){
-       FindProjects impl=new FindProjects();
-       ArrayList<Project> pro=impl.chooseProjectByDate(Date1,Date2,username);
-       Gson gson=new Gson();
-       String gsondata=gson.toJson(pro);
-       try{
-           PrintWriter writer=response.getWriter();
-           writer.write(gsondata);
-           writer.close();
-       }catch(IOException e){
-           e.printStackTrace();
-       }
-   }
+    private void launchPro(HttpServletRequest request,HttpServletResponse response,String projectdata){
+        FindProjects impl=new FindProjects();
+        Gson gson=new Gson();
+        Project pro=gson.fromJson(projectdata,Project.class);
+        Project complete=impl.lauchPro(pro);
+        String gsondata=gson.toJson(complete);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 
-   private void receiveTasks(HttpServletRequest request,HttpServletResponse response,String proId){
-       FindProjects impl=new FindProjects();
-       ArrayList<Task> list=impl.getTasks(proId);
-       Gson gson=new Gson();
-       String gsondata=gson.toJson(list);
-       try{
-           PrintWriter writer=response.getWriter();
-           writer.write(gsondata);
-           writer.close();
-       }catch(IOException e){
-           e.printStackTrace();
-       }
-   }
-   public void recom(HttpServletRequest request,HttpServletResponse response,String username){
+    private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){
+        FindProjects impl=new FindProjects();
+        ArrayList<Project> pro=impl.getProjects(username);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(pro);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void chooseProjectByDate(HttpServletRequest request,HttpServletResponse response,String Date1,String Date2,String username){
+        FindProjects impl=new FindProjects();
+        ArrayList<Project> pro=impl.chooseProjectByDate(Date1,Date2,username);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(pro);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void receiveTasks(HttpServletRequest request,HttpServletResponse response,String proId){
+        FindProjects impl=new FindProjects();
+        ArrayList<Task> list=impl.getTasks(proId);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(list);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    public void recom(HttpServletRequest request,HttpServletResponse response,String username){
         AnalyzeUser impl=new AnalyzeUser();
         ArrayList<Task> list=impl.recom(username);
         Gson gson=new Gson();
         String gsondata=gson.toJson(list);
-       try{
-           PrintWriter writer=response.getWriter();
-           writer.write(gsondata);
-           writer.close();
-       }catch(IOException e){
-           e.printStackTrace();
-       }
-   }
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     public void receiveAll(HttpServletRequest request,HttpServletResponse response){
         AdminUser service=new AdminUser();
         ArrayList<UserInfo> list=service.getAll();
@@ -692,17 +639,21 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-    private void receiveUserCountByMonth(HttpServletRequest request,HttpServletResponse response,String month){
-        AdminUser service=new AdminUser();
-        ArrayList<Integer> counts=service.getUserCountByMonth(month);
-        Gson gson=new Gson();
-        String gsondata=gson.toJson(counts);
-        try{
-            PrintWriter writer=response.getWriter();
-            writer.write(gsondata);
-            writer.close();
-        }catch(IOException e){
+/*
+    private  void receiveAllUser(HttpServletRequest request,HttpServletResponse response){
+        taskServiceImpl d = new taskServiceImpl();
+        ArrayList<String> out = d.receiveAllUserIds();
+        try {
+            PrintWriter pw = response.getWriter();
+            for (int i = 0; i < out.size(); i++) {
+                pw.write(out.get(i));
+            }
+            pw.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+*/
+
+
 }
