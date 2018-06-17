@@ -98,8 +98,6 @@
                             <th>基本信息</th>
                             <th>参与者</th>
                             <th>完成度</th>
-                            <th>评分</th>
-                            <th>确认评分</th>
                             <th>领取时间</th>
                             <th>完成时间</th>
                             <tr>
@@ -120,7 +118,7 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
 
-    var tas;
+    var tas=new Array();
     var commited_task_id;
     var tab=document.getElementById("project");
     $.ajax({
@@ -147,16 +145,12 @@
                 var cell4 = oneRow.insertCell(3);
                 var cell5 = oneRow.insertCell(4);
                 var cell6 = oneRow.insertCell(5);
-                var cell7 = oneRow.insertCell(6);
-                var cell8 = oneRow.insertCell(7);
                 cell1.innerHTML = "<a href='../threeKindsOfTag_search/search.html?txt=" + tas[i].id + "' target='_blank'>" + tas[i].id + "</a>";
                 cell2.innerHTML = tas[i].name;
                 cell3.innerHTML = tas[i].receiverId;
                 cell4.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
-                cell5.innerHTML = "<input type=\"text\" class=\"form-control\" id=\"calculate"+tas[i].id+"\" placeholder=\"满分100\" style=\"width: 100px\">";
-                cell6.innerHTML = "<button type=\"button\" class=\"btn btn-default\" onclick=\"ensure_score("+tas[i].id+")\">确认</button>";
-                cell7.innerHTML = tas[i].startDate.substring(0,4)+"-"+tas[i].startDate.substring(4,6)+"-"+tas[i].startDate.substring(6,8);
-                cell8.innerHTML = tas[i].endDate.substring(0,4)+"-"+tas[i].endDate.substring(4,6)+"-"+tas[i].endDate.substring(6,8);
+                cell5.innerHTML = tas[i].startDate.substring(0,4)+"-"+tas[i].startDate.substring(4,6)+"-"+tas[i].startDate.substring(6,8);
+                cell6.innerHTML = tas[i].endDate.substring(0,4)+"-"+tas[i].endDate.substring(4,6)+"-"+tas[i].endDate.substring(6,8);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -174,6 +168,7 @@
             "action":"receiveProjectById"
         },
         success: function(data) {
+            alert(data);
             var tas2=JSON.parse(data);
 
             //左边的内容
@@ -193,8 +188,6 @@
                 "                                未完成任务数："+(tas2.taskIds.length-tas2.progress)+"\n" +
                 "                            </li>\n" +
                 "                            <br>";
-
-
         },
         error: function () {
         }
@@ -210,28 +203,6 @@
         window.close();
     }
 
-    //确认任务发布者对一个task的评分
-    function ensure_score(task_id) {
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                "gData":names[0],
-                "action":"receiveTaskContent"
-            },
-            success: function(data) {
-
-            },
-            error: function () {
-            }
-        });
-
-
-
-
-
-
-    }
 </script>
 
 </body>
