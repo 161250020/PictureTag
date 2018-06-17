@@ -158,6 +158,12 @@
             name=changepro.name.toString();
             integral=changepro.score.toString();
             level=changepro.level.toString();
+
+            document.getElementById("per_info_ID").innerText="用户ID："+id;
+            document.getElementById("per_info_nickname").innerText="昵称："+nickname;
+            document.getElementById("per_info_name").innerText="用户名："+name;
+            document.getElementById("per_info_integral").innerText="积分："+integral;
+            document.getElementById("per_info_grade").innerText="等级："+level;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -165,12 +171,6 @@
             alert(textStatus);
         }
     });
-
-    document.getElementById("per_info_ID").innerText="用户ID："+id;
-    document.getElementById("per_info_nickname").innerText="用户名："+nickname;
-    document.getElementById("per_info_name").innerText="用户名："+name;
-    document.getElementById("per_info_integral").innerText="积分："+integral;
-    document.getElementById("per_info_grade").innerText="等级："+level;
 
     //首页
     function toHomePage(){
