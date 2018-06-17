@@ -88,6 +88,9 @@ public class imageServiceImpl implements imageService {
                 bw.close();
                 fileWriter.close();
                 //System.out.println(jsonData);
+                System.out.println("----------------------------------");
+                System.out.println(imgId);
+                System.out.println("----------------------------------");
             }
             else{
                 System.out.println("空值");
@@ -103,7 +106,7 @@ public class imageServiceImpl implements imageService {
         //this.filePath = filePath;
         Gson gson = new Gson();
         String[] strings =imageId.split(sp);
-        String taskId = strings[0]+sp+strings[1]+strings[2];
+        String taskId = strings[0]+sp+strings[1]+sp+strings[2];
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         String out = "";
         //按行读取文件内容
