@@ -101,7 +101,7 @@
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
     document.getElementById("b_userId").innerText="用户ID："+id;
 
-    var userinfo=new Array();
+    var userinfo="";
     var tab=document.getElementById("project");
     $.ajax({
         url : "/Servlet",
@@ -115,6 +115,44 @@
             var changepro=JSON.parse(data);
             userinfo=changepro.receivetask;
             $("#project  tr:not(:first)").empty("");
+            for(var i=0;i<userinfo.length;i++){
+                $.ajax({
+                    url : "/Servlet",
+                    type : "POST",
+                    async: false,
+                    data :{
+                        //调用后端获取项目id的方法
+                        "action":"receiveTaskContent",
+                        "gData":userinfo[i]
+
+                    },
+                    success: function(data) {
+                        var changepro=JSON.parse(data);
+                        var oneRow = tab.insertRow();//插入一行
+                        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                        var cell2 = oneRow.insertCell(1);
+                        var cell3 = oneRow.insertCell(2);
+                        var cell4 = oneRow.insertCell(3);
+                        if(changepro.tagType=="overall"){
+                            cell1.innerHTML = "<a href='../threeKindsOfTag_search/overall.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
+                        }
+                        else if(changepro.tagType=="area"){
+                            cell1.innerHTML = "<a href='../threeKindsOfTag_search/area.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
+                        }
+                        else  if(changepro.tagType=="frame"){
+                            cell1.innerHTML = "<a href='../threeKindsOfTag_search/frame.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
+                        }
+                        cell2.innerHTML = changepro.tagType;
+                        cell3.innerHTML = changepro.name;
+                        cell4.innerHTML = changepro.progress + "/" + changepro.imageIds.length;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+                });
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -124,46 +162,7 @@
     });
 
     // 清空表格
-    alert(userinfo);
-    for(var i=0;i<userinfo.length;i++){
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                //调用后端获取项目id的方法
-                "action":"receiveTaskContent",
-                "gData":userinfo[i]
 
-            },
-            async: false,
-            success: function(data) {
-                alert(data);
-                var changepro=JSON.parse(data);
-                var oneRow = tab.insertRow();//插入一行
-                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-                var cell2 = oneRow.insertCell(1);
-                var cell3 = oneRow.insertCell(2);
-                var cell4 = oneRow.insertCell(3);
-                if(changepro.tagType=="overall"){
-                    cell1.innerHTML = "<a href='../threeKindsOfTag_search/overall.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
-                }
-                else if(changepro.tagType=="area"){
-                    cell1.innerHTML = "<a href='../threeKindsOfTag_search/area.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
-                }
-               else  if(changepro.tagType=="frame"){
-                    cell1.innerHTML = "<a href='../threeKindsOfTag_search/frame.html?txt=" + changepro.id + "' target='_blank'>" + changepro.id + "</a>";
-                }
-                cell2.innerHTML = changepro.tagType;
-                cell3.innerHTML = changepro.name;
-                cell4.innerHTML = changepro.progress + "/" + changepro.imageIds.length;
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
-    }
 
     //首页
     function toHomePage(){
