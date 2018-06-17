@@ -135,7 +135,7 @@
                             <ul class="no-bullet">
                                 <li>
                                     <b>图片类别：</b>
-                                    <select style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
+                                    <select id="sel" style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
                                         <option value="自然景观" selected="selected">自然景观    </option>
                                         <option value="现代景观">现代景观    </option>
                                         <option value="人物剪影">人物剪影    </option>
@@ -340,14 +340,10 @@
         var obj;
         if(option.selectedIndex==0){
             obj={
-                "sentids":[
-                    0
-                ],
+                "sentids":[0],
                 "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
+                "Sentences":[{
                         "tokens":[
-                            6,
                             document.getElementById("nature1").value.toString(),
                             document.getElementById("nature2").value.toString(),
                             document.getElementById("nature3").value.toString(),
@@ -357,25 +353,19 @@
                         "raw":document.getElementById("nature1").value.toString()+document.getElementById("nature2").value.toString()+document.getElementById("nature3").value.toString()+document.getElementById("nature4").value.toString()+document.getElementById("nature5").value.toString(),
                         "imgid":0,
                         "sentid":0
-                    }
-                ],
+                    }],
                 "url":saveImage.toString(),
                 "filename":0,
                 "split":"train",
                 "flag":true
             }
-
         }
         else if(option.selectedIndex==1){
             obj={
-                "sentids":[
-                    0
-                ],
+                "sentids":[0],
                 "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
+                "Sentences":[{
                         "tokens":[
-                            1,
                             document.getElementById("modern1").value.toString(),
                             document.getElementById("modern2").value.toString(),
                             document.getElementById("modern3").value.toString(),
@@ -384,8 +374,7 @@
                         "raw":document.getElementById("modern1").value.toString()+document.getElementById("modern2").value.toString()+document.getElementById("modern3").value.toString()+document.getElementById("modern4").toString(),
                         "imgid":0,
                         "sentid":0
-                    }
-                ],
+                    }],
                 "url":saveImage.toString(),
                 "filename":0,
                 "split":"train",
@@ -394,14 +383,10 @@
         }
         else if(option.selectedIndex==2){
             obj={
-                "sentids":[
-                    0
-                ],
+                "sentids":[0],
                 "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
+                "Sentences":[{
                         "tokens":[
-                            2,
                             document.getElementById("people1").value.toString(),
                             document.getElementById("people2").value.toString(),
                             document.getElementById("people3").value.toString(),
@@ -413,8 +398,7 @@
                         "raw":document.getElementById("people1").value.toString()+document.getElementById("people2").value.toString()+document.getElementById("people3").value.toString()+document.getElementById("people4").value.toString()+document.getElementById("people5").value.toString()+document.getElementById("people6").value.toString()+document.getElementById("people7").value.toString(),
                         "imgid":0,
                         "sentid":0
-                    }
-                ],
+                    }],
                 "url":saveImage.toString(),
                 "filename":0,
                 "split":"train",
@@ -423,25 +407,19 @@
         }
         else if(option.selectedIndex==3){
             obj={
-                "sentids":[
-                    0
-                ],
+                "sentids":[0],
                 "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
+                "Sentences":[{
                         "tokens":[
-                            3,
                             document.getElementById("wild1").value.toString(),
                             document.getElementById("wild2").value.toString(),
                             document.getElementById("wild3").value.toString(),
                             document.getElementById("wild4").value.toString()
-
                         ],
                         "raw":document.getElementById("wild1").value.toString()+document.getElementById("wild2").value.toString()+document.getElementById("wild3").value.toString()+document.getElementById("wild4").value.toString(),
                         "imgid":0,
                         "sentid":0
-                    }
-                ],
+                    }],
                 "url":saveImage.toString(),
                 "filename":0,
                 "split":"train",
@@ -450,14 +428,10 @@
         }
         else if(option.selectedIndex==4) {
             obj = {
-                "sentids": [
-                    0
-                ],
+                "sentids": [0],
                 "imgid": arrid[a].toString(),
-                "Sentences": [
-                    {
+                "Sentences": [{
                         "tokens": [
-                            4,
                             document.getElementById("life1").value.toString(),
                             document.getElementById("life2").value.toString(),
                             document.getElementById("life3").value.toString(),
@@ -468,8 +442,7 @@
                         "raw": document.getElementById("life1").value.toString() + document.getElementById("life2").value.toString() + document.getElementById("life3").value.toString()+ document.getElementById("life4").value.toString() + document.getElementById("life5").value.toString()+ document.getElementById("life6").value.toString(),
                         "imgid": 0,
                         "sentid": 0
-                    }
-                ],
+                    }],
                 "url":saveImage.toString(),
                 "filename":0,
                 "split":"train",
@@ -478,14 +451,10 @@
         }
         else if(option.selectedIndex==5){
             obj={
-                "sentids":[
-                    0
-                ],
+                "sentids":[0],
                 "imgid":arrid[a].toString(),
-                "Sentences":[
-                    {
+                "Sentences":[{
                         "tokens":[
-                            5,
                             document.getElementById("style1").value.toString(),
                             document.getElementById("style2").value.toString(),
                             document.getElementById("style3").value.toString(),
@@ -495,8 +464,7 @@
                         "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
                         "imgid":0,
                         "sentid":0
-                    }
-                ],
+                    }],
                 "url":saveImage.toString(),
                 "filename":0,
                 "split":"train",
