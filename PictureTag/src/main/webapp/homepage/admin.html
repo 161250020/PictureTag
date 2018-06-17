@@ -197,6 +197,7 @@
         var tab=document.getElementById("project");
         var oneRow = tab.insertRow();//插入一行
         var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+        var changepro=new Array();
         $.ajax({
             url : "/Servlet",
             type : "POST",
@@ -206,7 +207,7 @@
                 "gData":v.toString()
             },
             success: function(data) {
-                var changepro=JSON.parse(data);
+                changepro=JSON.parse(data);
                 alert(data);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -219,25 +220,21 @@
         var popCanvas = $("#popChart");
         var popCanvas = document.getElementById("popChart");
         var popCanvas = document.getElementById("popChart").getContext("2d");
+        alert(parseInt(changepro[2]));
         var barChart = new Chart(popCanvas, {
             type: 'bar',
             data: {
-                labels: ["China", "India", "United States", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan"],
+                labels: ["01-05", "06-10", "11-15", "16-20", "21-25", "26-30(31)"],
                 datasets: [{
                     label: 'Population',
-                    data: [1379302771, 1281935911, 326625791, 260580739, 207353391, 204924861, 190632261, 157826578, 142257519, 126451398],
+                    data: [parseInt(changepro[0]),parseInt(changepro[1]),parseInt(changepro[2]),parseInt(changepro[3]),parseInt(changepro[4]),parseInt(changepro[5])],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.6)',
                         'rgba(54, 162, 235, 0.6)',
                         'rgba(255, 206, 86, 0.6)',
                         'rgba(75, 192, 192, 0.6)',
                         'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)',
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)'
+                        'rgba(255, 159, 64, 0.6)'
                     ]
                 }]
             }
