@@ -208,7 +208,6 @@
             },
             success: function(data) {
                 changepro=JSON.parse(data);
-                alert(data);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
@@ -220,7 +219,6 @@
         var popCanvas = $("#popChart");
         var popCanvas = document.getElementById("popChart");
         var popCanvas = document.getElementById("popChart").getContext("2d");
-        alert(parseInt(changepro[2]));
         var barChart = new Chart(popCanvas, {
             type: 'bar',
             data: {
