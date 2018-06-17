@@ -66,7 +66,11 @@ public class userserviceImpl implements user{
             UserInfo user=new UserInfo(username,password,"",0,new ArrayList<String>(),new ArrayList<String>(),0,100,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"","","","");
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             String date=format.format(new Date());
+            String str1=date.substring(4,6);
+            String str2=date.substring(6,8);
             user.setDate(date);
+            user.setMonth(str1);
+            user.setDay(str2);
             Gson gson=new Gson();
             String content=gson.toJson(user);
             FileReadandWrite.WriteFile(path,content);
