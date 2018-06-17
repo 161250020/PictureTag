@@ -124,8 +124,14 @@
 
                     //针对两种不同的返回值的反应
                     if(exist==1){
-                        window.location.href = "home_page_alreadyin.html";
-                        location.href = "home_page_alreadyin.html?" + "txt=" + encodeURI(document.getElementById("id").value.toString());
+                        if(document.getElementById("id").value.toString()=="admin"){
+                            window.location.href="../admin/admin.html";
+                            location.href="../admin/admin.html?"+"txt="+encodeURI(document.getElementById("id").value.toString());
+                        }
+                        else {
+                            window.location.href = "home_page_alreadyin.html";
+                            location.href = "home_page_alreadyin.html?" + "txt=" + encodeURI(document.getElementById("id").value.toString());
+                        }
                     }
                     else{
                         //提示后清空
