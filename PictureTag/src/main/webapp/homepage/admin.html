@@ -146,17 +146,45 @@
     var  project_id;
     var tab=document.getElementById("project");
     var user_num_day=new Array();
-
+    var user_num_year=new Array();
     $.ajax({
         url : "/Servlet",
         type : "POST",
         data :{
             //调用后端获取项目id的方法
-            "action":"receiveAll"
+            "action":"receiveUserCountByYear",
+            "gData":"2018"
         },
         success: function(data) {
-            var changepro=JSON.parse(data);
-            alert(data);
+            var change_pro=JSON.parse(data);
+            var popCanvas = $("#popChart");
+            var popCanvas = document.getElementById("popChart");
+            var popCanvas = document.getElementById("popChart").getContext("2d");
+            var barChart = new Chart(popCanvas, {
+                type: 'bar',
+                data: {
+                    labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10","11","12"],
+                    datasets: [{
+                        label: 'Population',
+                        data: [parseInt(change_pro[0]), parseInt(change_pro[1]), parseInt(change_pro[2]), parseInt(change_pro[3]),parseInt(change_pro[4]),parseInt(change_pro[5]),parseInt(change_pro[6]), parseInt(change_pro[7]),parseInt(change_pro[8]), parseInt(change_pro[9]),parseInt(change_pro[10]),parseInt(change_pro[11])],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)'
+                        ]
+                    }]
+                }
+            });
             },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -166,32 +194,6 @@
     });
 
 
-    var popCanvas = $("#popChart");
-    var popCanvas = document.getElementById("popChart");
-    var popCanvas = document.getElementById("popChart").getContext("2d");
-    var barChart = new Chart(popCanvas, {
-        type: 'bar',
-        data: {
-            labels: ["China", "India", "United States", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan"],
-            datasets: [{
-                label: 'Population',
-                data: [1379302771, 1281935911, 326625791, 260580739, 207353391, 204924861, 190632261, 157826578, 142257519, 126451398],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
-                ]
-            }]
-        }
-    });
     function showRight(v){
         $("#project  tr:not(:first)").empty("");
         var tab=document.getElementById("project");
@@ -208,33 +210,34 @@
             },
             success: function(data) {
                 changepro=JSON.parse(data);
+                cell1.innerHTML="<canvas id=\"popChart\" width=\"600\" height=\"400\"></canvas>";
+                var popCanvas = $("#popChart");
+                var popCanvas = document.getElementById("popChart");
+                var popCanvas = document.getElementById("popChart").getContext("2d");
+                var barChart = new Chart(popCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: ["01-05", "06-10", "11-15", "16-20", "21-25", "26-30(31)"],
+                        datasets: [{
+                            label: 'Population',
+                            data: [parseInt(changepro[0]),parseInt(changepro[1]),parseInt(changepro[2]),parseInt(changepro[3]),parseInt(changepro[4]),parseInt(changepro[5])],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)'
+                            ]
+                        }]
+                    }
+                });
+
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
                 alert(XMLHttpRequest.readyState);
                 alert(textStatus);
-            }
-        });
-        cell1.innerHTML="<canvas id=\"popChart\" width=\"600\" height=\"400\"></canvas>";
-        var popCanvas = $("#popChart");
-        var popCanvas = document.getElementById("popChart");
-        var popCanvas = document.getElementById("popChart").getContext("2d");
-        var barChart = new Chart(popCanvas, {
-            type: 'bar',
-            data: {
-                labels: ["01-05", "06-10", "11-15", "16-20", "21-25", "26-30(31)"],
-                datasets: [{
-                    label: 'Population',
-                    data: [parseInt(changepro[0]),parseInt(changepro[1]),parseInt(changepro[2]),parseInt(changepro[3]),parseInt(changepro[4]),parseInt(changepro[5])],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)'
-                    ]
-                }]
             }
         });
 
