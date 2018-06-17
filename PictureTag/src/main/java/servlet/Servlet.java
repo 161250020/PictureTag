@@ -705,21 +705,4 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-/*
-    private  void receiveAllUser(HttpServletRequest request,HttpServletResponse response){
-        taskServiceImpl d = new taskServiceImpl();
-        ArrayList<String> out = d.receiveAllUserIds();
-        try {
-            PrintWriter pw = response.getWriter();
-            for (int i = 0; i < out.size(); i++) {
-                pw.write(out.get(i));
-            }
-            pw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-*/
-
-
 }
