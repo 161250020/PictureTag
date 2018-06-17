@@ -88,13 +88,12 @@
                     <h5 style="font-family: 仿宋;font-weight: bold">积分总量：<p id="score"></p></h5>
                     <h5 style="font-family: 仿宋;font-weight: bold">积分排名：<p id="rank"></p>总人数：<p id="count"></p></h5>
                     <div align="right">
-                        <button type="button" class="btn btn-default" data-reveal-id="myModal">查看详细收入信息</button>
+                        <button type="button" class="btn btn-default" data-reveal-id="myModal" onclick="show_count()">查看详细收入信息</button>
                         <div id="myModal" class="reveal-modal" data-reveal>
                             <div class="panel panel-default">
                                 <h4 style="font-family: 仿宋;font-weight: bold">支出账单：</h4>
-                                <table class="table">
-                                    <th>日期</th><th>项目号</th><th>任务号</th><th>付款方</th><th>积分数量</th>
-                                    <tr><td>xxxx</td><td>xxxx</td><td>xxxx</td><td>xxxx</td><td>xxxx</td></tr>
+                                <table class="table" id="project">
+                                    <th>日期</th><th>项目号</th><th>任务号</th><th>积分数量</th>
                                 </table>
                             </div>
                             <a class="close-reveal-modal">&times;</a>
@@ -184,6 +183,7 @@
         window.close();
     }
 
+    var receivetasks=new Array();
     //个人积分
     $.ajax({
         url : "/Servlet",
@@ -195,6 +195,7 @@
         success: function(data) {
             var da=JSON.parse(data);
             document.getElementById("score").innerText=da.score;
+            receivetasks=da.receivetask;
         },
         error: function () {
             alert("Wrong!");
@@ -232,6 +233,42 @@
         }
     });
 
+    //查看收入账单
+    var tab=document.getElementById("project");
+    function show_count(){
+        $("#project  tr:not(:first)").empty("");
+        var aaa;
+        for(var i=0;i<receivetasks.length;i++){
+            $.ajax({
+                url : "/Servlet",
+                type : "POST",
+                data :{
+                    //调用后端获取项目id的方法
+                    "action":"receiveTaskContent",
+                    "gData":receivetasks[i]
+                },
+                async: false,
+                success: function(data) {
+                    alert(data);
+                    var changepro=JSON.parse(data);
+                    var oneRow = tab.insertRow();//插入一行
+                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                    var cell2 = oneRow.insertCell(1);
+                    var cell3 = oneRow.insertCell(2);
+                    var cell4 = oneRow.insertCell(3);
+                    cell1.innerText = changepro.startDate.substring(0,4)+"-"+changepro.startDate.substring(4,6)+"-"+changepro.startDate.substring(6,8);
+                    cell2.innerText = changepro.id.split("_")[0]+"_"+changepro.id.split("_")[1];
+                    cell3.innerText = changepro.id;
+                    cell4.innerText = changepro.score.toString();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        }
+    }
 </script>
 
 </body>
