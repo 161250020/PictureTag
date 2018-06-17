@@ -100,10 +100,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveTaskId(request,response,userId);
         }
-        else if("analyzeUser".equals(action)){
-            String user=request.getParameter("gData");
-            this.analyzeUser(request,response,user);
-        }
         else if("receiveCommittedTaskIds".equals(action)){
             this.receiveCommittedTaskIds(request,response);
         }
@@ -113,55 +109,76 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String endDate = request.getParameter("endDate");
             this.receiveTaskByDate(request,response,projectId,startDate,endDate);
         }
+        else if("analyzeUser".equals(action)){
+            String user=request.getParameter("gData");
+            this.analyzeUser(request,response,user);
+        }
         else if("receiveSingleRanking".equals(action)){
             String usename = request.getParameter("gData");
             this.receiveSingleRanking(request,response,usename);
-        }
-        else if("launchPro".equals(action)){
-            String project=request.getParameter("gData");
-            this.launchPro(request,response,project);
-        }
-        else if("receiveProjects".equals(action)){
+        } else if ("calTruth".equals(action)) {
             String username=request.getParameter("gData");
-            this.receiveProjects(request,response,username);
+            this.calTruth(request,response,username);
         }
-        else if("receiveProjectById".equals(action)){
-            String projectId=request.getParameter("gData");
-            this.receiveProjectById(request,response,projectId);
+        else if("recommend".equals(action)){
+            String username=request.getParameter("gData");
+            this.recommend(request,response,username);
         }
-        else if("chooseProjectByDate".equals(action)){
-            String Date1=request.getParameter("Date1");
-            String Date2=request.getParameter("Date2");
-            String username=request.getParameter("username");
-            this.chooseProjectByDate(request,response,Date1,Date2,username);
+        else if("correlation".equals(action)){
+            String username=request.getParameter("gData");
+            this.correlation(request,response,username);
         }
-        else if("receiveTasks".equals(action)){
-            String proId=request.getParameter("gData");
-            this.receiveTasks(request,response,proId);
+        else if("ExpectedScore".equals(action)){
+            String username=request.getParameter("gData");
+            this.ExpectedScore(request,response,username);
+        }
+        else if("SupportbyScoreandEvalu".equals(action)){
+            String username=request.getParameter("gData");
+            this.SupportbyScoreandEvalu(request,response,username);
+        }
+        else if("ConfidencebyScoreandEvalu".equals(action)){
+            String username=request.getParameter("gData");
+            this.ConfidencebyScoreandEvalu(request,response,username);
+        }
+        else if("LiftbyScoreandEvalu".equals(action)){
+            String username=request.getParameter("gData");
+            this.LiftbyScoreandEvalu(request,response,username);
+        }
+        else if ("launchPro".equals(action)) {
+            String project = request.getParameter("gData");
+            this.launchPro(request, response, project);
+        } else if ("receiveProjects".equals(action)) {
+            String username = request.getParameter("gData");
+            this.receiveProjects(request, response, username);
+        } else if ("receiveProjectById".equals(action)) {
+            String projectId = request.getParameter("gData");
+            this.receiveProjectById(request, response, projectId);
+        } else if ("chooseProjectByDate".equals(action)) {
+            String Date1 = request.getParameter("Date1");
+            String Date2 = request.getParameter("Date2");
+            String username = request.getParameter("username");
+            this.chooseProjectByDate(request, response, Date1, Date2, username);
+        } else if ("receiveTasks".equals(action)) {
+            String proId = request.getParameter("gData");
+            this.receiveTasks(request, response, proId);
         } else if ("recom".equals(action)) {
-            String username=request.getParameter("gData");
-            this.recom(request,response,username);
-        }
-        else if("receiveAll".equals(action)){
-            this.receiveAll(request,response);
-        }
-        else if("receiveUserCountByMonth".equals(action)){
-            String month=request.getParameter("gData");
-            this.receiveUserCountByMonth(request,response,month);
-        }
-        else if("receiveUserCountByYear".equals(action)){
-            String year=request.getParameter("gData");
-            this.receiveUserCountByYear(request,response,year);
-        }
-        else if("receiveProjectCountByMonth".equals(action)){
-            String month=request.getParameter("gData");
-            this.receiveProjectCountByMonth(request,response,month);
-        }
-        else if("receiveProjectCountByYear".equals(action)){
-            String year=request.getParameter("gData");
-            this.receiveProjectCountByYear(request,response,year);
-        }
-        else {
+            String username = request.getParameter("gData");
+            this.recom(request, response, username);
+        } else if ("receiveAll".equals(action)) {
+            this.receiveAll(request, response);
+        } else if ("receiveUserCountByMonth".equals(action)) {
+            String month = request.getParameter("gData");
+            this.receiveUserCountByMonth(request, response, month);
+        } else if ("receiveUserCountByYear".equals(action)) {
+            String year = request.getParameter("gData");
+            this.receiveUserCountByYear(request, response, year);
+        } else if ("receiveProjectCountByMonth".equals(action)) {
+            String month = request.getParameter("gData");
+            this.receiveProjectCountByMonth(request, response, month);
+        } else if ("receiveProjectCountByYear".equals(action)) {
+            String year = request.getParameter("gData");
+            this.receiveProjectCountByYear(request, response, year);
+        } else {
             System.out.println("no function like this");
             String imgData = request.getParameter("gData");
             this.savePicture(request, response, imgData);
@@ -278,16 +295,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * 根据用户id获得所有任务(任务id+基本信息+参与者+完成进度)，已完成任的任务(任务id+基本信息+参与者+完成进度)，未完成任务(任务id+基本信息+参与者+完成进度)
-     * @param request
-     * @param response
-     * @param userId
-     */
-    private  void receiveUserTask(HttpServletRequest request,HttpServletResponse response,String userId){
-
-    }
-
-    /**
      * 通过id删除用户
      * @param request
      * @param response
@@ -329,20 +336,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-    private void receiveSingleRanking(HttpServletRequest request,HttpServletResponse response,String username){
-        AnalyzeUser analyze=new AnalyzeUser();
-        Gson gson=new Gson();
-        int ranking=analyze.getSelf_Turn(username);
-        //System.out.println(realname);
-        try{
-            PrintWriter out=response.getWriter();
-            String result=""+ranking;
-            out.write(result);
-            out.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
+
+
+
+
+
+
+
+
     /**
      *  提供对单一图片的查询功能
      * @param request
@@ -405,25 +406,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     *暂无
-     * @param request
-     * @param response
-     */
-    private void receiveProjectInfo(HttpServletRequest request,HttpServletResponse response,String projectId){
-
-    }
-
-    /**
-     * 暂无
-     * 新增project，输入为project对象的完整信息
-     * @param request
-     * @param response
-     */
-    private  void newProject(HttpServletRequest request,HttpServletResponse response,String projectData){
-
     }
 
     /**
@@ -497,11 +479,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         d.deleteTask(taskId,filePath);
     }
 
-/*    private void commitTask(HttpServletRequest request, HttpServletResponse response,String taskId){
-        taskServiceImpl d = new taskServiceImpl();
-        d.commitTask(taskId);
-    }*/
-
     private void receiveTaskId(HttpServletRequest request, HttpServletResponse response,String userId){
         taskServiceImpl d = new taskServiceImpl();
         String taskId = d.getTaskId(userId);
@@ -526,24 +503,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }*/
-
-    private void analyzeUser(HttpServletRequest request,HttpServletResponse response,String user){
-        AnalyzeUser analyze=new AnalyzeUser();
-        ArrayList<UserInfo> list=analyze.calTurn();
-        try{
-            PrintWriter p=response.getWriter();
-            for(int i=0;i<list.size();i++){
-                if(list.get(i)!=null){
-                    Gson gson=new Gson();
-                    String gsonString=gson.toJson(list.get(i));
-                    p.write(gsonString);
-                }
-            }
-            p.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
 
     private void receiveCommittedTaskIds(HttpServletRequest request,HttpServletResponse response){
         taskServiceImpl d = new taskServiceImpl();
@@ -622,7 +581,149 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private void launchPro(HttpServletRequest request,HttpServletResponse response,String projectdata){
+
+
+
+
+
+
+    //AnalyzeUser
+    private void receiveSingleRanking(HttpServletRequest request,HttpServletResponse response,String username){      //获得单个人的排名
+        AnalyzeUser analyze=new AnalyzeUser();
+        Gson gson=new Gson();
+        int ranking=analyze.getSelf_Turn(username);
+        try{
+            PrintWriter out=response.getWriter();
+            String result=""+ranking;
+            out.write(result);
+            out.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void analyzeUser(HttpServletRequest request,HttpServletResponse response,String user){      //所有用户排名
+        AnalyzeUser analyze=new AnalyzeUser();
+        ArrayList<UserInfo> list=analyze.calTurn();
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(list);
+        try{
+            PrintWriter p=response.getWriter();
+            p.write(gsondata);
+            p.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void calTruth(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser analyze=new AnalyzeUser();
+        double truth=analyze.calTruth(username);
+        try{
+            PrintWriter p=response.getWriter();
+            String result=""+truth;
+            p.write(result);
+            p.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void recommend(HttpServletRequest request,HttpServletResponse response,String username){           //获得推荐类型
+        AnalyzeUser impl=new AnalyzeUser();
+        String type=impl.recommend(username);
+        try{
+            PrintWriter p=response.getWriter();
+            p.write(type);
+            p.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void recom(HttpServletRequest request,HttpServletResponse response,String username){              //获得推荐任务
+        AnalyzeUser impl=new AnalyzeUser();
+        ArrayList<Task> list=impl.recom(username);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(list);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void correlation(HttpServletRequest request,HttpServletResponse response,String username){       //相关系数
+        AnalyzeUser impl=new AnalyzeUser();
+        double temp=impl.correlation(username);
+        String result=""+temp;
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(result);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void ExpectedScore(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser impl=new AnalyzeUser();
+        double temp=impl.ExpectedScore(username);
+        String result=""+temp;
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(result);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void SupportbyScoreandEvalu(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser impl=new AnalyzeUser();
+        double temp=impl.SupportbyScoreandEvalu(username);
+        String result=""+temp;
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(result);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void ConfidencebyScoreandEvalu(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser impl=new AnalyzeUser();
+        double temp=impl.ConfidencebyScoreandEvalu(username);
+        String result=""+temp;
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(result);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void LiftbyScoreandEvalu(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser impl=new AnalyzeUser();
+        double temp=impl.LiftbyScoreandEvalu(username);
+        String result=""+temp;
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(result);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+    //FindProjects
+    private void launchPro(HttpServletRequest request,HttpServletResponse response,String projectdata){        //发布任务
         FindProjects impl=new FindProjects();
         Gson gson=new Gson();
         Project pro=gson.fromJson(projectdata,Project.class);
@@ -637,7 +738,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){
+    private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){              //显示用户的project
         FindProjects impl=new FindProjects();
         ArrayList<Project> pro=impl.getProjects(username);
         Gson gson=new Gson();
@@ -650,7 +751,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-    private void receiveProjectById(HttpServletRequest request,HttpServletResponse response,String projectId){
+    private void receiveProjectById(HttpServletRequest request,HttpServletResponse response,String projectId){        //通过id获得project
         FindProjects impl=new FindProjects();
         Project pro=impl.getProject(projectId);
         Gson gson=new Gson();
@@ -690,20 +791,13 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-    public void recom(HttpServletRequest request,HttpServletResponse response,String username){
-        AnalyzeUser impl=new AnalyzeUser();
-        ArrayList<Task> list=impl.recom(username);
-        Gson gson=new Gson();
-        String gsondata=gson.toJson(list);
-        try{
-            PrintWriter writer=response.getWriter();
-            writer.write(gsondata);
-            writer.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    public void receiveAll(HttpServletRequest request,HttpServletResponse response){
+
+
+
+
+
+    //adminuser
+    public void receiveAll(HttpServletRequest request,HttpServletResponse response){                 //显示所有的用户
         AdminUser service=new AdminUser();
         ArrayList<UserInfo> list=service.getAll();
         Gson gson=new Gson();

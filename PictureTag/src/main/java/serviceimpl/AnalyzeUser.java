@@ -279,7 +279,7 @@ public class AnalyzeUser implements Analyze {                           //质量
                    result="frame";
                }
                else{
-
+                   result="all";          //偷工减料一下
                }
            }
            if(type1&&type3&&!type2){
@@ -289,7 +289,9 @@ public class AnalyzeUser implements Analyze {                           //质量
                else if(result1<result3){
                    result="overall";
                }
-               else{}
+               else{
+                   result="all";
+               }
            }
            if(!type1&&type2&&type3){
                if(result2>result3){
@@ -298,7 +300,9 @@ public class AnalyzeUser implements Analyze {                           //质量
                else if(result2<result3){
                    result="overall";
                }
-               else{}
+               else{
+                   result="all";
+               }
            }
            if(type1&&type2&&type3){
                result="all";
