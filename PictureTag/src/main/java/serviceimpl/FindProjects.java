@@ -37,7 +37,7 @@ public class FindProjects implements service.FindProjects {
         String username=pro.getUsername();
         UserInfo user=impl.getUser(username);
         ArrayList<String> temp=user.getLaunchpro();
-        temp.add(pro.getId());
+        temp.add(result.getId());
         user.setLaunchpro(temp);
         impl.update(user);
         return result;
