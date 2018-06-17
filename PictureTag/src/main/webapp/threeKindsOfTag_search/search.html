@@ -97,6 +97,13 @@
                     <br>
 
                     <li>
+                        <input type="text" placeholder="评分：满分100" style="width: 95%" id="calculate">
+                        <button type="button" class="btn btn-default" style="alignment: center" onclick="ensure_score()">确认评分</button>
+                    </li>
+                    <br>
+                    <br>
+
+                    <li>
                         <button type="button" class="btn btn-success" style="alignment: center" onclick="delete_task()">删除任务</button>
                     </li>
                 </ul>
@@ -315,6 +322,29 @@
                 window.close();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+
+    //确认任务发布者对一个task的评分
+    function ensure_score() {
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "taskId":id,
+                "userId":id.split("_")[0],
+                "grade":document.getElementById("calculate").value.toString(),
+                "action":"confirmTask"
+            },
+            success: function(data) {
+                alert("评分成功！");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("评分失败！");
                 alert(XMLHttpRequest.status);
                 alert(XMLHttpRequest.readyState);
                 alert(textStatus);
