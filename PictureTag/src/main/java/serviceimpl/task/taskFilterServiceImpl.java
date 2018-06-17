@@ -20,7 +20,7 @@ public class taskFilterServiceImpl {
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+ File.separator+"committedTask.task";
     String checkTaskFileName = analyzeTagAccuracyImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
 
-    public ArrayList<String> findTaskByDate(String taskId, String startDate, String endDate,String tagType){
+    public ArrayList<String> findTaskByDate(String taskId, String startDate, String endDate){
         dateComparer dateComparer = new dateComparer();
         String startTemp = "";
         String endTemp = "";

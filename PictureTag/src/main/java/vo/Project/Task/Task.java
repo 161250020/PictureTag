@@ -14,7 +14,7 @@ public class Task {          //个体任务
     boolean receive;//判断task是否已经被接受 true:接受
     boolean publish;//判断task是否已经被发布 true:发布
     boolean complete;//判断task是否已经被complete true:完成
-    int grade;//评分
+    double grade;//评分
 
     String startDate;
     String endDate;
@@ -123,9 +123,9 @@ public class Task {          //个体任务
         this.tagType = tagType;
     }
 
-    public int getGrade() { return grade; }
+    public double getGrade() { return grade; }
 
-    public void setGrade(int grade) { this.grade = grade; }
+    public void setGrade(double grade) { this.grade = grade; }
 
     public boolean isComplete() { return complete; }
 

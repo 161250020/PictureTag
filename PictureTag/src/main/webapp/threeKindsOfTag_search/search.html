@@ -60,35 +60,35 @@
                     <div align="left" id="left_info">
                         <ul class="no-bullet">
                             <li>
-                                任务ID：001
+                                任务ID：
                             </li>
                             <br>
                             <li>
-                                任务领取者：ABC
+                                任务领取者：
                             </li>
                             <br>
                             <li>
-                                图片数量：100
+                                图片数量：
                             </li>
                             <br>
                             <li>
-                                标注类型：整体标注
+                                标注类型：
                             </li>
                             <br>
                             <li>
-                                日期：2018-01-02~2018-01-08
+                                日期：
                             </li>
                             <br>
                             <li>
-                                其他需求：xxxx
+                                其他需求：
                             </li>
                             <br>
                             <li>
-                                积分奖励：130
+                                积分奖励：
                             </li>
                             <br>
                             <li>
-                                任务完成状态：已完成
+                                任务完成状态：
                             </li>
                         </ul>
                     </div>
@@ -171,6 +171,55 @@
     var names;
     var img=new Image();
 
+    //获得task里面的内容
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+
+
+    names=id.split(">_<");
+
+    var userid="";
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "gData":names[0],
+            "action":"receiveTaskContent"
+        },
+        success: function(data) {
+            var pic=JSON.parse(data);
+            arr=pic.imageIds;
+            for(var i=0;i<arr.length;i++){
+                arrid.push(arr[i]);
+                $.ajax({
+                    url : "/Servlet",
+                    type : "POST",
+                    data :{
+                        "gData":arr[i].toString(),
+                        "action":"receiveTag"
+                    },
+                    success: function(data) {
+                        var pict=JSON.parse(data);
+                        src.push(pict.url);
+                        img.src=src[a];
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0,350,350);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+                });
+            }
+        },
+        error: function () {
+        }
+    });
+
     function nextpage(){
         a++;
         img.src=src[a];
@@ -214,6 +263,18 @@
             tas=JSON.parse(data);
 
             //左边信息
+            var pic_tag;//标注类型
+            if(tas.tagType=="frame")
+                pic_tag="边框标注";
+            else if(tas.tagType=="area")
+                pic_tag="区域标注";
+            else
+                pic_tag="整体标注";
+            var complete;//完成情况
+            if(tas.publish=="false")
+                complete="未完成";
+            else
+                complete="已完成";
             document.getElementById("left_info").innerHTML="\n" +
                 "                        <ul class=\"no-bullet\">\n" +
                 "                            <li>\n" +
@@ -229,7 +290,7 @@
                 "                            </li>\n" +
                 "                            <br>\n" +
                 "                            <li>\n" +
-                "                                标注类型："+tas.tagType+"\n" +
+                "                                标注类型："+pic_tag+"\n" +
                 "                            </li>\n" +
                 "                            <br>\n" +
                 "                            <li>\n" +
@@ -237,7 +298,15 @@
                 "                            </li>\n" +
                 "                            <br>\n" +
                 "                            <li>\n" +
-                "                                其他需求："+tas.requests+"\n" +
+                "                                最低等级："+tas.requests[0]+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                最高等级："+tas.requests[1]+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li>\n" +
+                "                                其他需求："+tas.requests[2]+"\n" +
                 "                            </li>\n" +
                 "                            <br>\n" +
                 "                            <li>\n" +
@@ -245,7 +314,7 @@
                 "                            </li>\n" +
                 "                            <br>\n" +
                 "                            <li>\n" +
-                "                                任务完成状态："+tas.pbulish+"\n" +
+                "                                任务完成状态："+complete+"\n" +
                 "                            </li>\n" +
                 "                        </ul>\n" ;
             //右边内容
