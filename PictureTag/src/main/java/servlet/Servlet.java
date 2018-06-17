@@ -153,6 +153,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String year=request.getParameter("gData");
             this.receiveUserCountByYear(request,response,year);
         }
+        else if("receiveProjectCountByMonth".equals(action)){
+            String month=request.getParameter("gData");
+            this.receiveProjectCountByMonth(request,response,month);
+        }
         else {
             System.out.println("no function like this");
             String imgData = request.getParameter("gData");
@@ -724,6 +728,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void receiveUserCountByYear(HttpServletRequest request,HttpServletResponse response,String year){
         AdminUser service=new AdminUser();
         ArrayList<String> counts=service.getUserCountByYear(year);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(counts);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void receiveProjectCountByMonth(HttpServletRequest request,HttpServletResponse response,String month){
+        AdminUser service=new AdminUser();
+        ArrayList<String> counts=service.getProjectCountByMonth(month);
         Gson gson=new Gson();
         String gsondata=gson.toJson(counts);
         try{

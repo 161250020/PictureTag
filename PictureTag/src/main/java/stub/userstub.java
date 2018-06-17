@@ -16,5 +16,4 @@ public class userstub implements user {
     }
     public boolean update(String username,String password){return true;}
     public UserInfo getUser(String username){return new UserInfo("admin","admin");}
-
 }

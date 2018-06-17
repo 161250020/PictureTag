@@ -1,5 +1,6 @@
 package serviceimpl.task;
 
+import serviceimpl.FindProjects;
 import serviceimpl.userserviceImpl;
 import vo.UserInfo;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class AdminUser {
           userserviceImpl impl=new userserviceImpl();
           //功能方法
-          public ArrayList<UserInfo> getAll() {
+          public ArrayList<UserInfo> getAll() {                              //用户数
               ArrayList<UserInfo> list = impl.getall();
               ArrayList<UserInfo> newList = new ArrayList<UserInfo>();
               for (UserInfo user : list) {
@@ -18,7 +19,7 @@ public class AdminUser {
               }
               return newList;
           }
-          public ArrayList<String> getUserCountByMonth(String month){
+          public ArrayList<String> getUserCountByMonth(String month){       //月度注册的用户数
               ArrayList<String> count=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               ArrayList<UserInfo> newlist=new ArrayList<UserInfo>();
@@ -54,7 +55,7 @@ public class AdminUser {
               return count;
           }
 
-          public ArrayList<String> getUserCountByYear(String year){
+          public ArrayList<String> getUserCountByYear(String year){              //年度注册的用户数
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               ArrayList<UserInfo> newlist=new ArrayList<UserInfo>();
@@ -73,6 +74,48 @@ public class AdminUser {
               }
               return result;
           }
+
+          public ArrayList<String> getProjectCountByMonth(String month){
+              ArrayList<String> result=new ArrayList<String>();
+              ArrayList<UserInfo> all=getAll();
+              ArrayList<String> proIds=new ArrayList<String>();         //存放所有的proIds
+              int MonthOfDay=checkMonth(month);
+              for(UserInfo user:all){
+                  if(user!=null) {
+                      for (String str : user.getLaunchpro()) {
+                          if (str != null) {
+                              proIds.add(str);
+                          }
+                      }
+                  }
+              }
+              FindProjects service=new FindProjects();
+              int counts[]={0,0,0,0,0,0};
+              if(MonthOfDay==28||MonthOfDay==30) {
+                  for (String str : proIds) {
+                      int day = convertDay(service.getProject(str).getDate().substring(6,8));
+                      counts[(day - 1) / 5]++;
+                  }
+              }
+
+              if(MonthOfDay==31){
+                  for (String str : proIds) {
+                      int day = convertDay(service.getProject(str).getDate().substring(6,8));
+                      if(day==31){
+                          counts[5]++;
+                      }
+                      else {
+                          counts[(day - 1) / 5]++;
+                      }
+                  }
+              }
+              for(int i=0;i<counts.length;i++){
+                  String temp=""+counts[i];
+                  result.add(temp);
+              }
+              return result;
+          }
+
 
 
           //辅助方法
