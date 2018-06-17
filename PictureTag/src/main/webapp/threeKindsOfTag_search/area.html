@@ -201,13 +201,12 @@
     // 获取绘图环境
     var ctx = canvas.getContext('2d');
     var last = null;
-    // var file = document.getElementById('file');
+    var file = document.getElementById('file');
 
     //加载首张标注图片
     // 文件对象
-    var img=new Image();
-    // var filedata = null;
-    // var de=document.getElementById("demo1");
+    var filedata = null;
+    var de=document.getElementById("demo1");
     var a=0;
     var src = new Array();
     var loc = location.href;
@@ -215,7 +214,9 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var arr=new Array();
+    var arrid=new Array();
     var names=id.split("_");
+    var img=new Image();
     $.ajax({
         url : "/Servlet",
         type : "POST",
@@ -261,28 +262,34 @@
 
             //将标注到的图片画上去
             var progress=pic.progress;
-            $.ajax({
-                url : "/Servlet",
-                type : "POST",
-                data :{
-                    "gData":arr[pic.progress].toString(),
-                    "action":"receiveTag"
-                },
-                success: function(data) {
-                    a=pic.progress;
-                    var pict=JSON.parse(data);
-                    src.push(pict.url);
-                    img.src=src[a];
-                    img.onload = function() {
-                        ctx.drawImage(img, 0, 0,350,350);
+            alert("加载成功！");
+            alert("从上次未标注的图片开始显示！");
+            alert("祝您标注愉快！");
+            for(var i=0;i<arr.length;i++){
+                arrid.push(arr[i]);
+                $.ajax({
+                    url : "/Servlet",
+                    type : "POST",
+                    data :{
+                        "gData":arr[i].toString(),
+                        "action":"receiveTag"
+                    },
+                    success: function(data) {
+                        var pict=JSON.parse(data);
+                        src.push(pict.url);
+                        img.src=src[progress];
+                        a=progress;
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0,350,350);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
                     }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.status);
-                    alert(XMLHttpRequest.readyState);
-                    alert(textStatus);
-                }
-            });
+                });
+            }
         },
         error: function () {
         }
@@ -316,8 +323,9 @@
 
     //重新画
     function restuya(){
-        ctx.clearRect(0,0,350,350);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.drawImage(img, 0, 0,350,350);
+        recloc.splice(0,recloc.length);
     }
 
     //保存图片
@@ -500,16 +508,12 @@
         $.ajax({
             url: "/Servlet",
             type: "POST",
-            async:true,
             data: {
                 "gData": obj_json,
                 "action": "modifyTag"
             },
             success: function (data) {
-                if(data=="true"){
-                    alert("保存成功！");
-
-                }
+                alert("保存成功！");
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
