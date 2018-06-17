@@ -193,10 +193,10 @@
         }
     });
     function showRight(v){
-        // $("#project  tr:not(:first)").empty("");
-        //
-        // var oneRow = tab.insertRow();//插入一行
-        // var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+        $("#project  tr:not(:first)").empty("");
+        var tab=document.getElementById("project");
+        var oneRow = tab.insertRow();//插入一行
+        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
         $.ajax({
             url : "/Servlet",
             type : "POST",
@@ -215,6 +215,7 @@
                 alert(textStatus);
             }
         });
+        cell1.innerHTML="<canvas id=\"popChart\" width=\"600\" height=\"400\"></canvas>";
         var popCanvas = $("#popChart");
         var popCanvas = document.getElementById("popChart");
         var popCanvas = document.getElementById("popChart").getContext("2d");
