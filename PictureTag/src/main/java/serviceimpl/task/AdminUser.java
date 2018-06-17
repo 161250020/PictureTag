@@ -138,7 +138,7 @@ public class AdminUser {
               }
               return result;
           }
-          public ArrayList<String> getTaskCountByLevel(String username){
+          public ArrayList<String> getTaskCountByLevel(){
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               int counts[]={0,0,0,0,0};
@@ -166,6 +166,10 @@ public class AdminUser {
                   result.add(temp);
               }
               return result;
+          }
+
+          public ArrayList<String> getTaskCount(){
+                  return null;
           }
 
 
