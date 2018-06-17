@@ -15,14 +15,10 @@ public class imageServiceImpl implements imageService {
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
 
-    public String receiveImgId(String taskId){
+    public String receiveImgId(String taskId,String filePath){
         String out = "";
-        String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator;
-        Gson gson = new Gson();
-        String[] ss = taskId.split(sp);
-        String projectId = ss[0]+sp+ss[1];
-        File f = new File(filePath+taskId+imageFileName);
-        System.out.println(f.getAbsolutePath());
+        File f = new File(filePath);
+        //System.out.println(f.getAbsolutePath());
         if(!f.exists()){
             try {
                 f.createNewFile();
@@ -36,7 +32,7 @@ public class imageServiceImpl implements imageService {
             BufferedReader br = new BufferedReader(fr);
             String temp = "";
             while (null != (temp = br.readLine())){
-                System.out.println(temp);
+                //System.out.println(temp);
                 count++;
             }
             //System.out.println(count);
@@ -62,12 +58,12 @@ public class imageServiceImpl implements imageService {
         return out;
     }
 
-    public String writeTag(String jsonData){
+    public String writeTag(String imageData){
         //System.out.println(tagPath);
         //System.out.println("call again");
         String taskId="";
         Gson gson = new Gson();
-        image i = gson.fromJson(jsonData,image.class);
+        image i = gson.fromJson(imageData,image.class);
         //System.out.println(i.getId());
         String[] strings =i.getId().split(sp);
         taskId = strings[0]+sp+strings[1]+sp+strings[2];
@@ -80,12 +76,13 @@ public class imageServiceImpl implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String imgId = receiveImgId(taskId);
-        i.setId(imgId);
+        String imgId = "";
         try {
-            if(!"".equals(jsonData)) {
+            if(!"".equals(imageData)) {
                 FileWriter fileWriter = new FileWriter(file,true);
                 BufferedWriter bw = new BufferedWriter(fileWriter);
+                imgId = receiveImgId(taskId,filePath);
+                i.setId(imgId);
                 bw.write(gson.toJson(i));
                 bw.newLine();
                 bw.close();
