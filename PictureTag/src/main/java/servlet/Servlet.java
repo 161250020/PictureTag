@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import serviceimpl.*;
 import serviceimpl.tag.imageServiceImpl;
 import serviceimpl.task.AdminUser;
+import serviceimpl.task.taskFilterServiceImpl;
 import vo.Project.Project;
 import vo.Project.Task.Task;
 import vo.Project.Task.image;
@@ -48,9 +49,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String userId = request.getParameter("gData");
             this.receiveUserInfo(request,response,userId);
         }
-/*        else if("receiveAllUser".equals(action)){
-            this.receiveAllUser(request,response);
-        }*/
         else if("receiveUserCount".equals(action)){
             this.receiveUserCount(request,response);
         }
@@ -70,22 +68,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String imgData = request.getParameter("gData");
             this.modifyTag(request,response,imgData);
         }
- /*       else if("receiveProjectInfo".equals(action)){
-            String projectId = request.getParameter("gData");
-            this.receiveProjectInfo(request,response,projectId);
-        }
-        else if("newProject".equals(action)){
-            String projectData = request.getParameter("gData");
-            this.newProject(request,response,projectData);
-        }
-        else if("modifyProject".equals(action)){
-            String projectData = request.getParameter("gData");
-            this.modifyProject(request,response,projectData);
-        }
-        else if("receiveProjects".equals(action)){
-            String userId = request.getParameter("gData");
-            this.receiveProjects(request,response,userId);
-        }*/
         else if("acceptTask".equals(action)){
             String taskId = request.getParameter("taskId");
             String userId = request.getParameter("userId");
@@ -108,18 +90,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String taskId = request.getParameter("gData");
             this.deleteTask(request,response,taskId);
         }
-/*        else if("commitTask".equals(action)){
-            String taskId = request.getParameter("gData");
-            this.commitTask(request,response,taskId);
-        }*/
         else if("receiveTaskId".equals(action)){
             String userId = request.getParameter("gData");
             this.receiveTaskId(request,response,userId);
         }
-/*        else if("receiveImgId".equals(action)){
-            String taskId = request.getParameter("gData");
-            this.receiveImgId(request,response,taskId);
-        }*/
         else if("analyzeUser".equals(action)){
             String user=request.getParameter("gData");
             this.analyzeUser(request,response,user);
@@ -559,6 +533,29 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 根据日期区间筛选出未被接受的task
+     * @param request
+     * @param response
+     * @param taskId
+     * @param startDate
+     * @param endDate
+     */
+    private void receiveTaskByDate(HttpServletRequest request,HttpServletResponse response,String taskId,String startDate,String endDate){
+        Gson gson = new Gson();
+        taskFilterServiceImpl taskFilterService = new taskFilterServiceImpl();
+        ArrayList<String> out = taskFilterService.findTaskByDate(taskId,startDate,endDate);
+        String taskData = gson.toJson(out);
+        try {
+            PrintWriter pw = response.getWriter();
+            pw.write(taskData);
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void acceptTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){

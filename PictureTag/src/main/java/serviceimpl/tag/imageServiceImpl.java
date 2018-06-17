@@ -214,7 +214,11 @@ public class imageServiceImpl implements imageService {
 
     }
 
-    public void initializeTagData(String taskId){//将该task的标注信息全部删除，包括committedTask.task和checkTask.task
+    /**
+     * 格式化标注信息，包括
+     * @param taskId
+     */
+    public void initializeTagData(String taskId){
         taskServiceImpl taskService = new taskServiceImpl();
         String[] ss = taskId.split(sp);
         String projectId = ss[0]+sp+ss[1];
@@ -229,26 +233,91 @@ public class imageServiceImpl implements imageService {
         taskData = taskService.findTask(taskId,fileName);
         if(taskData != null){
             String temp = initializeTask(taskData);
-            taskService.modifyTask(temp,committedTaskFile);
+            taskService.modifyTask(temp,fileName);
         }
     }
 
+/*    public void initializeImgs(String filePath){
+        boolean b = false;
+        ArrayList<String> reWrite = new ArrayList<>();
+        Gson gson = new Gson();
+        Task t = gson.fromJson(taskData,Task.class);
+        String taskId = t.getId();
+        File fRead = new File(filePath);
+        File fWrite = new File(filePath);
+        try {
+            FileReader fr = new FileReader(fRead);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while (null != (temp = br.readLine())) {
+                Task task = gson.fromJson(temp, Task.class);//反序列化
+                if ((!task.getId().equals(taskId))&&(!task.isReceive())) {
+                    reWrite.add(temp);
+                } else {
+                    reWrite.add(taskData);
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        fRead.delete();
+
+        if (!fWrite.exists()) {
+            try {
+                fWrite.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(fWrite);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (int i = 0; i < reWrite.size(); i++) {
+                bw.write(reWrite.get(i));
+                bw.newLine();
+            }
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return b;
+
+    }*/
+
+    /**
+     * 格式化task
+     * @param taskData
+     * @return
+     */
     public String initializeTask(String taskData){
         String output = "";
 
         Task temp = gson.fromJson(taskData,Task.class);
         Task out = new Task();
+
         out.setId(temp.getId());
         out.setName(temp.getName());
         out.setTagType(temp.getTagType());
         out.setSocre(temp.getSocre());
         out.setProgress(0);
+        out.setStartDate(temp.getStartDate());
+        out.setEndDate(temp.getEndDate());
+        out.setImageIds(temp.getImageIds());
+        out.setRequests(temp.getRequests());
         out.setReceive(false);
         out.setPublish(true);
         out.setComplete(false);
         out.setGrade(-1);
 
         output = gson.toJson(out);
+
         return output;
     }
 

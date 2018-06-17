@@ -178,12 +178,11 @@ public class taskServiceImpl implements taskService {
             String taskUserFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjecgtId+".task";
             String taskData = findTask(taskId,taskUserFilePath);
             Task t = g.fromJson(taskData,Task.class);
-            t.setReceive(true);            //System.out.println(g.toJson(t));
+            t.setReceive(true);
             //System.out.println(taskUserFilePath);
             modifyTask(g.toJson(t),committedTaskFile);
             modifyTask(g.toJson(t),taskUserFilePath);
-
-            //改变project文件的对应信息
+            //改变project文件的对应信息（以及user内的信息）
             findProjects.updateList(taskProjecgtId,userId,taskId);
 
             b = true;
@@ -266,16 +265,16 @@ public class taskServiceImpl implements taskService {
     }
 
     @Override
-    public void confirmTask(String taskId, String userId) {
+    public void confirmTask(String taskId, String userId,double grade) {
         userserviceImpl u = new userserviceImpl();
-        UserInfo userInfo = u.getUser(userId);
         String[] ss = taskId.split(sp);
         String taskProjectId = ss[0]+sp+ss[1];
 
         //确认task完成，修改project信息
         findProjects.updateProgress(taskProjectId);
         //确认task完成，修改user信息
-
+        u.updatefinish(userId,taskId,true);
+        u.updateEvalu(userId,taskId,grade);
         //删除committedTaskFile里的该task
         deleteTask(taskId,checkTaskFileName);
 
@@ -340,36 +339,22 @@ public class taskServiceImpl implements taskService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+            //用户确认自己已经完成task，将task的complete属性修改为true
+            Task temp = g.fromJson(taskData,Task.class);
+            temp.setComplete(true);
+            modifyTask(g.toJson(temp),taskProjectId+".task");
 
-        //用户确认自己已经完成task，将task的complete属性修改为true
-        Task temp = g.fromJson(taskData,Task.class);
-        temp.setComplete(true);
-        modifyTask(g.toJson(temp),taskProjectId+".task");
-
-        //删除committed中的信息
-        deleteTask(taskId,committedTaskFile);
-
-        return b;
-
-        //用户接受过任务并完成标注，修改user信息，删除committed中的信息
-        /*if((Integer)t.getProgress()==(Integer) t.getImageIds().size()) {
-            int n = userInfo.getTaskNumber();
-            double s =userInfo.getScore();
-            userInfo.setTaskNumber(n + 1);
-            userInfo.setScore(s+t.getSocre());
-            userInfo.setLevel(u.updateLevel(userInfo.getScore()));
-            u.update(userInfo);
-
+            //删除committed中的信息
             deleteTask(taskId,committedTaskFile);
         }
-        else{
-            b = false;
-        }*/
-        //修改project信息
-        //findProjects.updateProgress(taskProjectId);
+        return b;
     }
 
+    /**
+     * 放弃任务
+     * @param taskId
+     * @param userId
+     */
     public void giveUpTask(String taskId,String userId){
 
         //修改task属性
@@ -379,20 +364,76 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 修改task的信息
+     * 根据tagType获得已发布但未被认领的task
+      * @param tagType
+     * @return
+     */
+    public ArrayList<String> receiveTasks(String tagType){
+
+        Gson gson = new Gson();
+        ArrayList<String> out = new ArrayList<>();
+        File f = new File(committedTaskFile);
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String t = "";
+            while(null != (t = br.readLine())){
+                Task temp = gson.fromJson(t,Task.class);
+                if((temp.getTagType().equals(tagType))&&(!temp.isReceive())){
+                    out.add(t);
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    /**
+     * 获得所有已发布并且未被complete的task的id
+     * @return
+     */
+    public ArrayList<String> receiveCommittedTaskIds(){
+        ArrayList<String> out = new ArrayList<>();
+        File f = new File(committedTaskFile);
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = "";
+            while (null != (temp = br.readLine())){
+                out.add(temp);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out;
+    }
+
+    /**
+     * 修改task的信息,如果task未被领取
      * @param taskData
      * @return
      */
     public boolean modifyTask(String taskData,String filePath){
         boolean b = false;
-        //String p = taskServiceImpl.class.getResource("/").getFile()+File.separator;
         ArrayList<String> reWrite = new ArrayList<>();
         Gson gson = new Gson();
         Task t = gson.fromJson(taskData,Task.class);
-        //System.out.println(gson.toJson(t));
         String taskId = t.getId();
-        //String[] ss = taskId.split(sp);
-        //String userId = ss[0];
         File fRead = new File(filePath);
         File fWrite = new File(filePath);
         try {
@@ -401,11 +442,10 @@ public class taskServiceImpl implements taskService {
             String temp = "";
             while (null != (temp = br.readLine())) {
                 Task task = gson.fromJson(temp, Task.class);//反序列化
-                if (!task.getId().equals(taskId)) {
+                if ((!task.getId().equals(taskId))&&(!task.isReceive())) {
                     reWrite.add(temp);
                 } else {
                     reWrite.add(taskData);
-                    //System.out.println(taskData);
                 }
             }
             br.close();
@@ -442,64 +482,11 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 未被认领的task
-      * @param tagType
-     * @return
+     * 删除task，如果task未被领取的话
+     * @param taskId
+     * @param filepath
      */
-    public ArrayList<String> receiveTasks(String tagType){
-
-        Gson gson = new Gson();
-        ArrayList<String> out = new ArrayList<>();
-        File f = new File(committedTaskFile);
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String t = "";
-            while(null != (t = br.readLine())){
-                Task temp = gson.fromJson(t,Task.class);
-                if((temp.getTagType().equals(tagType))&&(!temp.isReceive())){
-                    out.add(t);
-                }
-            }
-            br.close();
-            fr.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return out;
-    }
-
-
-    public ArrayList<String> receiveCommittedTaskIds(){
-        ArrayList<String> out = new ArrayList<>();
-        File f = new File(committedTaskFile);
-        if(!f.exists()){
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String temp = "";
-            while (null != (temp = br.readLine())){
-                out.add(temp);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return out;
-    }
-
     public void deleteTask(String taskId,String filepath){
-            //String p = taskServiceImpl.class.getResource("/").getFile()+File.separator;
             ArrayList<String> reWrite = new ArrayList<>();
             Gson gson = new Gson();
             String[] ss = taskId.split(sp);
@@ -513,15 +500,9 @@ public class taskServiceImpl implements taskService {
                 String temp = "";
                 while (null != (temp = br.readLine())) {
                     Task task = gson.fromJson(temp, Task.class);//反序列化
-                    if(!task.getId().equals(taskId)){
+                    if((!task.getId().equals(taskId))&&(!task.isReceive())){
                         reWrite.add(temp);
                     }
-//                    else{
-//                        if(task.isFlag()){
-//                            b = false;
-//                            break;
-//                        }
-//                    }
                 }
                 br.close();
                 fr.close();
@@ -555,7 +536,25 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 通过taskId查找task
+     * 重新发布task，不存在额外判断
+     * @param taskId
+     */
+    public void rePublishTask(String taskId){
+        String[] ss = taskId.split(sp);
+        String projectId = ss[0]+sp+ss[1];
+        imageServiceImpl imageService = new imageServiceImpl();
+        imageService.initializeTagData(taskId);//将对task图片的更改都消除,要修改committedTask.task和projectId.task文件内的内容
+        //将对project的更改都消除
+        String taskData = findTask(taskId,projectId+".task");
+        //将任务重新加入committedTask.task文件，并删除在checkTask.task内的task
+        if(null == findTask(taskId,committedTaskFile)){
+            appendCommittedTask(gson.fromJson(taskData,Task.class));
+        }
+        deleteTask(taskId,checkTaskFileName);
+    }
+
+    /**
+     * 通过taskId查找task,这个是功能方法
      * @param taskId
      * @return
      */
@@ -590,20 +589,10 @@ public class taskServiceImpl implements taskService {
         return null;
     }
 
-    public void rePublishTask(String taskId){
-        String[] ss = taskId.split(sp);
-        String projectId = ss[0]+sp+ss[1];
-        imageServiceImpl imageService = new imageServiceImpl();
-        imageService.initializeTagData(taskId);//将对task图片的更改都消除,要修改committedTask.task和projectId.task文件内的内容
-                                               //将对project的更改都消除
-        String taskData = findTask(taskId,projectId+".task");
-        //将任务重新加入committedTask.task文件，并删除在checkTask.task内的task
-        if(null == findTask(taskId,committedTaskFile)){
-            appendCommittedTask(gson.fromJson(taskData,Task.class));
-        }
-        deleteTask(taskId,checkTaskFileName);
-    }
-
+    /**
+     * 添加task到committed.task文件，功能方法
+     * @param task
+     */
     private void appendCommittedTask(Task task){
         Gson g = new Gson();
         File f = new File(committedTaskFile);
@@ -622,6 +611,11 @@ public class taskServiceImpl implements taskService {
         }
     }
 
+    /**
+     * 添加task到指定的projectId.task文件，功能方法
+     * @param projectId
+     * @param task
+     */
     private void appendProjectTask(String projectId,Task task){
 
         String proFileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+projectId+".task";
