@@ -57,45 +57,36 @@
                     <br>
                     <br>
 
-                    <div align="left">
-                        <ul class="no-bullet" id="left_info">
-                            <li>
+                    <div align="left" id="left_info">
+                        <ul class="no-bullet">
+                            <li id="task_id">
                                 任务ID：
                             </li>
                             <br>
-                            <li>
+                            <li id="task_create">
                                 任务发布者：
                             </li>
                             <br>
-                            <li>
-                                任务完成者：
-                            </li>
-                            <br>
-                            <li>
+                            <li id="image_num">
                                 图片数量：
                             </li>
                             <br>
-                            <li>
+                            <li id="tag_type">
                                 标注类型：
                             </li>
                             <br>
-                            <li>
-                                日期：
-                                <br>
-                                还有__天到期
+                            <li  id="date1">
+                                日期：~
                             </li>
                             <br>
-                            <li>
+                            <li id="other_need">
                                 其他需求：
                             </li>
                             <br>
-                            <li>
+                            <li id="score">
                                 积分奖励：
                             </li>
                             <br>
-                            <li>
-                                任务完成状态：
-                            </li>
                         </ul>
                     </div>
 
@@ -121,7 +112,6 @@
                     <!--按钮组-->
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" onclick="restuya()">重新标注</button>
-                        <button type="button" class="btn btn-default" onclick="startmark()">开始标注</button>
                         <button type="button" class="btn btn-default" onclick="backPage()">上一张</button>
                         <button type="button" class="btn btn-default" onclick="nextpage()">下一张</button>
                         <button type="button" class="btn btn-default" onclick="savePicture()" id="save">保存</button>
@@ -206,83 +196,104 @@
     var last = null;
     var file = document.getElementById('file');
 
+    //加载首张标注图片
     // 文件对象
-    var filedata = null;
+    var img=new Image();
+    // var filedata = null;
+    // var de=document.getElementById("demo1");
     var a=0;
     var src = new Array();
+    var loc = location.href;
+    var n1 = loc.length;//地址的总长度
+    var n2 = loc.indexOf("=");//取得=号的位置
+    var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var arr=new Array();
-    var arrid=new Array();
-    var names;
-    var img=new Image();
+    var names=id.split("_");
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "gData":id,
+            "action":"receiveTaskContent"
+        },
+        success: function(data) {
+            var pic=JSON.parse(data);
+            //更新左边的task的信息
+            document.getElementById("left_info").innerHTML="<ul class=\"no-bullet\">\n" +
+                "                            <li id=\"task_id\">\n" +
+                "                                任务ID："+pic.id+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li id=\"task_create\">\n" +
+                "                                任务发布者："+pic.id.split("_")[0]+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li id=\"image_num\">\n" +
+                "                                图片数量："+pic.imageIds.length+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li id=\"tag_type\">\n" +
+                "                                标注类型：整体标注\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li  id=\"date1\">\n" +
+                "                                日期："+pic.startDate.substring(0,4)+"-"+pic.startDate.substring(4,6)+"-"+pic.startDate.substring(6,8)+"~"+pic.endDate.substring(0,4)+"-"+pic.endDate.substring(4,6)+"-"+pic.endDate.substring(6,8)+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li id=\"other_need\">\n" +
+                "                                其他需求："+pic.requests[2]+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                            <li id=\"score\">\n" +
+                "                                积分奖励："+pic.requests[3]+"\n" +
+                "                            </li>\n" +
+                "                            <br>\n" +
+                "                        </ul>";
 
-    function startmark(){
+            arr=pic.imageIds;
 
-        var loc = location.href;
-        var n1 = loc.length;//地址的总长度
-        var n2 = loc.indexOf("=");//取得=号的位置
-        var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-
-
-        names=id.split(">_<");
-
-        var userid="";
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                "gData":names[0],
-                "action":"receiveTaskContent"
-            },
-            success: function(data) {
-
-                var pic=JSON.parse(data);
-                arr=pic.imageIds;
-
-                for(var i=0;i<arr.length;i++){
-
-                    arrid.push(arr[i]);
-
-                    $.ajax({
-                        url : "/Servlet",
-                        type : "POST",
-                        data :{
-                            "gData":arr[i].toString(),
-                            "action":"receiveTag"
-                        },
-                        success: function(data) {
-
-                            var pict=JSON.parse(data);
-                            src.push(pict.url);
-                            img.src=src[a];
-                            img.onload = function() {
-                                ctx.drawImage(img, 0, 0,350,350);
-                            }
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            alert(XMLHttpRequest.status);
-                            alert(XMLHttpRequest.readyState);
-                            alert(textStatus);
-                        }
-                    });
-
+            //将标注到的图片画上去
+            var progress=pic.progress;
+            $.ajax({
+                url : "/Servlet",
+                type : "POST",
+                data :{
+                    "gData":arr[pic.progress].toString(),
+                    "action":"receiveTag"
+                },
+                success: function(data) {
+                    a=pic.progress;
+                    var pict=JSON.parse(data);
+                    src.push(pict.url);
+                    img.src=src[a];
+                    img.onload = function() {
+                        ctx.drawImage(img, 0, 0,350,350);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
                 }
-
-
-            },
-            error: function () {
-            }
-        });
-
-    }
-
+            });
+        },
+        error: function () {
+        }
+    });
+    //下一张
     function nextpage(){
-        a++;
-        img.src=src[a];
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0,350,350);
+        if(a<(arr.length-1)){
+            a++;
+            img.src=src[a];
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0,350,350);
+            }
+        }
+        else{
+            alert("结束啦！");
         }
     }
-
+    //上一张
     function backPage(){
         if(a!=0) {
             a--;
@@ -290,6 +301,9 @@
             img.onload = function () {
                 ctx.drawImage(img, 0, 0, 350, 350);
             }
+        }
+        else{
+            alert("到头啦！");
         }
     }
 
@@ -312,6 +326,7 @@
                 "Sentences":[
                     {
                         "tokens":[
+                            6,
                             document.getElementById("nature1").value.toString(),
                             document.getElementById("nature2").value.toString(),
                             document.getElementById("nature3").value.toString(),
@@ -339,6 +354,7 @@
                 "Sentences":[
                     {
                         "tokens":[
+                            1,
                             document.getElementById("modern1").value.toString(),
                             document.getElementById("modern2").value.toString(),
                             document.getElementById("modern3").value.toString(),
@@ -364,6 +380,7 @@
                 "Sentences":[
                     {
                         "tokens":[
+                            2,
                             document.getElementById("people1").value.toString(),
                             document.getElementById("people2").value.toString(),
                             document.getElementById("people3").value.toString(),
@@ -392,6 +409,7 @@
                 "Sentences":[
                     {
                         "tokens":[
+                            3,
                             document.getElementById("wild1").value.toString(),
                             document.getElementById("wild2").value.toString(),
                             document.getElementById("wild3").value.toString(),
@@ -418,6 +436,7 @@
                 "Sentences": [
                     {
                         "tokens": [
+                            4,
                             document.getElementById("life1").value.toString(),
                             document.getElementById("life2").value.toString(),
                             document.getElementById("life3").value.toString(),
@@ -445,6 +464,7 @@
                 "Sentences":[
                     {
                         "tokens":[
+                            5,
                             document.getElementById("style1").value.toString(),
                             document.getElementById("style2").value.toString(),
                             document.getElementById("style3").value.toString(),
@@ -490,22 +510,17 @@
         $.ajax({
             url: "/Servlet",
             type: "POST",
-            //cache: false,
-            //async: false,
             data: {
-                "taskId": names[0],
-                "userId":names[1],
+                "taskId": id,
+                "userId":names[0],
                 "action": "completeTask"
             },
             success: function (data) {
                 alert("提交成功！");
-                window.location.href="../../tools/tools_index.html";
-                location.href="../../tools/tools_index.html?"+"txt="+encodeURI(names[1]);
+                window.close();
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
+            error: function () {
+                alert("Wrong!");
             }
         });
     }
