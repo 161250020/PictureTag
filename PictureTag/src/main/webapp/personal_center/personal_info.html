@@ -198,7 +198,7 @@
         success: function(data) {
             correlation=JSON.parse(data);
             document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">相关系数："+correlation+"</h4>\n" +
+                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">相关系数："+correlation+"</h9>\n" +
                 "                    <br>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -217,7 +217,7 @@
         success: function(data) {
             ExpectedScore=JSON.parse(data);
             document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">期望得分："+ExpectedScore+"</h4>\n" +
+                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">期望得分："+ExpectedScore+"</h9>\n" +
                 "                    <br>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -236,7 +236,7 @@
         success: function(data) {
             SupportbyScoreandEvalu=JSON.parse(data);
             document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">支持度："+SupportbyScoreandEvalu+"</h4>\n" +
+                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">支持度："+SupportbyScoreandEvalu+"</h4>\n" +
                 "                    <br>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -255,7 +255,7 @@
         success: function(data) {
             ConfidencebyScoreandEvalu=JSON.parse(data);
             document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">置信度："+ConfidencebyScoreandEvalu+"</h4>\n" +
+                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">置信度："+ConfidencebyScoreandEvalu+"</h9>\n" +
                 "                    <br>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -274,7 +274,7 @@
         success: function(data) {
             LiftbyScoreandEvalu=JSON.parse(data);
             document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">作用度："+LiftbyScoreandEvalu+"</h4>\n" +
+                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">作用度："+LiftbyScoreandEvalu+"</h9>\n" +
                 "                    <br>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -293,7 +293,7 @@
         success: function(data) {
             calTruth=JSON.parse(data);
             document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">可信度："+calTruth+"</h4>\n" +
+                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">可信度："+calTruth+"</h9>\n" +
                 "                    <br>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
