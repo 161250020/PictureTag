@@ -114,6 +114,15 @@
                         </div>
                         <a class="close-reveal-modal">&times;</a>
                     </div>
+
+                    <!--软统体现-->
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">用户的相关数据</h3>
+                        </div>
+                        <div class="panel-body" id="user_datas">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,6 +170,128 @@
             document.getElementById("per_info_name").innerText="用户名："+name;
             document.getElementById("per_info_integral").innerText="积分："+integral;
             document.getElementById("per_info_grade").innerText="等级："+level;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
+    //展示用户的相关数据
+    var correlation;
+    var ExpectedScore;
+    var SupportbyScoreandEvalu;
+    var ConfidencebyScoreandEvalu;
+    var LiftbyScoreandEvalu;
+    var calTruth;
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"correlation",
+            "gData":id
+        },
+        success: function(data) {
+            correlation=JSON.parse(data);
+            document.getElementById("user_datas").innerHTML="\n" +
+                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">相关系数："+correlation+"</h4>\n" +
+                "                    <br>";
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"ExpectedScore",
+            "gData":id
+        },
+        success: function(data) {
+            ExpectedScore=JSON.parse(data);
+            document.getElementById("user_datas").innerHTML="\n" +
+                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">期望得分："+ExpectedScore+"</h4>\n" +
+                "                    <br>";
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"SupportbyScoreandEvalu",
+            "gData":id
+        },
+        success: function(data) {
+            SupportbyScoreandEvalu=JSON.parse(data);
+            document.getElementById("user_datas").innerHTML="\n" +
+                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">支持度："+correlation+"</h4>\n" +
+                "                    <br>";
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"ConfidencebyScoreandEvalu",
+            "gData":id
+        },
+        success: function(data) {
+            ConfidencebyScoreandEvalu=JSON.parse(data);
+            document.getElementById("user_datas").innerHTML="\n" +
+                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">置信度："+correlation+"</h4>\n" +
+                "                    <br>";
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"LiftbyScoreandEvalu",
+            "gData":id
+        },
+        success: function(data) {
+            LiftbyScoreandEvalu=JSON.parse(data);
+            document.getElementById("user_datas").innerHTML="\n" +
+                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">作用度："+correlation+"</h4>\n" +
+                "                    <br>";
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"calTruth",
+            "gData":id
+        },
+        success: function(data) {
+            calTruth=JSON.parse(data);
+            document.getElementById("user_datas").innerHTML="\n" +
+                "                    <h4 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">可信度："+correlation+"</h4>\n" +
+                "                    <br>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
