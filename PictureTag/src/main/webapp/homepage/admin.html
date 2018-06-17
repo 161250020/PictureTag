@@ -90,35 +90,37 @@
             <div class="col-md-9" style="background-color: white;box-shadow: inset 1px -1px 1px #fffb4b, inset -1px 1px 1px #fffb4b;height: 70%;">
                 <!--筛选条件-->
                 <div>
-                    <br>
-                    <b>月份：</b>
-                    <br>
-                    <select style="width: 50%;" onChange="showRight(this.value);">
-                    <option>--月份-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
-                    <option>01  </option>
-                    <option>02  </option>
-                    <option>03 </option>
-                        <option>04 </option>
-                        <option>05 </option>
-                        <option>06 </option>
-                        <option>07 </option>
-                        <option>08 </option>
-                        <option>09 </option>
-                        <option>10</option>
-                        <option>11 </option>
-                        <option>12 </option>
 
-                    </select>
-                    <br>
                     <table class="table" id="project">
-                        <tbody>
+                        <tr>
+                            <td>
+                                <br>
+                                <b>月份：</b>
+                                <br>
+                                <select style="width: 50%;" onChange="showRight(this.value);">
+                                    <option>--月份-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                    <option>01  </option>
+                                    <option>02  </option>
+                                    <option>03 </option>
+                                    <option>04 </option>
+                                    <option>05 </option>
+                                    <option>06 </option>
+                                    <option>07 </option>
+                                    <option>08 </option>
+                                    <option>09 </option>
+                                    <option>10</option>
+                                    <option>11 </option>
+                                    <option>12 </option>
+
+                                </select>
+                                <br>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <canvas id="popChart" width="600" height="400"></canvas>
                             </td>
-
                         </tr>
-                        </tbody>
                     </table>
                 </div>
                 <br>
@@ -191,15 +193,17 @@
         }
     });
     function showRight(v){
-        var c=document.getElementById("popChart");
-        var cxt=c.getContext("2d");
-        cxt.clearRect(0,0,c.width,c.height);
+        // $("#project  tr:not(:first)").empty("");
+        //
+        // var oneRow = tab.insertRow();//插入一行
+        // var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
         $.ajax({
             url : "/Servlet",
             type : "POST",
             data :{
                 //调用后端获取项目id的方法
-                "action":"receiveAll"
+                "action":"receiveUserCountByMonth",
+                "gData":v.toString()
             },
             success: function(data) {
                 var changepro=JSON.parse(data);
