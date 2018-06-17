@@ -86,7 +86,7 @@ public class FindProjects implements service.FindProjects {
     }
     public ArrayList<Project> chooseProjectByDate(String Date1,String Date2,String username){                 //筛选发布时间内的project,添加到servelet里面
         ArrayList<Project> pro=getProjects(username);
-        System.out.println(pro.get(0).getId());
+
         ArrayList<Project> result=new ArrayList<Project>();
         for(Project project:pro){
             if(checkDate1(Date1,project.getDate().substring(0,8))&&checkDate2(Date2,project.getDate().substring(0,8))){
@@ -96,7 +96,7 @@ public class FindProjects implements service.FindProjects {
         return result;
     }
     public boolean checkDate1(String Date1,String Date) {   //"yyyyMMddHHmmss"
-        String Date1year = Date1.substring(4);
+        String Date1year = Date1.substring(0,4);              //可能有错误
         String Date1month = Date1.substring(4, 6);
         String Date1day = Date1.substring(6, 8);
         //String Date1hour=Date1.substring(8,10);
@@ -137,7 +137,7 @@ public class FindProjects implements service.FindProjects {
             Date1Second=Integer.parseInt(Date1second);
         }
        */
-        String Dateyear = Date.substring(4);
+        String Dateyear = Date.substring(0,4);
         String Datemonth = Date.substring(4, 6);
         String Dateday = Date.substring(6, 8);
         //String Datehour=Date.substring(8,10);
@@ -236,7 +236,7 @@ public class FindProjects implements service.FindProjects {
     */
     public boolean checkDate2(String Date2,String Date) {
         boolean flag = false;
-        String Date2year = Date2.substring(4);
+        String Date2year = Date2.substring(0,4);
         String Date2month = Date2.substring(4, 6);
         String Date2day = Date2.substring(6, 8);
         //String Date2hour=Date2.substring(8,10);
@@ -277,7 +277,7 @@ public class FindProjects implements service.FindProjects {
             Date2Second=Integer.parseInt(Date2second);
         }*/
 
-        String Dateyear = Date.substring(4);
+        String Dateyear = Date.substring(0,4);
         String Datemonth = Date.substring(4, 6);
         String Dateday = Date.substring(6, 8);
         //String Datehour=Date.substring(8,10);
@@ -317,7 +317,6 @@ public class FindProjects implements service.FindProjects {
         else{
             DateSecond=Integer.parseInt(Datesecond);
         }*/
-        System.out.println("CheckDate2");
         //进行比较;
         if (Date2Year > DateYear) {
             return true;

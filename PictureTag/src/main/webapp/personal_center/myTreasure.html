@@ -259,7 +259,7 @@
                     cell1.innerText = changepro.startDate.substring(0,4)+"-"+changepro.startDate.substring(4,6)+"-"+changepro.startDate.substring(6,8);
                     cell2.innerText = changepro.id.split("_")[0]+"_"+changepro.id.split("_")[1];
                     cell3.innerText = changepro.id;
-                    cell4.innerText = changepro.score.toString();
+                    cell4.innerText = changepro.socre;
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(XMLHttpRequest.status);
