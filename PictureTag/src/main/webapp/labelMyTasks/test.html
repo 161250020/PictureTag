@@ -3,36 +3,20 @@
 <head>
     <meta charset="utf-8">
     <title>Bootstrap 实例 - 基本表单</title>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-<form role="form">
-    <div class="form-group">
-        <label for="name">名称</label>
-        <input type="text" class="form-control" id="name"
-               placeholder="请输入名称">
-    </div>
-    <div class="form-group">
-        <label for="inputfile">文件输入</label>
-        <input type="file" id="inputfile">
-        <p class="help-block">这里是块级帮助文本的实例。</p>
-    </div>
-    <div class="checkbox" >
-        <label>
-            <input type="checkbox" id="check" onclick="hello()"> 请打勾
-        </label>
-    </div>
-    <button type="submit" class="btn btn-default">提交</button>
-</form>
-
 <script>
-    function hello() {
-        alert(document.getElementById("check").checked);
-        alert("he");
-    }
+    var date=new Date();
+    var year=date.getFullYear().toString();
+    var month=(date.getMonth()+1).toString();
+    if(month.length==1)
+        month="0"+month;
+    var day=date.getDate().toString();
+    if(day.length==1)
+        day="0"+day;
+    var time=year+month+day;
+    alert(time);
 </script>
+
 </body>
 </html>

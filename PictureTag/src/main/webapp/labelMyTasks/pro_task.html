@@ -110,7 +110,7 @@
                                                 <li>
                                                     任务日期：
                                                     <blockquote>
-                                                        开始日期：<input type="date" id="data1" width="25">
+                                                        开始日期：<input type="date" id="data1" width="25" onchange="analyse2()">
                                                         结束日期：<input type="date" id="data2" width="25" onchange="analyse()">
                                                     </blockquote>
                                                 </li>
@@ -411,79 +411,114 @@
     //返回day1和day2，格式为yyyyMMdd
     var day1;
     var day2;
+    function analyse2() {
+        day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
+        var date=new Date();
+        var year=date.getFullYear().toString();
+        var month=(date.getMonth()+1).toString();
+        if(month.length==1)
+            month="0"+month;
+        var day=date.getDate().toString();
+        if(day.length==1)
+            day="0"+day;
+        var time=year+month+day;
+        if(day1<time){
+            alert("任务的起始时间最好大于现在的时间!");
+        }
+    }
     function analyse(){
         day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
         day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
         if(day1>day2){
-            alert("Wrong time!");
+            alert("任务的起始时间最好大于结束的时间!");
         }
     }
 
     //其余返回值（其他需求+积分奖励）
     function release(){
-        var low=document.getElementById("lowestInput").value.toString();
-        var high=document.getElementById("highestInput").value.toString();
-        var other_needs=document.getElementById("other_needs").value.toString();
-        var input_integral=document.getElementById("integral").value.toString();
-        var requests=new Array();
-        requests.push(low.toString());
-        requests.push(high.toString());
-        requests.push(other_needs.toString());
-        requests.push(input_integral.toString());
-
-        //返回所有的数值，包括前面的id，工人等级，需求，这两个数据
-        //创建json
-        var obj={
-            "id":ID,
-            "receiverId":"",
-            "name":document.getElementById("task_name").value.toString(),
-            "tagType":tag.toString(),
-            "score":input_integral,
-            "progress":0,
-            "receive":false,
-            "publish":false,
-            "complete":false,
-            "grade":-1,
-            "startDate":day1,
-            "endDate":day2,
-            "imageIds":arr,
-            "requests":requests
+        day1=document.getElementById("data1").value.toString().replace("-","").replace("-","");
+        day2=document.getElementById("data2").value.toString().replace("-","").replace("-","");
+        var date=new Date();
+        var year=date.getFullYear().toString();
+        var month=(date.getMonth()+1).toString();
+        if(month.length==1)
+            month="0"+month;
+        var day=date.getDate().toString();
+        if(day.length==1)
+            day="0"+day;
+        var time=year+month+day;
+        if(day1<time){
+            alert("任务的起始时间最好大于现在的时间!");
         }
-        var obj_JSON=JSON.stringify(obj);
+        else if(day1>day2){
+            alert("任务的起始时间最好大于结束的时间!");
+        }
+        else{
+            var low=document.getElementById("lowestInput").value.toString();
+            var high=document.getElementById("highestInput").value.toString();
+            var other_needs=document.getElementById("other_needs").value.toString();
+            var input_integral=document.getElementById("integral").value.toString();
+            var requests=new Array();
+            requests.push(low.toString());
+            requests.push(high.toString());
+            requests.push(other_needs.toString());
+            requests.push(input_integral.toString());
 
-
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                "gData":obj_JSON,
-                //发布task
-                "action":"newTask"
-
-
-
-
-
-
-            },
-            success: function(data) {
-                if(data=="true"){
-                    alert("任务发布成功！");
-                    //跳转到个人主页
-                    window.location.href="pro_task.html";
-                    location.href="pro_task.html?"+"txt="+encodeURI(id);
-
-                }
-                else{
-                    alert("发布任务失败!");
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
+            //返回所有的数值，包括前面的id，工人等级，需求，这两个数据
+            //创建json
+            var obj={
+                "id":ID,
+                "receiverId":"",
+                "name":document.getElementById("task_name").value.toString(),
+                "tagType":tag.toString(),
+                "score":input_integral,
+                "progress":0,
+                "receive":false,
+                "publish":false,
+                "complete":false,
+                "grade":-1,
+                "startDate":day1,
+                "endDate":day2,
+                "imageIds":arr,
+                "requests":requests
             }
-        });
+            var obj_JSON=JSON.stringify(obj);
+
+
+            $.ajax({
+                url : "/Servlet",
+                type : "POST",
+                data :{
+                    "gData":obj_JSON,
+                    //发布task
+                    "action":"newTask"
+
+
+
+
+
+
+                },
+                success: function(data) {
+                    if(data=="true"){
+                        alert("任务发布成功！");
+                        //跳转到个人主页
+                        window.location.href="pro_task.html";
+                        location.href="pro_task.html?"+"txt="+encodeURI(id);
+
+                    }
+                    else{
+                        alert("发布任务失败!");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        }
+
     }
 
 
