@@ -136,8 +136,8 @@
                                 <li>
                                     <b>图片类别：</b>
                                     <select id="sel" style="width: 50%" onchange="select_func(this.options[this.options.selectedIndex].value)">
-                                        <option value="自然景观" selected="selected">自然景观    </option>
-                                        <option value="现代景观">现代景观    </option>
+                                        <option value="自然景观">自然景观    </option>
+                                        <option value="现代景观" selected="selected">现代景观    </option>
                                         <option value="人物剪影">人物剪影    </option>
                                         <option value="旷野生灵">旷野生灵    </option>
                                         <option value="惬意生活">惬意生活    </option>
@@ -341,13 +341,12 @@
         if(option.selectedIndex==0){
             obj={
                 "sentids":[
-                    0
+                    6
                 ],
                 "imgid":arrid[a].toString(),
                 "Sentences":[
                     {
                         "tokens":[
-                            6,
                             document.getElementById("nature1").value.toString(),
                             document.getElementById("nature2").value.toString(),
                             document.getElementById("nature3").value.toString(),
@@ -369,13 +368,12 @@
         else if(option.selectedIndex==1){
             obj={
                 "sentids":[
-                    0
+                    1
                 ],
                 "imgid":arrid[a].toString(),
                 "Sentences":[
                     {
                         "tokens":[
-                            1,
                             document.getElementById("modern1").value.toString(),
                             document.getElementById("modern2").value.toString(),
                             document.getElementById("modern3").value.toString(),
@@ -395,13 +393,12 @@
         else if(option.selectedIndex==2){
             obj={
                 "sentids":[
-                    0
+                    2
                 ],
                 "imgid":arrid[a].toString(),
                 "Sentences":[
                     {
                         "tokens":[
-                            2,
                             document.getElementById("people1").value.toString(),
                             document.getElementById("people2").value.toString(),
                             document.getElementById("people3").value.toString(),
@@ -424,13 +421,12 @@
         else if(option.selectedIndex==3){
             obj={
                 "sentids":[
-                    0
+                    3
                 ],
                 "imgid":arrid[a].toString(),
                 "Sentences":[
                     {
                         "tokens":[
-                            3,
                             document.getElementById("wild1").value.toString(),
                             document.getElementById("wild2").value.toString(),
                             document.getElementById("wild3").value.toString(),
@@ -451,13 +447,12 @@
         else if(option.selectedIndex==4) {
             obj = {
                 "sentids": [
-                    0
+                    4
                 ],
                 "imgid": arrid[a].toString(),
                 "Sentences": [
                     {
                         "tokens": [
-                            4,
                             document.getElementById("life1").value.toString(),
                             document.getElementById("life2").value.toString(),
                             document.getElementById("life3").value.toString(),
@@ -479,13 +474,12 @@
         else if(option.selectedIndex==5){
             obj={
                 "sentids":[
-                    0
+                    5
                 ],
                 "imgid":arrid[a].toString(),
                 "Sentences":[
                     {
                         "tokens":[
-                            5,
                             document.getElementById("style1").value.toString(),
                             document.getElementById("style2").value.toString(),
                             document.getElementById("style3").value.toString(),

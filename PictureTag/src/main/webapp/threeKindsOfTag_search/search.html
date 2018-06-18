@@ -177,6 +177,7 @@
     var img=new Image();
     var tas;//返回的task的内容
     var arrcons=new Array();
+    var arrsentids=new Array();
     $.ajax({
         url: "/Servlet",
         type: "POST",
@@ -265,16 +266,17 @@
                     success: function(data) {
                         var pict=JSON.parse(data);
                         src.push(pict.url);
-                        arrcons.push(pict.Sentences.tokens);
+                        arrcons.push(pict.Sentences[0].tokens);
+                        arrsentids.push(pict.sentids[0].toString());
                         img.src=src[a];
                         img.onload = function() {
                             ctx.drawImage(img, 0, 0,350,350);
                         }
 
                         //对右边的标注的内容进行展示
-                        var content=pict.Sentences.tokens;
-                        var index=content[0];
-                        if(index==1){
+                        var content=arrcons[0];
+                        var index=arrsentids[0];
+                        if(index=="1"){
                             document.getElementById("right_info").innerHTML="\n" +
                                 "                                    "+"主要景物："+content[1]+"\n" +
                                 "                                    <br>\n" +
@@ -289,7 +291,7 @@
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index==2){
+                        else if(index=="2"){
                             document.getElementById("right_info").innerHTML="\n" +
                                 "                                    "+"年龄："+content[1]+"\n" +
                                 "                                    <br>\n" +
@@ -313,7 +315,7 @@
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index==3){
+                        else if(index=="3"){
                             document.getElementById("right_info").innerHTML="\n" +
                                 "                                    "+"物种："+content[1]+"\n" +
                                 "                                    <br>\n" +
@@ -328,7 +330,7 @@
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index==4){
+                        else if(index=="4"){
                             document.getElementById("right_info").innerHTML="\n" +
                                 "                                    "+"动物："+content[1]+"\n" +
                                 "                                    <br>\n" +
@@ -349,7 +351,7 @@
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index==5){
+                        else if(index=="5"){
                             document.getElementById("right_info").innerHTML="\n" +
                                 "                                    "+"个性色彩："+content[1]+"\n" +
                                 "                                    <br>\n" +
@@ -364,7 +366,7 @@
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index==6){
+                        else if(index=="6"){
                             document.getElementById("right_info").innerHTML="\n" +
                                 "                                    "+"主要景物："+content[1]+"\n" +
                                 "                                    <br>\n" +
@@ -408,8 +410,8 @@
 
             //对右边的标注的内容进行展示
             var content=arrcons[a];
-            var index=content[0];
-            if(index==1){
+            var index=arrsentids[a];
+            if(index=="1"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"主要景物："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -424,7 +426,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==2){
+            else if(index=="2"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"年龄："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -448,7 +450,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==3){
+            else if(index=="3"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"物种："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -463,7 +465,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==4){
+            else if(index=="4"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"动物："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -484,7 +486,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==5){
+            else if(index=="5"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"个性色彩："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -499,7 +501,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==6){
+            else if(index=="6"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"主要景物："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -533,8 +535,8 @@
 
             //对右边的标注的内容进行展示
             var content=arrcons[a];
-            var index=content[0];
-            if(index==1){
+            var index=arrsentids[a];
+            if(index=="1"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"主要景物："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -549,7 +551,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==2){
+            else if(index=="2"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"年龄："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -573,7 +575,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==3){
+            else if(index=="3"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"物种："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -588,7 +590,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==4){
+            else if(index=="4"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"动物："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -609,7 +611,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==5){
+            else if(index=="5"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"个性色彩："+content[1]+"\n" +
                     "                                    <br>\n" +
@@ -624,7 +626,7 @@
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index==6){
+            else if(index=="6"){
                 document.getElementById("right_info").innerHTML="\n" +
                     "                                    "+"主要景物："+content[1]+"\n" +
                     "                                    <br>\n" +
