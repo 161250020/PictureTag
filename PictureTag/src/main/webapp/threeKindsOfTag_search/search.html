@@ -142,7 +142,7 @@
                     <div class="panel panel-default" style="height: 100%;background-color: white">
                         <div class="panel-body" style="height: 100%">
                             <ul class="no-bullet">
-                                <div id="content" id="tag_content" id="right_info">
+                                <div id="right_info">
                                 </div>
                             </ul>
                         </div>
@@ -264,129 +264,123 @@
                         "action":"receiveTag"
                     },
                     success: function(data) {
-                        var pict=JSON.parse(data);
+                        var pict = JSON.parse(data);
                         src.push(pict.url);
                         arrcons.push(pict.Sentences[0].tokens);
                         arrsentids.push(pict.sentids[0].toString());
-                        img.src=src[a];
-                        img.onload = function() {
-                            ctx.drawImage(img, 0, 0,350,350);
+                        img.src = src[a];
+                        img.onload = function () {
+                            ctx.drawImage(img, 0, 0, 350, 350);
                         }
 
                         //对右边的标注的内容进行展示
-                        var content=arrcons[a];
-                        var index=arrsentids[a];
-                        if(index=="1"){
-                            alert("1");
-                            document.getElementById("right_info").innerHTML="\n" +
-                                "                                    "+"主要景物："+content[1]+"\n" +
+                        var content = arrcons[a];
+                        var index = arrsentids[a];
+                        if (index == "1") {
+                            document.getElementById("right_info").innerHTML = "\n" +
+                                "                                    " + "主要景物：" + content[0] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"主题："+content[2]+"\n" +
+                                "                                    " + "主题：" + content[1] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"主色调："+content[3]+"\n" +
+                                "                                    " + "主色调：" + content[2] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"备注："+content[4]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>";
-                        }
-                        else if(index=="2"){
-                            alert("2");
-                            document.getElementById("right_info").innerHTML="\n" +
-                                "                                    "+"年龄："+content[1]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"性别："+content[2]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"人种："+content[3]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"头发："+content[4]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"面部朝向："+content[5]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"表情："+content[6]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"背景："+content[7]+"\n" +
+                                "                                    " + "备注：" + content[3] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index=="3"){
-                            alert("3");
-                            document.getElementById("right_info").innerHTML="\n" +
-                                "                                    "+"物种："+content[1]+"\n" +
+                        else if (index == "2") {
+                            document.getElementById("right_info").innerHTML = "\n" +
+                                "                                    " + "年龄：" + content[0] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"行为："+content[2]+"\n" +
+                                "                                    " + "性别：" + content[1] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"背景："+content[3]+"\n" +
+                                "                                    " + "人种：" + content[2] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"备注："+content[4]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>";
-                        }
-                        else if(index=="4"){
-                            alert("4");
-                            document.getElementById("right_info").innerHTML="\n" +
-                                "                                    "+"动物："+content[1]+"\n" +
+                                "                                    " + "头发：" + content[3] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"人："+content[2]+"\n" +
+                                "                                    " + "面部朝向：" + content[4] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"景物："+content[3]+"\n" +
+                                "                                    " + "表情：" + content[5] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"行为："+content[4]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"背景："+content[5]+"\n" +
-                                "                                    <br>\n" +
-                                "                                    <br>\n" +
-                                "                                    "+"备注："+content[6]+"\n" +
+                                "                                    " + "背景：" + content[6] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index=="5"){
-                            alert("5");
-                            document.getElementById("right_info").innerHTML="\n" +
-                                "                                    "+"个性色彩："+content[1]+"\n" +
+                        else if (index == "3") {
+                            document.getElementById("right_info").innerHTML = "\n" +
+                                "                                    " + "物种：" + content[0] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"主色调："+content[2]+"\n" +
+                                "                                    " + "行为：" + content[1] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"主题："+content[3]+"\n" +
+                                "                                    " + "背景：" + content[2] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"备注："+content[4]+"\n" +
+                                "                                    " + "备注：" + content[3] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
-                        else if(index=="6"){
-                            alert("6");
-                            document.getElementById("right_info").innerHTML="\n" +
-                                "                                    "+"主要景物："+content[1]+"\n" +
+                        else if (index == "4") {
+                            document.getElementById("right_info").innerHTML = "\n" +
+                                "                                    " + "动物：" + content[10] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"季节："+content[2]+"\n" +
+                                "                                    " + "人：" + content[1] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"区域："+content[3]+"\n" +
+                                "                                    " + "景物：" + content[2] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"主色调："+content[4]+"\n" +
+                                "                                    " + "行为：" + content[3] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>\n" +
-                                "                                    "+"备注："+content[5]+"\n" +
+                                "                                    " + "背景：" + content[4] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "备注：" + content[5] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>";
+                        }
+                        else if (index == "5") {
+                            document.getElementById("right_info").innerHTML = "\n" +
+                                "                                    " + "个性色彩：" + content[0] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "主色调：" + content[1] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "主题：" + content[2] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "备注：" + content[3] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>";
+                        }
+                        else if (index == "6") {
+                            document.getElementById("right_info").innerHTML = "\n" +
+                                "                                    " + "主要景物：" + content[0] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "季节：" + content[1] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "区域：" + content[2] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "主色调：" + content[3] + "\n" +
+                                "                                    <br>\n" +
+                                "                                    <br>\n" +
+                                "                                    " + "备注：" + content[4] + "\n" +
                                 "                                    <br>\n" +
                                 "                                    <br>";
                         }
@@ -417,117 +411,111 @@
             //对右边的标注的内容进行展示
             var content=arrcons[a];
             var index=arrsentids[a];
-            if(index=="1"){
-                alert("1");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"主要景物："+content[1]+"\n" +
+            if (index == "1") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "主要景物：" + content[0] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主题："+content[2]+"\n" +
+                    "                                    " + "主题：" + content[1] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主色调："+content[3]+"\n" +
+                    "                                    " + "主色调：" + content[2] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"备注："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>";
-            }
-            else if(index=="2"){
-                alert("2");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"年龄："+content[1]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"性别："+content[2]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"人种："+content[3]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"头发："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"面部朝向："+content[5]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"表情："+content[6]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"背景："+content[7]+"\n" +
+                    "                                    " + "备注：" + content[3] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index=="3"){
-                alert("3");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"物种："+content[1]+"\n" +
+            else if (index == "2") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "年龄：" + content[0] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"行为："+content[2]+"\n" +
+                    "                                    " + "性别：" + content[1] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"背景："+content[3]+"\n" +
+                    "                                    " + "人种：" + content[2] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"备注："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>";
-            }
-            else if(index=="4"){
-                alert("4");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"动物："+content[1]+"\n" +
+                    "                                    " + "头发：" + content[3] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"人："+content[2]+"\n" +
+                    "                                    " + "面部朝向：" + content[4] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"景物："+content[3]+"\n" +
+                    "                                    " + "表情：" + content[5] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"行为："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"背景："+content[5]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"备注："+content[6]+"\n" +
+                    "                                    " + "背景：" + content[6] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index=="5"){
-                alert("5");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"个性色彩："+content[1]+"\n" +
+            else if (index == "3") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "物种：" + content[0] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主色调："+content[2]+"\n" +
+                    "                                    " + "行为：" + content[1] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主题："+content[3]+"\n" +
+                    "                                    " + "背景：" + content[2] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"备注："+content[4]+"\n" +
+                    "                                    " + "备注：" + content[3] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index=="6"){
-                alert("6");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"主要景物："+content[1]+"\n" +
+            else if (index == "4") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "动物：" + content[10] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"季节："+content[2]+"\n" +
+                    "                                    " + "人：" + content[1] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"区域："+content[3]+"\n" +
+                    "                                    " + "景物：" + content[2] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主色调："+content[4]+"\n" +
+                    "                                    " + "行为：" + content[3] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"备注："+content[5]+"\n" +
+                    "                                    " + "背景：" + content[4] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "备注：" + content[5] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>";
+            }
+            else if (index == "5") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "个性色彩：" + content[0] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "主色调：" + content[1] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "主题：" + content[2] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "备注：" + content[3] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>";
+            }
+            else if (index == "6") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "主要景物：" + content[0] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "季节：" + content[1] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "区域：" + content[2] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "主色调：" + content[3] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "备注：" + content[4] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>";
             }
@@ -548,120 +536,115 @@
             //对右边的标注的内容进行展示
             var content=arrcons[a];
             var index=arrsentids[a];
-            if(index=="1"){
-                alert("1");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"主要景物："+content[1]+"\n" +
+            if (index == "1") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "主要景物：" + content[0] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主题："+content[2]+"\n" +
+                    "                                    " + "主题：" + content[1] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主色调："+content[3]+"\n" +
+                    "                                    " + "主色调：" + content[2] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"备注："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>";
-            }
-            else if(index=="2"){
-                alert("2");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"年龄："+content[1]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"性别："+content[2]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"人种："+content[3]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"头发："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"面部朝向："+content[5]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"表情："+content[6]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"背景："+content[7]+"\n" +
+                    "                                    " + "备注：" + content[3] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index=="3"){
-                alert("3");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"物种："+content[1]+"\n" +
+            else if (index == "2") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "年龄：" + content[0] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"行为："+content[2]+"\n" +
+                    "                                    " + "性别：" + content[1] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"背景："+content[3]+"\n" +
+                    "                                    " + "人种：" + content[2] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"备注："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>";
-            }
-            else if(index=="4"){
-                alert("4");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"动物："+content[1]+"\n" +
+                    "                                    " + "头发：" + content[3] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"人："+content[2]+"\n" +
+                    "                                    " + "面部朝向：" + content[4] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"景物："+content[3]+"\n" +
+                    "                                    " + "表情：" + content[5] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"行为："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"背景："+content[5]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"备注："+content[6]+"\n" +
+                    "                                    " + "背景：" + content[6] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>";
             }
-            else if(index=="5"){
-                alert("5");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"个性色彩："+content[1]+"\n" +
+            else if (index == "3") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "物种：" + content[0] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主色调："+content[2]+"\n" +
+                    "                                    " + "行为：" + content[1] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"主题："+content[3]+"\n" +
+                    "                                    " + "背景：" + content[2] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>\n" +
-                    "                                    "+"备注："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>";
-            }
-            else if(index=="6"){
-                alert("6");
-                document.getElementById("right_info").innerHTML="\n" +
-                    "                                    "+"主要景物："+content[1]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"季节："+content[2]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"区域："+content[3]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"主色调："+content[4]+"\n" +
-                    "                                    <br>\n" +
-                    "                                    <br>\n" +
-                    "                                    "+"备注："+content[5]+"\n" +
+                    "                                    " + "备注：" + content[3] + "\n" +
                     "                                    <br>\n" +
                     "                                    <br>";
             }
+            else if (index == "4") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "动物：" + content[10] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "人：" + content[1] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "景物：" + content[2] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "行为：" + content[3] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "背景：" + content[4] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "备注：" + content[5] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>";
+            }
+            else if (index == "5") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "个性色彩：" + content[0] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "主色调：" + content[1] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "主题：" + content[2] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "备注：" + content[3] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>";
+            }
+            else if (index == "6") {
+                document.getElementById("right_info").innerHTML = "\n" +
+                    "                                    " + "主要景物：" + content[0] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "季节：" + content[1] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "区域：" + content[2] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "主色调：" + content[3] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>\n" +
+                    "                                    " + "备注：" + content[4] + "\n" +
+                    "                                    <br>\n" +
+                    "                                    <br>";
+            }
+
         }
         else{
             alert("到头啦！");
