@@ -72,7 +72,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         Gson gson=new Gson();
         for(String str:receivepro){
             if(str!=null&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
-                  count++;
+                count++;
             }
         }
         return count;
@@ -85,7 +85,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         Gson gson=new Gson();
         for(String str:receivepro){
             if(str!=null&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
-                   count++;
+                count++;
             }
         }
         return count;
@@ -98,7 +98,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         Gson gson=new Gson();
         for(String str:receivepro){
             if(str!=null&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
-                   count++;
+                count++;
             }
         }
         return count;
@@ -115,7 +115,7 @@ public class AnalyzeUser implements Analyze {                           //质量
             result="overall";
         }
         else if(getType1(username)==getType2(username)&&getType3(username)<getType2(username)){
-             result=comparebyEva(true,true,false,username);
+            result=comparebyEva(true,true,false,username);
         }
         else if(getType1(username)==getType3(username)&&getType2(username)<getType1(username)){
             result=comparebyEva(true,false,true,username);
@@ -125,48 +125,48 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         else if(getType1(username)==getType2(username)&&getType2(username)==getType3(username)){
             result=comparebyEva(true,true,true,username);
-    }
+        }
         else{}
-            return result;
+        return result;
     }
 
     public String comparebyEva(boolean type1,boolean type2,boolean type3,String username){     //recomend方法调用,根据评分来获得推荐的种类
-           String result="";
-           String temp1="";
-           String temp2="";
-           String temp3="";
-           double sum1=0.0;
-           double sum2=0.0;
-           double sum3=0.0;
-           int count1=0;
-           int count2=0;
-           int count3=0;
-           double average1=0.0;
-           double average2=0.0;
-           double average3=0.0;
-           UserInfo user=impl.getUser(username);
-           Map<String,Double> taskIds=user.getReceiveEvalu();
+        String result="";
+        String temp1="";
+        String temp2="";
+        String temp3="";
+        double sum1=0.0;
+        double sum2=0.0;
+        double sum3=0.0;
+        int count1=0;
+        int count2=0;
+        int count3=0;
+        double average1=0.0;
+        double average2=0.0;
+        double average3=0.0;
+        UserInfo user=impl.getUser(username);
+        Map<String,Double> taskIds=user.getReceiveEvalu();
 
-           taskServiceImpl service=new taskServiceImpl();
-           Gson gson=new Gson();
-           for(String s:taskIds.keySet()){
-                //判断task的类型
-                if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("area")){
-                        sum1=sum1+taskIds.get(s);
-                        count1++;
-                }
-                if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("frame")){
-                        sum2=sum2+taskIds.get(s);
-                        count2++;
-                }
-                if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("overall")){
-                        sum3=sum3+taskIds.get(s);
-                        count3++;
-                }
-           }
-           average1=sum1*1.0/count1;
-           average2=sum2*1.0/count2;
-           average3=sum3*1.0/count3;
+        taskServiceImpl service=new taskServiceImpl();
+        Gson gson=new Gson();
+        for(String s:taskIds.keySet()){
+            //判断task的类型
+            if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("area")){
+                sum1=sum1+taskIds.get(s);
+                count1++;
+            }
+            if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("frame")){
+                sum2=sum2+taskIds.get(s);
+                count2++;
+            }
+            if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("overall")){
+                sum3=sum3+taskIds.get(s);
+                count3++;
+            }
+        }
+        average1=sum1*1.0/count1;
+        average2=sum2*1.0/count2;
+        average3=sum3*1.0/count3;
         if(type1){
             temp1="area";
         }
@@ -185,129 +185,129 @@ public class AnalyzeUser implements Analyze {                           //质量
         if(temp3.equals("")){
             average3=0.0;
         }
-           if(average1>average2&&average1>average3){
-                result="area";
-           }
-           else if(average2>average1&&average2>average3){
-               result="frame";
-           }
-           else if(average3>average1&&average3>average2){
-               result="overall";
-           }
-           //未完待续        每一种类型的完成度比较
-           else if(average1==average2&&average2>average3){
-               result=comparebyComplete(true,true,false,username);
-           }
-           else if(average1==average3&&average1>average2){
-               result=comparebyComplete(true,false,true,username);
-           }
-           else if(average2==average3&&average3>average1){
-               result=comparebyComplete(false,true,true,username);
-           }
-           else if(average1==average2&&average2==average3){
-               result=comparebyComplete(true,true,true,username);
-           }
-           else{}
-           return result;
+        if(average1>average2&&average1>average3){
+            result="area";
+        }
+        else if(average2>average1&&average2>average3){
+            result="frame";
+        }
+        else if(average3>average1&&average3>average2){
+            result="overall";
+        }
+        //未完待续        每一种类型的完成度比较
+        else if(average1==average2&&average2>average3){
+            result=comparebyComplete(true,true,false,username);
+        }
+        else if(average1==average3&&average1>average2){
+            result=comparebyComplete(true,false,true,username);
+        }
+        else if(average2==average3&&average3>average1){
+            result=comparebyComplete(false,true,true,username);
+        }
+        else if(average1==average2&&average2==average3){
+            result=comparebyComplete(true,true,true,username);
+        }
+        else{}
+        return result;
     }
     public String comparebyComplete(boolean type1,boolean type2,boolean type3,String username){
-           String result="";
-           taskServiceImpl service=new taskServiceImpl();
-           Gson gson=new Gson();
-           UserInfo user=impl.getUser(username);
-           Map<String,Boolean> finish=user.getFinish();
-           int finishType1=0;
-           int finishType2=0;
-           int finishType3=0;
-           int unfinishType1=0;
-           int unfinishType2=0;
-           int unfinishType3=0;
-           for(String str:finish.keySet()){
-               if(finish.get(str)){           //完成的任务
-                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
-                       finishType1=finishType1+1;
-                   }
-                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
-                       finishType2=finishType2+1;
-                   }
-                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
-                       finishType3=finishType3+1;
-                   }
-               }
-               if(!finish.get(str)){
-                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
-                       unfinishType1=unfinishType1+1;
-                   }
-                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
-                       unfinishType2=unfinishType2+1;
-                   }
-                   if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
-                       unfinishType3=unfinishType3+1;
-                   }
-               }
-           }
-           int allType1=finishType1+unfinishType1;
-           int allType2=finishType2+unfinishType2;
-           int allType3=finishType2+unfinishType3;
+        String result="";
+        taskServiceImpl service=new taskServiceImpl();
+        Gson gson=new Gson();
+        UserInfo user=impl.getUser(username);
+        Map<String,Boolean> finish=user.getFinish();
+        int finishType1=0;
+        int finishType2=0;
+        int finishType3=0;
+        int unfinishType1=0;
+        int unfinishType2=0;
+        int unfinishType3=0;
+        for(String str:finish.keySet()){
+            if(finish.get(str)){           //完成的任务
+                if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
+                    finishType1=finishType1+1;
+                }
+                if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
+                    finishType2=finishType2+1;
+                }
+                if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
+                    finishType3=finishType3+1;
+                }
+            }
+            if(!finish.get(str)){
+                if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("area")){
+                    unfinishType1=unfinishType1+1;
+                }
+                if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("frame")){
+                    unfinishType2=unfinishType2+1;
+                }
+                if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getTagType().equals("overall")){
+                    unfinishType3=unfinishType3+1;
+                }
+            }
+        }
+        int allType1=finishType1+unfinishType1;
+        int allType2=finishType2+unfinishType2;
+        int allType3=finishType2+unfinishType3;
 
-           double result1=0.0;
-           double result2=0.0;
-           double result3=0.0;
-           if(allType1==0){
-               result1=0.0;
-           }
-           else{
-               result1=finishType1*1.0/allType1;
-           }
-           if(allType2==0){
-               result2=0.0;
-           }
-           else{
-               result2=finishType2*1.0/allType2;
-           }
-           if(allType3==0){
-               result3=0.0;
-           }
-           else{
-               result3=finishType3*1.0/allType3;
-           }
-           if(type1&&type2&&!type3){
-               if(result1>result2){
-                   result="area";
-               }
-               else if(result1<result2){
-                   result="frame";
-               }
-               else{
-                   result="all";          //偷工减料一下
-               }
-           }
-           if(type1&&type3&&!type2){
-               if(result1>result3){
-                   result="area";
-               }
-               else if(result1<result3){
-                   result="overall";
-               }
-               else{
-                   result="all";
-               }
-           }
-           if(!type1&&type2&&type3){
-               if(result2>result3){
-                   result="frame";
-               }
-               else if(result2<result3){
-                   result="overall";
-               }
-               else{
-                   result="all";
-               }
-           }
-           if(type1&&type2&&type3){
-               result="all";
-           }
-           return result;
+        double result1=0.0;
+        double result2=0.0;
+        double result3=0.0;
+        if(allType1==0){
+            result1=0.0;
+        }
+        else{
+            result1=finishType1*1.0/allType1;
+        }
+        if(allType2==0){
+            result2=0.0;
+        }
+        else{
+            result2=finishType2*1.0/allType2;
+        }
+        if(allType3==0){
+            result3=0.0;
+        }
+        else{
+            result3=finishType3*1.0/allType3;
+        }
+        if(type1&&type2&&!type3){
+            if(result1>result2){
+                result="area";
+            }
+            else if(result1<result2){
+                result="frame";
+            }
+            else{
+                result="all";          //偷工减料一下
+            }
+        }
+        if(type1&&type3&&!type2){
+            if(result1>result3){
+                result="area";
+            }
+            else if(result1<result3){
+                result="overall";
+            }
+            else{
+                result="all";
+            }
+        }
+        if(!type1&&type2&&type3){
+            if(result2>result3){
+                result="frame";
+            }
+            else if(result2<result3){
+                result="overall";
+            }
+            else{
+                result="all";
+            }
+        }
+        if(type1&&type2&&type3){
+            result="all";
+        }
+        return result;
     }
 
     public ArrayList<Task> recom(String username){                         //返回推荐的具体任务
@@ -424,7 +424,12 @@ public class AnalyzeUser implements Analyze {                           //质量
                 sum = sum + list.get(str);
             }
         }
-        result=(1*1.0/size)*sum;
+        if(size!=0) {                                               //除0未考虑导致报错
+            result = (1 * 1.0 / size) * sum;
+        }
+        else{
+            result=0;
+        }
         return result;
     }
 
@@ -440,11 +445,16 @@ public class AnalyzeUser implements Analyze {                           //质量
         for(String str:list.keySet()){
             if(str!=null){
                 if(list.get(str)>=85){
-                       count1++;
+                    count1++;
                 }
             }
         }
-        probability1=count1*1.0/list.size();
+        if (list.size()!=0) {
+            probability1 = count1 * 1.0 / list.size();
+        }
+        else{
+            probability1=0;
+        }
         result.add(probability1);
 
         int count2=0;
@@ -463,7 +473,12 @@ public class AnalyzeUser implements Analyze {                           //质量
                 count2++;
             }
         }
-        probabaility2=count2*1.0/getScoreList.size();
+        if(getScoreList.size()!=0) {
+            probabaility2 = count2 * 1.0 / getScoreList.size();
+        }
+        else{
+            probabaility2=0;
+        }
         result.add(probabaility2);
         return result;
     }
@@ -483,7 +498,12 @@ public class AnalyzeUser implements Analyze {                           //质量
                 }
             }
         }
-        probability=count*1.0/list.size();
+        if(list.size()!=0) {
+            probability = count * 1.0 / list.size();
+        }
+        else{
+            probability=0;
+        }
         return probability;
     }
     public double ConfidencebyScoreandEvalu(String username){           //P(A|B)      置信度
@@ -491,15 +511,25 @@ public class AnalyzeUser implements Analyze {                           //质量
         double probality2=list.get(1);
         //求解P(A|B)=P(AB)/P(B)
         double result=0.0;
-        result=SupportbyScoreandEvalu(username)/probality2;
+        if(probality2!=0) {
+            result = SupportbyScoreandEvalu(username) / probality2;
+        }
+        else{
+            result=0.0;
+        }
         return result;
     }
-   public double LiftbyScoreandEvalu(String username){                //P(A|B)/P(A)   作用度
-       ArrayList<Double> list=relationbyScoreandEvalu(username);
-       double probality1=list.get(0);
-       double result=0.0;
-       result=ConfidencebyScoreandEvalu(username)/probality1;
-       return result;
-   }
+    public double LiftbyScoreandEvalu(String username){                //P(A|B)/P(A)   作用度
+        ArrayList<Double> list=relationbyScoreandEvalu(username);
+        double probality1=list.get(0);
+        double result=0.0;
+        if(probality1!=0) {
+            result = ConfidencebyScoreandEvalu(username) / probality1;
+        }
+        else{
+            result=0;
+        }
+        return result;
+    }
     //完成情况的关联度
 }
