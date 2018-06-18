@@ -137,7 +137,6 @@
 
         },
         success: function (data) {
-            alert(data);
            var tas=JSON.parse(data);
             document.getElementById("tag_type").value =tas.tagType;
             document.getElementById("data1").value =tas.startDate.substring(0,4)+"-"+tas.startDate.substring(4,6)+"-"+tas.startDate.substring(6,8);

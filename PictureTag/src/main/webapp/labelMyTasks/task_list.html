@@ -207,9 +207,6 @@
         var tbodyObj = document.getElementById('task_table');
         $("table :checkbox").each(function(key,value){
             if($(value).prop('checked')){
-                alert(parseInt(user_level));
-                alert(parseInt(task_level_low[key]));
-                alert(parseInt(task_level_high[key]));
                 if(parseInt(user_level)>=parseInt(task_level_low[key])&&parseInt(user_level)<=parseInt(task_level_high[key])) {
                     $.ajax({
                         url: "/Servlet",

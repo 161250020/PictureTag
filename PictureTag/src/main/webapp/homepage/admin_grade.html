@@ -92,7 +92,7 @@
                     <table class="table" id="project">
                         <th>用户id</th>
                         <th>真实姓名</th>
-                        <th>排名</th>
+                        <th>积分</th>
                     </table>
                 </div>
                 <br>
@@ -128,7 +128,7 @@
             "gData":"13"
         },
         success: function(data) {
-            var change_pro=JSON.parse(data);
+            var changepro=JSON.parse(data);
             for(var i=0;i<changepro.length;i++){
                 var tab=document.getElementById("project");
                 var oneRow = tab.insertRow();//插入一行
@@ -151,7 +151,6 @@
 
 
 
-
     function year_pic(){
         window.location.href="admin.html";
         location.href="admin.html?"+"txt="+encodeURI(id);
@@ -167,13 +166,17 @@
     }
     function year_score(){
         window.location.href="admin_score.html";
-        location.href="admin_task.html?"+"txt="+encodeURI(id);
+        location.href="admin_score.html?"+"txt="+encodeURI(id);
     }
     function score_situation(){
         window.location.href="admin_score_sit.html";
         location.href="admin_score_sit.html?"+"txt="+encodeURI(id);
     }
 
+    function grade(){
+        window.location.href="admin_grade.html";
+        location.href="admin_grade.html?"+"txt="+encodeURI(id);
+    }
 
     //退出
     function logout(){

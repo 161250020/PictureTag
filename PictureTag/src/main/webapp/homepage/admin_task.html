@@ -141,12 +141,11 @@
         },
         success: function(data) {
             var change_pro=JSON.parse(data);
-            alert(data);
             var popCanvas = $("#popChart");
             var ctx = document.getElementById("popChart").getContext("2d");
             var myDoughnutChart = new Chart(ctx, {
                 type: 'doughnut',
-                data: data = {
+                data:  {
                     datasets: [{
                         data: [parseInt(change_pro[0]), parseInt(change_pro[1]), parseInt(change_pro[2]), parseInt(change_pro[3]),parseInt(change_pro[4])],
                         backgroundColor: [
@@ -190,12 +189,11 @@
         },
         success: function(data) {
             var change_pro=JSON.parse(data);
-            alert(data);
             var popCanvas = $("#popChart1");
             var ctx = document.getElementById("popChart1").getContext("2d");
             var myDoughnutChart = new Chart(ctx, {
                 type: 'pie',
-                data: data = {
+                data: {
 
                     datasets: [{
                         data: [parseInt(change_pro[0]), parseInt(change_pro[1]), parseInt(change_pro[2])],
@@ -241,11 +239,16 @@
     }
     function year_score(){
         window.location.href="admin_score.html";
-        location.href="admin_task.html?"+"txt="+encodeURI(id);
+        location.href="admin_score.html?"+"txt="+encodeURI(id);
     }
     function score_situation(){
         window.location.href="admin_score_sit.html";
         location.href="admin_score_sit.html?"+"txt="+encodeURI(id);
+    }
+
+    function grade(){
+        window.location.href="admin_grade.html";
+        location.href="admin_grade.html?"+"txt="+encodeURI(id);
     }
 
 
