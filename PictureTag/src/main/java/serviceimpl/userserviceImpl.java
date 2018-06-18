@@ -20,7 +20,6 @@ public class userserviceImpl implements user{
         String gsonstring=gson.toJson(user);
         FileReadandWrite.WriteFile(path, gsonstring);         //初始化用户
         UserInfo u = gson.fromJson(gsonstring,UserInfo.class);
-        //System.out.println(u.getLevel());
     }
     public ArrayList<UserInfo> getall(){
         ArrayList<String> content=FileReadandWrite.ReadFile(path);         //获得所有的用户
@@ -35,7 +34,6 @@ public class userserviceImpl implements user{
         if(!checkInit()) {
             start();
         }
-        //System.out.println("login");
         boolean flag=false;
         ArrayList<String> content=FileReadandWrite.ReadFile(path);
         ArrayList<UserInfo> user=new ArrayList<UserInfo>();
@@ -43,7 +41,6 @@ public class userserviceImpl implements user{
             Gson gson=new Gson();
             user.add(gson.fromJson(content.get(i),UserInfo.class));
         }
-        //System.out.println(user.get(0).getUsername());
         for(int i=0;i<user.size();i++){
             if(username.equals(user.get(i).getUsername())){
                 if(password.equals(user.get(i).getPassword())){
@@ -52,11 +49,13 @@ public class userserviceImpl implements user{
                 break;             //去掉break会报空指针
             }
         }
-        //System.out.println(flag);
         return flag;
     }
     public boolean register(String username,String password,String nickname,String name){
         boolean flag=true;
+        if(!checkInit()) {
+            start();
+        }
         if(checksame(username)) {
             flag = false;
         }
@@ -160,16 +159,16 @@ public class userserviceImpl implements user{
     //修改用户的等级
     public int updateLevel(double score){
         int level=0;
-        if(score<10){
+        if(score<110){
             level=1;
         }
-        else if(score<30){
+        else if(score<130){
             level=2;
         }
-        else if(score<60){
+        else if(score<160){
             level=3;
         }
-        else if(score<100){
+        else if(score<200){
             level=4;
         }
         else{
@@ -205,7 +204,7 @@ public class userserviceImpl implements user{
            }
            update(user);
     }
-    //
+    //更新积分数
     public void updatescore(String username,double score){
          UserInfo user=getUser(username);
          double newscore=user.getScore();

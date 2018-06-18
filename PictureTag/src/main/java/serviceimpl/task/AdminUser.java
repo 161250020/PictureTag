@@ -141,22 +141,25 @@ public class AdminUser {
           public ArrayList<String> getTaskCountByLevel(){
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
-              int counts[]={0,0,0,0,0};
+              int counts[]={0,0,0,0,0,0};
               for(UserInfo user:all){
                   if(user!=null){
-                      if(user.getLevel()==1){
+                      if(user.getLevel()==0){
                            counts[0]=counts[0]+user.getReceivetask().size();
                       }
-                      else if(user.getLevel()==2){
+                      else if(user.getLevel()==1){
                           counts[1]=counts[1]+user.getReceivetask().size();
                       }
-                      else if(user.getLevel()==3){
+                      else if(user.getLevel()==2){
                           counts[2]=counts[2]+user.getReceivetask().size();
                       }
-                      else if(user.getLevel()==4){
+                      else if(user.getLevel()==3){
                           counts[3]=counts[3]+user.getReceivetask().size();
                       }
-                      else if(user.getLevel()==5){
+                      else if(user.getLevel()==4){
+                          counts[4]=counts[4]+user.getReceivetask().size();
+                      }
+                      else{
                           counts[4]=counts[4]+user.getReceivetask().size();
                       }
                   }

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 //做一项任务,研究完成情况,图片张数,分数高低之间的关联规则
-//可不可以设置一个追加积分的条款,就是达到一定用户评分后
 public class UserInfo {
     public String username;
     public String password;

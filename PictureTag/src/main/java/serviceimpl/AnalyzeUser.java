@@ -351,13 +351,67 @@ public class AnalyzeUser implements Analyze {                           //质量
         }
         return recommendTask;
     }
-    public double correlation(String username){                       //  相关系数 Cov(X,Y)
+    public double correlation(String username){                       //  相关系数 Cov(X,Y)  得分情况和奖励积分
         double result=0.0;
-        double cov=0.0;
-        double varX=0.0;
-        double varY=0.0;
+        double cov=0.0;                                               //协方差. cov(x,y)=E(xy)-E(x)*E(y)
+        double varX=0.0;                                              //方差x
+        double varY=0.0;                                              //方差y
+        userserviceImpl impl=new userserviceImpl();
+        UserInfo user=impl.getUser(username);
+        Map<String,Double> Evalu=user.getReceiveEvalu();                //打分的map
+        ArrayList<String> taskIds=new ArrayList<String>();             //接收到的打分taskId,获得对应的积分奖励
+        ArrayList<Double> Evaluscores=new ArrayList<Double>();         //打分数组
+        ArrayList<Double> scores=new ArrayList<Double>();              //得分奖励数组
+        for(String str:Evalu.keySet()){
+            taskIds.add(str);
+            Evaluscores.add(Evalu.get(str));
+        }
+        taskServiceImpl service=new taskServiceImpl();
+        Gson gson=new Gson();
+        for(String str:taskIds){
+            if(str!=null){
+                scores.add(gson.fromJson(service.receiveTaskInfo(str),Task.class).getSocre());
+            }
+        }
+
+        //计算E(x),E(y),E(xy)
+        double u1=0.0;
+        double u2=0.0;
+        double u12=0.0;
+        for(double score:Evaluscores){
+            u1=u1+score;
+        }
+        u1=u1/Evaluscores.size();
+
+        for(double score:scores){
+            u2=u2+score;
+        }
+        u2=u2/scores.size();
+
+        for(int i=0;i<Evaluscores.size();i++){
+            u12=u12+Evaluscores.get(i)*scores.get(i);
+        }
+        u12=u12/scores.size();
+
+        //计算D(x),D(y)  即var(x),var(y)
+        for(double score:Evaluscores){
+            varX=varX+(score-u1)*(score-u1);
+        }
+        varX=varX/Evaluscores.size();
+
+        for(double score:scores){
+            varY=varY+(score-u2)*(score-u2);
+        }
+        varY=varY/scores.size();
+
+        //计算cov    E(xy)-E(x)*E(y)
+        cov=u12-u1*u2;
+
+        result=cov/(Math.sqrt(varX)*Math.sqrt(varY));
         return result;
     }
+
+
     public double ExpectedScore(String username){                    //期望得分,会不断更新 (需不需要存储数据,便于作图),(新建一个数据类型)
         double result=0.0;
         userserviceImpl impl=new userserviceImpl();
@@ -373,6 +427,8 @@ public class AnalyzeUser implements Analyze {                           //质量
         result=(1*1.0/size)*sum;
         return result;
     }
+
+
     public ArrayList<Double> relationbyScoreandEvalu(String username){          //(获得两个事件的概率P(A),P(B))完成事件关联度(优秀)    任务数+打分情况+得分奖励.(有多个事件)   (规定一个是好,一个是差)
         ArrayList<Double> result=new ArrayList<Double>();
         userserviceImpl impl=new userserviceImpl();
@@ -392,7 +448,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         result.add(probability1);
 
         int count2=0;
-        double probabaility2=0.0;   //p(得分奖励高)
+        double probabaility2=0.0;     //p(得分奖励高)
         //先获得有打分的任务(有完成的不一定有分);得分奖励,以10分为高.
         taskServiceImpl service=new taskServiceImpl();
         Gson gson=new Gson();
