@@ -908,7 +908,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
     private void BillTasks(HttpServletRequest request,HttpServletResponse response,String username){
         BillServiceImpl impl=new BillServiceImpl();
-        ArrayList<Task> tasks=impl.BillTasks(username);
+        ArrayList<String> tasks=impl.BillTasks(username);
         Gson gson=new Gson();
         String gsondata=gson.toJson(tasks);
         try{
