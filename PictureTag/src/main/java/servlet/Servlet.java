@@ -2,6 +2,7 @@ package servlet;
 
 import com.google.gson.Gson;
 import serviceimpl.*;
+import serviceimpl.Bill.BillServiceImpl;
 import serviceimpl.tag.imageServiceImpl;
 import serviceimpl.task.AdminUser;
 import serviceimpl.task.taskFilterServiceImpl;
@@ -183,6 +184,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
         else if("receiveTaskCount".equals(action)){
             this.receiveTaskCount(request,response);
+        }
+        else if("BillTasks".equals(action)){
+            String username=request.getParameter("gData");
+            this.BillTasks(request,response,username);
+        }
+        else if("BillCounts".equals(action)){
+            String username=request.getParameter("gData");
+            this.BillCounts(request,response,username);
         }
         else {
             System.out.println("no function like this");
@@ -889,6 +898,32 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         ArrayList<String> counts=service.getTaskCount();
         Gson gson=new Gson();
         String gsondata=gson.toJson(counts);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void BillTasks(HttpServletRequest request,HttpServletResponse response,String username){
+        BillServiceImpl impl=new BillServiceImpl();
+        ArrayList<Task> tasks=impl.BillTasks(username);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(tasks);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void BillCounts(HttpServletRequest request,HttpServletResponse response,String username){
+        BillServiceImpl impl=new BillServiceImpl();
+        ArrayList<String> result=impl.BillCounts(username);
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(result);
         try{
             PrintWriter writer=response.getWriter();
             writer.write(gsondata);

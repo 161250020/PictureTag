@@ -381,33 +381,59 @@ public class AnalyzeUser implements Analyze {                           //质量
         for(double score:Evaluscores){
             u1=u1+score;
         }
-        u1=u1/Evaluscores.size();
+        if(Evaluscores.size()!=0) {
+            u1 = u1 / Evaluscores.size();
+        }
+        else{
+            u1=0;
+        }
 
         for(double score:scores){
             u2=u2+score;
         }
-        u2=u2/scores.size();
+        if(scores.size()!=0) {
+            u2 = u2 / scores.size();
+        }
+        else{
+            u2=0;
+        }
 
         for(int i=0;i<Evaluscores.size();i++){
             u12=u12+Evaluscores.get(i)*scores.get(i);
         }
-        u12=u12/scores.size();
-
+        if(scores.size()!=0) {
+            u12 = u12 / scores.size();
+        }
+        else{
+            u12=0;
+        }
         //计算D(x),D(y)  即var(x),var(y)
         for(double score:Evaluscores){
             varX=varX+(score-u1)*(score-u1);
         }
-        varX=varX/Evaluscores.size();
-
+        if(Evaluscores.size()!=0) {
+            varX = varX / Evaluscores.size();
+        }
+        else{
+            varX=0;
+        }
         for(double score:scores){
             varY=varY+(score-u2)*(score-u2);
         }
-        varY=varY/scores.size();
-
+        if(scores.size()!=0) {
+            varY = varY / scores.size();
+        }
+        else{
+            varY=0;
+        }
         //计算cov    E(xy)-E(x)*E(y)
         cov=u12-u1*u2;
-
-        result=cov/(Math.sqrt(varX)*Math.sqrt(varY));
+        if(varX!=0&&varY!=0) {
+            result = cov / (Math.sqrt(varX) * Math.sqrt(varY));
+        }
+        else{
+            result=0;
+        }
         return result;
     }
 
