@@ -191,6 +191,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveScoreByLevel".equals(action)){
             this.receiveScoreByLevel(request,response);
         }
+        else if("receiveAllNorm".equals(action)){
+            this.receiveAllNorm(request,response);
+        }
         else if("BillTasks".equals(action)){
             String username=request.getParameter("gData");
             this.BillTasks(request,response,username);
@@ -928,6 +931,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     private void receiveScoreByLevel(HttpServletRequest request,HttpServletResponse response){
         AdminUser service=new AdminUser();
         ArrayList<String> result=service.getScoreByLevel();
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(result);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private  void receiveAllNorm(HttpServletRequest request,HttpServletResponse response){
+        AdminUser service=new AdminUser();
+        ArrayList<String> result=service.getAllNorm();
         Gson gson=new Gson();
         String gsondata=gson.toJson(result);
         try{
