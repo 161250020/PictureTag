@@ -149,7 +149,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             String project = request.getParameter("gData");
             this.launchPro(request, response, project);
         }else if("receivePros".equals(action)){
-            this.receivePros(request,response);
+            String username=request.getParameter("gData");
+            this.receivePros(request,response,username);
         }
         else if ("receiveProjects".equals(action)) {
             String username = request.getParameter("gData");
@@ -777,9 +778,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-    private void receivePros(HttpServletRequest request,HttpServletResponse response){
+    private void receivePros(HttpServletRequest request,HttpServletResponse response,String username){
         FindProjects impl=new FindProjects();
-        ArrayList<Project> pro=impl.getPros();
+        ArrayList<Project> pro=impl.getPros(username);
         Gson gson=new Gson();
         String gsondata=gson.toJson(pro);
         try{

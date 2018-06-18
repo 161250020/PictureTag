@@ -42,12 +42,12 @@ public class FindProjects implements service.FindProjects {
         impl.update(user);
         return result;
     }
-    public ArrayList<Project> getPros(){
+    public ArrayList<Project> getPros(String username){
         userserviceImpl impl=new userserviceImpl();
         ArrayList<UserInfo> user=impl.getall();
         ArrayList<UserInfo> newUser=new ArrayList<UserInfo>();
         for(UserInfo u:user){
-            if(u.getLaunchpro().size()>0){
+            if(u.getLaunchpro().size()>0&&!u.getUsername().equals(username)){
                 newUser.add(u);
             }
         }
