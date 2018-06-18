@@ -185,6 +185,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveTaskCount".equals(action)){
             this.receiveTaskCount(request,response);
         }
+        else if("receiveScoreByLevel".equals(action)){
+            this.receiveScoreByLevel(request,response);
+        }
         else if("BillTasks".equals(action)){
             String username=request.getParameter("gData");
             this.BillTasks(request,response,username);
@@ -906,6 +909,24 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
+
+    private void receiveScoreByLevel(HttpServletRequest request,HttpServletResponse response){
+        AdminUser service=new AdminUser();
+        ArrayList<String> result=service.getScoreByLevel();
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(result);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     private void BillTasks(HttpServletRequest request,HttpServletResponse response,String username){
         BillServiceImpl impl=new BillServiceImpl();
         ArrayList<String> tasks=impl.BillTasks(username);

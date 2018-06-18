@@ -195,6 +195,84 @@ public class AdminUser {
               result.add(""+giveup);
               return result;
           }
+          //不同等级的满意度
+          public ArrayList<String> getScoreByLevel(){
+              ArrayList<UserInfo> user=getAll();
+              ArrayList<String> result=new ArrayList<String>();
+              double score0=0.0;
+              int size0=0;
+              double score1=0.0;
+              int size1=0;
+              double score2=0.0;
+              int size2=0;
+              double score3=0.0;
+              int size3=0;
+              double score4=0.0;
+              int size4=0;
+              for(UserInfo u:user){
+                   if(u.getLevel()==0){
+                       for(String str:u.getReceiveEvalu().keySet()){
+                           score0=score0+u.getReceiveEvalu().get(str);
+                           size0++;
+                       }
+                   }
+                   else if(u.getLevel()==1){
+                       for(String str:u.getReceiveEvalu().keySet()){
+                           score1=score1+u.getReceiveEvalu().get(str);
+                           size1++;
+                       }
+                   }
+                   else if(u.getLevel()==2){
+                       for(String str:u.getReceiveEvalu().keySet()){
+                           score2=score2+u.getReceiveEvalu().get(str);
+                           size2++;
+                       }
+                   }
+                   else if(u.getLevel()==3){
+                       for(String str:u.getReceiveEvalu().keySet()){
+                           score3=score3+u.getReceiveEvalu().get(str);
+                           size3++;
+                       }
+                   }
+                   else{
+                       for(String str:u.getReceiveEvalu().keySet()){
+                           score4=score4+u.getReceiveEvalu().get(str);
+                           size4++;
+                       }
+                   }
+              }
+              if(size0==0){
+                  result.add("0");
+              }
+              else{
+                  result.add(""+score0*1.0/size0);
+              }
+              if(size1==0){
+                  result.add("0");
+              }
+              else{
+                  result.add(""+score1*1.0/size1);
+              }
+              if(size2==0){
+                  result.add("0");
+              }
+              else{
+                  result.add(""+score2*1.0/size2);
+              }
+              if(size3==0){
+                  result.add("0");
+              }
+              else{
+                  result.add(""+score3*1.0/size3);
+              }
+              if(size4==0){
+                  result.add("0");
+              }
+              else{
+                  result.add(""+score4*1.0/size4);
+              }
+              return result;
+          }
 
 
           //辅助方法
