@@ -358,10 +358,15 @@
             }
         }
         var obj_json="[";
-        for(var i=0;i<img_list.length;i++) {
-            if(i<img_lis)
-            obj_json = obj_json + img_list[i] + ",";
+        for(var i=0;i<len;i++) {
+            if(i<len-1)
+            obj_json = obj_json + img_list[i].toString() + ",";
+            else
+                obj_json = obj_json + img_list[i].toString();
         }
+        obj_json=obj_json+"]";
+        alert(obj_json);
+        console.log(obj_json);
         $.ajax({
             url : "/Servlet",
             type : "POST",
