@@ -124,12 +124,18 @@
                             <h3 class="panel-title">用户的相关数据:</h3>
                         </div>
                         <div class="panel-body" id="user_datas">
-                            <h9 id="data1"></h9>
-                            <h9 id="data2"></h9>
-                            <h9 id="data3"></h9>
-                            <h9 id="data4"></h9>
-                            <h9 id="data5"></h9>
-                            <h9 id="data6"></h9>
+                            <h9 id="data1">1</h9>
+                            <br>
+                            <h9 id="data2">2</h9>
+                            <br>
+                            <h9 id="data3">3</h9>
+                            <br>
+                            <h9 id="data4">4</h9>
+                            <br>
+                            <h9 id="data5">5</h9>
+                            <br>
+                            <h9 id="data6">6</h9>
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -202,6 +208,7 @@
             "gData":id
         },
         success: function(data) {
+            alert(data);
             correlation=JSON.parse(data);
             document.getElementById("data1").innerHTML= "相关系数："+correlation;
 
@@ -220,6 +227,7 @@
             "gData":id
         },
         success: function(data) {
+            alert(data);
             ExpectedScore=JSON.parse(data);
             document.getElementById("data2").innerHTML= "期望得分："+ExpectedScore;
         },
@@ -237,6 +245,7 @@
             "gData":id
         },
         success: function(data) {
+            alert(data);
             SupportbyScoreandEvalu=JSON.parse(data);
             document.getElementById("data3").innerHTML= "支持度："+SupportbyScoreandEvalu;
         },
@@ -254,6 +263,7 @@
             "gData":id
         },
         success: function(data) {
+            alert(data);
             ConfidencebyScoreandEvalu=JSON.parse(data);
             document.getElementById("data4").innerHTML= "置信度："+ConfidencebyScoreandEvalu;
         },
@@ -271,6 +281,7 @@
             "gData":id
         },
         success: function(data) {
+            alert(data);
             LiftbyScoreandEvalu=JSON.parse(data);
             document.getElementById("data5").innerHTML= "作用度："+LiftbyScoreandEvalu;
         },
@@ -288,6 +299,7 @@
             "gData":id
         },
         success: function(data) {
+            alert(data);
             calTruth=JSON.parse(data);
             document.getElementById("data6").innerHTML= "可信度："+calTruth;
         },

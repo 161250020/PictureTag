@@ -169,7 +169,7 @@
             document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type=\"text\" name=\"主色调\"id='modern3'><br><br>备注:<input type=\"text\" name=\"备注\"id='modern4'>"
         }
         else if(a=="人物剪影"){
-            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'><br><br>备注:<input type='text'name='备注'id='people8'>";
+            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'><br><br>背景:<input type='text'name='备注'id='people8'>";
         }
         else if(a=="旷野生灵"){
             document.getElementById("selections").innerHTML="物种:<input type='text'name='物种'id='wild1'><br><br>行为:<input type='text'name='行为'id='wild2'><br><br>背景:<input type='text'name='背景'id='wild3'><br><br>备注:<input type='text'name='备注'id='wild4'>";
@@ -367,6 +367,12 @@
                 "flag":true
             }
 
+            //清空标注的内容
+            document.getElementById("nature1").value="";
+            document.getElementById("nature2").value="";
+            document.getElementById("nature3").value="";
+            document.getElementById("nature4").value="";
+            document.getElementById("nature5").value="";
         }
         else if(option.selectedIndex==1){
             obj={
@@ -392,6 +398,12 @@
                 "split":"train",
                 "flag":true
             }
+
+            //清空标注内容
+            document.getElementById("modern1").value="";
+            document.getElementById("modern2").value="";
+            document.getElementById("modern3").value="";
+            document.getElementById("modern4").value="";
         }
         else if(option.selectedIndex==2){
             obj={
@@ -421,6 +433,16 @@
                 "split":"train",
                 "flag":true
             }
+
+            //清空标注内容
+            document.getElementById("people1").value="";
+            document.getElementById("people2").value="";
+            document.getElementById("people3").value="";
+            document.getElementById("people4").value="";
+            document.getElementById("people5").value="";
+            document.getElementById("people6").value="";
+            document.getElementById("people7").value="";
+            document.getElementById("people8").value="";
         }
         else if(option.selectedIndex==3){
             obj={
@@ -447,6 +469,12 @@
                 "split":"train",
                 "flag":true
             }
+
+            //清空标注内容
+            document.getElementById("wild1").value="";
+            document.getElementById("wild2").value="";
+            document.getElementById("wild3").value="";
+            document.getElementById("wild4").value="";
         }
         else if(option.selectedIndex==4) {
             alert(document.getElementById("life1").value.toString());
@@ -475,6 +503,14 @@
                 "split":"train",
                 "flag":true
             }
+
+            //清空标注内容
+            document.getElementById("life1").value="";
+            document.getElementById("life2").value="";
+            document.getElementById("life3").value="";
+            document.getElementById("life4").value="";
+            document.getElementById("life5").value="";
+            document.getElementById("life6").value="";
         }
         else if(option.selectedIndex==5){
             obj={
@@ -500,6 +536,12 @@
                 "split":"train",
                 "flag":true
             }
+
+            //清空标注内容
+            document.getElementById("style1").value="";
+            document.getElementById("style2").value="";
+            document.getElementById("style3").value="";
+            document.getElementById("style4").value="";
         }
 
         var obj_json = JSON.stringify(obj);
