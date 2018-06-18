@@ -374,8 +374,8 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
 
     private void savePicture(HttpServletRequest request,HttpServletResponse response,String s){
+        System.out.println(s);
         imageServiceImpl t = new imageServiceImpl();
-        ;
         String reqStr = s;
         //System.out.println("call");
         System.out.println(s);

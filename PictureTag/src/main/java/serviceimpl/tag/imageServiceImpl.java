@@ -81,7 +81,7 @@ public class imageServiceImpl implements imageService {
         String imgId = "";
         try {
             if(!"".equals(imageData)) {
-                FileWriter fileWriter = new FileWriter(file,true);
+                FileWriter fileWriter = new FileWriter(file);
                 BufferedWriter bw = new BufferedWriter(fileWriter);
                 for (int i = 0; i < length; i++) {
                     String number = String.valueOf(i);
