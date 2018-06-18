@@ -1,41 +1,40 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import vo.UserInfo;
 
 import java.io.File;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class UserTest {
+public class UserTest2 {
     userserviceImpl impl=new userserviceImpl();
     @Before
     public void init(){
-
+        impl.register("2","2","","");
+        impl.register("3","2","","");
+        impl.register("5","2","","");
+        impl.register("4","2","","");
     }
     @Test
     public void test1(){
-        impl.register("1","2","","");
-        assertEquals(impl.getall().size(),2);
+        assertEquals(true,impl.delete("2"));
     }
     @Test
     public void test2(){
-        impl.login("1","2");
-        assertEquals(true,impl.login("1","2"));
+        assertEquals(false,impl.delete("6"));
     }
     @Test
     public void test3(){
-        impl.delete("1");
-        assertEquals(1,impl.getall().size());
+        assertEquals(true,impl.delete("4"));
     }
     @Test
     public void test4(){
-        impl.register("gy","199761","wlx家的小奶狗","葛宇");
-        assertEquals(2,impl.getall().size());
+        assertEquals(false,impl.delete("gygy"));
     }
+
     @After
     public void end(){
-        File file=new File("user.txt");
+        File file=new File("src/main/test/user.txt");
         file.delete();
     }
 }
