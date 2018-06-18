@@ -134,7 +134,7 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//projectid
-
+ var tab=document.getElementById("task_table");
     $.ajax({
         url: "/Servlet",
         type: "POST",
@@ -185,8 +185,8 @@
                     },
                     success: function (data) {
                         if(data=="true"){
-                            window.location.href="task_list.html";
-                            location.href="task_list.html?"+"txt="+encodeURI(id);
+                            window.location.href="pro_list.html";
+                            location.href="pro_list.html?"+"txt="+encodeURI(id);
                         }
                         else{
                             alert("领取失败")
