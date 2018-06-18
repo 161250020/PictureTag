@@ -1,6 +1,8 @@
 package servlet;
 
 import com.google.gson.Gson;
+import service.imageService;
+import service.taskService;
 import serviceimpl.*;
 import serviceimpl.Bill.BillServiceImpl;
 import serviceimpl.tag.imageServiceImpl;
@@ -221,9 +223,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         Gson gson=new Gson();
         UserInfo user=gson.fromJson(userData,UserInfo.class);
         userserviceImpl impl=new userserviceImpl();
-        result=impl.register(user.getUsername(),user.getPassword(),user.getNickname(),user.getName());                 //userdata到底是什么
+        result=impl.register(user.getUsername(),user.getPassword(),user.getNickname(),user.getName());
         try {
-            PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
+            PrintWriter out = response.getWriter();
             String data = "false";
             if (result) {
                 data = "true";
@@ -235,14 +237,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private void login(HttpServletRequest request,HttpServletResponse response,String userData){     //这里会不会有问题
+    /**
+     * 用户登陆
+     * @param request
+     * @param response
+     * @param userData
+     */
+    private void login(HttpServletRequest request,HttpServletResponse response,String userData){
         boolean result=false;
         Gson gson=new Gson();
         UserInfo user=gson.fromJson(userData,UserInfo.class);
         userserviceImpl impl=new userserviceImpl();
         result=impl.login(user.getUsername(),user.getPassword());
         try {
-            PrintWriter out = response.getWriter();       //写入字符,不知道界面的键值是什么
+            PrintWriter out = response.getWriter();
             String data = "false";
             if (result) {
                 data = "true";
@@ -362,13 +370,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-
-
-
-
-
-
-
     /**
      *  提供对单一图片的查询功能
      * @param request
@@ -378,10 +379,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      */
     private void receiveTag(HttpServletRequest request,HttpServletResponse response,String s) throws IOException {
         String reqStr = s;
-        System.out.println(s);
+
         imageServiceImpl t = new imageServiceImpl();
         String image = t.receiveTag(reqStr);
-        System.out.println(image);
+
         try {
             PrintWriter out = response.getWriter();
             out.write(image);
@@ -391,22 +392,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-
+    /**
+     * 图片上传和保存，返回图片的ids
+     * @param request
+     * @param response
+     * @param s
+     */
     private void savePicture(HttpServletRequest request,HttpServletResponse response,String s){
-        System.out.println(s);
-        imageServiceImpl t = new imageServiceImpl();
+        imageService t = new imageServiceImpl();
         String reqStr = s;
-        //System.out.println("call");
-        System.out.println(s);
 
         Gson g = new Gson();
         image[] images = g.fromJson(s,image[].class);
-        System.out.println(images.length);
-        //image i = g.fromJson(reqStr,image.class);
-        //System.out.println(i.getId());
-
         String out = t.saveTag(reqStr);
-        //System.out.println(out);
+
         try {
             PrintWriter p = response.getWriter();
             p.write(out);
@@ -423,9 +422,9 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param response
      */
     private void modifyTag(HttpServletRequest request,HttpServletResponse response,String imgData){
-        imageServiceImpl t = new imageServiceImpl();
-        System.out.println(imgData);
-        System.out.println("modifyTag");
+        imageService t = new imageServiceImpl();
+        //System.out.println(imgData);
+        //System.out.println("modifyTag");
         t.modifyTag(imgData);
         try {
             PrintWriter pw = response.getWriter();
@@ -437,30 +436,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * 暂无
-     * 修改project，输入为project对象的完整信息
+     * 新建task
      * @param request
      * @param response
-     * @param projectData
+     * @param taskData
      */
-    private void modifyProject(HttpServletRequest request,HttpServletResponse response,String projectData){
-
-    }
-
-
-    /**
-     * 暂无
-     * @param request
-     * @param response
-     * @param projectId
-     */
-    private  void deleteProject(HttpServletRequest request,HttpServletResponse response,String projectId){
-
-    }
-
     private void newTask(HttpServletRequest request,HttpServletResponse response,String taskData){
         Gson g = new Gson();
-        taskServiceImpl d = new taskServiceImpl();
+        taskService d = new taskServiceImpl();
         d.newTask(taskData);
         try {
             PrintWriter p = response.getWriter();
@@ -472,15 +455,14 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    /**优先
-     * 王灿灿
+    /**
      * 根据任务(Task)id获得：标注人，图片列表(图片的ids)，图片的url，每张图片的标注内容
      * @param request
      * @param response
      * @param taskId
      */
     private void receiveTaskContent(HttpServletRequest request,HttpServletResponse response,String taskId){
-        taskServiceImpl d = new taskServiceImpl();
+        taskService d = new taskServiceImpl();
         //System.out.print("receiveTaskContent"+taskId);
         String taskInfo = d.receiveTaskInfo(taskId);
         try {
@@ -493,22 +475,27 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-
-    /**王灿灿
+    /**
      * 传递任务(Task)的id给后台，可以删除该任务
      * @param request
      * @param response
      * @param taskId
      */
     private void deleteTask(HttpServletRequest request,HttpServletResponse response,String taskId){
-        taskServiceImpl d = new taskServiceImpl();
+        taskService d = new taskServiceImpl();
         String[] ss = taskId.split("&");
         String filePath = taskServiceImpl.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
         d.deleteTask(taskId,filePath);
     }
 
+    /**
+     * 获得下一个task的id
+     * @param request
+     * @param response
+     * @param userId
+     */
     private void receiveTaskId(HttpServletRequest request, HttpServletResponse response,String userId){
-        taskServiceImpl d = new taskServiceImpl();
+        taskService d = new taskServiceImpl();
         String taskId = d.getTaskId(userId);
         try {
             PrintWriter p = response.getWriter();
@@ -520,18 +507,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-/*    private void receiveImgId(HttpServletRequest request,HttpServletResponse response,String taskId){
-        imageServiceImpl t = new imageServiceImpl();
-        String imgId = t.receiveImgId(taskId);
-        try {
-            PrintWriter pw = response.getWriter();
-            pw.write(imgId);
-            pw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
+    /**
+     * 得到已经发布的未被接受的任务列表
+     * @param request
+     * @param response
+     */
     private void receiveCommittedTaskIds(HttpServletRequest request,HttpServletResponse response){
         taskServiceImpl d = new taskServiceImpl();
         ArrayList<String> ids = d.receiveCommittedTaskIds();
@@ -570,8 +550,15 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
+    /**
+     * 接受任务
+     * @param request
+     * @param response
+     * @param taskId
+     * @param userId
+     */
     private void acceptTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
-        taskServiceImpl d = new taskServiceImpl();
+        taskService d = new taskServiceImpl();
         boolean b = d.acceptTask(taskId,userId);
         try {
             PrintWriter pw = response.getWriter();
@@ -587,8 +574,16 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
+    /**
+     * 发布者确认任务已经完成并给任务评分，任务最终完成
+     * @param request
+     * @param response
+     * @param taskId
+     * @param userId
+     * @param grade
+     */
     private void confirmTask(HttpServletRequest request,HttpServletResponse response,String taskId, String userId,double grade){
-        taskServiceImpl t = new taskServiceImpl();
+        taskService t = new taskServiceImpl();
         boolean b = t.confirmTask(taskId,userId,grade);
         try {
             PrintWriter pw = response.getWriter();
@@ -605,8 +600,15 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     }
 
+    /**
+     * receiver确认完成task
+     * @param request
+     * @param response
+     * @param taskId
+     * @param userId
+     */
     private void completeTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){
-        taskServiceImpl d = new taskServiceImpl();
+        taskService d = new taskServiceImpl();
         boolean b = d.completeTask(taskId, userId);
         try {
             PrintWriter pw = response.getWriter();
@@ -621,12 +623,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
 
     //AnalyzeUser
     private void receiveSingleRanking(HttpServletRequest request,HttpServletResponse response,String username){      //获得单个人的排名
@@ -968,9 +964,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-
-
-
 
     private void BillTasks(HttpServletRequest request,HttpServletResponse response,String username){
         BillServiceImpl impl=new BillServiceImpl();
