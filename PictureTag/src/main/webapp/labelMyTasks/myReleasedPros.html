@@ -251,8 +251,9 @@
 <script>
     //退出
     function logout(){
-        window.open("../homepage/home_page.html", "_blank");
-        window.close();
+        window.location.href="../homepage/home_page.html";
+        location.href="../homepage/home_page.html?"+"txt="+encodeURI(id);
+
     }
 
 </script>
