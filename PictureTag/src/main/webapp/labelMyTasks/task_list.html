@@ -192,7 +192,8 @@
                         cell1.innerHTML = "<a href='task_content_2nd.html?txt=" + tas[i].id + "&" + userid + "'>" + tas[i].id + "</a>";
                         cell2.innerHTML = tas[i].tagType;
                         cell3.innerHTML = tas[i].name;
-                        cell4.innerHTML = userid;
+                        var h1=pro.id.indexOf("_");
+                        cell4.innerHTML = tas[i].id.substring(0,h1);
                         cell5.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
                         cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
                         task_level_low[i] = tas[i].requests[0];

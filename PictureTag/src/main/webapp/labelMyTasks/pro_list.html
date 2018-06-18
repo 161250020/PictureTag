@@ -153,7 +153,8 @@
                 var pro=changepro[i];
                 cell1.innerHTML = "<a href='task_list.html?txt=" + pro.id + "&"+id+"'>" + pro.id + "</a>";
                 cell2.innerHTML = pro.name;
-                cell3.innerHTML = id;
+                var h1=pro.id.indexOf("_");
+                cell3.innerHTML = pro.id.substring(0,h1);
                 cell4.innerHTML = pro.progress + "/" + pro.taskIds.length;
             }
         },
