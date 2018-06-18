@@ -115,7 +115,6 @@
                         <table class="table" id="task_table">
                             <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>发布者</th><th>完成度</th><th>领取</th>
 
-
                         </table>
                     </div>
                 </div>
@@ -132,7 +131,7 @@
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
-    var  id = decodeURI(loc.substr(n2+1, n1-n2));//projectid
+    var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var tab=document.getElementById("task_table");
     document.getElementById("b_userId").innerText="用户名："+userid;
     $("#task_table  tr:not(:first)").empty("");
