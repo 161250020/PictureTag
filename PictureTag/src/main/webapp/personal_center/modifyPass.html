@@ -145,38 +145,46 @@
         var in1=document.getElementById("new_pass").value.toString();
         var in2=document.getElementById("reInputNew_pass").value.toString();
 
-        if(in1==in2){
-            var str={
-                "username":id,
-                "password":in1,
-                "name":changepro.name,
-                "nickname":changepro.nickname,
-                "level":changepro.level,
-                "receivetask":changepro.receivetask,
-                "launchpro":changepro.launchpro,
-                "TaskNumber":changepro.TaskNumber,
-                "score":changepro.score,
-                "receiveEvalu":changepro.receiveEvalu,
-                "finish":changepro.finish,
-                "Date":changepro.Date,
-                "Month":changepro.Month,
-                "Day":changepro.Day
-            };
-            var changeobj=JSON.stringify(str);
-            $.ajax({
-                url : "/Servlet",
-                type : "POST",
-                data :{
-                    "gData":changeobj,
-                    "action":"modifyUser"
-                },
-                success: function(data) {
-                    alert("修改密码成功！");
-                },
-                error: function () {
-                    alert("Wrong!");
-                }
-            });
+        if((in1!="")&&(in2!="")){
+            if(in1==in2){
+                var str={
+                    "username":id,
+                    "password":in1,
+                    "name":changepro.name,
+                    "nickname":changepro.nickname,
+                    "level":changepro.level,
+                    "receivetask":changepro.receivetask,
+                    "launchpro":changepro.launchpro,
+                    "TaskNumber":changepro.TaskNumber,
+                    "score":changepro.score,
+                    "receiveEvalu":changepro.receiveEvalu,
+                    "finish":changepro.finish,
+                    "Date":changepro.Date,
+                    "Month":changepro.Month,
+                    "Day":changepro.Day
+                };
+                var changeobj=JSON.stringify(str);
+                $.ajax({
+                    url : "/Servlet",
+                    type : "POST",
+                    data :{
+                        "gData":changeobj,
+                        "action":"modifyUser"
+                    },
+                    success: function(data) {
+                        alert("修改密码成功！");
+                    },
+                    error: function () {
+                        alert("Wrong!");
+                    }
+                });
+            }
+            else if(in1!=in2){
+                alert("两次密码输入的不同，无法修改！");
+            }
+        }
+        else{
+            alert("修改成为的新密码不可以为空！");
         }
     }
 
