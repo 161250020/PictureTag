@@ -127,13 +127,6 @@
 
                     <br>
                     <br>
-                    <!--转到第几张图片的标注-->
-                    <div class="one">
-                        <input type="text" placeholder="共：100张" style="width: 95%">
-                    </div>
-                    <div class="two">
-                        <i class="fa fa-refresh" style="font-size:25px"></i>
-                    </div>
                 </div>
 
                 <!--右边-->
@@ -200,10 +193,10 @@
             else
                 pic_tag="整体标注";
             var complete;//完成情况
-            if(tas.publish=="false")
-                complete="未完成";
-            else
+            if(tas.complete.toString()=="true")
                 complete="已完成";
+            else
+                complete="未完成";
             document.getElementById("left_info").innerHTML="\n" +
                 "                        <ul class=\"no-bullet\">\n" +
                 "                            <li>\n" +
