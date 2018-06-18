@@ -111,7 +111,6 @@
 
                     <!--按钮组-->
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" onclick="restuya()">重新标注</button>
                         <button type="button" class="btn btn-default" onclick="backPage()">上一张</button>
                         <button type="button" class="btn btn-default" onclick="nextpage()">下一张</button>
                         <button type="button" class="btn btn-default" onclick="savePicture()" id="save">保存</button>
@@ -170,7 +169,7 @@
             document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type=\"text\" name=\"主色调\"id='modern3'><br><br>备注:<input type=\"text\" name=\"备注\"id='modern4'>"
         }
         else if(a=="人物剪影"){
-            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'>";
+            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'><br><br>备注:<input type='text'name='备注'id='people8'>";
         }
         else if(a=="旷野生灵"){
             document.getElementById("selections").innerHTML="物种:<input type='text'name='物种'id='wild1'><br><br>行为:<input type='text'name='行为'id='wild2'><br><br>背景:<input type='text'name='背景'id='wild3'><br><br>备注:<input type='text'name='备注'id='wild4'>";
@@ -180,7 +179,7 @@
         }
         else if(a=="风格主义"){
             document.getElementById("selections").innerHTML="个性色彩:<input type='text'name='个性色彩'id='style1'><br><br>主色调:<input type='text'name='主色调'id='style2'><br><br>主题:<input type='text'name='主题'id='style3'><br><br>备注:<input type='text'name='备注'id='style4'>";
-       }
+        }
         else if(a=="自然景观"){
             document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物' id='nature1'> <br><br>季节:<input type='text' name='季节'id='nature2'><br><br>区域:<input type='text' name='区域'id='nature3'> <br><br>主色调:<input type='text' name='主色调'id='nature4'><br><br>备注:<input type='text' name='季节'id='nature5'>";
         }
@@ -391,9 +390,10 @@
                             document.getElementById("people4").value.toString(),
                             document.getElementById("people5").value.toString(),
                             document.getElementById("people6").value.toString(),
-                            document.getElementById("people7").value.toString()
+                            document.getElementById("people7").value.toString(),
+                            document.getElementById("people8").value.toString()
                         ],
-                        "raw":document.getElementById("people1").value.toString()+document.getElementById("people2").value.toString()+document.getElementById("people3").value.toString()+document.getElementById("people4").value.toString()+document.getElementById("people5").value.toString()+document.getElementById("people6").value.toString()+document.getElementById("people7").value.toString(),
+                        "raw":document.getElementById("people1").value.toString()+document.getElementById("people2").value.toString()+document.getElementById("people3").value.toString()+document.getElementById("people4").value.toString()+document.getElementById("people5").value.toString()+document.getElementById("people6").value.toString()+document.getElementById("people7").value.toString()+document.getElementById("people8").value.toString(),
                         "imgid":0,
                         "sentid":0
                     }
@@ -431,6 +431,7 @@
             }
         }
         else if(option.selectedIndex==4) {
+            alert(document.getElementById("life1").value.toString());
             obj = {
                 "sentids": [
                     4
@@ -469,10 +470,9 @@
                             document.getElementById("style1").value.toString(),
                             document.getElementById("style2").value.toString(),
                             document.getElementById("style3").value.toString(),
-                            document.getElementById("style4").value.toString(),
-                            document.getElementById("style5").value.toString()
+                            document.getElementById("style4").value.toString()
                         ],
-                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString(),
                         "imgid":0,
                         "sentid":0
                     }
@@ -488,16 +488,12 @@
         $.ajax({
             url: "/Servlet",
             type: "POST",
-            async:true,
             data: {
                 "gData": obj_json,
                 "action": "modifyTag"
             },
             success: function (data) {
-                if(data=="true"){
-                    alert("保存成功！");
-
-                }
+                alert("保存成功！");
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
