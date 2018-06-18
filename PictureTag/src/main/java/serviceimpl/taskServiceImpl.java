@@ -271,6 +271,8 @@ public class taskServiceImpl implements taskService {
         //确认task完成，修改user信息
         u.updatefinish(userId,taskId,true);
         u.updateEvalu(userId,taskId,grade);
+        Gson gson=new Gson();
+        u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
         //删除committedTaskFile里的该task
         deleteTask(taskId,checkTaskFileName);
         //修改评分
