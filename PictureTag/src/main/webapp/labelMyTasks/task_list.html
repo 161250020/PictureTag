@@ -182,13 +182,12 @@
         var tbodyObj = document.getElementById('task_table');
         $("table :checkbox").each(function(key,value){
             if($(value).prop('checked')){
-                alert( tbodyObj.rows[key].cells[0].innerText);
                 $.ajax({
                     url: "/Servlet",
                     type: "POST",
                     async: false,
                     data: {
-                        "taskId": tbodyObj.rows[key].cells[0].value,
+                        "taskId": tbodyObj.rows[key+1].cells[0].innerText,
                         "userId":userid,
                         "action": "acceptTask"
                     },
