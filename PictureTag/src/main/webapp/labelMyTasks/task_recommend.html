@@ -71,7 +71,7 @@
                         <button type="button" class="button secondary" style="width: 100%" onclick="receive_mission()">确认领取</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%" onclick="go_back()">返回</button>
+                        <button type="button" class="button secondary" style="width: 100%">刷新</button>
                     </li>
                 </ul>
             </div>
@@ -115,6 +115,7 @@
                         <table class="table" id="task_table">
                             <th>任务ID</th><th>标注类型</th><th>基本信息</th><th>发布者</th><th>完成度</th><th>领取</th>
 
+
                         </table>
                     </div>
                 </div>
@@ -127,15 +128,13 @@
 
     $(document).ready(function() {
         $(document).foundation();
-    })
+    });
+    alert("123");
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
-    var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-    var tab=document.getElementById("task_table");
-    document.getElementById("b_userId").innerText="用户名："+id;
-    $("#task_table  tr:not(:first)").empty("");
-    alert(id);
+    var  id = decodeURI(loc.substr(n2+1, n1-n2));//projectid
+
     $.ajax({
         url: "/Servlet",
         type: "POST",
@@ -161,7 +160,7 @@
                 cell1.innerHTML = "<a href='task_content.html?txt=" + tas[i].id + "'>" + tas[i].id + "</a>";
                 cell2.innerHTML = tas[i].tagType;
                 cell3.innerHTML = tas[i].name;
-                cell4.innerHTML = userid;
+                cell4.innerHTML = id;
                 cell5.innerHTML = tas[i].progress+ "/" + tas[i].imageIds.length;
                 cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
             }
@@ -181,7 +180,7 @@
                     type: "POST",
                     data: {
                         "taskId": Task_id,
-                        "userId":userid,
+                        "userId":id,
                         "action": "acceptTask"
                     },
                     success: function (data) {
