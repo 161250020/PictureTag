@@ -383,7 +383,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         image i = g.fromJson(reqStr,image.class);
         //System.out.println(i.getId());
 
-        String out = t.writeTag(reqStr);
+        String out = t.saveTag(reqStr);
         //System.out.println(out);
         try {
             PrintWriter p = response.getWriter();

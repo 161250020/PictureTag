@@ -2,7 +2,7 @@ package service;
 
 public interface imageService {
 
-    public String writeTag(String jsonData);
+    public String saveTag(String jsonData);
 
     public String receiveTag(String s);
 

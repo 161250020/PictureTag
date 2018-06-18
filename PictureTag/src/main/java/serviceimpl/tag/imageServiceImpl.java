@@ -15,7 +15,7 @@ public class imageServiceImpl implements imageService {
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
 
-    public String receiveImgId(String taskId,String filePath){
+/*    public String receiveImgId(String taskId,String filePath){
         String out = "";
         File f = new File(filePath);
         //System.out.println(f.getAbsolutePath());
@@ -56,16 +56,18 @@ public class imageServiceImpl implements imageService {
         out = taskId + sp + out;
 
         return out;
-    }
+    }*/
 
-    public String writeTag(String imageData){
+    public String saveTag(String imageData){
         //System.out.println(tagPath);
         //System.out.println("call again");
+        ArrayList<String> imgIds = new ArrayList<>();
         String taskId="";
         Gson gson = new Gson();
-        image i = gson.fromJson(imageData,image.class);
+        image[] images = gson.fromJson(imageData,image[].class);
+        int length = images.length;
         //System.out.println(i.getId());
-        String[] strings =i.getId().split(sp);
+        String[] strings =images[0].getId().split(sp);
         taskId = strings[0]+sp+strings[1]+sp+strings[2];
         //System.out.println(taskId);
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
@@ -81,10 +83,18 @@ public class imageServiceImpl implements imageService {
             if(!"".equals(imageData)) {
                 FileWriter fileWriter = new FileWriter(file,true);
                 BufferedWriter bw = new BufferedWriter(fileWriter);
-                imgId = receiveImgId(taskId,filePath);
-                i.setId(imgId);
-                bw.write(gson.toJson(i));
-                bw.newLine();
+                for (int i = 0; i < length; i++) {
+                    imgId = "";
+                    String number = String.valueOf(i);
+                    for (int j = 0; j < 5-number.length(); j++) {
+                        imgId = "0"+imgId;
+                    }
+                    imgId = taskId+sp+imgId;
+                    imgIds.add(imgId);
+                    images[i].setId(imgId);
+                    bw.write(gson.toJson((images[i])));
+                    bw.newLine();
+                }
                 bw.close();
                 fileWriter.close();
                 //System.out.println(jsonData);
@@ -99,7 +109,7 @@ public class imageServiceImpl implements imageService {
             e.printStackTrace();
         }
         //System.out.println(imgId);
-        return imgId;
+        return gson.toJson(imgIds);
     }
 
     public String receiveTag(String imageId){
@@ -139,7 +149,7 @@ public class imageServiceImpl implements imageService {
         Gson gson = new Gson();
         image i = gson.fromJson(jsonData,image.class);
         String[] ss = i.getId().split(sp);
-        String taskId = ss[0]+sp+ss[1]+ss[2];
+        String taskId = ss[0]+sp+ss[1]+sp+ss[2];
         ArrayList<String> reWrite = new ArrayList<>();
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
 
@@ -155,8 +165,8 @@ public class imageServiceImpl implements imageService {
             String temp = "";
             while (null != (temp = br.readLine())){
                 image iTemp =gson.fromJson(temp,image.class);
-                System.out.println(im.getId());
-                System.out.println(iTemp.getId());
+                //System.out.println(im.getId());
+                //System.out.println(iTemp.getId());
                 if(im.getId().equals(iTemp.getId())){
                     reWrite.add(gson.toJson(im));
                 }
