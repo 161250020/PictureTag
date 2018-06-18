@@ -447,6 +447,7 @@
             }
         }
         else if(option.selectedIndex==4) {
+            alert(document.getElementById("life1").value.toString());
             obj = {
                 "sentids": [
                     4
@@ -485,10 +486,9 @@
                             document.getElementById("style1").value.toString(),
                             document.getElementById("style2").value.toString(),
                             document.getElementById("style3").value.toString(),
-                            document.getElementById("style4").value.toString(),
-                            document.getElementById("style5").value.toString()
+                            document.getElementById("style4").value.toString()
                         ],
-                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString()+document.getElementById("style5").value.toString(),
+                        "raw":document.getElementById("style1").value.toString()+document.getElementById("style2").value.toString()+document.getElementById("style3").value.toString()+document.getElementById("style4").value.toString(),
                         "imgid":0,
                         "sentid":0
                     }
