@@ -314,8 +314,10 @@
     //将选择的图片们保存成url形式
     var arr;
     var txt;
+    var img_list;
     function savePicsAsUrl(){
         arr=new Array();
+        img_list=new Array();
         var pics=document.getElementById("choose_files").files;
         var len=pics.length;
         for(var i=0;i<len;i++){
@@ -346,30 +348,7 @@
                         "spilt":"train",
                         "flag":false
                     };
-                    var obj_json=JSON.stringify(obj);
-                    $.ajax({
-                        url : "/Servlet",
-                        type : "POST",
-                        async:true,
-                        data :{
-                            "gData":obj_json,
-                            "action":"savePicture"
-                        },
-                        success: function(data) {
-                            arr.push(data.toString());
-
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            alert(XMLHttpRequest.status);
-                            alert(XMLHttpRequest.readyState);
-                            alert(textStatus);
-                        }
-
-                    });
-
-
-
-
+                    img_list.push(JSON.stringify(obj));
                     //?或许此处有问题，图片存储arr出了reader.onload就无法识别了
                     //alert(arr[i]);
                     //document.getElementById("demo").innerHTML='<img src="'+arr[2]+'">';
@@ -378,6 +357,30 @@
 
             }
         }
+        var obj_json="[";
+        for(var i=0;i<img_list.length;i++) {
+            if(i<img_lis)
+            obj_json = obj_json + img_list[i] + ",";
+        }
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            dataType:"json",
+            data :{
+                "gData":obj_json,
+                "action":"savePicture"
+            },
+            success: function(data) {
+                arr.push(data.toString());
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+
+        });
     }
 
 

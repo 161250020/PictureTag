@@ -84,10 +84,10 @@ public class imageServiceImpl implements imageService {
                 FileWriter fileWriter = new FileWriter(file,true);
                 BufferedWriter bw = new BufferedWriter(fileWriter);
                 for (int i = 0; i < length; i++) {
-                    imgId = "";
+                    imgId = "0";
                     String number = String.valueOf(i);
                     for (int j = 0; j < 5-number.length(); j++) {
-                        imgId = "0"+imgId;
+                        imgId = "0" + imgId;
                     }
                     imgId = taskId+sp+imgId;
                     imgIds.add(imgId);

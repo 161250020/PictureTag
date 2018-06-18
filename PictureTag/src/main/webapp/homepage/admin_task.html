@@ -93,6 +93,11 @@
                                 <canvas id="popChart" width="600" height="400"></canvas>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <canvas id="popChart1" width="600" height="400"></canvas>
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <br>
@@ -118,33 +123,7 @@
     var  project_id;
     var tab=document.getElementById("project");
     var ctx = document.getElementById("popChart").getContext("2d");
-//[parseInt(change_pro[0]), parseInt(change_pro[1]), parseInt(change_pro[2]), parseInt(change_pro[3]),parseInt(change_pro[4])]
-    var ctx = document.getElementById("popChart").getContext("2d");
-    var myDoughnutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: data = {
-            datasets: [{
-                data: [10,20,14,30,15]
-            }],
 
-            // These labels appear in the legend and in the tooltips when hovering different arcs
-            labels: [
-                '1',
-                '2',
-                '3',
-                '4',
-                '5'
-            ],
-            hoverBorderColor: [
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(153, 102, 255, 0.6)'
-            ]
-
-        }
-    });
     $.ajax({
         url : "/Servlet",
         type : "POST",
@@ -161,7 +140,7 @@
                 type: 'doughnut',
                 data: data = {
                     datasets: [{
-                        data: [10,20,14,30,15]
+                        data: [parseInt(change_pro[0]), parseInt(change_pro[1]), parseInt(change_pro[2]), parseInt(change_pro[3]),parseInt(change_pro[4])]
                     }],
 
                     // These labels appear in the legend and in the tooltips when hovering different arcs
@@ -172,7 +151,7 @@
                         '4',
                         '5'
                     ],
-                    backgroundColor: [
+                    hoverBorderColor: [
                         'rgba(255, 99, 132, 0.6)',
                         'rgba(54, 162, 235, 0.6)',
                         'rgba(255, 206, 86, 0.6)',
@@ -190,6 +169,47 @@
         }
     });
 
+
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取项目id的方法
+            "action":"receiveTaskCount"
+        },
+        success: function(data) {
+            var change_pro=JSON.parse(data);
+            alert(data);
+            var popCanvas = $("#popChart");
+            var ctx = document.getElementById("popChart").getContext("2d");
+            var myDoughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data = {
+                    datasets: [{
+                        data: [parseInt(change_pro[0]), parseInt(change_pro[1]), parseInt(change_pro[2])]
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: [
+                        '1',
+                        '2',
+                        '3'
+                    ],
+                    hoverBorderColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)'
+                    ]
+                }
+            });
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
 
     function year_pic(){
         window.location.href="admin.html";

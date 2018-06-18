@@ -375,12 +375,15 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     private void savePicture(HttpServletRequest request,HttpServletResponse response,String s){
         imageServiceImpl t = new imageServiceImpl();
+        ;
         String reqStr = s;
         //System.out.println("call");
-        //System.out.println(s);
+        System.out.println(s);
 
         Gson g = new Gson();
-        image i = g.fromJson(reqStr,image.class);
+        image[] images = g.fromJson(s,image[].class);
+        System.out.println(images.length);
+        //image i = g.fromJson(reqStr,image.class);
         //System.out.println(i.getId());
 
         String out = t.saveTag(reqStr);
