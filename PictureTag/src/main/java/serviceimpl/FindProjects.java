@@ -42,7 +42,23 @@ public class FindProjects implements service.FindProjects {
         impl.update(user);
         return result;
     }
-
+    public ArrayList<Project> getPros(){
+        userserviceImpl impl=new userserviceImpl();
+        ArrayList<UserInfo> user=impl.getall();
+        ArrayList<UserInfo> newUser=new ArrayList<UserInfo>();
+        for(UserInfo u:user){
+            if(u.getLaunchpro().size()>0){
+                newUser.add(u);
+            }
+        }
+        ArrayList<Project> pro=new ArrayList<Project>();
+        for(UserInfo u:newUser){
+            for(Project p:getProjects(u.getUsername())){
+                pro.add(p);
+            }
+        }
+        return pro;
+    }
     public ArrayList<Project> getProjects(String username){            //显示所用
         ArrayList<Project> list=new ArrayList<Project>();
         String path=FindProjects.class.getResource("/").getFile()+ File.separator+"_"+username+"_"+"Projects.txt" ;                                       //路径未知.

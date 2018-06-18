@@ -164,9 +164,25 @@ public class AnalyzeUser implements Analyze {                           //质量
                 count3++;
             }
         }
-        average1=sum1*1.0/count1;
-        average2=sum2*1.0/count2;
-        average3=sum3*1.0/count3;
+        if(count1!=0) {
+            average1 = sum1 * 1.0 / count1;
+        }
+        else{
+            average1=0;
+        }
+        if(count2!=0) {
+            average2 = sum2 * 1.0 / count2;
+        }
+        else{
+            average2=0;
+        }
+        if(count3!=0) {
+            average3 = sum3 * 1.0 / count3;
+        }
+        else{
+            average3=0;
+        }
+
         if(type1){
             temp1="area";
         }

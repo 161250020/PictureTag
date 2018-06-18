@@ -274,6 +274,10 @@ public class AdminUser {
               return result;
           }
 
+          public ArrayList<String> getAllNorm(){
+               ArrayList<String> result=new ArrayList<String>();
+               return result;
+          }
 
           //辅助方法
           public int checkMonth(String month){            //返回该月的天数

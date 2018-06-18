@@ -148,7 +148,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if ("launchPro".equals(action)) {
             String project = request.getParameter("gData");
             this.launchPro(request, response, project);
-        } else if ("receiveProjects".equals(action)) {
+        }else if("receivePros".equals(action)){
+            this.receivePros(request,response);
+        }
+        else if ("receiveProjects".equals(action)) {
             String username = request.getParameter("gData");
             this.receiveProjects(request, response, username);
         } else if ("receiveProjectById".equals(action)) {
@@ -758,7 +761,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
-
+    private void receivePros(HttpServletRequest request,HttpServletResponse response){
+        FindProjects impl=new FindProjects();
+        ArrayList<Project> pro=impl.getPros();
+        Gson gson=new Gson();
+        String gsondata=gson.toJson(pro);
+        try{
+            PrintWriter writer=response.getWriter();
+            writer.write(gsondata);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     private void receiveProjects(HttpServletRequest request,HttpServletResponse response,String username){              //显示用户的project
         FindProjects impl=new FindProjects();
         ArrayList<Project> pro=impl.getProjects(username);
