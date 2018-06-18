@@ -252,10 +252,12 @@ public class taskServiceImpl implements taskService {
         String taskProjectId = ss[0]+sp+ss[1];
         Gson g = new Gson();
         //用户确认自己已经完成task，将task的complete属性修改为true
-        String taskData = findTask(taskId,taskProjectId+".task");
+        String taskData = findTask(taskId,taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
         Task temp = g.fromJson(taskData,Task.class);
+        System.out.println(grade);
         temp.setComplete(true);
-        modifyTask(g.toJson(temp),taskProjectId+".task");
+        temp.setGrade(grade);
+        modifyTask(g.toJson(temp),taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
     }
 
     @Override
@@ -263,7 +265,7 @@ public class taskServiceImpl implements taskService {
         userserviceImpl u = new userserviceImpl();
         String[] ss = taskId.split(sp);
         String taskProjectId = ss[0]+sp+ss[1];
-
+        System.out.println(grade);
         //确认task完成，修改project信息
         findProjects.updateProgress(taskProjectId);
         //确认task完成，修改user信息
@@ -430,6 +432,13 @@ public class taskServiceImpl implements taskService {
         Task t = gson.fromJson(taskData,Task.class);
         String taskId = t.getId();
         File fRead = new File(filePath);
+        if(!fRead.exists()){
+            try {
+                fRead.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         File fWrite = new File(filePath);
         try {
             FileReader fr = new FileReader(fRead);

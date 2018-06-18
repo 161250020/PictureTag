@@ -98,9 +98,9 @@ public class imageServiceImpl implements imageService {
                 bw.close();
                 fileWriter.close();
                 //System.out.println(jsonData);
-                System.out.println("----------------------------------");
-                System.out.println(imgId);
-                System.out.println("----------------------------------");
+                //System.out.println("----------------------------------");
+                //System.out.println(imgId);
+                //System.out.println("----------------------------------");
             }
             else{
                 System.out.println("空值");
@@ -154,6 +154,7 @@ public class imageServiceImpl implements imageService {
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
 
         image im = gson.fromJson(jsonData,image.class);
+        //System.out.println(im.getSentences());
         im.setFlag(true);
         int count = 1;//数完成图片的数量
 
@@ -230,8 +231,8 @@ public class imageServiceImpl implements imageService {
         taskServiceImpl taskService = new taskServiceImpl();
         String[] ss = taskId.split(sp);
         String projectId = ss[0]+sp+ss[1];
-        String projectfileName = projectId+".task";
-        String imageFilePath = taskId+imageFileName;
+        String projectfileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+projectId+".task";
+        String imageFilePath = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         String taskData = "";
         taskData = taskService.findTask(taskId,committedTaskFile);
         if(taskData != null){
