@@ -133,9 +133,9 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var tab=document.getElementById("task_table");
-    document.getElementById("b_userId").innerText="用户名："+userid;
+    document.getElementById("b_userId").innerText="用户名："+id;
     $("#task_table  tr:not(:first)").empty("");
-
+    alert(id);
     $.ajax({
         url: "/Servlet",
         type: "POST",
