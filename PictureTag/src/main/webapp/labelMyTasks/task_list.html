@@ -141,47 +141,6 @@
     var user_level;
     var task_level_low=new Array();
     var task_level_high=new Array();
-    $.ajax({
-        url: "/Servlet",
-        type: "POST",
-        data: {
-            //调用后端获取项目内容的方法
-            "action": "receiveTasks",
-            "gData": id
-            //userid
-
-        },
-        success: function (data) {
-            $("#task_table  tr:not(:first)").empty("");
-            tas=JSON.parse(data);
-            commited_task_id=tas.taskIds;
-            for(var i=0;i<tas.length;i++) {
-                if (tas[i].receive == false) {
-                var oneRow = tab.insertRow();//插入一行
-                var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-                var cell2 = oneRow.insertCell(1);
-                var cell3 = oneRow.insertCell(2);
-                var cell4 = oneRow.insertCell(3);
-                var cell5 = oneRow.insertCell(4);
-                var cell6 = oneRow.insertCell(5);
-                cell1.innerHTML = "<a href='task_content_2nd.html?txt=" + tas[i].id +  "&"+userid+"'>" + tas[i].id + "</a>";
-                cell2.innerHTML = tas[i].tagType;
-                cell3.innerHTML = tas[i].name;
-                cell4.innerHTML = userid;
-                cell5.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
-                cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
-                task_level_low[i]=tas[i].requests[0];
-                task_level_high[i]=tas[i].requests[1];
-              }
-            }
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(XMLHttpRequest.status);
-            alert(XMLHttpRequest.readyState);
-            alert(textStatus);
-        }
-    });
-
 
     $.ajax({
         url: "/Servlet",
@@ -204,11 +163,56 @@
         }
     });
 
+
+
+    $.ajax({
+        url: "/Servlet",
+        type: "POST",
+        data: {
+            //调用后端获取项目内容的方法
+            "action": "receiveTasks",
+            "gData": id
+            //userid
+
+        },
+        success: function (data) {
+            $("#task_table  tr:not(:first)").empty("");
+            tas=JSON.parse(data);
+            commited_task_id=tas.taskIds;
+            for(var i=0;i<tas.length;i++) {
+                if (tas[i].receive == false) {
+                    if (parseInt(user_level) >= parseInt(tas[i].requests[0]) && parseInt(user_level) <= parseInt(tas[i].requests[1])) {
+                        var oneRow = tab.insertRow();//插入一行
+                        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                        var cell2 = oneRow.insertCell(1);
+                        var cell3 = oneRow.insertCell(2);
+                        var cell4 = oneRow.insertCell(3);
+                        var cell5 = oneRow.insertCell(4);
+                        var cell6 = oneRow.insertCell(5);
+                        cell1.innerHTML = "<a href='task_content_2nd.html?txt=" + tas[i].id + "&" + userid + "'>" + tas[i].id + "</a>";
+                        cell2.innerHTML = tas[i].tagType;
+                        cell3.innerHTML = tas[i].name;
+                        cell4.innerHTML = userid;
+                        cell5.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
+                        cell6.innerHTML = "<input type='checkbox' name='ischeck'>";
+                        task_level_low[i] = tas[i].requests[0];
+                        task_level_high[i] = tas[i].requests[1];
+                    }
+                }
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
     function receive_mission(){
         var tbodyObj = document.getElementById('task_table');
         $("table :checkbox").each(function(key,value){
             if($(value).prop('checked')){
-                if(parseInt(user_level)>=parseInt(task_level_low[key])&&parseInt(user_level)<=parseInt(task_level_high[key])) {
+
                     $.ajax({
                         url: "/Servlet",
                         type: "POST",
@@ -235,13 +239,7 @@
                         }
                     });
                 }
-                else
-                    alert("用户当前等级无法领取");
-            }
         })
-
-
-
 
     }
 

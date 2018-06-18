@@ -683,7 +683,7 @@
             type : "POST",
             data :{
                 "taskId":id,
-                "userId":id.split("_")[0],
+                "userId":tas.receiverId,
                 "grade":document.getElementById("calculate").value.toString(),
                 "action":"confirmTask"
             },
