@@ -124,6 +124,12 @@
                             <h3 class="panel-title">用户的相关数据:</h3>
                         </div>
                         <div class="panel-body" id="user_datas">
+                            <h9 id="data1"></h9>
+                            <h9 id="data2"></h9>
+                            <h9 id="data3"></h9>
+                            <h9 id="data4"></h9>
+                            <h9 id="data5"></h9>
+                            <h9 id="data6"></h9>
                         </div>
                     </div>
                 </div>
@@ -197,9 +203,8 @@
         },
         success: function(data) {
             correlation=JSON.parse(data);
-            document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">相关系数："+correlation+"</h9>\n" +
-                "                    <br>";
+            document.getElementById("data1").innerHTML= "相关系数："+correlation;
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -216,9 +221,7 @@
         },
         success: function(data) {
             ExpectedScore=JSON.parse(data);
-            document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">期望得分："+ExpectedScore+"</h9>\n" +
-                "                    <br>";
+            document.getElementById("data2").innerHTML= "期望得分："+ExpectedScore;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -235,9 +238,7 @@
         },
         success: function(data) {
             SupportbyScoreandEvalu=JSON.parse(data);
-            document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">支持度："+SupportbyScoreandEvalu+"</h4>\n" +
-                "                    <br>";
+            document.getElementById("data3").innerHTML= "支持度："+SupportbyScoreandEvalu;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -254,9 +255,7 @@
         },
         success: function(data) {
             ConfidencebyScoreandEvalu=JSON.parse(data);
-            document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">置信度："+ConfidencebyScoreandEvalu+"</h9>\n" +
-                "                    <br>";
+            document.getElementById("data4").innerHTML= "置信度："+ConfidencebyScoreandEvalu;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -273,9 +272,7 @@
         },
         success: function(data) {
             LiftbyScoreandEvalu=JSON.parse(data);
-            document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">作用度："+LiftbyScoreandEvalu+"</h9>\n" +
-                "                    <br>";
+            document.getElementById("data5").innerHTML= "作用度："+LiftbyScoreandEvalu;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -292,9 +289,7 @@
         },
         success: function(data) {
             calTruth=JSON.parse(data);
-            document.getElementById("user_datas").innerHTML=document.getElementById("user_datas").innerHTML+"\n" +
-                "                    <h9 style=\"font-family: 仿宋;font-weight: bold\" id=\"per_info_grade\">可信度："+calTruth+"</h9>\n" +
-                "                    <br>";
+            document.getElementById("data6").innerHTML= "可信度："+calTruth;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
