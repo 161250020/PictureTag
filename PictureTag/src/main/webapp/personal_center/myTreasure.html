@@ -88,7 +88,7 @@
                     <h5 style="font-family: 仿宋;font-weight: bold">积分总量：<p id="score"></p></h5>
                     <h5 style="font-family: 仿宋;font-weight: bold">积分排名：<p id="rank"></p>总人数：<p id="count"></p></h5>
                     <div align="right">
-                        <button type="button" class="btn btn-default" data-reveal-id="myModal" onclick="show_count()">查看详细收入信息</button>
+                        <button type="button" class="btn btn-default" data-reveal-id="myModal">查看详细收入信息</button>
                         <div id="myModal" class="reveal-modal" data-reveal>
                             <div class="panel panel-default">
                                 <h4 style="font-family: 仿宋;font-weight: bold">支出账单：</h4>
@@ -234,63 +234,65 @@
     });
 
     //查看收入账单
+    var tab=document.getElementById("project");
     var task_list=new Array();//taskid的list
     var task_count=new Array();//task的评分的list
-    var tab=document.getElementById("project");
-    function show_count(){
-        $("#project  tr:not(:first)").empty("");
-        var aaa;
-        //获得task的list
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                //调用后端获取项目id的方法
-                "action":"BillTasks",
-                "gData":id
-            },
-            success: function(data) {
-                var changepro=JSON.parse(data);
-                task_list=changepro;
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
-        //获得task的评分
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                //调用后端获取项目id的方法
-                "action":"BillCounts",
-                "gData":id
-            },
-            success: function(data) {
-                var changepro=JSON.parse(data);
-                task_count=changepro;
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
+    $("#project  tr:not(:first)").empty("");
+    var aaa;
+    //获得task的list
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取项目id的方法
+            "action":"BillTasks",
+            "gData":id
+        },
+        success: function(data) {
+            alert(data);
+            var changepro=JSON.parse(data);
+            task_list=changepro;
 
-        for(var i=0;i<task_list.length;i++){
-            var oneRow = tab.insertRow();//插入一行
-            var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-            var cell2 = oneRow.insertCell(1);
-            var cell3 = oneRow.insertCell(2);
-            var cell4 = oneRow.insertCell(3);
-            cell1.innerText = task_list[i].substring(0,4)+"-"+task_list[i].substring(4,6)+"-"+task_list[i].substring(6,8);
-            cell2.innerText = task_list[i].split("_")[0]+"_"+changepro.id.split("_")[1];
-            cell3.innerText = task_list[i];
-            cell4.innerText = task_count[i];
+            //获得task的评分
+            $.ajax({
+                url : "/Servlet",
+                type : "POST",
+                data :{
+                    //调用后端获取项目id的方法
+                    "action":"BillCounts",
+                    "gData":id
+                },
+                success: function(data) {
+                    alert(data);
+                    var changepro=JSON.parse(data);
+                    task_count=changepro;
+                    //写入列表中的信息
+                    for(var i=0;i<task_list.length;i++){
+                        var oneRow = tab.insertRow();//插入一行
+                        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+                        var cell2 = oneRow.insertCell(1);
+                        var cell3 = oneRow.insertCell(2);
+                        var cell4 = oneRow.insertCell(3);
+                        cell1.innerHTML = task_list[i].split("_")[1].substring(0,4)+"-"+task_list[i].split("_")[1].substring(4,6)+"-"+task_list[i].split("_")[1].substring(6,8);
+                        cell2.innerHTML = task_list[i].split("_")[0]+"_"+task_list[i].split("_")[1];
+                        cell3.innerHTML = task_list[i];
+                        cell4.innerHTML = task_count[i];
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
         }
-    }
+    });
+
 </script>
 
 </body>
