@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class userserviceImpl implements user{
-    public String path="src/main/hh/user.txt";
+    public String path="src/main/test/user.txt";
     public void start() {      //一开始有一个用户
         UserInfo user=new UserInfo("admin","admin","",0,new ArrayList<String>(),new ArrayList<String>(),0,0.0,new HashMap<String,Double>(),new HashMap<String, Boolean>(),"管理员","","","");
         Gson gson=new Gson();

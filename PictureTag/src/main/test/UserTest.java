@@ -7,7 +7,7 @@ import java.io.File;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class ee {
+public class UserTest {
     userserviceImpl impl=new userserviceImpl();
     @Before
     public void init(){
@@ -35,7 +35,7 @@ public class ee {
     }
     @After
     public void end(){
-         File file=new File("user.txt");
-         file.delete();
+        File file=new File("user.txt");
+        file.delete();
     }
 }
