@@ -139,7 +139,8 @@
         type : "POST",
         data :{
             //调用后端获取项目的方法
-            "action":"receivePros"
+            "action":"receivePros",
+            "gData":id
         },
         success: function(data) {
             $("#project  tr:not(:first)").empty("");
