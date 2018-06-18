@@ -129,7 +129,6 @@
     $(document).ready(function() {
         $(document).foundation();
     });
-    alert("123");
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
@@ -146,7 +145,6 @@
 
         },
         success: function (data) {
-            alert(data);
             tas=JSON.parse(data);
             commited_task_id=tas.taskIds;
             for(var i=0;i<tas.length;i++) {
