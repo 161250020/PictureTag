@@ -1,19 +1,19 @@
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import vo.Project.Project;
 
 import java.io.File;
 
 import static junit.framework.TestCase.assertEquals;
-
-public class TaskTest {
+public class ProTest {
     userserviceImpl impl=new userserviceImpl();
+    FindProjects service=new FindProjects();
     @Before
     public void init(){
-        impl.register("2","2","","");
-        impl.register("3","2","","");
-        impl.register("5","2","","");
-        impl.register("4","2","","");
+        Project pro=new Project("gy","0001",1,"wqo");
+        service.lauchPro(pro);
     }
     @Test
     public void test1(){
@@ -35,7 +35,7 @@ public class TaskTest {
         impl.register("gygy","199761","wlx家的小奶狗","葛宇");
         assertEquals("199761",impl.getUser("gygy").getPassword());
     }
-    @Test                                        //检验能否判断重名
+    @Test
     public void test5(){
         assertEquals(false,impl.register("3","5","",""));
     }
