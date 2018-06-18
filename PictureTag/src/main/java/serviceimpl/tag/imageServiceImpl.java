@@ -140,6 +140,7 @@ public class imageServiceImpl implements imageService {
             e.printStackTrace();
         }
         //System.out.println(out);
+        //System.out.println(out);
         return out;
     }
 
@@ -216,7 +217,7 @@ public class imageServiceImpl implements imageService {
         Task t = gson.fromJson(taskData,Task.class);
         t.setReceive(true);
         t.setProgress(count);
-        System.out.println(t.getId());
+        //System.out.println(t.getId());
         d.modifyTask(gson.toJson(t),taskUserFilePath);
         d.modifyTask(gson.toJson(t),committedTaskFile);
 

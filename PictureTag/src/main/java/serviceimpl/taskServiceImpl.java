@@ -254,7 +254,7 @@ public class taskServiceImpl implements taskService {
         //用户确认自己已经完成task，将task的complete属性修改为true
         String taskData = findTask(taskId,taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
         Task temp = g.fromJson(taskData,Task.class);
-        System.out.println(grade);
+        //System.out.println(grade);
         temp.setComplete(true);
         temp.setGrade(grade);
         modifyTask(g.toJson(temp),taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
@@ -265,7 +265,7 @@ public class taskServiceImpl implements taskService {
         userserviceImpl u = new userserviceImpl();
         String[] ss = taskId.split(sp);
         String taskProjectId = ss[0]+sp+ss[1];
-        System.out.println(grade);
+        //System.out.println(grade);
         //确认task完成，修改project信息
         findProjects.updateProgress(taskProjectId);
         //确认task完成，修改user信息
