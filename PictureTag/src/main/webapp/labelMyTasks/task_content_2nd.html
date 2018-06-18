@@ -121,10 +121,11 @@
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+    var g2=id.indexOf("&");
+    var userid=id.substring(g2+1,id.length);
+    id=id.substring(0,g2);
     var  g1=id.lastIndexOf("_");
-    var proid=id.substring(0,g1);
-    var  g2=id.indexOf("_");
-    var userid=id.substring(0,g2);
+    var proid=id.substring(0,g1);;
     document.getElementById("b_userId").innerText="用户名："+userid;
     $.ajax({
         url: "/Servlet",
@@ -155,7 +156,7 @@
 
     function goback(){
         window.location.href="task_list.html";
-        location.href="task_list.html?"+"txt="+encodeURI(proid);
+        location.href="task_list.html?"+"txt="+encodeURI(proid)+"&"+encodeURI(userid);
 
     }
 

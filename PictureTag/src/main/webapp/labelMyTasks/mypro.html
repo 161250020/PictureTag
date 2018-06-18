@@ -153,6 +153,7 @@
                 "gData":id
             },
             success: function(data) {
+                $("#project  tr:not(:first)").empty("");
                 var changepro=JSON.parse(data);
                 for(var i=0;i<changepro.length;i++){
                     var oneRow = tab.insertRow();//插入一行

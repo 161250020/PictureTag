@@ -134,8 +134,9 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//projectid
     var tab=document.getElementById("task_table");
-    var g1=id.indexOf("_");
-    var userid=id.substring(0,g1);
+    var g1=id.indexOf("&");
+    var userid=id.substring(g1+1,id.length);
+    id=id.substring(0,g1);
     document.getElementById("b_userId").innerText="用户名："+userid;
     var user_level;
     var task_level_low=new Array();
@@ -163,7 +164,7 @@
                 var cell4 = oneRow.insertCell(3);
                 var cell5 = oneRow.insertCell(4);
                 var cell6 = oneRow.insertCell(5);
-                cell1.innerHTML = "<a href='task_content_2nd.html?txt=" + tas[i].id + "'>" + tas[i].id + "</a>";
+                cell1.innerHTML = "<a href='task_content_2nd.html?txt=" + tas[i].id +  "&"+userid+"'>" + tas[i].id + "</a>";
                 cell2.innerHTML = tas[i].tagType;
                 cell3.innerHTML = tas[i].name;
                 cell4.innerHTML = userid;
@@ -220,7 +221,7 @@
                         success: function (data) {
                             if (data == "true") {
                                 window.location.href = "task_list.html";
-                                location.href = "task_list.html?" + "txt=" + encodeURI(id);
+                                location.href = "task_list.html?" + "txt=" + encodeURI(id)+"&"+encodeURI(userid);
                             }
                             else {
                                 alert("领取失败")

@@ -139,11 +139,10 @@
         type : "POST",
         data :{
             //调用后端获取项目的方法
-            "action":"receiveProjects",
-            "gData":id
+            "action":"receivePros"
         },
         success: function(data) {
-
+            $("#project  tr:not(:first)").empty("");
             changepro=JSON.parse(data);
             for(var i=0;i<changepro.length;i++) {//不能有括号
                 var oneRow = tab.insertRow();//插入一行
@@ -152,7 +151,7 @@
                 var cell3 = oneRow.insertCell(2);
                 var cell4 = oneRow.insertCell(3);
                 var pro=changepro[i];
-                cell1.innerHTML = "<a href='task_list.html?txt=" + pro.id + "'>" + pro.id + "</a>";
+                cell1.innerHTML = "<a href='task_list.html?txt=" + pro.id + "&"+id+"'>" + pro.id + "</a>";
                 cell2.innerHTML = pro.name;
                 cell3.innerHTML = id;
                 cell4.innerHTML = pro.progress + "/" + pro.taskIds.length;
