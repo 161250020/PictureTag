@@ -1,5 +1,6 @@
 package serviceimpl.task;
 
+import serviceimpl.AnalyzeUser;
 import serviceimpl.FindProjects;
 import serviceimpl.userserviceImpl;
 import vo.UserInfo;
@@ -275,7 +276,18 @@ public class AdminUser {
           }
 
           public ArrayList<String> getAllNorm(){
+               AnalyzeUser service=new AnalyzeUser();
                ArrayList<String> result=new ArrayList<String>();
+               ArrayList<UserInfo> list=getAll();
+               double correlation=0.0;
+               double relation=0.0;
+               double Support=0.0;
+               double Confidence=0.0;
+               double Lift=0.0;
+               for(UserInfo u:list){
+                   correlation=correlation+service.correlation(u.getUsername());
+                   relation=relation+service.relationbyScoreandEvalu(u.getUsername()).get(0);
+               }
                return result;
           }
 

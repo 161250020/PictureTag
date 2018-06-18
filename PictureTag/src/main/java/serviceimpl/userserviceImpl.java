@@ -104,10 +104,8 @@ public class userserviceImpl implements user{
             }
             File f=new File(path);
             f.delete();
-            for(String str:renew){
                 for(int i=0;i<renew.size();i++){
                     FileReadandWrite.WriteFile(path,renew.get(i));
-                }
             }
         }
         return  flag;
