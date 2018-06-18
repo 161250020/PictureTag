@@ -588,7 +588,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     private void confirmTask(HttpServletRequest request,HttpServletResponse response,String taskId, String userId,double grade){
         taskServiceImpl t = new taskServiceImpl();
-        t.confirmTask(taskId,userId,grade);
+        boolean b = t.confirmTask(taskId,userId,grade);
+        try {
+            PrintWriter pw = response.getWriter();
+            if(b){
+                pw.write("true");
+            }
+            else{
+                pw.write("false");
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void completeTask(HttpServletRequest request,HttpServletResponse response,String taskId,String userId){

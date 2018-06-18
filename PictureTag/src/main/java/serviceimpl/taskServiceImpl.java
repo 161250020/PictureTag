@@ -261,22 +261,31 @@ public class taskServiceImpl implements taskService {
     }
 
     @Override
-    public void confirmTask(String taskId, String userId,double grade) {
+    public boolean confirmTask(String taskId, String userId,double grade) {
+        boolean b =false;
         userserviceImpl u = new userserviceImpl();
         String[] ss = taskId.split(sp);
         String taskProjectId = ss[0]+sp+ss[1];
-        //System.out.println(grade);
-        //确认task完成，修改project信息
-        findProjects.updateProgress(taskProjectId);
-        //确认task完成，修改user信息
-        u.updatefinish(userId,taskId,true);
-        u.updateEvalu(userId,taskId,grade);
-        Gson gson=new Gson();
-        u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
-        //删除committedTaskFile里的该task
-        deleteTask(taskId,checkTaskFileName);
-        //修改评分
-        gradeTask(taskId,grade);
+        String s = findTask(taskId,taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
+        Task temp = gson.fromJson(s,Task.class);
+        if(!temp.isComplete()){
+            return b;
+        }
+        else{
+            //System.out.println(grade);
+            //确认task完成，修改project信息
+            findProjects.updateProgress(taskProjectId);
+            //确认task完成，修改user信息
+            u.updatefinish(userId,taskId,true);
+            u.updateEvalu(userId,taskId,grade);
+            u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
+            //删除committedTaskFile里的该task
+            deleteTask(taskId,checkTaskFileName);
+            //修改评分
+            gradeTask(taskId,grade);
+            b = true;
+        }
+        return b;
     }
 
     /**
