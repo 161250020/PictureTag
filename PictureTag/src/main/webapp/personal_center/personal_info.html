@@ -172,7 +172,7 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
+            //alert(data);
             //返回的user的内容
             changepro=JSON.parse(data);
             nickname=changepro.nickname.toString();
@@ -208,7 +208,7 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
+            //alert(data);
             correlation=JSON.parse(data);
             document.getElementById("data1").innerHTML= "相关系数："+correlation;
 
@@ -227,7 +227,7 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
+            //alert(data);
             ExpectedScore=JSON.parse(data);
             document.getElementById("data2").innerHTML= "期望得分："+ExpectedScore;
         },
@@ -245,7 +245,7 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
+            //alert(data);
             SupportbyScoreandEvalu=JSON.parse(data);
             document.getElementById("data3").innerHTML= "支持度："+SupportbyScoreandEvalu;
         },
@@ -263,7 +263,7 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
+            //alert(data);
             ConfidencebyScoreandEvalu=JSON.parse(data);
             document.getElementById("data4").innerHTML= "置信度："+ConfidencebyScoreandEvalu;
         },
@@ -281,7 +281,7 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
+            //alert(data);
             LiftbyScoreandEvalu=JSON.parse(data);
             document.getElementById("data5").innerHTML= "作用度："+LiftbyScoreandEvalu;
         },
@@ -299,7 +299,7 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
+            //alert(data);
             calTruth=JSON.parse(data);
             document.getElementById("data6").innerHTML= "可信度："+calTruth;
         },

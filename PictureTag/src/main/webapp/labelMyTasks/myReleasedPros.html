@@ -232,7 +232,7 @@
                     var cell3 = oneRow.insertCell(2);
                     var cell4 = oneRow.insertCell(3);
                     var pro=changepro[i];
-                    cell1.innerHTML = "<a href='myReleasedPro_detailed.html?txt=" + pro.id + "'>" + pro.id + "</a>";
+                    cell1.innerHTML = "<a href='myReleasedPro_detailed.html?txt=" + pro.id + "' target='_blank'>" + pro.id + "</a>";
                     cell2.innerHTML=pro.name;
                     cell3.innerHTML=pro.progress+"/"+pro.taskIds.length;
                     cell4.innerHTML=pro.date.substring(0,4)+"-"+pro.date.substring(4,6)+"-"+pro.date.substring(6,8);
