@@ -179,16 +179,16 @@
     });
 
     function receive_mission(){
-        for(var i=1;i<tab.rows.length;i++){
-            var ad=tab.rows[i].cells[5];
-            if(ad.checked=true){
-                var Task_id=tab.rows[i].cells[0].innerText;
+        var tbodyObj = document.getElementById('task_table');
+        $("table :checkbox").each(function(key,value){
+            if($(value).prop('checked')){
+                alert( tbodyObj.rows[key].cells[0].innerText);
                 $.ajax({
                     url: "/Servlet",
                     type: "POST",
                     async: false,
                     data: {
-                        "taskId": Task_id,
+                        "taskId": tbodyObj.rows[key].cells[0].value,
                         "userId":userid,
                         "action": "acceptTask"
                     },
@@ -208,9 +208,13 @@
                         alert(textStatus);
                     }
                 });
-            }
 
-        }
+            }
+        })
+
+
+
+
     }
 
     //首页
