@@ -70,13 +70,16 @@
                         <button type="button" class="button secondary" style="width: 100%" onclick="year_pro()">项目数</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%" onclick="year_task()">任务输</button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="year_task()">任务数</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%" onclick="year_score()">打分&奖励</button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="year_score()">满意度</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%" onclick="score_situation()">打分情况</button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="score_situation()">其他</button>
+                    </li>
+                    <li>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="grade()">排名</button>
                     </li>
                 </ul>
             </div>
@@ -87,30 +90,6 @@
                 <div>
 
                     <table class="table" id="project">
-                        <tr>
-                            <td>
-                                <br>
-                                <b>月份：</b>
-                                <br>
-                                <select style="width: 50%;" onChange="showRight(this.value);">
-                                    <option>--月份-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
-                                    <option>01  </option>
-                                    <option>02  </option>
-                                    <option>03 </option>
-                                    <option>04 </option>
-                                    <option>05 </option>
-                                    <option>06 </option>
-                                    <option>07 </option>
-                                    <option>08 </option>
-                                    <option>09 </option>
-                                    <option>10</option>
-                                    <option>11 </option>
-                                    <option>12 </option>
-
-                                </select>
-                                <br>
-                            </td>
-                        </tr>
                         <tr>
                             <td>
                                 <canvas id="popChart" width="600" height="400"></canvas>
@@ -147,8 +126,7 @@
         type : "POST",
         data :{
             //调用后端获取项目id的方法
-            "action":"receiveUserCountByYear",
-            "gData":"2018"
+            "action":"receiveScoreByLevel",
         },
         success: function(data) {
             var change_pro=JSON.parse(data);
@@ -156,25 +134,13 @@
             var popCanvas = document.getElementById("popChart");
             var popCanvas = document.getElementById("popChart").getContext("2d");
             var barChart = new Chart(popCanvas, {
-                type: 'bar',
+                type: 'radar',
                 data: {
-                    labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10","11","12"],
+                    labels: ["一级", "二级", "三级", "四级", "五级"],
                     datasets: [{
-                        label: 'Population',
-                        data: [parseInt(change_pro[0]), parseInt(change_pro[1]), parseInt(change_pro[2]), parseInt(change_pro[3]),parseInt(change_pro[4]),parseInt(change_pro[5]),parseInt(change_pro[6]), parseInt(change_pro[7]),parseInt(change_pro[8]), parseInt(change_pro[9]),parseInt(change_pro[10]),parseInt(change_pro[11])],
+                        label: 'Score',
+                        data: [parseFloat(change_pro[0]), parseFloat(change_pro[1]), parseFloat(change_pro[2]), parseFloat(change_pro[3]),parseFloat(change_pro[4])],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(255, 99, 132, 0.6)',
                             'rgba(54, 162, 235, 0.6)'
                         ]
                     }]
@@ -189,54 +155,9 @@
     });
 
 
-    function showRight(v){
-        $("#project  tr:not(:first)").empty("");
-        var tab=document.getElementById("project");
-        var oneRow = tab.insertRow();//插入一行
-        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-        var changepro=new Array();
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                //调用后端获取项目id的方法
-                "action":"receiveUserCountByMonth",
-                "gData":v.toString()
-            },
-            success: function(data) {
-                changepro=JSON.parse(data);
-                cell1.innerHTML="<canvas id=\"popChart\" width=\"600\" height=\"400\"></canvas>";
-                var popCanvas = $("#popChart");
-                var popCanvas = document.getElementById("popChart");
-                var popCanvas = document.getElementById("popChart").getContext("2d");
-                var barChart = new Chart(popCanvas, {
-                    type: 'bar',
-                    data: {
-                        labels: ["01-05", "06-10", "11-15", "16-20", "21-25", "26-30(31)"],
-                        datasets: [{
-                            label: 'User_number',
-                            data: [parseInt(changepro[0]),parseInt(changepro[1]),parseInt(changepro[2]),parseInt(changepro[3]),parseInt(changepro[4]),parseInt(changepro[5])],
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.6)',
-                                'rgba(54, 162, 235, 0.6)',
-                                'rgba(255, 206, 86, 0.6)',
-                                'rgba(75, 192, 192, 0.6)',
-                                'rgba(153, 102, 255, 0.6)',
-                                'rgba(255, 159, 64, 0.6)'
-                            ]
-                        }]
-                    }
-                });
 
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
 
-    }
+
     function year_pic(){
         window.location.href="admin.html";
         location.href="admin.html?"+"txt="+encodeURI(id);
