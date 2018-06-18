@@ -68,13 +68,13 @@
                     </li>
                     <br>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toPer_info()">个人信息</a></button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="toPer_info()">个人信息</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toMy_treasure()">我的财富</a></button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="toMy_treasure()">我的财富</button>
                     </li>
                     <li>
-                        <button type="button" class="button secondary" style="width: 100%"><a href="#" onclick="toModify_pass()">修改密码</a></button>
+                        <button type="button" class="button secondary" style="width: 100%" onclick="toModify_pass()">修改密码</button>
                     </li>
                 </ul>
             </div>
@@ -234,39 +234,61 @@
     });
 
     //查看收入账单
+    var task_list=new Array();//taskid的list
+    var task_count=new Array();//task的评分的list
     var tab=document.getElementById("project");
     function show_count(){
         $("#project  tr:not(:first)").empty("");
         var aaa;
-        for(var i=0;i<receivetasks.length;i++){
-            $.ajax({
-                url : "/Servlet",
-                type : "POST",
-                data :{
-                    //调用后端获取项目id的方法
-                    "action":"receiveTaskContent",
-                    "gData":receivetasks[i]
-                },
-                async: false,
-                success: function(data) {
-                    alert(data);
-                    var changepro=JSON.parse(data);
-                    var oneRow = tab.insertRow();//插入一行
-                    var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
-                    var cell2 = oneRow.insertCell(1);
-                    var cell3 = oneRow.insertCell(2);
-                    var cell4 = oneRow.insertCell(3);
-                    cell1.innerText = changepro.startDate.substring(0,4)+"-"+changepro.startDate.substring(4,6)+"-"+changepro.startDate.substring(6,8);
-                    cell2.innerText = changepro.id.split("_")[0]+"_"+changepro.id.split("_")[1];
-                    cell3.innerText = changepro.id;
-                    cell4.innerText = changepro.socre;
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.status);
-                    alert(XMLHttpRequest.readyState);
-                    alert(textStatus);
-                }
-            });
+        //获得task的list
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                //调用后端获取项目id的方法
+                "action":"BillTasks",
+                "gData":id
+            },
+            success: function(data) {
+                var changepro=JSON.parse(data);
+                task_list=changepro;
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+        //获得task的评分
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                //调用后端获取项目id的方法
+                "action":"BillCounts",
+                "gData":id
+            },
+            success: function(data) {
+                var changepro=JSON.parse(data);
+                task_count=changepro;
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+
+        for(var i=0;i<task_list.length;i++){
+            var oneRow = tab.insertRow();//插入一行
+            var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+            var cell2 = oneRow.insertCell(1);
+            var cell3 = oneRow.insertCell(2);
+            var cell4 = oneRow.insertCell(3);
+            cell1.innerText = task_list[i].substring(0,4)+"-"+task_list[i].substring(4,6)+"-"+task_list[i].substring(6,8);
+            cell2.innerText = task_list[i].split("_")[0]+"_"+changepro.id.split("_")[1];
+            cell3.innerText = task_list[i];
+            cell4.innerText = task_count[i];
         }
     }
 </script>
