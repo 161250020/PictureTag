@@ -259,7 +259,8 @@
                 "                        </ul>";
 
             arr=pic.imageIds;
-
+            alert("123"+pic.imageIds[0]);
+            alert("345"+pic.imageIds[1]);
             //将标注到的图片画上去
             var progress=pic.progress;
             alert("加载成功！");
@@ -271,10 +272,11 @@
                     url : "/Servlet",
                     type : "POST",
                     data :{
-                        "gData":arr[i].toString(),
+                        "gData":pic.imageIds[i].toString(),
                         "action":"receiveTag"
                     },
                     success: function(data) {
+                        alert(data);
                         var pict=JSON.parse(data);
                         src.push(pict.url);
                         img.src=src[progress];
