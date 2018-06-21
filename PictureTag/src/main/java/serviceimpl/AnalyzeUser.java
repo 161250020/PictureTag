@@ -32,7 +32,19 @@ public class AnalyzeUser implements Analyze {                           //质量
                 result=i+1;
             }
         }
+        result=dealSameScore(result);
         return result;
+    }
+    public int dealSameScore(int result){
+        int degree=0;
+        ArrayList<UserInfo> list=calTurn();
+        for(int i=0;i<result;i++){
+             if(list.get(i).getScore()==list.get(result-1).getScore()){
+                  degree=i+1;
+                  break;
+             }
+        }
+        return degree;
     }
     //5.31新增      更新工人的评价map
     public void updateEvalu(String username,String taskId,double score){
