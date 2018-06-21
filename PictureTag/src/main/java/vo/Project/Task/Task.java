@@ -16,6 +16,7 @@ public class Task {          //个体任务
     boolean complete;//判断task是否已经被complete true:完成
     double grade;//评分
 
+    String finishDate;//任务完成时间
     String startDate;
     String endDate;
     ArrayList<String> imageIds;
@@ -134,4 +135,8 @@ public class Task {          //个体任务
     public String getReceiverId() { return receiverId; }
 
     public void setReceiverId(String receiverId) { this.receiverId = receiverId; }
+
+    public String getFinishDate() { return finishDate; }
+
+    public void setFinishDate(String finishDate) { this.finishDate = finishDate; }
 }

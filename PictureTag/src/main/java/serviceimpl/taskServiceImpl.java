@@ -10,7 +10,9 @@ import vo.Project.Task.Task;
 import vo.UserInfo;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class taskServiceImpl implements taskService {
     Gson gson = new Gson();
@@ -335,9 +337,13 @@ public class taskServiceImpl implements taskService {
                 String temp = findTask(t.getId(),checkTaskFileName);
                 if(temp == null){//如果未提交过
                     //System.out.println("未提交过");
+                    Date date = new Date();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");      //当前日期
+                    String d = format.format(date);
+                    t.setFinishDate(d);
                     FileWriter fw = new FileWriter(c, true);
                     BufferedWriter bw = new BufferedWriter(fw);
-                    bw.write(taskData);
+                    bw.write(gson.toJson(t));
                     bw.newLine();
                     bw.close();
                     fw.close();
