@@ -226,6 +226,7 @@
         },
         success: function(data) {
             var pic=JSON.parse(data);
+            is_complete=pic.complete;
             //更新左边的task的信息
             document.getElementById("left_info").innerHTML="<ul class=\"no-bullet\">\n" +
                 "                            <li id=\"task_id\">\n" +
@@ -300,7 +301,6 @@
     //下一张
     function nextpage(){
         if(a<(arr.length-1)){
-            alert(a);
             a++;
             img.src = src2[a];
             img.onload = function () {
@@ -318,7 +318,6 @@
     //上一张
     function backPage(){
         if(a!=0) {
-            a--;
             img.src = src2[a];
             img.onload = function () {
                 ctx.drawImage(img, 0, 0, 350, 350);
@@ -556,41 +555,51 @@
         }
 
         var obj_json = JSON.stringify(obj);
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            data: {
-                "gData": obj_json,
-                "action": "modifyTag"
-            },
-            success: function (data) {
-                alert("保存成功！");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
+        if(is_complete==false) {
+            $.ajax({
+                url: "/Servlet",
+                type: "POST",
+                data: {
+                    "gData": obj_json,
+                    "action": "modifyTag"
+                },
+                success: function (data) {
+                    alert("保存成功！");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        }
+        else{
+            alert("已提交")
+        }
     }
 
     function final_submit(){
-        $.ajax({
-            url: "/Servlet",
-            type: "POST",
-            data: {
-                "taskId": id,
-                "userId":names[0],
-                "action": "completeTask"
-            },
-            success: function (data) {
-                alert("提交成功！");
-                window.close();
-            },
-            error: function () {
-                alert("Wrong!");
-            }
-        });
+        if(is_complete==false) {
+            $.ajax({
+                url: "/Servlet",
+                type: "POST",
+                data: {
+                    "taskId": id,
+                    "userId": names[0],
+                    "action": "completeTask"
+                },
+                success: function (data) {
+                    alert("提交成功！");
+                    window.close();
+                },
+                error: function () {
+                    alert("Wrong!");
+                }
+            });
+        }
+        else{
+            alert("已提交")
+        }
     }
 
     //鼠标按下

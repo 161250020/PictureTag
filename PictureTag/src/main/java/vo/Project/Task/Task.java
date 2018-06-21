@@ -39,6 +39,7 @@ public class Task {          //个体任务
         this.receive = false;
         this.publish = false;
         this.complete = false;
+        this.finishDate=" ";
         this.startDate = startDate;
         this.endDate = endDate;
 
