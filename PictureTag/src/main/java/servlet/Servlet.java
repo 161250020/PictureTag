@@ -9,16 +9,17 @@ import serviceimpl.tag.imageServiceImpl;
 import serviceimpl.task.AdminUser;
 import serviceimpl.FindProjects;
 import serviceimpl.task.taskFilterServiceImpl;
+import sun.misc.IOUtils;
+import sun.nio.ch.IOUtil;
 import vo.Project.Project;
 import vo.Project.Task.Task;
 import vo.Project.Task.image;
 import vo.UserInfo;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -33,129 +34,101 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         response.setCharacterEncoding("utf-8");
         String action = request.getParameter("action");//获取参数，当且仅当request中只有一个参数的时候有效
-        if("newUser".equals(action)){
+        if ("newUser".equals(action)) {
             String userData = request.getParameter("gData");
-            this.newUser(request,response,userData);
-        }
-        else if("login".equals(action)){
+            this.newUser(request, response, userData);
+        } else if ("login".equals(action)) {
             String userData = request.getParameter("gData");
-            this.login(request,response,userData);
-        }
-        else if("deleteUser".equals(action)){
+            this.login(request, response, userData);
+        } else if ("deleteUser".equals(action)) {
             String userId = request.getParameter("gData");
-            this.deleteUser(request,response,userId);
-        }
-        else if("modifyUser".equals(action)){
+            this.deleteUser(request, response, userId);
+        } else if ("modifyUser".equals(action)) {
             String userData = request.getParameter("gData");
-            this.modifyUser(request,response,userData);
-        }
-        else if("receiveUserInfo".equals(action)){
+            this.modifyUser(request, response, userData);
+        } else if ("receiveUserInfo".equals(action)) {
             String userId = request.getParameter("gData");
-            this.receiveUserInfo(request,response,userId);
-        }
-        else if("receiveUserCount".equals(action)){
-            this.receiveUserCount(request,response);
-        }
-        else if("receiveUserDegree".equals(action)){
+            this.receiveUserInfo(request, response, userId);
+        } else if ("receiveUserCount".equals(action)) {
+            this.receiveUserCount(request, response);
+        } else if ("receiveUserDegree".equals(action)) {
             String userId = request.getParameter("gData");
-            this.receiveUserDegree(request,response,userId);
-        }
-        else if("savePicture".equals(action)){
+            this.receiveUserDegree(request, response, userId);
+        } else if ("savePicture".equals(action)) {
             String imgData = request.getParameter("gData");
-            this.savePicture(request,response,imgData);
-        }
-        else if("receiveTag".equals(action)){
+            this.savePicture(request, response, imgData);
+        } else if ("receiveTag".equals(action)) {
             String picId = request.getParameter("gData");
-            this.receiveTag(request,response,picId);
-        }
-        else if("modifyTag".equals(action)){
+            this.receiveTag(request, response, picId);
+        } else if ("modifyTag".equals(action)) {
             String imgData = request.getParameter("gData");
-            this.modifyTag(request,response,imgData);
-        }
-        else if("acceptTask".equals(action)){
+            this.modifyTag(request, response, imgData);
+        } else if ("acceptTask".equals(action)) {
             String taskId = request.getParameter("taskId");
             String userId = request.getParameter("userId");
-            this.acceptTask(request,response,taskId,userId);
-        }
-        else if("completeTask".equals(action)){
+            this.acceptTask(request, response, taskId, userId);
+        } else if ("completeTask".equals(action)) {
             String taskId = request.getParameter("taskId");
             String userId = request.getParameter("userId");
-            this.completeTask(request,response,taskId,userId);
-        }
-        else if("confirmTask".equals(action)){
+            this.completeTask(request, response, taskId, userId);
+        } else if ("confirmTask".equals(action)) {
             String taskId = request.getParameter("taskId");
             String userId = request.getParameter("userId");
             double grade = Double.valueOf(request.getParameter("grade"));
-            this.confirmTask(request,response,taskId,userId,grade);
-        }
-        else if("newTask".equals(action)){
+            this.confirmTask(request, response, taskId, userId, grade);
+        } else if ("newTask".equals(action)) {
             String taskData = request.getParameter("gData");
-            this.newTask(request,response,taskData);
-        }
-        else if("receiveTaskContent".equals(action)){
+            this.newTask(request, response, taskData);
+        } else if ("receiveTaskContent".equals(action)) {
             String taskId = request.getParameter("gData");
-            this.receiveTaskContent(request,response,taskId);
-        }
-        else if("deleteTask".equals(action)){
+            this.receiveTaskContent(request, response, taskId);
+        } else if ("deleteTask".equals(action)) {
             String taskId = request.getParameter("gData");
-            this.deleteTask(request,response,taskId);
-        }
-        else if("receiveTaskId".equals(action)){
+            this.deleteTask(request, response, taskId);
+        } else if ("receiveTaskId".equals(action)) {
             String userId = request.getParameter("gData");
-            this.receiveTaskId(request,response,userId);
-        }
-        else if("receiveCommittedTaskIds".equals(action)){
-            this.receiveCommittedTaskIds(request,response);
-        }
-        else if("receiveTaskByDate".equals(action)){
+            this.receiveTaskId(request, response, userId);
+        } else if ("receiveCommittedTaskIds".equals(action)) {
+            this.receiveCommittedTaskIds(request, response);
+        } else if ("receiveTaskByDate".equals(action)) {
             String projectId = request.getParameter("projectId");
             String startDate = request.getParameter("startDate");
             String endDate = request.getParameter("endDate");
-            this.receiveTaskByDate(request,response,projectId,startDate,endDate);
-        }
-        else if("analyzeUser".equals(action)){
-            String user=request.getParameter("gData");
-            this.analyzeUser(request,response,user);
-        }
-        else if("receiveSingleRanking".equals(action)){
+            this.receiveTaskByDate(request, response, projectId, startDate, endDate);
+        } else if ("analyzeUser".equals(action)) {
+            String user = request.getParameter("gData");
+            this.analyzeUser(request, response, user);
+        } else if ("receiveSingleRanking".equals(action)) {
             String usename = request.getParameter("gData");
-            this.receiveSingleRanking(request,response,usename);
+            this.receiveSingleRanking(request, response, usename);
         } else if ("calTruth".equals(action)) {
-            String username=request.getParameter("gData");
-            this.calTruth(request,response,username);
-        }
-        else if("recommend".equals(action)){
-            String username=request.getParameter("gData");
-            this.recommend(request,response,username);
-        }
-        else if("correlation".equals(action)){
-            String username=request.getParameter("gData");
-            this.correlation(request,response,username);
-        }
-        else if("ExpectedScore".equals(action)){
-            String username=request.getParameter("gData");
-            this.ExpectedScore(request,response,username);
-        }
-        else if("SupportbyScoreandEvalu".equals(action)){
-            String username=request.getParameter("gData");
-            this.SupportbyScoreandEvalu(request,response,username);
-        }
-        else if("ConfidencebyScoreandEvalu".equals(action)){
-            String username=request.getParameter("gData");
-            this.ConfidencebyScoreandEvalu(request,response,username);
-        }
-        else if("LiftbyScoreandEvalu".equals(action)){
-            String username=request.getParameter("gData");
-            this.LiftbyScoreandEvalu(request,response,username);
-        }
-        else if ("launchPro".equals(action)) {
+            String username = request.getParameter("gData");
+            this.calTruth(request, response, username);
+        } else if ("recommend".equals(action)) {
+            String username = request.getParameter("gData");
+            this.recommend(request, response, username);
+        } else if ("correlation".equals(action)) {
+            String username = request.getParameter("gData");
+            this.correlation(request, response, username);
+        } else if ("ExpectedScore".equals(action)) {
+            String username = request.getParameter("gData");
+            this.ExpectedScore(request, response, username);
+        } else if ("SupportbyScoreandEvalu".equals(action)) {
+            String username = request.getParameter("gData");
+            this.SupportbyScoreandEvalu(request, response, username);
+        } else if ("ConfidencebyScoreandEvalu".equals(action)) {
+            String username = request.getParameter("gData");
+            this.ConfidencebyScoreandEvalu(request, response, username);
+        } else if ("LiftbyScoreandEvalu".equals(action)) {
+            String username = request.getParameter("gData");
+            this.LiftbyScoreandEvalu(request, response, username);
+        } else if ("launchPro".equals(action)) {
             String project = request.getParameter("gData");
             this.launchPro(request, response, project);
-        }else if("receivePros".equals(action)){
-            String username=request.getParameter("gData");
-            this.receivePros(request,response,username);
-        }
-        else if ("receiveProjects".equals(action)) {
+        } else if ("receivePros".equals(action)) {
+            String username = request.getParameter("gData");
+            this.receivePros(request, response, username);
+        } else if ("receiveProjects".equals(action)) {
             String username = request.getParameter("gData");
             this.receiveProjects(request, response, username);
         } else if ("receiveProjectById".equals(action)) {
@@ -169,7 +142,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } else if ("receiveTasks".equals(action)) {
             String proId = request.getParameter("gData");
             this.receiveTasks(request, response, proId);
-        } else if ("recom".equals(action)) {
+        }
+        else if("downLoadTags".equals(action)){
+            String taskId = request.getParameter("gData");
+            this.downLoadTags(request,response,taskId);
+        }else if ("recom".equals(action)) {
             String username = request.getParameter("gData");
             this.recom(request, response, username);
         } else if ("receiveAll".equals(action)) {
@@ -867,9 +844,36 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         }
     }
 
+    /**
+     * 获得task标注的整合数据
+     * @param request
+     * @param response
+     * @param taskId
+     */
+    private void downLoadTags(HttpServletRequest request,HttpServletResponse response,String taskId){
+        String fileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+taskId+"_images.txt";
+        String contentType = this.getServletContext().getMimeType(fileName);
+        String contentDisposition = "attachment;filename=a.txt";
+        try {
+            FileInputStream fis = new FileInputStream(new File(fileName));
+            byte[] buf = new byte[1024];
+            StringBuffer sb = new StringBuffer();
+            int len = 0;
+            while ((len = fis.read(buf)) != -1){
+                sb.append(new String(buf,0,len,"utf-8"));
+            }
+            response.setHeader("Content-Type",contentType);
+            response.setHeader("Content-Disposition",contentDisposition);
+            OutputStream output = response.getOutputStream();
+            output.write(buf);
+            output.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-
+    }
 
     //adminuser
     public void receiveAll(HttpServletRequest request,HttpServletResponse response){                 //显示所有的用户
