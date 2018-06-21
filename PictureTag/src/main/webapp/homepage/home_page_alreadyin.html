@@ -126,6 +126,16 @@
         success: function(data) {
             var us=JSON.parse(data);
             integral=us.score;
+            document.getElementById("show_info").innerHTML="                        <div class=\"panel-body\">\n" +
+                "                            <i class=\"fa fa-user-circle\" style=\"font-size:40px\"></i>\n" +
+                "                            <br>\n" +
+                "                            <!--身份-->\n" +
+                "                            <div>\n" +
+                "                                用户ID："+id+"\n" +
+                "                                <br>\n" +
+                "                            </div>\n" +
+                "                        </div>\n" +
+                "                        <div class=\"panel-footer\">积分："+integral+"</div>"
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -133,18 +143,6 @@
             alert(textStatus);
         }
     });
-
-    document.getElementById("show_info").innerHTML="                        <div class=\"panel-body\">\n" +
-        "                            <i class=\"fa fa-user-circle\" style=\"font-size:40px\"></i>\n" +
-        "                            <br>\n" +
-        "                            <!--身份-->\n" +
-        "                            <div>\n" +
-        "                                用户ID："+id+"\n" +
-        "                                <br>\n" +
-        "                            </div>\n" +
-        "                        </div>\n" +
-        "                        <div class=\"panel-footer\">积分："+integral+"</div>"
-
 
     //首页
     function toHomePage(){
