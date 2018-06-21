@@ -125,7 +125,7 @@
         },
         success: function(data) {
             var us=JSON.parse(data);
-            integral=us.score;
+            integral=us.score.toString();
             document.getElementById("show_info").innerHTML="                        <div class=\"panel-body\">\n" +
                 "                            <i class=\"fa fa-user-circle\" style=\"font-size:40px\"></i>\n" +
                 "                            <br>\n" +
