@@ -290,6 +290,7 @@
     //下一张
     function nextpage(){
         if(a<(arr.length-1)){
+            alert(src2);
             //清除
             ctx.clearRect(0,0,canvas.width,canvas.height);
             ctx.drawImage(img, 0, 0,350,350);
@@ -308,6 +309,7 @@
     //上一张
     function backPage(){
         if(a!=0) {
+            alert(src2);
             //清除
             ctx.clearRect(0,0,canvas.width,canvas.height);
             ctx.drawImage(img, 0, 0,350,350);
@@ -375,7 +377,7 @@
                     }
                 ],
                 "url":saveImage.toString(),
-                "filename":0,
+                "filename":src2[a].toString(),
                 "split":"train",
                 "flag":true
             }
@@ -407,7 +409,7 @@
                     }
                 ],
                 "url":saveImage.toString(),
-                "filename":0,
+                "filename":src2[a].toString(),
                 "split":"train",
                 "flag":true
             }
@@ -442,7 +444,7 @@
                     }
                 ],
                 "url":saveImage.toString(),
-                "filename":0,
+                "filename":src2[a].toString(),
                 "split":"train",
                 "flag":true
             }
@@ -478,7 +480,7 @@
                     }
                 ],
                 "url":saveImage.toString(),
-                "filename":0,
+                "filename":src2[a].toString(),
                 "split":"train",
                 "flag":true
             }
@@ -512,7 +514,7 @@
                     }
                 ],
                 "url":saveImage.toString(),
-                "filename":0,
+                "filename":src2[a].toString(),
                 "split":"train",
                 "flag":true
             }
@@ -545,7 +547,7 @@
                     }
                 ],
                 "url":saveImage.toString(),
-                "filename":0,
+                "filename":src2[a],
                 "split":"train",
                 "flag":true
             }
