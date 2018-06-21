@@ -106,6 +106,10 @@
                     <li>
                         <button type="button" class="btn btn-success" style="alignment: center" onclick="delete_task()">删除任务</button>
                     </li>
+                    <br>
+                    <li>
+                        <button type="button" class="btn btn-success" style="alignment: center" onclick="download()">下载</button>
+                    </li>
                 </ul>
             </div>
 
@@ -707,11 +711,42 @@
                     window.close();
                 }
                 else{
-                    alert("评分失败（未完成）")
+                    alert("评分失败")
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("评分失败！");
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+
+    //下载
+    function download(){
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                "gData":id,
+                "action":"downLoadTags"
+            },
+            success: function(data) {
+                alert(data);
+                var eleLink = document.createElement('a');
+                eleLink.download = id;
+                eleLink.style.display = 'none';
+                // 字符内容转变成blob地址
+                var blob = new Blob([data]);
+                eleLink.href = URL.createObjectURL(blob);
+                // 触发点击
+                document.body.appendChild(eleLink);
+                eleLink.click();
+                // 然后移除
+                document.body.removeChild(eleLink);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
                 alert(XMLHttpRequest.readyState);
                 alert(textStatus);
