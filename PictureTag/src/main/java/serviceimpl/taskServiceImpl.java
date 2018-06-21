@@ -281,9 +281,18 @@ public class taskServiceImpl implements taskService {
         //确认task完成，修改project信息
         findProjects.updateProgress(taskProjectId);
         //确认task完成，修改user信息
-        u.updatefinish(userId,taskId,true);
-        u.updateEvalu(userId,taskId,grade);
-        u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
+        if(grade >= 60){
+            u.updatefinish(userId,taskId,true);
+            u.updateEvalu(userId,taskId,grade);
+            u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
+        }
+        else{
+            u.updatefinish(userId,taskId,false);
+            u.updateEvalu(userId,taskId,grade);
+        }
+        //u.updatefinish(userId,taskId,true);
+        //u.updateEvalu(userId,taskId,grade);
+        //u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
         //删除committedTaskFile里的该task
         deleteTask(taskId,checkTaskFileName);
         //修改评分
@@ -411,6 +420,8 @@ public class taskServiceImpl implements taskService {
 
         return out;
     }
+
+
 
     /**
      * 获得所有已发布并且未被complete的task的id

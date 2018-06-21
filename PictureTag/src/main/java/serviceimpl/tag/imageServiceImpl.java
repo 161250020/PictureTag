@@ -15,49 +15,6 @@ public class imageServiceImpl implements imageService {
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
 
-/*    public String receiveImgId(String taskId,String filePath){
-        String out = "";
-        File f = new File(filePath);
-        //System.out.println(f.getAbsolutePath());
-        if(!f.exists()){
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        int count = 0;
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String temp = "";
-            while (null != (temp = br.readLine())){
-                //System.out.println(temp);
-                count++;
-            }
-            //System.out.println(count);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //System.out.println("count:"+count);
-        if(count >= 99999){
-            return "00000";
-        }
-        else{
-            out = Integer.toString(count);
-            //System.out.println(out.length());
-            for (int i = 0; i < 9-out.length(); i++) {
-                out = "0" + out;
-            }
-        }
-
-        out = taskId + sp + out;
-
-        return out;
-    }*/
-
     public String saveTag(String imageData){
         //System.out.println(tagPath);
         //System.out.println("call again");
@@ -139,8 +96,6 @@ public class imageServiceImpl implements imageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //System.out.println(out);
-        //System.out.println(out);
         return out;
     }
 
