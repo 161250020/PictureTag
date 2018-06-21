@@ -159,7 +159,7 @@
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
 
-    alert(id);
+    //lert(id);
 </script>
 
 <script>
@@ -252,13 +252,13 @@
                 "                        </ul>";
 
             arr=pic.imageIds;
-            alert("123"+pic.imageIds[0]);
-            alert("345"+pic.imageIds[1]);
+            //alert("123"+pic.imageIds[0]);
+            //alert("345"+pic.imageIds[1]);
             //将标注到的图片画上去
             var progress=pic.progress;
-            alert("加载成功！");
-            alert("从上次未标注的图片开始显示！");
-            alert("祝您标注愉快！");
+            //alert("加载成功！");
+            //alert("从上次未标注的图片开始显示！");
+            //alert("祝您标注愉快！");
             for(var i=0;i<arr.length;i++){
                 arrid.push(arr[i]);
                 $.ajax({
@@ -269,7 +269,7 @@
                         "action":"receiveTag"
                     },
                     success: function(data) {
-                        alert(data);
+                        //alert(data);
                         var pict=JSON.parse(data);
                         src.push(pict.url);
                         img.src=src[progress];
@@ -469,7 +469,7 @@
             document.getElementById("wild4").value="";
         }
         else if(option.selectedIndex==4) {
-            alert(document.getElementById("life1").value.toString());
+            //alert(document.getElementById("life1").value.toString());
             obj = {
                 "sentids": [
                     4
