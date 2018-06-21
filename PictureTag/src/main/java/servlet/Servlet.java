@@ -891,22 +891,20 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         try {
             FileInputStream fis = new FileInputStream(new File(fileName));
             byte[] buf = new byte[1024];
-            StringBuffer sb = new StringBuffer();
             int len = 0;
-            while ((len = fis.read(buf)) != -1){
-                sb.append(new String(buf,0,len,"utf-8"));
-            }
             response.setHeader("Content-Type",contentType);
             response.setHeader("Content-Disposition",contentDisposition);
-            OutputStream output = response.getOutputStream();
-            output.write(buf);
-            output.close();
+            OutputStream outputStream = response.getOutputStream();
+            while ((len = fis.read(buf)) != -1){
+                outputStream.write(buf,0,len);
+            }
+            fis.close();
+            outputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     //adminuser
