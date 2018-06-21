@@ -59,9 +59,16 @@ public class AnalyzeUser implements Analyze {                           //质量
     用户的效率
     */
      public double calEffiency(String username){
+         taskServiceImpl service=new taskServiceImpl();
+         Gson gson=new Gson();
          double effiency=0.0;
          UserInfo user=impl.getUser(username);
          Map<String,Boolean> finish=user.getFinish();
+         for(String str:finish.keySet()){
+             if(finish.get(str)){
+
+             }
+         }
          return effiency;
      }
     /*
