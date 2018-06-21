@@ -169,7 +169,7 @@
             document.getElementById("selections").innerHTML="主要景物:<input type='text' name='主要景物'id='modern1'> <br><br>主题:<input type='text' name='主题'id='modern2'><br><br>主色调:<input type=\"text\" name=\"主色调\"id='modern3'><br><br>备注:<input type=\"text\" name=\"备注\"id='modern4'>"
         }
         else if(a=="人物剪影"){
-            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'><br><br>背景:<input type='text'name='备注'id='people8'>";
+            document.getElementById("selections").innerHTML="年龄:<input type='text'name='年龄'id='people1'> <br><br>性别:<input type='text'name='性别'id='people2'> <br><br>人种:<input type='text'name='人种'id='people3'><br><br>头发:<input type='text'name='头发'id='people4'><br><br>面部朝向:<input type='text'name='面部朝向'id='people5'><br><br>表情:<input type='text'name='表情'id='people6'><br><br>背景:<input type='text'name='背景'id='people7'><br><br>备注:<input type='text'name='备注'id='people8'>";
         }
         else if(a=="旷野生灵"){
             document.getElementById("selections").innerHTML="物种:<input type='text'name='物种'id='wild1'><br><br>行为:<input type='text'name='行为'id='wild2'><br><br>背景:<input type='text'name='背景'id='wild3'><br><br>备注:<input type='text'name='备注'id='wild4'>";
@@ -203,6 +203,7 @@
     var recloc=new Array();
     var a=0;
     var src = new Array();
+    var src2 = new Array();
     var img=new Image();
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
@@ -268,7 +269,8 @@
                     success: function(data) {
                         var pict=JSON.parse(data);
                         src.push(pict.url);
-                        img.src=src[progress];
+                        src2.push(pict.filename);
+                        img.src=src2[progress];
                         a=progress;
                         img.onload = function() {
                             ctx.drawImage(img, 0, 0,350,350);
@@ -288,8 +290,13 @@
     //下一张
     function nextpage(){
         if(a<(arr.length-1)){
+            //清除
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(img, 0, 0,350,350);
+            recloc.splice(0,recloc.length);
+
             a++;
-            img.src = src[a];
+            img.src = src2[a];
             img.onload = function () {
                 ctx.drawImage(img, 0, 0, 350, 350);
             }
@@ -301,8 +308,13 @@
     //上一张
     function backPage(){
         if(a!=0) {
+            //清除
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(img, 0, 0,350,350);
+            recloc.splice(0,recloc.length);
+
             a--;
-            img.src = src[a];
+            img.src = src2[a];
             img.onload = function () {
                 ctx.drawImage(img, 0, 0, 350, 350);
             }
@@ -326,6 +338,10 @@
         ctx.drawImage(img, 0, 0,350,350);
         recloc.splice(0,recloc.length);
 
+        img.src = src2[a];
+        img.onload = function () {
+            ctx.drawImage(img, 0, 0, 350, 350);
+        }
     }
 
     //保存图片
