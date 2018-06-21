@@ -665,8 +665,13 @@
 
             },
             success: function (data) {
-                alert("删除任务成功！");
-                window.close();
+                if(data == "true"){
+                    alert("删除任务成功！");
+                    window.close();
+                }
+                else{
+                    alert("删除任务失败！");
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);

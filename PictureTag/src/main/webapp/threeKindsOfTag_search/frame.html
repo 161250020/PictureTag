@@ -249,9 +249,6 @@
 
             //将标注到的图片画上去
             var progress=pic.progress;
-            alert("加载成功！");
-            alert("从上次未标注的图片开始显示！");
-            alert("祝您标注愉快！");
             for(var i=0;i<arr.length;i++){
                 arrid.push(arr[i]);
                 $.ajax({
@@ -470,7 +467,7 @@
             document.getElementById("wild4").value="";
         }
         else if(option.selectedIndex==4) {
-            alert(document.getElementById("life1").value.toString());
+            //alert(document.getElementById("life1").value.toString());
             obj = {
                 "sentids": [
                     4

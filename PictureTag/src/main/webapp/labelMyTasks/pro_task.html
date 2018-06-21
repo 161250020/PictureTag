@@ -287,6 +287,36 @@
     //         }
     //     });
     // }
+    var final_level;
+    $.ajax({
+        url: "/Servlet",
+        type: "POST",
+        data: {
+            //调用后端获取项目内容的方法
+            "action": "receiveUserInfo",
+            "gData": userid
+            //userid
+
+        },
+        success: function (data) {
+            tas=JSON.parse(data);
+            final_level=tas.score;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
+
+
+
+
+
+
+
+
     var ID="";
     function add_task() {
         $.ajax({
@@ -483,40 +513,41 @@
                 "requests":requests
             }
             var obj_JSON=JSON.stringify(obj);
+            alert(input_integral);
+            alert(final_level*0.2);
+            if(parseFloat(input_integral)<=(parseFloat(final_level)*0.2)) {
+                $.ajax({
+                    url: "/Servlet",
+                    type: "POST",
+                    data: {
+                        "gData": obj_JSON,
+                        //发布task
+                        "action": "newTask"
 
 
-            $.ajax({
-                url : "/Servlet",
-                type : "POST",
-                data :{
-                    "gData":obj_JSON,
-                    //发布task
-                    "action":"newTask"
+                    },
+                    success: function (data) {
+                        if (data == "true") {
+                            alert("任务发布成功！");
+                            //跳转到个人主页
+                            window.location.href = "pro_task.html";
+                            location.href = "pro_task.html?" + "txt=" + encodeURI(id);
 
-
-
-
-
-
-                },
-                success: function(data) {
-                    if(data=="true"){
-                        alert("任务发布成功！");
-                        //跳转到个人主页
-                        window.location.href="pro_task.html";
-                        location.href="pro_task.html?"+"txt="+encodeURI(id);
-
+                        }
+                        else {
+                            alert("发布任务失败!");
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
                     }
-                    else{
-                        alert("发布任务失败!");
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.status);
-                    alert(XMLHttpRequest.readyState);
-                    alert(textStatus);
-                }
-            });
+                });
+            }
+            else{
+                alert("积分设置过高");
+            }
         }
 
     }
