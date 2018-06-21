@@ -318,6 +318,7 @@
     //上一张
     function backPage(){
         if(a!=0) {
+            a--;
             img.src = src2[a];
             img.onload = function () {
                 ctx.drawImage(img, 0, 0, 350, 350);
