@@ -96,16 +96,6 @@
                     <br>
                     <br>
 
-                    <li>
-                        <input type="text" placeholder="评分：满分100" style="width: 95%" id="calculate">
-                        <button type="button" class="btn btn-default" style="alignment: center" onclick="ensure_score()">确认评分</button>
-                    </li>
-                    <br>
-                    <br>
-
-                    <li>
-                        <button type="button" class="btn btn-success" style="alignment: center" onclick="delete_task()">删除任务</button>
-                    </li>
                 </ul>
             </div>
 
@@ -383,6 +373,7 @@
                         else{
                             document.getElementById("right_info").innerHTML="";
                         }
+
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         alert(XMLHttpRequest.status);

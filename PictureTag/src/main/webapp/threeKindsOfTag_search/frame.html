@@ -93,7 +93,7 @@
                     <br>
 
                     <li>
-                        <button type="button" class="btn btn-success" style="alignment: center" onclick="search_history()">查看历史标注</button>
+                        <button type="button" class="btn btn-success" style="alignment: center" onclick="search_history()">历史标注</button>
                     </li>
 
                     <br>
@@ -655,8 +655,7 @@
     // }
 
     function search_history() {
-        window.location.href="search.html";
-        location.href="search.html?"+"txt="+encodeURI(id)+" target='_blank'";
+        window.open("search2.html?"+"txt="+encodeURI(id),target="_blank");
 
     }
 </script>

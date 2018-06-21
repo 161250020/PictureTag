@@ -93,6 +93,13 @@
                     <br>
 
                     <li>
+                        <button type="button" class="btn btn-success" style="alignment: center" onclick="search_history()">历史标注</button>
+                    </li>
+
+                    <br>
+                    <br>
+
+                    <li>
                         <button type="button" class="btn btn-success" style="alignment: center" onclick="final_submit()">提交任务</button>
                     </li>
                 </ul>
@@ -603,6 +610,10 @@
         last=[e.offsetX,e.offsetY];
     }
 
+    function search_history() {
+        window.open("search2.html?"+"txt="+encodeURI(id),target="_blank");
+
+    }
 </script>
 
 </body>
