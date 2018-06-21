@@ -283,13 +283,12 @@ public class taskServiceImpl implements taskService {
         //确认task完成，修改user信息
         if(grade >= 60){
             u.updatefinish(userId,taskId,true);
-            u.updateEvalu(userId,taskId,grade);
-            u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
         }
         else{
             u.updatefinish(userId,taskId,false);
-            u.updateEvalu(userId,taskId,grade);
         }
+        u.updateEvalu(userId,taskId,grade);
+        u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
         //u.updatefinish(userId,taskId,true);
         //u.updateEvalu(userId,taskId,grade);
         //u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
