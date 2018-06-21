@@ -56,8 +56,18 @@ public class AnalyzeUser implements Analyze {                           //质量
         impl.update(user);
     }
     /*
+    用户的效率
+    */
+     public double calEffiency(String username){
+         double effiency=0.0;
+         UserInfo user=impl.getUser(username);
+         Map<String,Boolean> finish=user.getFinish();
+         return effiency;
+     }
+    /*
     可信度是不停的变动的,所以需要不停的调用,进行轮询
     */
+
     public double calTruth(String username){          //可信度
         double truth=0.0;
         UserInfo user=impl.getUser(username);

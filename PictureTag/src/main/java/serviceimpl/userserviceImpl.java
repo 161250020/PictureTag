@@ -208,7 +208,7 @@ public class userserviceImpl implements user{
          double newscore=user.getScore();
          newscore=newscore+score;
          user.setScore(newscore);
-         int level=updateLevel(score);
+         int level=updateLevel(newscore);
          user.setLevel(level);
          update(user);
     }
