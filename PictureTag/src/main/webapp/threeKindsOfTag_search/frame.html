@@ -93,6 +93,13 @@
                     <br>
 
                     <li>
+                        <button type="button" class="btn btn-success" style="alignment: center" onclick="search_history()">查看历史标注</button>
+                    </li>
+
+                    <br>
+                    <br>
+
+                    <li>
                         <button type="button" class="btn btn-success" style="alignment: center" onclick="final_submit()">提交任务</button>
                     </li>
                 </ul>
@@ -282,9 +289,9 @@
     function nextpage(){
         if(a<(arr.length-1)){
             a++;
-            img.src=src[a];
-            img.onload = function() {
-                ctx.drawImage(img, 0, 0,350,350);
+            img.src = src[a];
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, 350, 350);
             }
         }
         else{
@@ -647,6 +654,11 @@
     //     drawImg(filedata)
     // }
 
+    function search_history() {
+
+        window.location.href="search.html";
+        location.href="search.html?"+"txt="+encodeURI(id)+" target='_blank'";
+    }
 </script>
 
 </body>

@@ -114,13 +114,25 @@
     document.getElementById("b_userId").innerText="用户ID："+id;
 
     //获得积分
-    var integral=100;
-
-
-
-
-
-
+    var integral;
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取项目id的方法
+            "action":"receiveUserInfo",
+            "gData":id
+        },
+        success: function(data) {
+            var us=JSON.parse(data);
+            integral=us.score;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
 
     document.getElementById("show_info").innerHTML="                        <div class=\"panel-body\">\n" +
         "                            <i class=\"fa fa-user-circle\" style=\"font-size:40px\"></i>\n" +
