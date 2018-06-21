@@ -347,12 +347,13 @@ public class taskServiceImpl implements taskService {
                 if(temp == null){//如果未提交过
                     //System.out.println("未提交过");
                     Date date = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");      //当前日期
+                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");      //当前日期
                     String d = format.format(date);
                     t.setFinishDate(d);
                     FileWriter fw = new FileWriter(c, true);
                     BufferedWriter bw = new BufferedWriter(fw);
                     bw.write(gson.toJson(t));
+                    Task ts=gson.fromJson(receiveTaskInfo(t.getId()),Task.class);
                     bw.newLine();
                     bw.close();
                     fw.close();
@@ -366,9 +367,8 @@ public class taskServiceImpl implements taskService {
                 e.printStackTrace();
             }
             //用户确认自己已经完成task，将task的complete属性修改为true
-            Task temp = g.fromJson(taskData,Task.class);
-            temp.setComplete(true);
-            modifyTask(g.toJson(temp),taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
+            t.setComplete(true);
+            modifyTask(g.toJson(t),taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
 
             //删除committed中的信息
             deleteTask(taskId,committedTaskFile);
