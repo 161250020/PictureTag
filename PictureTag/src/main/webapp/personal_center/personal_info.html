@@ -136,6 +136,8 @@
                             <br>
                             <h9 id="data6">6</h9>
                             <br>
+                            <h9 id="data7">7</h9>
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -200,6 +202,7 @@
     var ConfidencebyScoreandEvalu;
     var LiftbyScoreandEvalu;
     var calTruth;
+    var calEffiency;
     $.ajax({
         url : "/Servlet",
         type : "POST",
@@ -302,6 +305,24 @@
             //alert(data);
             calTruth=JSON.parse(data);
             document.getElementById("data6").innerHTML= "可信度："+calTruth;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"calEffiency",
+            "gData":id
+        },
+        success: function(data) {
+            //alert(data);
+            calEffiency=JSON.parse(data);
+            document.getElementById("data7").innerHTML= "效率："+calEffiency;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
