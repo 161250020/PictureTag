@@ -66,7 +66,8 @@ public class AnalyzeUser implements Analyze {                           //质量
          Map<String,Boolean> finish=user.getFinish();
          for(String str:finish.keySet()){
              if(finish.get(str)){
-
+                   Task temp=gson.fromJson(service.receiveTaskInfo(str),Task.class);
+                   String Date1=temp.getFinishDate();
              }
          }
          return effiency;
