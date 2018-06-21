@@ -7,6 +7,7 @@ import serviceimpl.*;
 import serviceimpl.Bill.BillServiceImpl;
 import serviceimpl.tag.imageServiceImpl;
 import serviceimpl.task.AdminUser;
+import serviceimpl.FindProjects;
 import serviceimpl.task.taskFilterServiceImpl;
 import vo.Project.Project;
 import vo.Project.Task.Task;
@@ -482,10 +483,35 @@ public class Servlet extends javax.servlet.http.HttpServlet {
      * @param taskId
      */
     private void deleteTask(HttpServletRequest request,HttpServletResponse response,String taskId){
-        taskService d = new taskServiceImpl();
-        String[] ss = taskId.split("&");
-        String filePath = taskServiceImpl.class.getResource("/").getFile()+ File.separator+ss[0]+".txt";
-        d.deleteTask(taskId,filePath);
+        boolean b = true;
+        boolean out1=false,out2=false;
+        Gson gson = new Gson();
+        taskServiceImpl d = new taskServiceImpl();
+
+        String[] ss = taskId.split("_");
+        String filePath1 = taskServiceImpl.class.getResource("/").getFile()+ File.separator+ss[0]+"_"+ss[1]+".task";
+        String filePath2 = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
+        String temp = d.findTask(taskId,filePath1);
+        if(gson.fromJson(temp,Task.class).isReceive()){
+            b = false;
+        }
+        else{
+            out1 = d.deleteTask(taskId,filePath1);
+            out2 = d.deleteTask(taskId,filePath2);
+        }
+
+        try {
+            PrintWriter pw = response.getWriter();
+            if(out1 && out2  && b){
+                pw.write("true");
+            }
+            else{
+                pw.write("false");
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

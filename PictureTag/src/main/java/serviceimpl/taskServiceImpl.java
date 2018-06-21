@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import service.taskService;
 import serviceimpl.tag.imageServiceImpl;
 import serviceimpl.tagAccuracy.analyzeTagAccuracyImpl;
+import serviceimpl.FindProjects;
 import vo.Project.Project;
 import vo.Project.Task.Task;
 import vo.UserInfo;
@@ -266,25 +267,27 @@ public class taskServiceImpl implements taskService {
         userserviceImpl u = new userserviceImpl();
         String[] ss = taskId.split(sp);
         String taskProjectId = ss[0]+sp+ss[1];
-        String s = findTask(taskId,taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
-        Task temp = gson.fromJson(s,Task.class);
-        if(!temp.isComplete()){
+        //String s = findTask(taskId,taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
+        String s = findTask(taskId,checkTaskFileName);
+        if(s == null){
             return b;
         }
-        else{
-            //System.out.println(grade);
-            //确认task完成，修改project信息
-            findProjects.updateProgress(taskProjectId);
-            //确认task完成，修改user信息
-            u.updatefinish(userId,taskId,true);
-            u.updateEvalu(userId,taskId,grade);
-            u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
-            //删除committedTaskFile里的该task
-            deleteTask(taskId,checkTaskFileName);
-            //修改评分
-            gradeTask(taskId,grade);
-            b = true;
-        }
+        Task temp = gson.fromJson(s,Task.class);
+        //System.out.println(temp.isComplete());
+
+        //System.out.println(grade);
+        //确认task完成，修改project信息
+        findProjects.updateProgress(taskProjectId);
+        //确认task完成，修改user信息
+        u.updatefinish(userId,taskId,true);
+        u.updateEvalu(userId,taskId,grade);
+        u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
+        //删除committedTaskFile里的该task
+        deleteTask(taskId,checkTaskFileName);
+        //修改评分
+        gradeTask(taskId,grade);
+        b = true;
+
         return b;
     }
 
@@ -304,25 +307,18 @@ public class taskServiceImpl implements taskService {
 
         userserviceImpl u = new userserviceImpl();
         UserInfo userInfo = u.getUser(userId);
-        ArrayList<String> receivePro = userInfo.getReceivetask();
         //判断用户是否接受过该任务
-        boolean flag = false;
-        for (int i = 0; i < receivePro.size(); i++) {
-            if(taskId.equals(receivePro.get(i))){
-                flag = true;
-            }
-        }
+        boolean flag = true;
         if(!flag){
                 System.out.println("用户没有接受该任务！");
                 return false;
         }
         //判断是否将所有图片标注完成
+
         if(!(t.getProgress() == t.getImageIds().size())){
-            flag = false;
             System.out.println("任务没有完成！");
             return false;
         }
-        //这里判断task是否超过期限
 
         //将task内容添加到confirmTask.task，注意此时的task的bool值receive和publish都为true
         if(flag) {
@@ -336,12 +332,19 @@ public class taskServiceImpl implements taskService {
                 }
             }
             try {
-                FileWriter fw = new FileWriter(c, true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(taskData);
-                bw.newLine();
-                bw.close();
-                fw.close();
+                String temp = findTask(t.getId(),checkTaskFileName);
+                if(temp == null){//如果未提交过
+                    //System.out.println("未提交过");
+                    FileWriter fw = new FileWriter(c, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(taskData);
+                    bw.newLine();
+                    bw.close();
+                    fw.close();
+                }
+                else{
+                    modifyTask(taskData,checkTaskFileName);
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -350,10 +353,11 @@ public class taskServiceImpl implements taskService {
             //用户确认自己已经完成task，将task的complete属性修改为true
             Task temp = g.fromJson(taskData,Task.class);
             temp.setComplete(true);
-            modifyTask(g.toJson(temp),taskProjectId+".task");
+            modifyTask(g.toJson(temp),taskServiceImpl.class.getResource("/").getFile()+File.separator+taskProjectId+".task");
 
             //删除committed中的信息
             deleteTask(taskId,committedTaskFile);
+            b = true;
         }
         return b;
     }
@@ -497,16 +501,16 @@ public class taskServiceImpl implements taskService {
     }
 
     /**
-     * 删除task，如果task未被领取的话
+     * 删除task的base方法
      * @param taskId
      * @param filepath
      */
-    public void deleteTask(String taskId,String filepath){
+    public boolean deleteTask(String taskId,String filepath){
             ArrayList<String> reWrite = new ArrayList<>();
             Gson gson = new Gson();
             String[] ss = taskId.split(sp);
             String userId = ss[0];
-            boolean b = false;
+            boolean b = true;
             File fRead = new File(filepath);
             File fWrite = new File(filepath);
             try {
@@ -517,6 +521,9 @@ public class taskServiceImpl implements taskService {
                     Task task = gson.fromJson(temp, Task.class);//反序列化
                     if((!task.getId().equals(taskId))){
                         reWrite.add(temp);
+                    }
+                    else{
+                        b = false;
                     }
                 }
                 br.close();
@@ -548,6 +555,7 @@ public class taskServiceImpl implements taskService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return b;
     }
 
     /**
