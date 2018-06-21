@@ -61,13 +61,19 @@ public class AnalyzeUser implements Analyze {                           //质量
      public double calEffiency(String username){
          taskServiceImpl service=new taskServiceImpl();
          Gson gson=new Gson();
-         double effiency=0.0;
+         double effiency=0.0;             //效率
+         int counts=0;                    //计算任务数
          UserInfo user=impl.getUser(username);
          Map<String,Boolean> finish=user.getFinish();
          for(String str:finish.keySet()){
              if(finish.get(str)){
                    Task temp=gson.fromJson(service.receiveTaskInfo(str),Task.class);
-                   String Date1=temp.getFinishDate();
+                   String Date1="  ";
+                   String Date2=temp.getFinishDate();
+                   int day1=0;
+                   String Date3= temp.getStartDate();
+                   String Date4=temp.getEndDate();
+                   counts++;
              }
          }
          return effiency;
