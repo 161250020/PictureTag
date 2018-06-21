@@ -91,6 +91,20 @@ public class AnalyzeUser implements Analyze {                           //质量
          return effiency;
      }
 
+     public boolean alarm(String username){                   //提示工人,他的效率有点问题
+         boolean flag=false;
+         double realvalue=calEffiency(username);       //考虑两种极端,只做好自己喜爱的,不喜爱的就是差评
+         double truth=calTruth(username);              //是否有很多垃圾任务
+         if(impl.getUser(username).getFinish().size()==0){
+             return false;
+         }
+         if((realvalue*0.6+truth*0.4)<1){
+             flag=true;
+         }
+         return flag;
+     }
+
+
      //辅助方法,计算间隔时间
     public int calDate(String Date1,String Date2){
          int days=0;

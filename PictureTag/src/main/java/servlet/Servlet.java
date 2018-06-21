@@ -104,7 +104,12 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if ("calTruth".equals(action)) {
             String username = request.getParameter("gData");
             this.calTruth(request, response, username);
-        } else if ("recommend".equals(action)) {
+        }
+        else if("alarm".equals(action)){
+            String username=request.getParameter("gData");
+            this.alarm(request, response, username);
+        }
+        else if ("recommend".equals(action)) {
             String username = request.getParameter("gData");
             this.recommend(request, response, username);
         } else if ("correlation".equals(action)) {
@@ -676,6 +681,22 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             PrintWriter p=response.getWriter();
             String result=""+truth;
             p.write(result);
+            p.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void alarm(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser analyze=new AnalyzeUser();
+        boolean flag=analyze.alarm(username);
+        try{
+            PrintWriter p=response.getWriter();
+            if(flag) {
+                p.write("true");
+            }
+            else{
+                p.write("false");
+            }
             p.close();
         }catch(IOException e){
             e.printStackTrace();
