@@ -194,6 +194,27 @@
             alert(textStatus);
         }
     });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"alarm",
+            "gData":id
+        },
+        success: function(data) {
+            //alert(data);
+            //返回的user的内容
+            if(data=="true"){
+                alert("您最近效率低下，请提高效率");
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
 
     //展示用户的相关数据
     var correlation;
