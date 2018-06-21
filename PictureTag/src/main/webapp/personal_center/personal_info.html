@@ -405,11 +405,14 @@
 
             success: function(data) {
                 alert("修改昵称成功！");
+                window.location.href="personal_info.html";
+                location.href="personal_info.html?"+"txt="+encodeURI(id);
             },
             error: function () {
                 alert("Wrong!");
             }
         });
+
     }
 
 </script>
