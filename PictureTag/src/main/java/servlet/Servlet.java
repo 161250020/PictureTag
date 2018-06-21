@@ -97,7 +97,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         } else if ("receiveSingleRanking".equals(action)) {
             String usename = request.getParameter("gData");
             this.receiveSingleRanking(request, response, usename);
-        } else if ("calTruth".equals(action)) {
+        } else if("calEffiency".equals(action)){
+            String username=request.getParameter("gData");
+            this.calEffiency(request,response,username);
+        }
+        else if ("calTruth".equals(action)) {
             String username = request.getParameter("gData");
             this.calTruth(request, response, username);
         } else if ("recommend".equals(action)) {
@@ -651,6 +655,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
+    private void calEffiency(HttpServletRequest request,HttpServletResponse response,String username){
+        AnalyzeUser analyze=new AnalyzeUser();
+        double effiency=analyze.calEffiency(username);
+        try{
+            PrintWriter p=response.getWriter();
+            String result=""+effiency;
+            p.write(result);
+            p.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
 
     private void calTruth(HttpServletRequest request,HttpServletResponse response,String username){
         AnalyzeUser analyze=new AnalyzeUser();

@@ -58,26 +58,80 @@ public class AnalyzeUser implements Analyze {                           //质量
     /*
     用户的效率
     */
-     public double calEffiency(String username){
-         taskServiceImpl service=new taskServiceImpl();
-         Gson gson=new Gson();
-         double effiency=0.0;             //效率
-         int counts=0;                    //计算任务数
-         UserInfo user=impl.getUser(username);
-         Map<String,Boolean> finish=user.getFinish();
-         for(String str:finish.keySet()){
-             if(finish.get(str)){
-                   Task temp=gson.fromJson(service.receiveTaskInfo(str),Task.class);
-                   String Date1="  ";
-                   String Date2=temp.getFinishDate();
-                   int day1=0;
-                   String Date3= temp.getStartDate();
-                   String Date4=temp.getEndDate();
-                   counts++;
+     public double calEffiency(String username) {                      //计算用户的权值效率(评估一个用户的能力)
+         taskServiceImpl service = new taskServiceImpl();
+         Gson gson = new Gson();
+         double effiency = 0.0;             //效率
+         int counts = 0;                    //计算耗时量
+         int realvalue = 0;                 //总权值
+         UserInfo user = impl.getUser(username);
+         Map<String, Boolean> finish = user.getFinish();
+         for (String str : finish.keySet()) {
+             if (finish.get(str)) {
+                 Task temp = gson.fromJson(service.receiveTaskInfo(str), Task.class);
+                 System.out.println("完成日期"+" "+temp.getFinishDate());
+                 String Date1 = temp.getReceiveDate();
+                 String Date2 = temp.getFinishDate();
+                 int day1 = calDate(Date1, Date2);                          //一个任务的耗时量
+                 counts = counts + day1;
+                 System.out.println("耗时:"+" "+counts);
+                 String Date3 = temp.getStartDate();
+                 String Date4 = temp.getEndDate();
+                 int day2 = calDate(Date3, Date4);
+                 realvalue = realvalue + day2 * temp.getImageIds().size();    //该任务的权值,  需不需要乘以评分的百分比
+                 System.out.println("总权值:"+" "+realvalue);
              }
+         }
+         if(counts==0){
+                effiency=0;
+         }
+         else{
+                effiency=(realvalue*1.0)/(counts*1.0);
          }
          return effiency;
      }
+
+     //辅助方法,计算间隔时间
+    public int calDate(String Date1,String Date2){
+         int days=0;
+         System.out.println("CalDate");
+         System.out.println(Date1);
+         System.out.println(Date2);
+         String temp1=Date1.substring(4,8);
+         String temp2=Date2.substring(4,8);
+         if(temp1.substring(0,2).equals(temp2.substring(0,2))){
+             System.out.println("已进入计算间隔");
+               days=calDay(temp2.substring(2,4))-calDay(temp1.substring(2,4))+1;
+         }
+         else{
+               int MonthOfDays=calDayOfMonth(temp1.substring(0,2));
+               days=MonthOfDays-calDay(temp1.substring(2,4))+calDay(temp1.substring(2,4))+1;
+         }
+         return days;
+    }
+    public int calDay(String str){                  //把日转换成天数
+         int result=0;
+         if(str.substring(0,1).equals("0")){
+             result=Integer.parseInt(str.substring(1,2));
+         }
+         else{
+             result=Integer.parseInt(str);
+         }
+         return result;
+    }
+    public int calDayOfMonth(String month){                    //每一个月的天数
+        int days=0;
+        if(month.equals("01")||month.equals("03")||month.equals("05")||month.equals("07")||month.equals("08")||month.equals("10")||month.equals("12")){
+             days=31;
+         }
+         if(month.equals("04")||month.equals("06")||month.equals("09")||month.equals("11")){
+             days=30;
+         }
+         if(month.equals("02")){
+             days=28;
+         }
+         return days;
+    }
     /*
     可信度是不停的变动的,所以需要不停的调用,进行轮询
     */

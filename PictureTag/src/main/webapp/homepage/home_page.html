@@ -93,6 +93,13 @@
                         <br>
                         <input type="text" class="form-control" id="account" placeholder="帐号：">
                         <input type="password" class="form-control" id="password" placeholder="密码：">
+                        <input type="text" class="form-control" id="check_word" placeholder="验证码：">
+                        <div>
+                            <canvas id="canvas" width="120" height="40"></canvas>
+                            <a href="#" id="changeImg">看不清，换一张</a>
+                        </div>
+
+                        <br>
                         <button onclick="register()" type="button" class="button small" style="width: 100%">登录</button>
                         <div align="right">
                              <a href="#" onclick="signin()">注册</a>
@@ -106,16 +113,90 @@
 </div>
 
 <script>
+    /**生成一个随机数**/
+    function randomNum(min,max){
+        return Math.floor( Math.random()*(max-min)+min);
+    }
+    /**生成一个随机色**/
+    function randomColor(min,max){
+        var r = randomNum(min,max);
+        var g = randomNum(min,max);
+        var b = randomNum(min,max);
+        return "rgb("+r+","+g+","+b+")";
+    }
+    var yan;
+    drawPic();
+
+    document.getElementById("changeImg").onclick = function(e){
+        e.preventDefault();
+        drawPic();
+    }
+
+    /**绘制验证码图片**/
+    function drawPic(){
+        var canvas=document.getElementById("canvas");
+        var width=canvas.width;
+        var height=canvas.height;
+        var ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'bottom';
+
+        /**绘制背景色**/
+        ctx.fillStyle = randomColor(180,240); //颜色若太深可能导致看不清
+        ctx.fillRect(0,0,width,height);
+        /**绘制文字**/
+        var str = 'ABCEFGHJKLMNPQRSTWXY123456789';
+        yan="";
+        for(var i=0; i<4; i++){
+            var txt = str[randomNum(0,str.length)];
+            ctx.fillStyle = randomColor(50,160);  //随机生成字体颜色
+            ctx.font = randomNum(15,40)+'px SimHei'; //随机生成字体大小
+            var x = 10+i*25;
+            var y = randomNum(25,45);
+            var deg = randomNum(-45, 45);
+            //修改坐标原点和旋转角度
+            ctx.translate(x,y);
+            ctx.rotate(deg*Math.PI/180);
+            ctx.fillText(txt, 0,0);
+            //恢复坐标原点和旋转角度
+            ctx.rotate(-deg*Math.PI/180);
+            ctx.translate(-x,-y);
+            yan=yan+txt;
+        }
+
+        /**绘制干扰线**/
+        for(var i=0; i<8; i++){
+            ctx.strokeStyle = randomColor(40,180);
+            ctx.beginPath();
+            ctx.moveTo( randomNum(0,width), randomNum(0,height) );
+            ctx.lineTo( randomNum(0,width), randomNum(0,height) );
+            ctx.stroke();
+        }
+        /**绘制干扰点**/
+        for(var i=0; i<100; i++){
+            ctx.fillStyle = randomColor(0,255);
+            ctx.beginPath();
+            ctx.arc(randomNum(0,width),randomNum(0,height), 1, 0, 2*Math.PI);
+            ctx.fill();
+        }
+    }
+
     //读取id
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
     var id = decodeURI(loc.substr(n2+1, n1-n2)).toString();//从=号后面的内容
-    document.getElementById("b_userId").innerText="用户ID："+id;
+    var flag=0;
 
+
+    document.getElementById("b_userId").innerText="用户ID："+id;
     //登录
     function register(){
         //从服务器端返回判断是否存在这个用户的结果
+        var yanzheng=document.getElementById("check_word").value;
+        if(yan==yanzheng)
+            flag=1;
+        else
+            flag=0;
         var str={
             "username":document.getElementById("account").value.toString(),
             "password":document.getElementById("password").value.toString(),
@@ -127,45 +208,52 @@
             "score":0.0
         };
         var changeobj=JSON.stringify(str);
-        $.ajax({
-            url : "/Servlet",
-            type : "POST",
-            data :{
-                "gData":changeobj,
-                "action":"login"
-            },
+        var yanzheng=document.getElementById("check_word").value;
+        if(flag==1) {
+            $.ajax({
+                url: "/Servlet",
+                type: "POST",
+                data: {
+                    "gData": changeobj,
+                    "action": "login"
+                },
 
-            success: function(data) {
-                //exist用来判断该用户是否存在
-                var exist=0;
+                success: function (data) {
+                    //exist用来判断该用户是否存在
+                    var exist = 0;
 
-                //如果返回的值是true
-                if(data=="true"){
-                    exist=1;
-                }
+                    //如果返回的值是true
+                    if (data == "true") {
+                        exist = 1;
+                    }
 
-                //针对两种不同的返回值的反应
-                if(exist==1){
-                    if(document.getElementById("account").value.toString()=="admin"){
-                        window.location.href="admin.html";
-                        location.href="admin.html?"+"txt="+encodeURI(document.getElementById("account").value.toString());
+                    //针对两种不同的返回值的反应
+                    if (exist == 1) {
+                        if (document.getElementById("account").value.toString() == "admin") {
+                            window.location.href = "admin.html";
+                            location.href = "admin.html?" + "txt=" + encodeURI(document.getElementById("account").value.toString());
+                        }
+                        else {
+                            window.location.href = "home_page_alreadyin.html";
+                            location.href = "home_page_alreadyin.html?" + "txt=" + encodeURI(document.getElementById("account").value.toString());
+                        }
                     }
                     else {
-                        window.location.href="home_page_alreadyin.html";
-                        location.href="home_page_alreadyin.html?"+"txt="+encodeURI(document.getElementById("account").value.toString());
+                        //清空后提示
+                        document.getElementById("account").value = "";
+                        document.getElementById("password").value = "";
+                        alert("Invalid username or password!");
                     }
+                },
+                error: function () {
+                    alert("Wrong!");
                 }
-                else{
-                    //清空后提示
-                    document.getElementById("account").value="";
-                    document.getElementById("password").value="";
-                    alert("Invalid username or password!");
-                }
-            },
-            error: function () {
-                alert("Wrong!");
-            }
-        });
+            });
+        }
+        else
+        {
+            alert("验证码错误");
+        }
     }
 
     //注册
@@ -175,6 +263,8 @@
     }
 
 </script>
+
+
 
 </body>
 </html>
