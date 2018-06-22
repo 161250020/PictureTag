@@ -329,7 +329,6 @@ public class taskServiceImpl implements taskService {
             try {
                 String temp = findTask(t.getId(),checkTaskFileName);
                 if(temp == null){//如果未提交过
-                    //System.out.println("未提交过");
                     Date date = new Date();
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");      //当前日期
                     String d = format.format(date);

@@ -1,7 +1,7 @@
 package util;
 
 public class DateTool {
-    public boolean checkDateBefore(String Date1,String Date) {   //"yyyyMMddHHmmss"
+    public static boolean checkDateBefore(String Date1,String Date) {   //"yyyyMMddHHmmss"
         String Date1year = Date1.substring(0,4);              //可能有错误
         String Date1month = Date1.substring(4, 6);
         String Date1day = Date1.substring(6, 8);
@@ -62,7 +62,7 @@ public class DateTool {
             }
         }
     }
-    public boolean checkDateAfter(String Date2,String Date) {
+    public static boolean checkDateAfter(String Date2,String Date) {
         boolean flag = false;
         String Date2year = Date2.substring(0,4);
         String Date2month = Date2.substring(4, 6);
@@ -125,7 +125,7 @@ public class DateTool {
         }
     }
 
-    public int checkMonth(String month){            //返回该月的天数
+    public static int checkMonth(String month){            //返回该月的天数
         int day=0;
         if(month.equals("01")||month.equals("03")||month.equals("05")||month.equals("07")||month.equals("08")||month.equals("10")||month.equals("12")){
             day=31;
@@ -139,7 +139,7 @@ public class DateTool {
         return day;
     }
 
-    public int convertDay(String day){                         //将day转为整数
+    public static int convertDay(String day){                         //将day转为整数
         int result=0;
         if(day.substring(0,1).equals("0")){
             result=Integer.parseInt(day.substring(1,2));
@@ -150,7 +150,7 @@ public class DateTool {
         return result;
     }
 
-    public int getMonthIndex(String month){
+    public static int getMonthIndex(String month){
         int index=0;
         if(month.equals("01")){
             index=0;
@@ -192,7 +192,7 @@ public class DateTool {
     }
 
     //辅助方法,计算间隔时间
-    public int calDate(String Date1,String Date2){
+    public static int calDate(String Date1,String Date2){
         int days=0;
         String temp1=Date1.substring(4,8);
         String temp2=Date2.substring(4,8);
@@ -205,7 +205,7 @@ public class DateTool {
         }
         return days;
     }
-    public int calDay(String str){                  //把日转换成天数
+    public static int calDay(String str){                  //把日转换成天数
         int result=0;
         if(str.substring(0,1).equals("0")){
             result=Integer.parseInt(str.substring(1,2));
@@ -215,7 +215,7 @@ public class DateTool {
         }
         return result;
     }
-    public int calDayOfMonth(String month){                    //每一个月的天数
+    public static int calDayOfMonth(String month){                    //每一个月的天数
         int days=0;
         if(month.equals("01")||month.equals("03")||month.equals("05")||month.equals("07")||month.equals("08")||month.equals("10")||month.equals("12")){
             days=31;

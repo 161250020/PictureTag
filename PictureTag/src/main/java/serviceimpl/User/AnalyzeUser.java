@@ -2,6 +2,7 @@ package serviceimpl.User;
 
 import com.google.gson.Gson;
 import serviceimpl.task.taskServiceImpl;
+import util.DateTool;
 import vo.Project.Task.Task;
 import vo.UserInfo;
 
@@ -209,7 +210,7 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
         return result;
     }
 
-    public String comparebyEva(boolean type1,boolean type2,boolean type3,String username){     //recomend方法调用,根据评分来获得推荐的种类
+    public String comparebyEva(boolean type1,boolean type2,boolean type3,String username){     //recomend方法调用,根据评分来获得推荐的种类,(加权评分)
         String result="";
         String temp1="";
         String temp2="";
@@ -231,15 +232,15 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
         for(String s:taskIds.keySet()){
             //判断task的类型
             if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("area")){
-                sum1=sum1+taskIds.get(s);
+                sum1=sum1+taskIds.get(s)* DateTool.calDate(gson.fromJson(service.receiveTaskInfo(s),Task.class).getFinishDate(),gson.fromJson(service.receiveTaskInfo(s),Task.class).getStartDate());
                 count1++;
             }
             if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("frame")){
-                sum2=sum2+taskIds.get(s);
+                sum2=sum2+taskIds.get(s)* DateTool.calDate(gson.fromJson(service.receiveTaskInfo(s),Task.class).getFinishDate(),gson.fromJson(service.receiveTaskInfo(s),Task.class).getStartDate());
                 count2++;
             }
             if(gson.fromJson(service.receiveTaskInfo(s),Task.class).getTagType().equals("overall")){
-                sum3=sum3+taskIds.get(s);
+                sum3=sum3+taskIds.get(s)* DateTool.calDate(gson.fromJson(service.receiveTaskInfo(s),Task.class).getFinishDate(),gson.fromJson(service.receiveTaskInfo(s),Task.class).getStartDate());
                 count3++;
             }
         }
@@ -652,7 +653,6 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
         }
         return result;
     }
-
 
 
     //完成情况的关联度(积分和完成度的关系)

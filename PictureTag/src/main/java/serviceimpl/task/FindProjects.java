@@ -113,6 +113,68 @@ public class FindProjects implements service.FindProjects {
         }
         return result;
     }
+
+
+    public void update(Project pro){                       //界面修改任务
+        String path= FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";
+        ArrayList<String> content= FileReadandWrite.ReadFile(path);
+        ArrayList<String> current=new ArrayList<String>();
+        Gson gson=new Gson();
+        for(String str:content){
+            if((!gson.fromJson(str,Project.class).getId().equals(pro.getId()))&&str!=null){             //==和equals    前后一致
+                current.add(str);
+            }
+            if((gson.fromJson(str,Project.class).getId().equals(pro.getId()))&&str!=null){             //==和equals
+                current.add(gson.toJson(pro));
+            }
+        }
+        File file=new File(path);
+        file.delete();
+        for(String str:current) {
+            if(str!=null) {
+                FileReadandWrite.WriteFile(path, str);
+            }
+        }
+    }
+    //该方法用来提供生成任务时使用
+    public void updateTaskId(String proId,String taskId){
+        Project current=getProject(proId);
+        ArrayList<String> taskIds=current.getTaskIds();
+        taskIds.add(taskId);
+        current.setTaskIds(taskIds);
+        update(current);
+    }
+    //该方法用来提供给task完成时使用
+    public void updateProgress(String proid){              //需要返回更新后的任务嘛;(有个麻烦:好像不能做到实时更新)
+        Project current=getProject(proid);
+        int pastprogress=current.getProgress();
+        int currentprogress=pastprogress+1;
+        current.setProgress(currentprogress);
+        if(isfinish(currentprogress,current.getTaskIds().size())){                                   //判断
+            current.setFinish(true);
+        }
+        update(current);
+    }
+    //领取任务时使用
+    public void updateList(String proid,String username,String taskId){
+        //更新pro
+        Project current=getProject(proid);
+        Map<String,String> past=current.getList();
+        past.put(taskId,username);
+        current.setList(past);
+        update(current);
+        //更新user
+        userserviceImpl impl=new userserviceImpl();
+        impl.updatereceiveTask(username,taskId);
+    }
+    public boolean isfinish(int currentprogress,int tasknumbers){                              //检验项目是否完成
+        boolean finish=false;
+        if(currentprogress==tasknumbers){
+            finish=true;
+        }
+        return finish;
+    }
+
     public boolean checkDate1(String Date1,String Date) {   //"yyyyMMddHHmmss"
         String Date1year = Date1.substring(0,4);              //可能有错误
         String Date1month = Date1.substring(4, 6);
@@ -236,65 +298,5 @@ public class FindProjects implements service.FindProjects {
                 }
             }
         }
-    }
-
-    public void update(Project pro){                       //界面修改任务
-        String path= FindProjects.class.getResource("/").getFile()+ File.separator+"_"+pro.getUsername()+"_"+"Projects.txt";
-        ArrayList<String> content= FileReadandWrite.ReadFile(path);
-        ArrayList<String> current=new ArrayList<String>();
-        Gson gson=new Gson();
-        for(String str:content){
-            if((!gson.fromJson(str,Project.class).getId().equals(pro.getId()))&&str!=null){             //==和equals    前后一致
-                current.add(str);
-            }
-            if((gson.fromJson(str,Project.class).getId().equals(pro.getId()))&&str!=null){             //==和equals
-                current.add(gson.toJson(pro));
-            }
-        }
-        File file=new File(path);
-        file.delete();
-        for(String str:current) {
-            if(str!=null) {
-                FileReadandWrite.WriteFile(path, str);
-            }
-        }
-    }
-    //该方法用来提供生成任务时使用
-    public void updateTaskId(String proId,String taskId){
-        Project current=getProject(proId);
-        ArrayList<String> taskIds=current.getTaskIds();
-        taskIds.add(taskId);
-        current.setTaskIds(taskIds);
-        update(current);
-    }
-    //该方法用来提供给task完成时使用
-    public void updateProgress(String proid){              //需要返回更新后的任务嘛;(有个麻烦:好像不能做到实时更新)
-        Project current=getProject(proid);
-        int pastprogress=current.getProgress();
-        int currentprogress=pastprogress+1;
-        current.setProgress(currentprogress);
-        if(isfinish(currentprogress,current.getTaskIds().size())){                                   //判断
-            current.setFinish(true);
-        }
-        update(current);
-    }
-    //领取任务时使用
-    public void updateList(String proid,String username,String taskId){
-        //更新pro
-        Project current=getProject(proid);
-        Map<String,String> past=current.getList();
-        past.put(taskId,username);
-        current.setList(past);
-        update(current);
-        //更新user
-        userserviceImpl impl=new userserviceImpl();
-        impl.updatereceiveTask(username,taskId);
-    }
-    public boolean isfinish(int currentprogress,int tasknumbers){                              //检验项目是否完成
-        boolean finish=false;
-        if(currentprogress==tasknumbers){
-            finish=true;
-        }
-        return finish;
     }
 }

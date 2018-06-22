@@ -330,6 +330,8 @@ public class AdminUser implements Admin {
               result.add(""+Lift);
               return result;
           }
+
+
           //辅助方法
           public int checkMonth(String month){            //返回该月的天数
               int day=0;
