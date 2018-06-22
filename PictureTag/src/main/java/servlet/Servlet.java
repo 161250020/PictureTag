@@ -182,6 +182,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         else if("receiveAllNorm".equals(action)){
             this.receiveAllNorm(request,response);
         }
+        else if("receiveNormByPerson".equals(action)){
+            String username=request.getParameter("gData");
+            this.receiveNormByPerson(request,response,username);
+        }
         else if("BillTasks".equals(action)){
             String username=request.getParameter("gData");
             this.BillTasks(request,response,username);
@@ -1028,6 +1032,19 @@ public class Servlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
         }
     }
+   private void  receiveNormByPerson(HttpServletRequest request,HttpServletResponse response,String username){
+       AdminUser service=new AdminUser();
+       ArrayList<String> result=service.getNormByPerson(username);
+       Gson gson=new Gson();
+       String gsondata=gson.toJson(result);
+       try{
+           PrintWriter writer=response.getWriter();
+           writer.write(gsondata);
+           writer.close();
+       }catch(IOException e){
+           e.printStackTrace();
+       }
+   }
 
     private void BillTasks(HttpServletRequest request,HttpServletResponse response,String username){
         BillServiceImpl impl=new BillServiceImpl();

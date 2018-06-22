@@ -78,7 +78,7 @@ public class AdminUser implements Admin {
               return result;
           }
 
-          public ArrayList<String> getProjectCountByMonth(String month){
+          public ArrayList<String> getProjectCountByMonth(String month){                 //月度发布的项目数
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               ArrayList<String> proIds=new ArrayList<String>();         //存放所有的proIds
@@ -119,7 +119,7 @@ public class AdminUser implements Admin {
               return result;
           }
 
-          public ArrayList<String> getProjectCountByYear(String year){
+          public ArrayList<String> getProjectCountByYear(String year){                         //年度发布的项目数
               FindProjects service=new FindProjects();
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
@@ -141,7 +141,7 @@ public class AdminUser implements Admin {
               }
               return result;
           }
-          public ArrayList<String> getTaskCountByLevel(){
+          public ArrayList<String> getTaskCountByLevel(){                              //不同等级的人发布的任务数
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               int counts[]={0,0,0,0,0,0};
@@ -174,7 +174,7 @@ public class AdminUser implements Admin {
               return result;
           }
 
-          public ArrayList<String> getTaskCount(){
+          public ArrayList<String> getTaskCount(){                                               //
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> list=getAll();
               int finish=0;
@@ -198,8 +198,8 @@ public class AdminUser implements Admin {
               result.add(""+giveup);
               return result;
           }
-          //不同等级的满意度
-          public ArrayList<String> getScoreByLevel(){
+
+          public ArrayList<String> getScoreByLevel(){                //不同等级的满意度(评分)
               ArrayList<UserInfo> user=getAll();
               ArrayList<String> result=new ArrayList<String>();
               double score0=0.0;
@@ -277,7 +277,7 @@ public class AdminUser implements Admin {
               return result;
           }
 
-          public ArrayList<String> getAllNorm(){
+          public ArrayList<String> getAllNorm(){                           //获得所有人的五大属性
                AnalyzeUser service=new AnalyzeUser();
                ArrayList<String> result=new ArrayList<String>();
                ArrayList<UserInfo> list=getAll();
@@ -310,7 +310,26 @@ public class AdminUser implements Admin {
                result.add(""+Lift);
                return result;
           }
-
+          public ArrayList<String> getNormByPerson(String username){
+               AnalyzeUser service=new AnalyzeUser();
+               ArrayList<String> result=new ArrayList<String>();
+              double correlation=0.0;     //相关系数
+              double truth=0.0;           //可信度
+              double Support=0.0;         //支持度
+              double Confidence=0.0;      //置信度
+              double Lift=0.0;            //作用度
+              correlation=service.correlation(username);
+              truth=service.calTruth(username);
+              Support=service.SupportbyScoreandEvalu(username);
+              Confidence=service.ConfidencebyScoreandEvalu(username);
+              Lift=service.LiftbyScoreandEvalu(username);
+              result.add(""+correlation);
+              result.add(""+truth);
+              result.add(""+Support);
+              result.add(""+Confidence);
+              result.add(""+Lift);
+              return result;
+          }
           //辅助方法
           public int checkMonth(String month){            //返回该月的天数
               int day=0;
