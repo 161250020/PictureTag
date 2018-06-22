@@ -141,8 +141,12 @@
                 cell2.innerHTML = tas[i].name;
                 cell3.innerHTML = tas[i].receiverId;
                 cell4.innerHTML = tas[i].progress + "/" + tas[i].imageIds.length;
-                cell5.innerHTML = tas[i].startDate.substring(0,4)+"-"+tas[i].startDate.substring(4,6)+"-"+tas[i].startDate.substring(6,8);
-                cell6.innerHTML = tas[i].endDate.substring(0,4)+"-"+tas[i].endDate.substring(4,6)+"-"+tas[i].endDate.substring(6,8);
+                if(tas[i].receive==true) {
+                    cell5.innerHTML = tas[i].receiveDate.substring(0, 4) + "-" + tas[i].receiveDate.substring(4, 6) + "-" + tas[i].receiveDate.substring(6, 8);
+                }
+                if(tas[i].complete==true) {
+                    cell6.innerHTML = tas[i].finishDate.substring(0, 4) + "-" + tas[i].finishDate.substring(4, 6) + "-" + tas[i].finishDate.substring(6, 8);
+                }
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

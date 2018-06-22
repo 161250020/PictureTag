@@ -362,9 +362,8 @@
             "gData":id
         },
         success: function(data) {
-            alert(data);
-            like_tag=JSON.parse(data);
-            document.getElementById("data8").innerHTML= "您喜欢的类型："+like_tag;
+
+            document.getElementById("data8").innerHTML= "您喜欢的类型："+data;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
