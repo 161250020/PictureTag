@@ -138,6 +138,8 @@
                             <br>
                             <h9 id="data7">7</h9>
                             <br>
+                            <h9 id="data8">8</h9>
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -224,6 +226,7 @@
     var LiftbyScoreandEvalu;
     var calTruth;
     var calEffiency;
+    var like_tag;
     $.ajax({
         url : "/Servlet",
         type : "POST",
@@ -344,6 +347,24 @@
             //alert(data);
             calEffiency=JSON.parse(data);
             document.getElementById("data7").innerHTML= "效率："+calEffiency;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            "action":"recommend",
+            "gData":id
+        },
+        success: function(data) {
+            alert(data);
+            like_tag=JSON.parse(data);
+            document.getElementById("data8").innerHTML= "您喜欢的类型："+like_tag;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
