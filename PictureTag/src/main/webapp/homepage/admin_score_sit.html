@@ -90,30 +90,17 @@
                 <div>
 
                     <table class="table" id="project">
-                        <!--<tr>-->
-                            <!--<td>-->
-                                <!--<br>-->
-                                <!--<b>月份：</b>-->
-                                <!--<br>-->
-                                <!--<select style="width: 50%;" onChange="showRight(this.value);">-->
-                                    <!--<option>&#45;&#45;月份&#45;&#45; &nbsp;&nbsp;&nbsp;&nbsp;</option>-->
-                                    <!--<option>01  </option>-->
-                                    <!--<option>02  </option>-->
-                                    <!--<option>03 </option>-->
-                                    <!--<option>04 </option>-->
-                                    <!--<option>05 </option>-->
-                                    <!--<option>06 </option>-->
-                                    <!--<option>07 </option>-->
-                                    <!--<option>08 </option>-->
-                                    <!--<option>09 </option>-->
-                                    <!--<option>10</option>-->
-                                    <!--<option>11 </option>-->
-                                    <!--<option>12 </option>-->
-
-                                <!--</select>-->
-                                <!--<br>-->
-                            <!--</td>-->
-                        <!--</tr>-->
+                        <tr>
+                            <td>
+                                <br>
+                                <b>用户：</b>
+                                <br>
+                                <select  id="username1" style="width: 50%;" onChange="showRight(this.value);">
+                                    <option>--综合-- &nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                </select>
+                                <br>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <canvas id="popChart" width="600" height="400"></canvas>
@@ -143,8 +130,79 @@
     var  id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
     var  project_id;
     var tab=document.getElementById("project");
-    var user_num_day=new Array();
+    var user_num=new Array();
     var user_num_year=new Array();
+    $.ajax({
+        url : "/Servlet",
+        type : "POST",
+        data :{
+            //调用后端获取项目id的方法
+            "action":"analyzeUser",
+            "gData":"13"
+        },
+        success: function(data) {
+            var changepro=JSON.parse(data);
+
+            for(var i=0;i<changepro.length;i++) {
+                user_num.push(changepro[i].username);
+                if (changepro[i].username != "admin") {
+                    var objSelect = document.getElementById("username1");
+                    var new_opt = new Option(changepro[i].username, changepro[i].username);
+                    objSelect.options.add(new_opt);
+                }
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+
+    function showRight(v){
+        $("#project  tr:not(:first)").empty("");
+        var tab=document.getElementById("project");
+        var oneRow = tab.insertRow();//插入一行
+        var cell1 = oneRow.insertCell(0);//单单插入一行是不管用的，需要插入单元格
+        var changepro=new Array();
+        $.ajax({
+            url : "/Servlet",
+            type : "POST",
+            data :{
+                //调用后端获取项目id的方法
+                "action":"receiveNormByPerson",
+                "gData":v
+            },
+            success: function(data) {
+                var change_pro=JSON.parse(data);
+                cell1.innerHTML="<canvas id=\"popChart\" width=\"600\" height=\"400\"></canvas>";
+                var popCanvas = $("#popChart");
+                var popCanvas = document.getElementById("popChart");
+                var popCanvas = document.getElementById("popChart").getContext("2d");
+                var barChart = new Chart(popCanvas, {
+                    type: 'radar',
+                    data: {
+                        labels: ["相关系数", "可信度", "支持度", "置信度", "作用度"],
+                        datasets: [{
+                            label: 'Score',
+                            data: [parseFloat(change_pro[0]), parseFloat(change_pro[1]), parseFloat(change_pro[2]), parseFloat(change_pro[3]),parseFloat(change_pro[4])],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.6)'
+                            ]
+                        }]
+                    }
+                });
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+
+    }
+
     $.ajax({
         url : "/Servlet",
         type : "POST",
@@ -160,7 +218,7 @@
             var barChart = new Chart(popCanvas, {
                 type: 'radar',
                 data: {
-                    labels: ["相关系数", "可信度", "支持度", "置信度", "作用度"],
+                    labels: ["相关系数", "相关性", "支持度", "置信度", "作用度"],
                     datasets: [{
                         label: 'Score',
                         data: [parseFloat(change_pro[0]), parseFloat(change_pro[1]), parseFloat(change_pro[2]), parseFloat(change_pro[3]),parseFloat(change_pro[4])],

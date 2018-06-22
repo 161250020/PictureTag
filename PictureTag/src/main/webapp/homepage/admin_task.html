@@ -196,16 +196,18 @@
                 data: {
 
                     datasets: [{
-                        data: [parseInt(change_pro[0]), parseInt(change_pro[1])],
+                        data: [parseInt(change_pro[1]), parseInt(change_pro[0]), parseInt(change_pro[2])],
 
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)'
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(153, 102, 255, 0.6)'
                         ]
                     }],
                     labels: [
                         '未完成',
-                        '已完成'
+                        '已完成',
+                        '放弃'
                     ]
 
                     // These labels appear in the legend and in the tooltips when hovering different arcs
