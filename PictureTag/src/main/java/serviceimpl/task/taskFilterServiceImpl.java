@@ -1,10 +1,8 @@
 package serviceimpl.task;
 
 import com.google.gson.Gson;
-import serviceimpl.FindProjects;
-import serviceimpl.tagAccuracy.analyzeTagAccuracyImpl;
-import serviceimpl.taskServiceImpl;
-import serviceimpl.userserviceImpl;
+import serviceimpl.User.userserviceImpl;
+import util.dateComparer;
 import vo.Project.Task.Task;
 
 import java.io.*;
@@ -18,7 +16,7 @@ public class taskFilterServiceImpl {
     userserviceImpl userservice = new userserviceImpl();
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+ File.separator+"committedTask.task";
-    String checkTaskFileName = analyzeTagAccuracyImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
+    String checkTaskFileName = taskServiceImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
 
     public ArrayList<String> findTaskByDate(String projectId, String startDate, String endDate){
         dateComparer dateComparer = new dateComparer();

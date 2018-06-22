@@ -1,6 +1,7 @@
-package serviceimpl;
+package serviceimpl.task;
 
 import com.google.gson.Gson;
+import serviceimpl.User.userserviceImpl;
 import util.FileReadandWrite;
 import vo.Project.Project;
 import vo.Project.Task.Task;
@@ -42,6 +43,7 @@ public class FindProjects implements service.FindProjects {
         impl.update(user);
         return result;
     }
+
     public ArrayList<Project> getPros(String username){
         userserviceImpl impl=new userserviceImpl();
         ArrayList<UserInfo> user=impl.getall();

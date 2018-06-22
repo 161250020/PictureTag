@@ -1,13 +1,15 @@
-package serviceimpl.task;
+package serviceimpl.User;
 
-import serviceimpl.AnalyzeUser;
-import serviceimpl.FindProjects;
-import serviceimpl.userserviceImpl;
+import service.Admin;
+import serviceimpl.User.AnalyzeUser;
+import serviceimpl.User.userserviceImpl;
+import serviceimpl.task.FindProjects;
 import vo.UserInfo;
 
 import java.util.ArrayList;
 
-public class AdminUser {
+
+public class AdminUser implements Admin {
           userserviceImpl impl=new userserviceImpl();
           //功能方法
           public ArrayList<UserInfo> getAll() {                              //用户数
@@ -280,29 +282,29 @@ public class AdminUser {
                ArrayList<String> result=new ArrayList<String>();
                ArrayList<UserInfo> list=getAll();
                double correlation=0.0;     //相关系数
-               double relation=0.0;        //相关性
+               double truth=0.0;           //可信度
                double Support=0.0;         //支持度
                double Confidence=0.0;      //置信度
                double Lift=0.0;            //作用度
                for(UserInfo u:list){
                    correlation=correlation+service.correlation(u.getUsername());
-                   relation=relation+service.relationbyScoreandEvalu(u.getUsername()).get(0);
+                   truth=truth+service.calTruth(u.getUsername());
                    Support=Support+service.SupportbyScoreandEvalu(u.getUsername());
                    Confidence=Confidence+service.ConfidencebyScoreandEvalu(u.getUsername());
                    Lift=Lift+service.LiftbyScoreandEvalu(u.getUsername());
                }
                if(list.size()!=0){
                    correlation=correlation*1.0/list.size();
-                   relation=relation*1.0/list.size();
+                   truth=truth*1.0/list.size();
                    Support=Support*1.0/list.size();
                    Confidence=Confidence*1.0/list.size();
                    Lift=Lift*1.0/list.size();
                }
                else{
-                   correlation=relation=Support=Confidence=Lift=0;
+                   correlation=truth=Support=Confidence=Lift=0;
                }
                result.add(""+correlation);
-               result.add(""+relation);
+               result.add(""+truth);
                result.add(""+Support);
                result.add(""+Confidence);
                result.add(""+Lift);

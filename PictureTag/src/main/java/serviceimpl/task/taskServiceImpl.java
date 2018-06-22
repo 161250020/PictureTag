@@ -1,10 +1,9 @@
-package serviceimpl;
+package serviceimpl.task;
 
 import com.google.gson.Gson;
 import service.taskService;
+import serviceimpl.User.userserviceImpl;
 import serviceimpl.tag.imageServiceImpl;
-import serviceimpl.tagAccuracy.analyzeTagAccuracyImpl;
-import serviceimpl.FindProjects;
 import vo.Project.Project;
 import vo.Project.Task.Task;
 import vo.UserInfo;
@@ -20,7 +19,7 @@ public class taskServiceImpl implements taskService {
     userserviceImpl userservice = new userserviceImpl();
     String sp = "_";
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
-    String checkTaskFileName = analyzeTagAccuracyImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
+    String checkTaskFileName = taskServiceImpl.class.getResource("/").getFile()+ File.separator+"checkTask.task";
 
     public taskServiceImpl taskServiceImpl(){
         return new taskServiceImpl();
@@ -336,8 +335,7 @@ public class taskServiceImpl implements taskService {
 
         //将task内容添加到confirmTask.task，注意此时的task的bool值receive和publish都为true
         if(flag) {
-            analyzeTagAccuracyImpl analyzeTagAccuracy = new analyzeTagAccuracyImpl();
-            File c = new File(analyzeTagAccuracy.checkTaskFileName);
+            File c = new File(checkTaskFileName);
             if (!c.exists()) {
                 try {
                     c.createNewFile();
@@ -636,7 +634,7 @@ public class taskServiceImpl implements taskService {
      * 添加task到committed.task文件，功能方法
      * @param task
      */
-    private void appendCommittedTask(Task task){
+    public void appendCommittedTask(Task task){
         Gson g = new Gson();
         File f = new File(committedTaskFile);
 
@@ -659,7 +657,7 @@ public class taskServiceImpl implements taskService {
      * @param projectId
      * @param task
      */
-    private void appendProjectTask(String projectId,Task task){
+    public void appendProjectTask(String projectId,Task task){
 
         String proFileName = taskServiceImpl.class.getResource("/").getFile()+File.separator+projectId+".task";
         File f = new File(proFileName);

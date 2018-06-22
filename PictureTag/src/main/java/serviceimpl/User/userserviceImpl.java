@@ -1,4 +1,4 @@
-package serviceimpl;
+package serviceimpl.User;
 
 import com.google.gson.Gson;
 import service.user;

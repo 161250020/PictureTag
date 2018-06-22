@@ -7,20 +7,14 @@ import vo.Project.projectInfo;
 import java.util.ArrayList;
 
 public interface FindProjects {
-
     public Project lauchPro(Project pro);
-
-
-    /**
-     *
-     * @param username 通过用户id来返回项目列表
-     * @param :自己发布的项目   false:领取的项目
-     * @return
-     */
     public ArrayList<Project> getProjects(String username);
-
-    //辅助方法
     public Project getProject(String proid);
-
+    public ArrayList<Task> getTasks(String ProId);
+    public ArrayList<Project> chooseProjectByDate(String Date1, String Date2, String username);
+    public void update(Project pro);
+    public void updateTaskId(String proId,String taskId);
+    public void updateProgress(String proid);
+    public void updateList(String proid,String username,String taskId);
 }
 

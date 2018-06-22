@@ -1,5 +1,6 @@
 package service;
 
+import vo.Project.Task.Task;
 import vo.UserInfo;
 
 import java.util.ArrayList;
@@ -24,4 +25,5 @@ public interface taskService {
 
     public ArrayList<String> receiveTasks(String tagType);
 
+    public void rePublishTask(String taskId);
 }

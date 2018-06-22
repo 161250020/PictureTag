@@ -1,7 +1,7 @@
-package serviceimpl;
+package serviceimpl.User;
 
 import com.google.gson.Gson;
-import service.Analyze;
+import serviceimpl.task.taskServiceImpl;
 import vo.Project.Task.Task;
 import vo.UserInfo;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class AnalyzeUser implements Analyze {                           //质量评估与推荐
+public class AnalyzeUser implements service.AnalyzeUser {                           //质量评估与推荐
     userserviceImpl impl=new userserviceImpl();
     public ArrayList<UserInfo> calTurn(){                                            //返回一个排好序的用户积分序列
         ArrayList<UserInfo> all=impl.getall();
@@ -35,6 +35,7 @@ public class AnalyzeUser implements Analyze {                           //质量
         result=dealSameScore(result);
         return result;
     }
+    //辅助方法
     public int dealSameScore(int result){
         int degree=0;
         ArrayList<UserInfo> list=calTurn();
@@ -69,17 +70,17 @@ public class AnalyzeUser implements Analyze {                           //质量
          for (String str : finish.keySet()) {
              if (finish.get(str)) {
                  Task temp = gson.fromJson(service.receiveTaskInfo(str), Task.class);
-                 System.out.println("完成日期"+" "+temp.getFinishDate());
+                 //System.out.println("完成日期"+" "+temp.getFinishDate());
                  String Date1 = temp.getReceiveDate();
                  String Date2 = temp.getFinishDate();
                  int day1 = calDate(Date1, Date2);                          //一个任务的耗时量
                  counts = counts + day1;
-                 System.out.println("耗时:"+" "+counts);
+                 //System.out.println("耗时:"+" "+counts);
                  String Date3 = temp.getStartDate();
                  String Date4 = temp.getEndDate();
                  int day2 = calDate(Date3, Date4);
                  realvalue = realvalue + day2 * temp.getImageIds().size();    //该任务的权值,  需不需要乘以评分的百分比
-                 System.out.println("总权值:"+" "+realvalue);
+                 //System.out.println("总权值:"+" "+realvalue);
              }
          }
          if(counts==0){
@@ -108,13 +109,9 @@ public class AnalyzeUser implements Analyze {                           //质量
      //辅助方法,计算间隔时间
     public int calDate(String Date1,String Date2){
          int days=0;
-         System.out.println("CalDate");
-         System.out.println(Date1);
-         System.out.println(Date2);
          String temp1=Date1.substring(4,8);
          String temp2=Date2.substring(4,8);
          if(temp1.substring(0,2).equals(temp2.substring(0,2))){
-             System.out.println("已进入计算间隔");
                days=calDay(temp2.substring(2,4))-calDay(temp1.substring(2,4))+1;
          }
          else{

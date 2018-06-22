@@ -1,14 +1,15 @@
 package serviceimpl.Bill;
 
 import com.google.gson.Gson;
-import serviceimpl.taskServiceImpl;
-import serviceimpl.userserviceImpl;
+import service.BillService;
+import serviceimpl.task.taskServiceImpl;
+import serviceimpl.User.userserviceImpl;
 import vo.Project.Task.Task;
 import vo.UserInfo;
 
 import java.util.ArrayList;
 
-public class BillServiceImpl {
+public class BillServiceImpl implements BillService{
       private userserviceImpl impl=new userserviceImpl();
       private taskServiceImpl service=new taskServiceImpl();
       private Gson gson=new Gson();

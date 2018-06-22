@@ -22,31 +22,33 @@ public class ProTest {
     }
     @Test
     public void test2(){
-        impl.register("gy","gygy","wlx家的小奶狗","葛宇");
-        assertEquals("gygy",impl.getUser("gy").getPassword());
+        Project pro=new Project("c","0002",1,"hh");
+        service.lauchPro(pro);
     }
     @Test
     public void test3(){
-        impl.register("wlx","123","","");
-        assertEquals("123",impl.getUser("wlx").getPassword());
+
+
     }
     @Test
     public void test4(){
-        impl.register("gygy","199761","wlx家的小奶狗","葛宇");
-        assertEquals("199761",impl.getUser("gygy").getPassword());
+
+
     }
     @Test
     public void test5(){
-        assertEquals(false,impl.register("3","5","",""));
+
+
     }
     @Test
     public void test6(){
-        assertEquals(false,impl.register("2","5","",""));
+
+        assertEquals("0001",service.getProjects("wqo").get(0).getName());
     }
 
     @After
     public void end(){
-        File file=new File("src/main/test/user.txt");
+        File file=new File("src/main/test/_Projects.txt");
         file.delete();
     }
 }
