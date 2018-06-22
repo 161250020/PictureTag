@@ -1,6 +1,7 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import serviceimpl.task.taskServiceImpl;
 
 import java.io.File;
 
@@ -8,6 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 
 public class TaskTest {
     userserviceImpl impl=new userserviceImpl();
+    taskServiceImpl service=new taskServiceImpl();
     @Before
     public void init(){
         impl.register("2","2","","");

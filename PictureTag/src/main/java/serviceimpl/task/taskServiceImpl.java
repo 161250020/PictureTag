@@ -235,22 +235,7 @@ public class taskServiceImpl implements taskService {
         findProjects.updateTaskId(projectId,t.getId());
 
 
-        //更新user信息
 
-/*        String userId = strings[0];
-        userserviceImpl u = new userserviceImpl();
-
-        UserInfo user = u.getUser(userId);
-        u.update(user);
-        //System.out.println(gson.toJson(user));
-        double s = Double.valueOf(user.getScore()) - Double.valueOf(t.getSocre());
-        //System.out.println(s);
-        user.setScore(s);
-
-        //这里调用一下checkUserLevel的方法，返回修改后的userLevel
-        user.setLevel(u.updateLevel(user.getScore()));
-        u.update(user);
-        //System.out.println(gson.toJson(u.getUser(userId)));*/
     }
 
     public void gradeTask(String taskId, double grade){
@@ -292,9 +277,7 @@ public class taskServiceImpl implements taskService {
         }
         u.updateEvalu(userId,taskId,grade);
         u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
-        //u.updatefinish(userId,taskId,true);
-        //u.updateEvalu(userId,taskId,grade);
-        //u.updatescore(userId,gson.fromJson(receiveTaskInfo(taskId),Task.class).getSocre()*grade*1.0/100);
+
         //删除committedTaskFile里的该task
         deleteTask(taskId,checkTaskFileName);
         //修改评分

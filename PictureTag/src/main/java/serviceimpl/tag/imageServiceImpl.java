@@ -16,20 +16,15 @@ public class imageServiceImpl implements imageService {
     String committedTaskFile = taskServiceImpl.class.getResource("/").getFile()+File.separator+"committedTask.task";
 
     public String saveTag(String imageData){
-        //System.out.println(tagPath);
-        //System.out.println("call again");
         ArrayList<String> imgIds = new ArrayList<>();
         String taskId="";
         Gson gson = new Gson();
         image[] images = gson.fromJson(imageData,image[].class);
         int length = images.length;
-        //System.out.println(i.getId());
         String[] strings =images[0].getId().split(sp);
         taskId = strings[0]+sp+strings[1]+sp+strings[2];
-        //System.out.println(taskId);
         String filePath = imageServiceImpl.class.getResource("/").getFile()+File.separator+taskId+imageFileName;
         File file = new File(filePath);
-        //System.out.println(file.getAbsolutePath());
        try {
             file.createNewFile();
         } catch (IOException e) {
@@ -54,10 +49,6 @@ public class imageServiceImpl implements imageService {
                 }
                 bw.close();
                 fileWriter.close();
-                //System.out.println(jsonData);
-                //System.out.println("----------------------------------");
-                //System.out.println(imgId);
-                //System.out.println("----------------------------------");
             }
             else{
                 System.out.println("空值");
@@ -70,7 +61,7 @@ public class imageServiceImpl implements imageService {
     }
 
     public String receiveTag(String imageId){
-        //this.filePath = filePath;
+
         Gson gson = new Gson();
         String[] strings =imageId.split(sp);
         String taskId = strings[0]+sp+strings[1]+sp+strings[2];
@@ -122,8 +113,7 @@ public class imageServiceImpl implements imageService {
             String temp = "";
             while (null != (temp = br.readLine())){
                 image iTemp =gson.fromJson(temp,image.class);
-                //System.out.println(im.getId());
-                //System.out.println(iTemp.getId());
+
                 if(im.getId().equals(iTemp.getId())){
                     reWrite.add(gson.toJson(im));
                 }

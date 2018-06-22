@@ -141,7 +141,7 @@ public class AdminUser implements Admin {
               }
               return result;
           }
-          public ArrayList<String> getTaskCountByLevel(){                              //不同等级的人发布的任务数
+          public ArrayList<String> getTaskCountByLevel(){                              //不同等级的人接受的任务数
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> all=getAll();
               int counts[]={0,0,0,0,0,0};
@@ -174,7 +174,7 @@ public class AdminUser implements Admin {
               return result;
           }
 
-          public ArrayList<String> getTaskCount(){                                               //
+          public ArrayList<String> getTaskCount(){                                               //完成,未完成和废弃
               ArrayList<String> result=new ArrayList<String>();
               ArrayList<UserInfo> list=getAll();
               int finish=0;
@@ -310,7 +310,7 @@ public class AdminUser implements Admin {
                result.add(""+Lift);
                return result;
           }
-          public ArrayList<String> getNormByPerson(String username){
+          public ArrayList<String> getNormByPerson(String username){        //获得个人的五大属性
                AnalyzeUser service=new AnalyzeUser();
                ArrayList<String> result=new ArrayList<String>();
               double correlation=0.0;     //相关系数

@@ -24,7 +24,7 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
         }
         return all;
     }
-    public int getSelf_Turn(String username){                                       //该英雄的排名
+    public int getSelf_Turn(String username){                                       //该成员的的排名
         int result=0;
         ArrayList<UserInfo> newUser=calTurn();
         for(int i=0;i<newUser.size();i++){
@@ -59,7 +59,7 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
     /*
     用户的效率
     */
-     public double calEffiency(String username) {                      //计算用户的权值效率(评估一个用户的能力)
+     public double calEffiency(String username) {                      //计算用户的权值效率(评估一个用户的能力)   (通过加权)
          taskServiceImpl service = new taskServiceImpl();
          Gson gson = new Gson();
          double effiency = 0.0;             //效率
@@ -120,29 +120,7 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
          }
          return days;
     }
-    public int calDay(String str){                  //把日转换成天数
-         int result=0;
-         if(str.substring(0,1).equals("0")){
-             result=Integer.parseInt(str.substring(1,2));
-         }
-         else{
-             result=Integer.parseInt(str);
-         }
-         return result;
-    }
-    public int calDayOfMonth(String month){                    //每一个月的天数
-        int days=0;
-        if(month.equals("01")||month.equals("03")||month.equals("05")||month.equals("07")||month.equals("08")||month.equals("10")||month.equals("12")){
-             days=31;
-         }
-         if(month.equals("04")||month.equals("06")||month.equals("09")||month.equals("11")){
-             days=30;
-         }
-         if(month.equals("02")){
-             days=28;
-         }
-         return days;
-    }
+
     /*
     可信度是不停的变动的,所以需要不停的调用,进行轮询
     */
@@ -468,7 +446,7 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
         }
         return recommendTask;
     }
-    public double correlation(String username){                       //  相关系数 Cov(X,Y)  得分情况和奖励积分
+    public double correlation(String username){                       //  相关系数 Cov(X,Y)/(x的标准差*y的标准差)  得分情况和奖励积分
         double result=0.0;
         double cov=0.0;                                               //协方差. cov(x,y)=E(xy)-E(x)*E(y)
         double varX=0.0;                                              //方差x
@@ -674,5 +652,134 @@ public class AnalyzeUser implements service.AnalyzeUser {                       
         }
         return result;
     }
-    //完成情况的关联度
+
+
+
+    //完成情况的关联度(积分和完成度的关系)
+    public ArrayList<Double> relationbyScoreandFinish(String username){          //(获得两个事件的概率P(A),P(B)),完成事件关联度(优秀)
+        ArrayList<Double> result=new ArrayList<Double>();
+        userserviceImpl impl=new userserviceImpl();
+        UserInfo user=impl.getUser(username);
+        int count1=0;                    //计算完成度
+        double probability1=0.0;         //p(完成)
+        Map<String,Boolean> list=user.getFinish();
+        for(String str:list.keySet()){
+            if(str!=null){
+                if(list.get(str)){
+                    count1++;
+                }
+            }
+        }
+        if (list.size()!=0) {
+            probability1 = count1 * 1.0 / list.size();
+        }
+        else{
+            probability1=0;
+        }
+        result.add(probability1);
+
+        int count2=0;
+        double probabaility2=0.0;     //p(得分奖励高)
+        //先获得有打分的任务(有完成的不一定有分);得分奖励,以10分为高.
+        taskServiceImpl service=new taskServiceImpl();
+        Gson gson=new Gson();
+        ArrayList<String> getScoreList=new ArrayList<String>();
+        for(String str:list.keySet()){
+            if(str!=null) {
+                getScoreList.add(str);
+            }
+        }
+        for(String str:getScoreList){
+            if(gson.fromJson(service.receiveTaskInfo(str),Task.class).getSocre()>=10&&str!=null){
+                count2++;
+            }
+        }
+        if(getScoreList.size()!=0) {
+            probabaility2 = count2 * 1.0 / getScoreList.size();
+        }
+        else{
+            probabaility2=0;
+        }
+        result.add(probabaility2);
+        return result;
+    }
+
+    public double SupportbyScoreandFinish(String username) {           //P(AB)          支持度
+        ArrayList<Double> result = new ArrayList<Double>();
+        userserviceImpl impl = new userserviceImpl();
+        Gson gson=new Gson();
+        taskServiceImpl service=new taskServiceImpl();
+        UserInfo user = impl.getUser(username);
+        int count = 0;
+        double probability=0.0;
+        Map<String, Boolean> list = user.getFinish();
+        for (String str : list.keySet()) {
+            if (str != null) {
+                if(list.get(str)&&gson.fromJson(service.receiveTaskInfo(str),Task.class).getSocre()>=10){
+                    count++;
+                }
+            }
+        }
+        if(list.size()!=0) {
+            probability = count * 1.0 / list.size();
+        }
+        else{
+            probability=0;
+        }
+        return probability;
+    }
+    public double ConfidencebyScoreandFinish(String username){               //P(A|B)      置信度
+        ArrayList<Double> list=relationbyScoreandEvalu(username);
+        double probality2=list.get(1);
+        //求解P(A|B)=P(AB)/P(B)
+        double result=0.0;
+        if(probality2!=0) {
+            result = SupportbyScoreandEvalu(username) / probality2;
+        }
+        else{
+            result=0.0;
+        }
+        return result;
+    }
+    public double LiftbyScoreandFinish(String username){                //P(A|B)/P(A)   作用度
+        ArrayList<Double> list=relationbyScoreandEvalu(username);
+        double probality1=list.get(0);
+        double result=0.0;
+        if(probality1!=0) {
+            result = ConfidencebyScoreandEvalu(username) / probality1;
+        }
+        else{
+            result=0;
+        }
+        return result;
+    }
+
+
+
+
+
+
+    public int calDay(String str){                  //把日转换成天数
+        int result=0;
+        if(str.substring(0,1).equals("0")){
+            result=Integer.parseInt(str.substring(1,2));
+        }
+        else{
+            result=Integer.parseInt(str);
+        }
+        return result;
+    }
+    public int calDayOfMonth(String month){                    //每一个月的天数
+        int days=0;
+        if(month.equals("01")||month.equals("03")||month.equals("05")||month.equals("07")||month.equals("08")||month.equals("10")||month.equals("12")){
+            days=31;
+        }
+        if(month.equals("04")||month.equals("06")||month.equals("09")||month.equals("11")){
+            days=30;
+        }
+        if(month.equals("02")){
+            days=28;
+        }
+        return days;
+    }
 }

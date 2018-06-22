@@ -24,31 +24,38 @@ public class ProTest {
     public void test2(){
         Project pro=new Project("c","0002",1,"hh");
         service.lauchPro(pro);
+        assertEquals(0,service.getPros("hh").size());
     }
     @Test
     public void test3(){
-
-
+        Project pro=new Project("c","0004",1,"aa");
+        service.lauchPro(pro);
+        assertEquals(0,service.getPros("aa").size());
     }
     @Test
     public void test4(){
-
-
+        Project pro=new Project("c","0004",1,"aa");
+        service.lauchPro(pro);
+        service.update(new Project("c","0004",1,"aa"));
     }
     @Test
     public void test5(){
-
-
+        Project pro=new Project("d","0002",1,"ss");
+        service.lauchPro(pro);
+        service.update(new Project("c","0002",1,"dd"));
     }
     @Test
     public void test6(){
 
-        assertEquals("0001",service.getProjects("wqo").get(0).getName());
+        assertEquals(0,service.getPros("wqo").size());
     }
 
     @After
     public void end(){
         File file=new File("src/main/test/_Projects.txt");
         file.delete();
+        File file2=new File("src/main/test/hh_Protects.txt");
+        file2.delete();
+        File file3=new File("src/main/test/wqo_Protects.txt");
     }
 }
