@@ -7,6 +7,7 @@ import vo.Project.Project;
 import java.io.File;
 
 import static junit.framework.TestCase.assertEquals;
+
 public class ProTest {
     userserviceImpl impl=new userserviceImpl();
     FindProjects service=new FindProjects();
@@ -17,8 +18,7 @@ public class ProTest {
     }
     @Test
     public void test1(){
-        impl.register("1","2","","");
-        assertEquals("2",impl.getUser("1").getPassword());
+        service.lauchPro(new Project());
     }
     @Test
     public void test2(){
